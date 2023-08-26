@@ -1,0 +1,26 @@
+{
+  "id": "mythacri-scripts",
+  "title": "Mythacri Scripts",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "relationships": {
+    "requires": [
+      {
+        "id": "mythacri-shared-compendium",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  },
+  "authors": [
+    {
+      "name": "Mythacri",
+      "discord": "Mythacri",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/Mythacri/Mythacri-Foundry-Scripts"
+}
