@@ -22,5 +22,28 @@
       "flags": {}
     }
   ],
+  "esmodules": [
+    "scripts/setup.mjs"
+  ],
+  "styles": [
+    "styles/mythacri.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    }
+  ],
+  "flags": {
+    "hotReload": {
+      "extensions": [
+        "css"
+      ],
+      "paths": [
+        "styles/mythacri.css"
+      ]
+    }
+  },
   "url": "https://github.com/Mythacri/Mythacri-Foundry-Scripts"
 }
