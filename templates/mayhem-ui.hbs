@@ -1,0 +1,18 @@
+<div class="content">
+  <p class="note">
+    {{localize "MYTHACRI.MayhemCurrentPoints" points=mayhem.points}}
+  </p>
+  <div class="controls">
+    <button data-action="decrease" {{disabled disableDown}}>
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <input type="number" data-action="adjust" value="{{mayhemClone.points}}" placeholder="{{mayhem.points}}">
+    <button data-action="increase">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+  <div class="diff">({{diff}})</div>
+  <button data-action="submit">
+    <i class="fa-solid fa-check"></i> {{localize "Save"}}
+  </button>
+</div>

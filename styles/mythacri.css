@@ -2,3 +2,43 @@
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
+
+.mythacri-scripts.mayhem-ui {
+  width: 400px;
+}
+.mythacri-scripts.mayhem-ui .content {
+  display: flex;
+  flex-direction: column;
+}
+.mythacri-scripts.mayhem-ui .content .note {
+  font-style: italic;
+  margin: 1em 1em 2em 1em;
+  align-self: center;
+}
+.mythacri-scripts.mayhem-ui .content .controls {
+  display: flex;
+  flex: 1;
+  gap: 1em;
+}
+.mythacri-scripts.mayhem-ui .content .controls [data-action] {
+  font-size: 40px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5em 0;
+  text-align: center;
+  align-items: center;
+}
+.mythacri-scripts.mayhem-ui .content .diff {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  padding: 0.5em 0;
+  color: gray;
+  font-size: 25px;
+  margin-bottom: 0.5em;
+}
+.mythacri-scripts.mayhem-ui .content [data-action="submit"] {
+  font-size: 20px;
+  padding: 5px 0;
+}
