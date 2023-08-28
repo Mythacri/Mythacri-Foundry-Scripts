@@ -12,5 +12,10 @@
   "MYTHACRI.WeaponProficiencyFirearmInd": "Industrial Firearm",
   "MYTHACRI.WeaponProficiencyFirearmIndPl": "Industrial Firearms",
   "MYTHACRI.WeaponProficiencyFirearmRen": "Renaissance Firearm",
-  "MYTHACRI.WeaponProficiencyFirearmRenPl": "Renaissance Firearms"
+  "MYTHACRI.WeaponProficiencyFirearmRenPl": "Renaissance Firearms",
+  "MYTHACRI.Mayhem": "Mayhem",
+  "MYTHACRI.MayhemTitle": "Mayhem: {name}",
+  "MYTHACRI.MayhemCurrentPoints": "You currently have {points} Mayhem Points.",
+  "MYTHACRI.MayhemConsume": "Consume Mayhem Points",
+  "MYTHACRI.MayhemCannotDeduct": "You do not have enough Mayhem Points available!"
 }
