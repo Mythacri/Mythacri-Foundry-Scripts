@@ -78,7 +78,7 @@ export class SystemConfig {
       //Journeyman Properties
       rocket: "MYTHACRI.WeaponPropertyRocket",
       heat: "MYTHACRI.WeaponPropertyHeat",
-      twinshot: "MYTHACRI.WeaponPropertyTwinshot"
+      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
 
     });
   }
