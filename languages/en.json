@@ -17,5 +17,11 @@
   "MYTHACRI.MayhemTitle": "Mayhem: {name}",
   "MYTHACRI.MayhemCurrentPoints": "You currently have {points} Mayhem Points.",
   "MYTHACRI.MayhemConsume": "Consume Mayhem Points",
-  "MYTHACRI.MayhemCannotDeduct": "You do not have enough Mayhem Points available!"
+  "MYTHACRI.MayhemCannotDeduct": "You do not have enough Mayhem Points available!",
+  "MYTHACRI.weaponPropertyParry": "Parrying",
+  "MYTHACRI.weaponPropertyScatter": "Scatter",
+  "MYTHACRI.weaponPropertySuperH": "Superheavy",
+  "MYTHACRI.weaponPropertyRocket": "Rocket",
+  "MYTHACRI.weaponHeat": "Heat",
+  "MYTHACRI.weaponTwinS": "Twinshot",
 }
