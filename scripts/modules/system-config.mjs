@@ -37,7 +37,7 @@ export class SystemConfig {
 
   static _languages() {
     const changes = {
-      steve: "MYTHACRI.LanguageSteve",
+      //steve: "MYTHACRI.LanguageSteve",
 
       "-=orc": null, // delete 'orc'
       "-=gith": null, // delete 'gith'
@@ -71,15 +71,14 @@ export class SystemConfig {
 
   static _weaponProperties() {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      parrying: "Parrying"
-      scatter: "Scatter"
-      superheavy: "Superheavy"
-      scatter: "Scatter"
+      parrying: "MYTHACRI.WeaponPropertyParry",
+      scatter: "MYTHACRI.WeaponPropertyScatter",
+      superheavy: "MYTHACRI.WeaponPropertySuperheavy",
 
       //Journeyman Properties
-      rocket: "Rocket"
-      heat: "Heat"
-      twinshot: "Twinshot"
+      rocket: "MYTHACRI.WeaponPropertyRocket",
+      heat: "MYTHACRI.WeaponPropertyHeat",
+      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
 
     });
   }
