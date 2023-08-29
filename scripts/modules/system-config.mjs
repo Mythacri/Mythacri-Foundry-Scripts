@@ -38,7 +38,16 @@ export class SystemConfig {
   static _languages() {
     const changes = {
       steve: "MYTHACRI.LanguageSteve",
+
       "-=orc": null, // delete 'orc'
+      "-=gith": null, // delete 'gith'
+      "-=gnoll": null, // delete 'gnoll'
+      "-=ignan": null, // delete 'ignan'
+      "-=terran": null, // delete 'terran'
+      "-=auran": null, // delete 'auran'
+      "-=aquan": null, // delete 'aquan'
+      "-=druidic": null, // delete 'druidic'
+      "-=gnomish": null, // delete 'gnomish'
     };
 
     foundry.utils.mergeObject(CONFIG.DND5E.languages, changes, {performDeletions: true});
@@ -62,7 +71,16 @@ export class SystemConfig {
 
   static _weaponProperties() {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      ste: "MYTHACRI.WeaponPropertySteve"
+      parrying: "Parrying"
+      scatter: "Scatter"
+      superheavy: "Superheavy"
+      scatter: "Scatter"
+
+      //Journeyman Properties
+      rocket: "Rocket"
+      heat: "Heat"
+      twinshot: "Twinshot"
+
     });
   }
 
