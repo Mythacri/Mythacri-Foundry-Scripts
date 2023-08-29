@@ -71,14 +71,14 @@ export class SystemConfig {
 
   static _weaponProperties() {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      parrying: "MYTHACRI.weaponPropertyParry"
-      scatter: "MYTHACRI.weaponPropertyScatter"
-      superheavy: "MYTHACRI.weaponPropertySuperH"
+      parrying: "MYTHACRI.WeaponPropertyParry",
+      scatter: "MYTHACRI.WeaponPropertyScatter",
+      superheavy: "MYTHACRI.WeaponPropertySuperheavy",
 
       //Journeyman Properties
-      rocket: "MYTHACRI.weaponPropertyRocket"
-      heat: "MYTHACRI.weaponHeat"
-      twinshot: "MYTHACRI.weaponTwinS"
+      rocket: "MYTHACRI.WeaponPropertyRocket",
+      heat: "MYTHACRI.WeaponHeat",
+      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
 
     });
   }
