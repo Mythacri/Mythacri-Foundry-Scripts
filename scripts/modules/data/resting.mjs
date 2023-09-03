@@ -49,7 +49,7 @@ export class Resting {
 
     // Add event listeners.
     div.querySelector("#roll-hd").addEventListener("click", dnd5e.applications.actor.ShortRestDialog.prototype._onRollHitDie.bind(dialog));
-    div.querySelector("#free-heal").addEventListener("click", Resting.#freeLongRestHeal.bind(dialog, availableHD));
+    div.querySelector("#free-heal").addEventListener("click", Resting.freeLongRestHeal.bind(dialog, availableHD));
 
     // Inject.
     html.querySelector(".form-group").before(...div.childNodes);
@@ -60,7 +60,7 @@ export class Resting {
    * Handle clicking the 'free healing' button in the long rest dialog.
    * @param {object} dice     The available options in the hit die roll select.
    */
-  static #freeLongRestHeal(dice) {
+  static freeLongRestHeal(dice) {
     this.healed = true;
     const max = Math.max(...Object.keys(dice).map(d => Number(d.replace("d", ""))));
     const total = max + this.actor.system.abilities.con.mod;
@@ -76,7 +76,7 @@ export class Resting {
   static renderCharacterSheet(sheet, [html]) {
     const div = document.createElement("DIV");
     div.innerHTML = `<a class="rest full-rest" data-tooltip="MYTHACRI.FullRest">${game.i18n.localize("MYTHACRI.RestF")}</a`;
-    div.querySelector("A").addEventListener("click", Resting.#fullRestDialog.bind(sheet.actor));
+    div.querySelector("A").addEventListener("click", Resting.fullRestDialog.bind(sheet.actor));
     html.querySelector(".rest.long-rest").after(div.firstElementChild);
   }
 
@@ -92,7 +92,7 @@ export class Resting {
         rest: {
           icon: "<i class='fa-solid fa-bed'></i>",
           label: game.i18n.localize("DND5E.Rest"),
-          callback: Resting.#fullRest.bind(this)
+          callback: Resting.fullRest.bind(this)
         },
         cancel: {
           icon: "<i class='fa-solid fa-times'></i>",
@@ -108,7 +108,7 @@ export class Resting {
    * Create pending updates to the actor and their items from a full rest.
    * @returns {Promise<object>}     A promise that resolves to the result of the full rest.
    */
-  static async #fullRest() {
+  static async fullRest() {
     const {updates: hitPointUpdates, hitPointsRecovered} = this._getRestHitPointRecovery();
     const {updates: hitDiceUpdates, hitDiceRecovered} = this._getRestHitDiceRecovery({maxHitDice: Infinity});
     const rolls = [];
@@ -130,7 +130,7 @@ export class Resting {
     result.rolls = rolls;
     await this.update(result.updateData);
     await this.updateEmbeddedDocuments("Item", result.updateItems);
-    await Resting.#displayFullRestMessage.call(this, result);
+    await Resting.displayFullRestMessage.call(this, result);
     return result;
   }
 
@@ -139,7 +139,7 @@ export class Resting {
    * @param {object} result     The result of the full rest.
    * @returns {ChatMessage}     The resulting chat message.
    */
-  static async #displayFullRestMessage(result) {
+  static async displayFullRestMessage(result) {
     const {dhd, dhp} = result;
     const diceRestored = dhd !== 0;
     const healthRestored = dhp !== 0;
