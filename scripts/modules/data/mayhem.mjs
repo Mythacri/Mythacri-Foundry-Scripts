@@ -267,6 +267,8 @@ class MayhemUI extends Application {
    */
   async _submit() {
     this.close();
-    return this.user.setFlag(MODULE.ID, "mayhem", this.mayhemClone.toObject());
+    const data = this.mayhemClone.toObject();
+    ui.notifications.info(game.i18n.format("MYTHACRI.MayhemUpdated", {points: data.points}));
+    return this.user.setFlag(MODULE.ID, "mayhem", data);
   }
 }
