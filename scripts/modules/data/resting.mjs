@@ -6,6 +6,7 @@ export class Resting {
     Hooks.on("dnd5e.restCompleted", Resting.restCompleted);
     Hooks.on("renderLongRestDialog", Resting.renderLongRestDialog);
     Hooks.on("renderActorSheet5eCharacter", Resting.renderCharacterSheet);
+    Hooks.on("preCreateActor", Resting.preCreateActor);
     dnd5e.documents.Actor5e.prototype.fullRest = Resting.fullRestDialog;
   }
 
@@ -14,9 +15,17 @@ export class Resting {
     config.chat = false;
   }
 
-  /** Do not recover full amount of hp on a long rest. */
+  /**
+   * Do not recover full amount of hp on a long rest, and reduce exhaustion by 1.
+   * @param {Actor} actor       The actor taking a rest.
+   * @param {object} result     Rest data. **will be mutated**
+   */
   static preRestCompleted(actor, result) {
-    if (result.longRest) delete result.updateData["system.attributes.hp.value"];
+    if (result.longRest) {
+      const exh = actor.system.attributes.exhaustion;
+      result.updateData["system.attributes.exhaustion"] = Math.max(exh - 1, 0);
+      delete result.updateData["system.attributes.hp.value"];
+    }
   }
 
   /** Display a custom chat message when recovering from a long rest. */
@@ -127,6 +136,11 @@ export class Resting {
       longRest: false,
       newDay: true
     };
+
+    // Remove levels of exhaustion.
+    const exh = this.system.attributes.exhaustion;
+    result.updateData["system.attributes.exhaustion"] = Math.max(exh - 3, 0);
+
     result.rolls = rolls;
     await this.update(result.updateData);
     await this.updateEmbeddedDocuments("Item", result.updateItems);
@@ -161,5 +175,29 @@ export class Resting {
     };
     ChatMessage.applyRollMode(chatData, game.settings.get("core", "rollMode"));
     return ChatMessage.create(chatData);
+  }
+
+  /**
+   * When a blank 'character' type actor is created, add `-@attributes.exhaustion` in appropriate fields.
+   * @param {Actor} actor     The actor being created.
+   */
+  static preCreateActor(actor) {
+    if (actor.type !== "character") return;
+    const keys = [
+      "abilities.check",
+      "abilities.save",
+      "msak.attack",
+      "mwak.attack",
+      "rsak.attack",
+      "rwak.attack",
+      "spell.dc"
+    ];
+    const string = "@attributes.exhaustion";
+    const update = {};
+    for (const key of keys) {
+      const prop = foundry.utils.getProperty(actor.system.bonuses, key);
+      if (!prop.includes(string)) update[`system.bonuses.${key}`] = `${prop} - ${string}`.trim();
+    }
+    actor.updateSource(update);
   }
 }
