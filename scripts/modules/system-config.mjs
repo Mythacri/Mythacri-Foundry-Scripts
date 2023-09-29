@@ -24,10 +24,14 @@ export class SystemConfig {
       },
       class: {
         subtypes: {
+          investigatorTrinket: "MYTHACRI.FeatureInvestigatorTrinket",
           wardenManeuver: "MYTHACRI.FeatureWardenManeuver",
-          witchHex: "MYTHACRI.FeatureWitchHex",
+          wardenSentinelSoul: "MYTHACRI.FeatureWardenSentinelSoul",
+          wardenSentinelStand: "MYTHACRI.FeatureWardenSentinelStand",
+          wardenSentinelStep: "MYTHACRI.FeatureWardenSentinelStep",
+          witchCurse: "MYTHACRI.FeatureWitchCurse",
           witchGrandHex: "MYTHACRI.FeatureWitchGrandHex",
-          witchCurse: "MYTHACRI.FeatureWitchCurse"
+          witchHex: "MYTHACRI.FeatureWitchHex"
         }
       }
     });
