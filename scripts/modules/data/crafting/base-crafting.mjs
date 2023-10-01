@@ -1,5 +1,6 @@
 import {MODULE} from "../../constants.mjs";
 
+/** Utility export class. */
 export class Crafting {
   static get resourceTypes() {
     return {
@@ -34,6 +35,7 @@ export class Crafting {
   /** Initialize crafting. */
   static init() {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
+    Crafting._characterFlags();
   }
 
   /**
@@ -48,10 +50,25 @@ export class Crafting {
     const template = "modules/mythacri-scripts/templates/parts/resource-types.hbs";
     const div = document.createElement("DIV");
 
+    const templateData = Crafting.getTemplateData(data);
+    templateData.disable = !game.user.isGM;
+
+    div.innerHTML = await renderTemplate(template, templateData);
+    html.querySelector(".item-properties").append(...div.children);
+  }
+
+  /**
+   * Utility function for the template data of the triple dropdowns for resource items.
+   * @param {object} data
+   * @param {string} data.type
+   * @param {string} data.subtype
+   * @param {string} data.subsubtype
+   * @returns {object}
+   */
+  static getTemplateData(data = {}) {
     const typeOptions = Crafting.resourceTypes;
     const subtypeOptions = typeOptions[data.type]?.subtypes ?? {};
     const subsubtypeOptions = subtypeOptions[data.subtype]?.subsubtypes ?? {};
-
     const templateData = {
       ...data,
       typeOptions: typeOptions,
@@ -61,12 +78,10 @@ export class Crafting {
       hasSubsubtype: data.type === "monster",
       showSubsubtype: !foundry.utils.isEmpty(subsubtypeOptions),
       subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
-      subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`,
-      disable: !game.user.isGM
+      subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`
     };
 
-    div.innerHTML = await renderTemplate(template, templateData);
-    html.querySelector(".item-properties").append(...div.children);
+    return templateData;
   }
 
   /**
@@ -89,28 +104,20 @@ export class Crafting {
     if (data.type === "monster") return `${data.type}.${data.subtype}.${data.subsubtype}`;
     else return `${data.type}.${data.subtype}`;
   }
-}
-
-class BaseRecipe extends foundry.abstract.DataModel {
-  static defineSchema() {
-    // TODO
-  }
 
   /**
-   * Get the parts that make up this item.
-   * @type {string[]}     The uuids (or items? idk)
+   * Set up character flags for opting into crafting types.
    */
-  get parts() {}
+  static _characterFlags() {
+    const craftingTypes = ["spiritBinding", "runeCarving", "monsterCrafting"];
+    for (const key of craftingTypes) {
+      const label = key.capitalize();
+      CONFIG.DND5E.characterFlags[key] = {
+        name: `MYTHACRI.CraftingSection${label}`,
+        hint: `MYTHACRI.CraftingSection${label}Hint`,
+        section: "MYTHACRI.CraftingSection",
+        type: Boolean
+      };
+    }
+  }
 }
-class RuneCarvingRecipe extends BaseRecipe {}
-class SpiritBindingRecipe extends BaseRecipe {}
-class MonsterCraftingRecipe extends BaseRecipe {}
-class MonsterCookingRecipe extends BaseRecipe {}
-
-class RecipeInterface extends Application {}
-
-class BaseCraftingApplication extends Application {}
-class SpiritBindingApplication extends BaseCraftingApplication {}
-class RuneCarvingApplication extends BaseCraftingApplication {}
-class MonsterCraftingApplication extends BaseCraftingApplication {}
-class MonsterCookingApplication extends BaseCraftingApplication {}
