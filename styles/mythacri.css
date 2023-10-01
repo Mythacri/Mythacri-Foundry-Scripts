@@ -7,6 +7,57 @@
   border: none;
 }
 
+.dnd5e.sheet.item.recipe {
+  min-height: 600px;
+}
+.dnd5e.sheet.item.recipe h4.components-header,
+.dnd5e.sheet.item.recipe h4.target-header {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  line-height: 24px;
+  color: #4b4a44;
+}
+.dnd5e.sheet.item.recipe [data-action="add-component"] {
+  width: 18px;
+  flex: 0 0 18px;
+  line-height: 24px;
+  float: right;
+  text-align: right;
+  color: #7a7971;
+}
+.dnd5e.sheet.item.recipe .recipe-components,
+.dnd5e.sheet.item.recipe .recipe-targets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dnd5e.sheet.item.recipe .recipe-components .recipe-component,
+.dnd5e.sheet.item.recipe .recipe-targets .recipe-target {
+  flex: 0 0 100%;
+  padding: 0;
+}
+.dnd5e.sheet.item.recipe .recipe-components .recipe-component [type="number"],
+.dnd5e.sheet.item.recipe .recipe-targets .recipe-target [type="number"] {
+  flex: 0 0 40px;
+  margin-right: 5px;
+  text-align: center;
+}
+.dnd5e.sheet.item.recipe .recipe-targets .recipe-target .content-link {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+.dnd5e.sheet.item.recipe [data-action="delete-component"],
+.dnd5e.sheet.item.recipe [data-action="clear-target"] {
+  width: 18px;
+  flex: 0 0 18px;
+  line-height: 24px;
+  float: right;
+  text-align: right;
+  color: #7a7971;
+}
+
 .mythacri-scripts.mayhem-ui {
   width: 400px;
 }

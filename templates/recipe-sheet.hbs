@@ -1,0 +1,115 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Item Sheet Header --}}
+  <header class="sheet-header flexrow">
+    <img class="profile" src="{{item.img}}" data-tooltip="{{item.name}}" data-edit="img">
+
+    <div class="header-details flexrow">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DND5E.ItemName'}}">
+      </h1>
+
+      <div class="item-subtitle">
+        <h4 class="item-type">{{itemType}}</h4>
+        <span class="item-status">{{lookup recipeTypes system.type.value}}</span>
+      </div>
+
+      <ul class="summary flexrow">
+        <li>
+          {{#if system.crafting.basic}}
+          {{localize "MYTHACRI.ItemRecipeBasic"}}
+          {{else}}
+          {{localize "MYTHACRI.ItemRecipeAdvanced"}}
+          {{/if}}
+        </li>
+        <li>
+          <select name="system.rarity">
+            {{selectOptions config.itemRarity selected=system.rarity blank=""}}
+          </select>
+        </li>
+        <li>
+          <input type="text" name="system.source" value="{{system.source}}" placeholder="{{localize 'DND5E.Source'}}">
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  {{!-- Item Sheet Navigation --}}
+  <nav class="sheet-navigation tabs" data-group="primary">
+    <a class="item active" data-tab="description">{{localize "DND5E.Description"}}</a>
+    <a class="item" data-tab="details">{{localize "DND5E.Details"}}</a>
+  </nav>
+
+  {{!-- Item Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab flexrow active" data-group="primary" data-tab="description">
+
+      <div class="item-properties">
+        <div class="form-group">
+          <label>{{localize "DND5E.Price"}}</label>
+          {{numberInput system.price.value name="system.price.value"}}
+          <select name="system.price.denomination">
+            {{selectOptions config.currencies selected=system.price.denomination labelAttr="abbreviation"}}
+          </select>
+        </div>
+      </div>
+
+      {{editor descriptionHTML target="system.description.value" button=true editable=editable engine="prosemirror"}}
+    </div>
+
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      {{!-- Recipe Status --}}
+      <div class="form-group stacked">
+        <label>{{localize "MYTHACRI.ItemRecipeStatus"}}</label>
+        <div class="form-fields">
+          <label class="checkbox">
+            <input type="checkbox" name="system.crafting.basic" {{checked system.crafting.basic}}>
+            {{localize "MYTHACRI.ItemRecipeBasic"}}
+          </label>
+        </div>
+      </div>
+
+      {{!-- Recipe Type --}}
+      <div class="form-group">
+        <label>{{ localize "MYTHACRI.ItemRecipeType" }}</label>
+        <select name="system.type.value">
+          {{selectOptions recipeTypes selected=system.type.value blank=""}}
+        </select>
+      </div>
+
+      {{!-- Target --}}
+      <h4 class="target-header" data-action="drop-target">
+        {{localize "MYTHACRI.ItemRecipeTarget"}}
+      </h4>
+      <ol class="recipe-targets form-group" data-action="drop-target">
+        <li class="recipe-target flexrow">
+          <input type="number" name="system.crafting.target.quantity" value="{{system.crafting.target.quantity}}" min="1" placeholder="1">
+          {{#if recipeTarget}}
+          {{{recipeTarget}}}
+          {{else}}
+          <input type="text" name="system.crafting.target.uuid" value="{{system.crafting.target.uuid}}">
+          {{/if}}
+          <a data-action="clear-target"><i class="fa-solid fa-minus"></i></a>
+        </li>
+      </ol>
+
+      {{!-- Components --}}
+      <h4 class="components-header">
+        {{localize "MYTHACRI.ItemRecipeComponents"}}
+        <a data-action="add-component"><i class="fa-solid fa-plus"></i></a>
+      </h4>
+      <ol class="recipe-components form-group">
+        {{#each system.crafting.components as |c idx|}}
+        <li class="recipe-component flexrow" data-idx="{{idx}}">
+          <input type="number" name="system.crafting.components.{{idx}}.quantity" value="{{c.quantity}}" min="1" placeholder="1">
+          <input type="text" name="system.crafting.components.{{idx}}.identifier" value="{{c.identifier}}">
+          <a data-action="delete-component"><i class="fa-solid fa-minus"></i></a>
+        </li>
+        {{/each}}
+      </ol>
+    </div>
+  </section>
+</form>
