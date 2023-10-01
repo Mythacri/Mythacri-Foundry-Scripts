@@ -44,5 +44,12 @@
   "MYTHACRI.WeaponPropertyRocket": "Rocket",
   "MYTHACRI.WeaponPropertyScatter": "Scatter",
   "MYTHACRI.WeaponPropertySuperheavy": "Superheavy",
-  "MYTHACRI.WeaponPropertyTwinshot": "Twinshot"
+  "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
+  "TYPES.Item.mythacri-scripts.recipe": "Recipe",
+  "MYTHACRI.ItemRecipeStatus": "Recipe Status",
+  "MYTHACRI.ItemRecipeBasic": "Basic",
+  "MYTHACRI.ItemRecipeType": "Recipe Type",
+  "MYTHACRI.ItemRecipeAdvanced": "Advanced",
+  "MYTHACRI.ItemRecipeComponents": "Components",
+  "MYTHACRI.ItemRecipeTarget": "Created Item"
 }

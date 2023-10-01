@@ -7,7 +7,7 @@
     "verified": "11"
   },
   "relationships": {
-    "requires": [
+    "recommends": [
       {
         "id": "mythacri-shared-compendium",
         "type": "module",
@@ -43,6 +43,11 @@
       "paths": [
         "styles/mythacri.css"
       ]
+    }
+  },
+  "documentTypes": {
+    "Item": {
+      "recipe": {}
     }
   },
   "url": "https://github.com/Mythacri/Mythacri-Foundry-Scripts"
