@@ -1,3 +1,20 @@
+/**
+ * Data model for `recipe` items.
+ * @property {object} type
+ * @property {string} type.value                            The recipe subtype, as defined in `Crafting.recipeTypes`.
+ * @property {object} crafting
+ * @property {object} crafting.target                       Reference data for the item that this recipe creates.
+ * @property {string} crafting.target.uuid                  The uuid of the item to be created.
+ * @property {number} crafting.target.quantity              The amount of items that will be created.
+ * @property {object[]} crafting.components                 Reference data for the components needed.
+ * @property {string} crafting.components[].identifier      The resource identifier of a loot-type item.
+ * @property {number} crafting.components[].quantity        How many of this resource are needed.
+ * @property {boolean} crafting.basic                       Whether this is considered a 'basic' recipe learned immediately.
+ * @property {string} rarity                                The rarity of this recipe, as defined in `DND5E.itemRarity`.
+ * @property {object} price
+ * @property {number} price.value                           The value of this recipe.
+ * @property {string} price.denomination                    The denomination of the value, as defined in `DND5E.currencies`.
+ */
 export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   dnd5e.dataModels.item.ItemDescriptionTemplate
 ) {
