@@ -1,7 +1,26 @@
+import {RecipeSheet} from "../../applications/recipe-sheet.mjs";
 import {MODULE} from "../../constants.mjs";
+import {RecipeData} from "./recipe-item.mjs";
 
 /** Utility export class. */
 export class Crafting {
+  /**
+   * Recipe types.
+   * @type {object}
+   */
+  static get recipeTypes() {
+    return {
+      rune: "MYTHACRI.CraftingRecipeRune",
+      spirit: "MYTHACRI.CraftingRecipeSpirit",
+      monster: "MYTHACRI.CraftingRecipeMonster",
+      cooking: "MYTHACRI.CraftingRecipeCooking"
+    };
+  }
+
+  /**
+   * Resource config.
+   * @type {object}
+   */
   static get resourceTypes() {
     return {
       gem: {
@@ -36,6 +55,10 @@ export class Crafting {
   static init() {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
     Crafting._characterFlags();
+    Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
+    DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
+      types: ["mythacri-scripts.recipe"], makeDefault: true
+    });
   }
 
   /**
