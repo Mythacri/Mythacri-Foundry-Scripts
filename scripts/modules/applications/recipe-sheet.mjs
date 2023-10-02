@@ -1,11 +1,15 @@
-// TODO: add drop event for dropping components onto the sheet.
+import {Crafting} from "../data/crafting/base-crafting.mjs";
+
 export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["dnd5e", "sheet", "item", "recipe"],
       width: 400,
-      dragDrop: [{dropSelector: "[data-action='drop-target']"}]
+      dragDrop: [
+        {dropSelector: "[data-action='drop-target']"},
+        {dropSelector: "[data-action='drop-component']"}
+      ]
     });
   }
 
@@ -15,17 +19,9 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
 
   async getData(options = {}) {
     const data = await super.getData(options);
-
-    // TODO: recipe type (cooking, monster, rune, spirit), get these from the Crafting class.
-    data.recipeTypes = {
-      cooking: "Cooking",
-      monster: "Monster Crafting",
-      rune: "Runecarving",
-      spirit: "Spiritbinding"
-    };
-
+    data.recipeTypes = Crafting.recipeTypes;
     data.recipeTarget = await this._validTargetItemLink();
-
+    data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";
     return data;
   }
 
@@ -40,12 +36,35 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
 
   /** @override */
   async _onDrop(event) {
+    const target = event.currentTarget.dataset.action;
     const data = TextEditor.getDragEventData(event);
     if (data.type !== "Item") return;
+    if (target === "drop-target") return this._onDropTarget(data);
+    else if (target === "drop-component") return this._onDropComponent(data);
+  }
 
+  /**
+   * Handle dropping an item onto the component item area.
+   * @param {object} data
+   * @returns {Promise<Item5e|void>}
+   */
+  async _onDropComponent(data) {
+    const item = await fromUuid(data.uuid);
+    const id = Crafting.getIdentifier(item);
+    if (!id) return;
+    const components = foundry.utils.deepClone(this.document.system.crafting.components);
+    components.push({quantity: null, identifier: id});
+    return this.document.update({"system.crafting.components": components});
+  }
+
+  /**
+   * Handle dropping an item onto the target item area.
+   * @param {object} data                 The drop data.
+   * @returns {Promise<Item5e|void>}      The updated item.
+   */
+  async _onDropTarget(data) {
     const item = await fromUuid(data.uuid);
     if (!this.document.system.allowedTargetTypes.includes(item.type)) return;
-
     return this.document.update({"system.crafting.target.uuid": item.uuid});
   }
 

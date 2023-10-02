@@ -11,7 +11,7 @@
 
       <div class="item-subtitle">
         <h4 class="item-type">{{itemType}}</h4>
-        <span class="item-status">{{lookup recipeTypes system.type.value}}</span>
+        <span class="item-status">{{localize recipeStatus}}</span>
       </div>
 
       <ul class="summary flexrow">
@@ -76,7 +76,7 @@
       <div class="form-group">
         <label>{{ localize "MYTHACRI.ItemRecipeType" }}</label>
         <select name="system.type.value">
-          {{selectOptions recipeTypes selected=system.type.value blank=""}}
+          {{selectOptions recipeTypes selected=system.type.value localize=true blank=""}}
         </select>
       </div>
 
@@ -97,11 +97,11 @@
       </ol>
 
       {{!-- Components --}}
-      <h4 class="components-header">
+      <h4 class="components-header" data-action="drop-component">
         {{localize "MYTHACRI.ItemRecipeComponents"}}
         <a data-action="add-component"><i class="fa-solid fa-plus"></i></a>
       </h4>
-      <ol class="recipe-components form-group">
+      <ol class="recipe-components form-group" data-action="drop-component">
         {{#each system.crafting.components as |c idx|}}
         <li class="recipe-component flexrow" data-idx="{{idx}}">
           <input type="number" name="system.crafting.components.{{idx}}.quantity" value="{{c.quantity}}" min="1" placeholder="1">
