@@ -7,6 +7,7 @@ export class SystemConfig {
     SystemConfig._armorClasses();
     SystemConfig._weaponProperties();
     SystemConfig._weaponProficiencies();
+    SystemConfig._conditions();
   }
 
   static _featureTypes() {
@@ -118,5 +119,24 @@ export class SystemConfig {
 
     // Weapon ids.
     CONFIG.DND5E.weaponIds.gun = "<compendium id>.<item id>";
+  }
+
+  static _conditions() {
+    // Add two new conditions to the token HUD.
+    CONFIG.statusEffects.push({
+      id: "dazed",
+      label: "MYTHACRI.ConDazed",
+      icon: "icons/svg/stoned.svg"
+    }, {
+      id: "impaired",
+      label: "MYTHACRI.ConImpaired",
+      icon: "icons/svg/tankard.svg"
+    });
+
+    // Add two new condition types available on the actor sheets.
+    foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, {
+      dazed: "MYTHACRI.ConDazed",
+      impaired: "MYTHACRI.ConImpaired"
+    });
   }
 }
