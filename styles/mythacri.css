@@ -3,6 +3,10 @@
   display: none;
 }
 
+.dnd5e.sheet.item select[name^="flags.mythacri-scripts.resource"] {
+  border: none;
+}
+
 .mythacri-scripts.mayhem-ui {
   width: 400px;
 }

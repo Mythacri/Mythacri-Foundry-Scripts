@@ -1,3 +1,4 @@
+import {Crafting} from "./data/crafting/base-crafting.mjs";
 import {Mayhem} from "./data/mayhem.mjs";
 
 export class PublicInterface {
