@@ -4,6 +4,10 @@ import {RecipeData} from "./recipe-item.mjs";
 
 /** Utility export class. */
 export class Crafting {
+  /**
+   * Recipe types.
+   * @type {object}
+   */
   static get recipeTypes() {
     return {
       rune: "MYTHACRI.CraftingRecipeRune",
@@ -13,6 +17,10 @@ export class Crafting {
     };
   }
 
+  /**
+   * Resource config.
+   * @type {object}
+   */
   static get resourceTypes() {
     return {
       gem: {

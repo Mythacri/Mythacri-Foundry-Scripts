@@ -2,6 +2,7 @@ import {Crafting} from "../data/crafting/base-crafting.mjs";
 
 export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
 
+  /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["dnd5e", "sheet", "item", "recipe"],
@@ -13,10 +14,12 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     });
   }
 
+  /** @override */
   get template() {
     return "modules/mythacri-scripts/templates/recipe-sheet.hbs";
   }
 
+  /** @override */
   async getData(options = {}) {
     const data = await super.getData(options);
     data.recipeTypes = Crafting.recipeTypes;
