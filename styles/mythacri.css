@@ -26,6 +26,9 @@
   text-align: right;
   color: #7a7971;
 }
+.dnd5e.sheet.item.recipe .recipe-status .checkbox {
+  flex: none;
+}
 .dnd5e.sheet.item.recipe .recipe-components,
 .dnd5e.sheet.item.recipe .recipe-targets {
   list-style: none;
