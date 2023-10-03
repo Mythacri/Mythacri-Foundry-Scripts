@@ -38,6 +38,7 @@
   <nav class="sheet-navigation tabs" data-group="primary">
     <a class="item active" data-tab="description">{{localize "DND5E.Description"}}</a>
     <a class="item" data-tab="details">{{localize "DND5E.Details"}}</a>
+    <a class="item" data-tab="learning">{{localize "MYTHACRI.ItemRecipeLearning"}}</a>
   </nav>
 
   {{!-- Item Sheet Body --}}
@@ -110,6 +111,48 @@
         </li>
         {{/each}}
       </ol>
+    </div>
+
+    {{!-- Learning Tab --}}
+    <div class="tab learning" data-group="primary" data-tab="learning">
+      {{#if system.crafting.basic}}
+      <p class="notification">{{localize "MYTHACRI.ItemRecipeLearningBasic"}}</p>
+      {{else}}
+      <ol class="items-list">
+        <li class="items-header flexrow">
+          <h3 class="item-name flexrow">{{localize "MYTHACRI.ItemRecipeLearned"}}</h3>
+        </li>
+        <ol class="item-list">
+          {{#each learned}}
+          <li class="item flexrow" data-actor-id="{{id}}">
+            <div class="item-name flexrow">
+              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}')"></div>
+              <h4>{{name}}</h4>
+            </div>
+            <div class="item-controls flexrow">
+              <a class="item-control" data-action="unlearn-recipe"><i class="fa-solid fa-times"></i></a>
+            </div>
+          </li>
+          {{/each}}
+        </ol>
+        <li class="items-header flexrow">
+          <h3 class="item-name flexrow">{{localize "MYTHACRI.ItemRecipeLearners"}}</h3>
+        </li>
+        <ol class="item-list">
+          {{#each learners}}
+          <li class="item flexrow" data-actor-id="{{id}}">
+            <div class="item-name flexrow">
+              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}')"></div>
+              <h4>{{name}}</h4>
+            </div>
+            <div class="item-controls flexrow">
+              <a class="item-control" data-action="learn-recipe"><i class="fa-solid fa-check"></i></a>
+            </div>
+          </li>
+          {{/each}}
+        </ol>
+      </ol>
+      {{/if}}
     </div>
   </section>
 </form>
