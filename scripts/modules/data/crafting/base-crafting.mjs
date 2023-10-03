@@ -68,7 +68,7 @@ export class Crafting {
     const buttons = sheet.document.flags.dnd5e ?? {};
     const div = document.createElement("DIV");
     div.innerHTML = await renderTemplate(template, {
-      hasCooking: true,
+      hasCooking: !!buttons.cooking,
       hasRuneCarving: !!buttons.runeCarving,
       hasSpiritBinding: !!buttons.spiritBinding,
       hasMonsterCrafting: !!buttons.monsterCrafting
@@ -143,7 +143,7 @@ export class Crafting {
    * Set up character flags for opting into crafting types.
    */
   static _characterFlags() {
-    const craftingTypes = ["spiritBinding", "runeCarving", "monsterCrafting"];
+    const craftingTypes = ["cooking", "spiritBinding", "runeCarving", "monsterCrafting"];
     for (const key of craftingTypes) {
       const label = key.capitalize();
       CONFIG.DND5E.characterFlags[key] = {
