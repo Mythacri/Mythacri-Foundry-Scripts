@@ -1,4 +1,4 @@
-import {MODULE} from "./constants.mjs";
+import {MODULE} from "../constants.mjs";
 
 /** Data model for identifiers settings. */
 class IdentifiersSettingsModel extends foundry.abstract.DataModel {
