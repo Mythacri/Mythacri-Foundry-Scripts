@@ -15,7 +15,7 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
 
 /**
  * Create a data model for nesting within the `SettingsModel`.
- * @param {string[]} properties         The data properties, each of which will be a `ForeignDocumentField`.
+ * @param {string[]} properties         The data properties, each becoming `ForeignDocumentField` or `StringField`.
  * @param {DataModel|string} model      A subclass of `DataModel`, or a 'directory string' such as "packs".
  * @returns {EmbeddedDataField}
  */
