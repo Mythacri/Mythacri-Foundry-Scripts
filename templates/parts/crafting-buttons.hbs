@@ -1,0 +1,31 @@
+{{#if hasCooking}}
+<div class="counter flexrow cooking">
+  <h4 class="rollable" data-action="cooking">
+    {{localize "MYTHACRI.CraftingSectionCooking"}}
+  </h4>
+</div>
+{{/if}}
+
+{{#if hasRuneCarving}}
+<div class="counter flexrow rune-carving">
+  <h4 class="rollable" data-action="rune">
+    {{localize "MYTHACRI.CraftingSectionRuneCarving"}}
+  </h4>
+</div>
+{{/if}}
+
+{{#if hasSpiritBinding}}
+<div class="counter flexrow spirit-binding">
+  <h4 class="rollable" data-action="spirit">
+    {{localize "MYTHACRI.CraftingSectionSpiritBinding"}}
+  </h4>
+</div>
+{{/if}}
+
+{{#if hasMonsterCrafting}}
+<div class="counter flexrow monster-crafting">
+  <h4 class="rollable" data-action="monster">
+    {{localize "MYTHACRI.CraftingSectionMonsterCrafting"}}
+  </h4>
+</div>
+{{/if}}

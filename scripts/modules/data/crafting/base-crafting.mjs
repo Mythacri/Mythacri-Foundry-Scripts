@@ -54,6 +54,7 @@ export class Crafting {
   /** Initialize crafting. */
   static init() {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
+    Hooks.on("renderActorSheet5eCharacter", Crafting._renderCharacterSheet);
     Crafting._characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
@@ -78,6 +79,39 @@ export class Crafting {
 
     div.innerHTML = await renderTemplate(template, templateData);
     html.querySelector(".item-properties").append(...div.children);
+  }
+
+  /**
+   * Inject crafting buttons into the character sheet.
+   * @param {ActorSheet5eCharacter} sheet
+   * @param {HTMLElement} html
+   */
+  static async _renderCharacterSheet(sheet, [html]) {
+    const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
+    const buttons = sheet.document.flags.dnd5e ?? {};
+    const div = document.createElement("DIV");
+    div.innerHTML = await renderTemplate(template, {
+      hasCooking: !!buttons.cooking,
+      hasRuneCarving: !!buttons.runeCarving,
+      hasSpiritBinding: !!buttons.spiritBinding,
+      hasMonsterCrafting: !!buttons.monsterCrafting
+    });
+    div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
+    html.querySelector(".center-pane .counters").append(...div.childNodes);
+  }
+
+  /**
+   * Handle clicking a crafting button.
+   * @TODO Render a crafting app rather than returning undefined.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {*}                     The crafting application.
+   */
+  static _onClickCraft(event) {
+    const action = event.currentTarget.dataset.action;
+    if (action === "cooking") return;
+    else if (action === "rune") return;
+    else if (action === "spirit") return;
+    else if (action === "monster") return;
   }
 
   /**
@@ -132,7 +166,7 @@ export class Crafting {
    * Set up character flags for opting into crafting types.
    */
   static _characterFlags() {
-    const craftingTypes = ["spiritBinding", "runeCarving", "monsterCrafting"];
+    const craftingTypes = ["cooking", "spiritBinding", "runeCarving", "monsterCrafting"];
     for (const key of craftingTypes) {
       const label = key.capitalize();
       CONFIG.DND5E.characterFlags[key] = {

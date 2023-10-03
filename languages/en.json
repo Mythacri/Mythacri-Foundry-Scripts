@@ -11,6 +11,8 @@
   "MYTHACRI.CraftingRecipeRune": "Rune Carving Recipe",
   "MYTHACRI.CraftingRecipeSpirit": "Spirit Binding Recipe",
   "MYTHACRI.CraftingSection": "Crafting",
+  "MYTHACRI.CraftingSectionCooking": "Cooking",
+  "MYTHACRI.CraftingSectionCookingHint": "Enable 'Cooking' for this actor.",
   "MYTHACRI.CraftingSectionMonsterCrafting": "Monster Crafting",
   "MYTHACRI.CraftingSectionMonsterCraftingHint": "Enable 'Monster Crafting' for this actor.",
   "MYTHACRI.CraftingSectionRuneCarving": "Rune Carving",
