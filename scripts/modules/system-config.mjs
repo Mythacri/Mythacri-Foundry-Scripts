@@ -43,8 +43,6 @@ export class SystemConfig {
 
   static _languages() {
     const changes = {
-      //steve: "MYTHACRI.LanguageSteve",
-
       "-=orc": null, // delete 'orc'
       "-=gith": null, // delete 'gith'
       "-=gnoll": null, // delete 'gnoll'
