@@ -1,0 +1,27 @@
+<div class="content">
+  <div class="header">
+    <img src="{{target.img}}">
+    {{target.name}}
+  </div>
+  <div class="components">
+    {{#each context}}
+    <div class="column">
+      <div class="component-header">
+        <img src="{{icon}}" data-identifier="{{identifier}}">
+        <span class="label">{{label}}</span>
+        <span class="counter">({{ifThen assigned assigned.system.quantity 0}}/{{quantity}})</span>
+      </div>
+      {{#each resources}}
+      <a class="component" data-identifier="{{../identifier}}" data-item-id="{{resource.id}}">
+        <img src="{{resource.img}}" {{#if active}} class="active" {{/if}} data-tooltip="{{resource.name}}">
+      </a>
+      {{/each}}
+    </div>
+    {{/each}}
+  </div>
+  <div class="footer">
+    <button type="button" class="craft" {{disabled noCreate}}>
+      <i class="fa-solid fa-check"></i> {{localize "MYTHACRI.CraftingConfirm"}}
+    </button>
+  </div>
+</div>
