@@ -1,0 +1,43 @@
+<form>
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.SettingsPacksCraftingResources"}}</label>
+    <div class="form-fields">
+      <select name="packs.craftingResources">
+        {{selectOptions options.packs selected=source.packs.craftingResources sort=true blank="-"}}
+      </select>
+    </div>
+  </div>
+  <p class="notes">{{localize "MYTHACRI.SettingsPacksCraftingResourcesHint"}}</p>
+
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.SettingsPacksCraftingRecipes"}}</label>
+    <div class="form-fields">
+      <select name="packs.craftingRecipes">
+        {{selectOptions options.packs selected=source.packs.craftingRecipes sort=true blank="-"}}
+      </select>
+    </div>
+  </div>
+  <p class="notes">{{localize "MYTHACRI.SettingsPacksCraftingRecipesHint"}}</p>
+
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.SettingsFoldersPartyActors"}}</label>
+    <div class="form-fields">
+      <select name="folders.partyActors">
+        {{selectOptions options.folders selected=source.folders.partyActors sort=true blank="-"}}
+      </select>
+    </div>
+  </div>
+  <p class="notes">{{localize "MYTHACRI.SettingsFoldersPartyActorsHint"}}</p>
+
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.SettingsPathsSoundboard"}}</label>
+    <div class="form-fields">
+      <input type="text" name="paths.soundboard" value="{{source.paths.soundboard}}">
+    </div>
+  </div>
+  <p class="notes">{{localize "MYTHACRI.SettingsPathsSoundboardHint"}}</p>
+
+  <button type="submit">
+    <i class="fa-solid fa-save"></i> {{localize "Save"}}
+  </button>
+</form>
