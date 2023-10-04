@@ -1,3 +1,5 @@
+import {MODULE} from "../../constants.mjs";
+
 /**
  * Data model for `recipe` items.
  * @property {object} type
@@ -76,5 +78,29 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
       if (c.identifier) acc.push({identifier: c.identifier, quantity: c.quantity || 1});
       return acc;
     }, []);
+  }
+
+  /**
+   * Return whether an actor knows a recipe.
+   * @param {Actor5e} actor     The actor to test.
+   * @returns {boolean}
+   */
+  knowsRecipe(actor) {
+    const isBasic = this.crafting.basic;
+    const isEnabled = !!actor.flags.dnd5e?.crafting?.[this.type.value];
+    const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(this.parent.id);
+    return isEnabled && (isBasic || isLearned);
+  }
+
+  /**
+   * Return whether an actor can learn a recipe.
+   * @param {Actor5e} actor     The actor to test.
+   * @returns {boolean}
+   */
+  canLearnRecipe(actor) {
+    const isBasic = this.crafting.basic;
+    const isEnabled = !!actor.flags.dnd5e?.crafting?.[this.type.value];
+    const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(this.parent.id);
+    return isEnabled && !isBasic && !isLearned;
   }
 }

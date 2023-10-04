@@ -88,14 +88,9 @@ export class Crafting {
    */
   static async _renderCharacterSheet(sheet, [html]) {
     const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
-    const buttons = sheet.document.flags.dnd5e ?? {};
+    const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, {
-      hasCooking: !!buttons.cooking,
-      hasRuneCarving: !!buttons.runeCarving,
-      hasSpiritBinding: !!buttons.spiritBinding,
-      hasMonsterCrafting: !!buttons.monsterCrafting
-    });
+    div.innerHTML = await renderTemplate(template, buttons);
     div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
     html.querySelector(".center-pane .counters").append(...div.childNodes);
   }
@@ -166,10 +161,9 @@ export class Crafting {
    * Set up character flags for opting into crafting types.
    */
   static _characterFlags() {
-    const craftingTypes = ["cooking", "spiritBinding", "runeCarving", "monsterCrafting"];
-    for (const key of craftingTypes) {
+    for (const key in Crafting.recipeTypes) {
       const label = key.capitalize();
-      CONFIG.DND5E.characterFlags[key] = {
+      CONFIG.DND5E.characterFlags[`crafting.${key}`] = {
         name: `MYTHACRI.CraftingSection${label}`,
         hint: `MYTHACRI.CraftingSection${label}Hint`,
         section: "MYTHACRI.CraftingSection",
