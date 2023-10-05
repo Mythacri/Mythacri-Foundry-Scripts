@@ -161,7 +161,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    * @returns {Actor5e[]}
    */
   getLearned() {
-    const folder = game.settings.get(MODULE.ID, "identifiers").folders.playerActors;
+    const folder = game.settings.get(MODULE.ID, "identifiers").folders.partyActors;
     return folder ? folder.contents.filter(a => this.document.system.knowsRecipe(a)) : [];
   }
 
@@ -170,7 +170,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    * @returns {Actor5e[]}
    */
   getLearners() {
-    const folder = game.settings.get(MODULE.ID, "identifiers").folders.playerActors;
+    const folder = game.settings.get(MODULE.ID, "identifiers").folders.partyActors;
     return folder ? folder.contents.filter(a => this.document.system.canLearnRecipe(a)) : [];
   }
 }

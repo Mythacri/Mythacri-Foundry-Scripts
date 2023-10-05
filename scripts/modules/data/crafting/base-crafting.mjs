@@ -41,43 +41,43 @@ export class Crafting {
           acc[key] = {
             label: label,
             subsubtypes: {
-                acid: "MYTHACRI.ResourceMonsterAcid",
-                antenna: "MYTHACRI.ResourceMonsterAntenna",
-                antler: "MYTHACRI.ResourceMonsterAntler",
-                blood: "MYTHACRI.ResourceMonsterBlood",
-                bone: "MYTHACRI.ResourceMonsterBone",
-                brain: "MYTHACRI.ResourceMonsterBrain",
-                breathSac: "MYTHACRI.ResourceMonsterBreathSac",
-                carapace: "MYTHACRI.ResourceMonsterCarapace",
-                claws: "MYTHACRI.ResourceMonsterClaws",
-                dust: "MYTHACRI.ResourceMonsterDust",
-                egg: "MYTHACRI.ResourceMonsterEgg",
-                etherealIchor: "MYTHACRI.ResourceMonsterEtherealIchor",
-                eye: "MYTHACRI.ResourceMonsterEye",
-                fat: "MYTHACRI.ResourceMonsterFat",
-                feathers: "MYTHACRI.ResourceMonsterFeathers",
-                fin: "MYTHACRI.ResourceMonsterFin",
-                flesh: "MYTHACRI.ResourceMonsterFlesh",
-                heart: "MYTHACRI.ResourceMonsterHeart",
-                hide: "MYTHACRI.ResourceMonsterHide",
-                horn: "MYTHACRI.ResourceMonsterHorn",
-                instructions: "MYTHACRI.ResourceMonsterInstructions",
-                liver: "MYTHACRI.ResourceMonsterLiver",
-                mainEye: "MYTHACRI.ResourceMonsterMainEye",
-                mote: "MYTHACRI.ResourceMonsterMote",
-                mucus: "MYTHACRI.ResourceMonsterMucus",
-                oil: "MYTHACRI.ResourceMonsterOil",
-                pincer: "MYTHACRI.ResourceMonsterPincer",
-                plating: "MYTHACRI.ResourceMonsterPlating",
-                poisonGland: "MYTHACRI.ResourceMonsterPoisonGland",
-                sap: "MYTHACRI.ResourceMonsterSap",
-                scales: "MYTHACRI.ResourceMonsterScales",
-                skin: "MYTHACRI.ResourceMonsterSkin",
-                stinger: "MYTHACRI.ResourceMonsterStinger",
-                talon: "MYTHACRI.ResourceMonsterTalon",
-                teeth: "MYTHACRI.ResourceMonsterTeeth",
-                tentacle: "MYTHACRI.ResourceMonsterTentacle",
-                tusk: "MYTHACRI.ResourceMonsterTusk"
+              acid: "MYTHACRI.ResourceMonsterAcid",
+              antenna: "MYTHACRI.ResourceMonsterAntenna",
+              antler: "MYTHACRI.ResourceMonsterAntler",
+              blood: "MYTHACRI.ResourceMonsterBlood",
+              bone: "MYTHACRI.ResourceMonsterBone",
+              brain: "MYTHACRI.ResourceMonsterBrain",
+              breathSac: "MYTHACRI.ResourceMonsterBreathSac",
+              carapace: "MYTHACRI.ResourceMonsterCarapace",
+              claws: "MYTHACRI.ResourceMonsterClaws",
+              dust: "MYTHACRI.ResourceMonsterDust",
+              egg: "MYTHACRI.ResourceMonsterEgg",
+              etherealIchor: "MYTHACRI.ResourceMonsterEtherealIchor",
+              eye: "MYTHACRI.ResourceMonsterEye",
+              fat: "MYTHACRI.ResourceMonsterFat",
+              feathers: "MYTHACRI.ResourceMonsterFeathers",
+              fin: "MYTHACRI.ResourceMonsterFin",
+              flesh: "MYTHACRI.ResourceMonsterFlesh",
+              heart: "MYTHACRI.ResourceMonsterHeart",
+              hide: "MYTHACRI.ResourceMonsterHide",
+              horn: "MYTHACRI.ResourceMonsterHorn",
+              instructions: "MYTHACRI.ResourceMonsterInstructions",
+              liver: "MYTHACRI.ResourceMonsterLiver",
+              mainEye: "MYTHACRI.ResourceMonsterMainEye",
+              mote: "MYTHACRI.ResourceMonsterMote",
+              mucus: "MYTHACRI.ResourceMonsterMucus",
+              oil: "MYTHACRI.ResourceMonsterOil",
+              pincer: "MYTHACRI.ResourceMonsterPincer",
+              plating: "MYTHACRI.ResourceMonsterPlating",
+              poisonGland: "MYTHACRI.ResourceMonsterPoisonGland",
+              sap: "MYTHACRI.ResourceMonsterSap",
+              scales: "MYTHACRI.ResourceMonsterScales",
+              skin: "MYTHACRI.ResourceMonsterSkin",
+              stinger: "MYTHACRI.ResourceMonsterStinger",
+              talon: "MYTHACRI.ResourceMonsterTalon",
+              teeth: "MYTHACRI.ResourceMonsterTeeth",
+              tentacle: "MYTHACRI.ResourceMonsterTentacle",
+              tusk: "MYTHACRI.ResourceMonsterTusk"
             }
           };
           return acc;
@@ -133,9 +133,8 @@ export class Crafting {
 
   /**
    * Handle clicking a crafting button.
-   * @TODO Render a crafting app rather than returning undefined.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {*}                     The crafting application.
+   * @param {PointerEvent} event        The initiating click event.
+   * @returns {CraftingApplication}     The rendered crafting application.
    */
   static _onClickCraft(event) {
     const type = event.currentTarget.dataset.action;
@@ -208,11 +207,13 @@ export class Crafting {
   static getLabel(id) {
     const types = Crafting.resourceTypes;
     const [type, subtype, subsubtype] = id.split(".");
-    const typeLabel = game.i18n.localize(types[type].label);
-    const subtypeLabel = game.i18n.localize(!subsubtype ? types[type].subtypes[subtype] : types[type].subtypes[subtype].label);
-    const subsubtypeLabel = subsubtype ? game.i18n.localize(types[type].subtypes[subtype].subsubtypes[subsubtype]) : null;
-
-    const data = {type: typeLabel, subtype: subtypeLabel, subsubtype: subsubtypeLabel};
+    const subtypeObj = types[type].subtypes[subtype];
+    const subsubtypeLabel = subsubtype ? subtypeObj.subsubtypes[subsubtype] : null;
+    const data = {
+      type: game.i18n.localize(types[type].label),
+      subtype: game.i18n.localize(!subsubtype ? subtypeObj : subtypeObj.label),
+      subsubtype: subsubtypeLabel ? game.i18n.localize(subsubtypeLabel) : null
+    };
     return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, data);
   }
 

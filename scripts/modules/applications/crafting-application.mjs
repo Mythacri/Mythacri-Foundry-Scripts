@@ -266,7 +266,7 @@ class CraftingHandler extends Application {
   /**
    * Finalize the crafting process using assigned resources.
    * @param {PointerEvent} event        The initiating click event.
-   * @returns {Promise<Item5e[][]>}     The deleted, created, and updated items.
+   * @returns {Promise<void>}
    */
   async _onClickCraft(event) {
     this.close();
@@ -282,20 +282,25 @@ class CraftingHandler extends Application {
       else deleteIds.push(item.id);
       return acc;
     }, []);
-    const hasQty = target.system.hasOwnProperty("quantity");
     const toCreate = [];
     const itemData = game.items.fromCompendium(target);
     const qty = this.recipe.system.crafting.target.quantity || 1;
-    if (hasQty) {
-      itemData.system.quantity = qty;
-      toCreate.push(itemData);
+
+    // Stack consumable items either in one stack or onto an existing stack.
+    if (target.type === "consumable") {
+      foundry.utils.setProperty(itemData.flags, `${MODULE.ID}.sourceId`, target.uuid);
+      const existingItem = this.actor.items.find(item => item.flags[MODULE.ID]?.sourceId === target.uuid);
+      if (existingItem) {
+        updates.push({_id: existingItem.id, "system.quantity": existingItem.system.quantity + qty});
+      } else {
+        itemData.system.quantity = qty;
+        toCreate.push(itemData);
+      }
     } else {
       for (let i = 0; i < qty; i++) toCreate.push(itemData);
     }
-    return Promise.all([
-      this.actor.deleteEmbeddedDocuments("Item", deleteIds),
-      this.actor.createEmbeddedDocuments("Item", toCreate),
-      this.actor.updateEmbeddedDocuments("Item", updates)
-    ]);
+    if (deleteIds.length) await this.actor.deleteEmbeddedDocuments("Item", deleteIds);
+    if (toCreate.length) await this.actor.createEmbeddedDocuments("Item", toCreate);
+    if (updates.length) await this.actor.updateEmbeddedDocuments("Item", updates);
   }
 }
