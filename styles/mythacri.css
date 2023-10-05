@@ -100,3 +100,153 @@
   font-size: 20px;
   padding: 5px 0;
 }
+
+.mythacri-scripts.crafting {
+  min-height: 400px;
+  overflow: hidden;
+  max-height: 90%;
+}
+.mythacri-scripts.crafting .content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.mythacri-scripts.crafting nav.tabs {
+  font-weight: bold;
+  padding-bottom: 5px;
+  font-size: 16px;
+}
+.mythacri-scripts.crafting .tab {
+  overflow: hidden overlay;
+  flex: 1;
+  border: 2px inset;
+}
+.mythacri-scripts.crafting .recipe {
+  border-top: 2px inset;
+  border-bottom: 2px inset;
+  padding: 1em;
+}
+.mythacri-scripts.crafting .recipe:first-child {
+  border-top: none;
+}
+.mythacri-scripts.crafting .recipe:last-child {
+  border-bottom: none;
+}
+.mythacri-scripts.crafting .recipe .header .name {
+  font-size: 25px;
+  font-family: "Modesto Condensed";
+  display: flex;
+  justify-content: space-between;
+}
+.mythacri-scripts.crafting .recipe .header .basic {
+  font-style: italic;
+  color: gray;
+}
+.mythacri-scripts.crafting .recipe .target {
+  border-top: 2px groove;
+  border-bottom: 2px groove;
+  padding: 0.5em 0;
+  margin-top: 0.5em;
+}
+.mythacri-scripts.crafting .recipe .details {
+  display: flex;
+  gap: 1em;
+}
+.mythacri-scripts.crafting .recipe .details .description {
+  flex: 3;
+  font-style: italic;
+}
+.mythacri-scripts.crafting .recipe .details .components {
+  padding-top: 5px;
+  flex: 2;
+}
+.mythacri-scripts.crafting .recipe .details .components .component {
+  white-space: nowrap;
+  margin: 3px;
+  padding: 0 2px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px groove #eeede0;
+  text-align: center;
+  font-size: 13px;
+  line-height: 18px;
+}
+.mythacri-scripts.crafting .recipe .details .components .component.missing {
+  color: red;
+}
+
+.mythacri-scripts.crafting-handler {
+  min-height: 100px;
+  max-height: 90%;
+  width: auto !important;
+  min-width: 200px;
+}
+.mythacri-scripts.crafting-handler img {
+  border-radius: 5px;
+  border: none;
+  height: 60px;
+  width: 60px;
+  max-height: 60px;
+  max-width: 60px;
+}
+.mythacri-scripts.crafting-handler .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border-bottom: 3px groove;
+  padding-bottom: 1em;
+}
+.mythacri-scripts.crafting-handler .header img {
+  height: 50px;
+  border: none;
+}
+.mythacri-scripts.crafting-handler .components {
+  display: flex;
+}
+.mythacri-scripts.crafting-handler .column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 1;
+}
+.mythacri-scripts.crafting-handler .column:not(:last-child) {
+  border-right: 2px groove;
+}
+.mythacri-scripts.crafting-handler .components .component-header,
+.mythacri-scripts.crafting-handler .components .component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mythacri-scripts.crafting-handler .components .component {
+  flex: 1;
+  margin: 5px;
+}
+.mythacri-scripts.crafting-handler .components .component img.active {
+  filter: drop-shadow(0 0 10px blue);
+}
+.mythacri-scripts.crafting-handler .components .component img {
+  filter: grayscale(1);
+}
+.mythacri-scripts.crafting-handler .components .component-header {
+  border-bottom: 2px groove;
+  flex: none;
+  padding-bottom: 1em;
+  padding-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.mythacri-scripts.crafting-handler .components .component-header .counter {
+  color: gray;
+}
+.mythacri-scripts.crafting-handler .components .component-header .label {
+  font-weight: bold;
+  font-family: "Modesto Condensed";
+  font-size: 20px;
+}
+.mythacri-scripts.crafting-handler .craft {
+  margin-top: 5px;
+}
+.mythacri-scripts.crafting-handler .craft:disabled {
+  background-color: inherit;
+  color: rgb(163, 163, 163);
+}

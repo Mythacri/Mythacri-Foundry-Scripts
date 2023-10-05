@@ -1,3 +1,4 @@
+import {CraftingApplication} from "../../applications/crafting-application.mjs";
 import {RecipeSheet} from "../../applications/recipe-sheet.mjs";
 import {MODULE} from "../../constants.mjs";
 import {RecipeData} from "./recipe-item.mjs";
@@ -60,6 +61,7 @@ export class Crafting {
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
       types: ["mythacri-scripts.recipe"], makeDefault: true
     });
+    loadTemplates(["modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"]);
   }
 
   /**
@@ -102,11 +104,8 @@ export class Crafting {
    * @returns {*}                     The crafting application.
    */
   static _onClickCraft(event) {
-    const action = event.currentTarget.dataset.action;
-    if (action === "cooking") return;
-    else if (action === "rune") return;
-    else if (action === "spirit") return;
-    else if (action === "monster") return;
+    const type = event.currentTarget.dataset.action;
+    return new CraftingApplication(this.document, type).render(true);
   }
 
   /**
@@ -145,16 +144,42 @@ export class Crafting {
     if (item?.type !== "loot") return null;
 
     const data = item.getFlag(MODULE.ID, "resource") ?? {};
+    let id = `${data.type}.${data.subtype}`;
+    if (data.type === "monster") id += `.${data.subsubtype}`;
+
+    const valid = Crafting.validIdentifier(id);
+    if (!valid) return null;
+
+    return id;
+  }
+
+  /**
+   * Is this resource identifier valid?
+   * @param {string} id     A string id, usually of the form `monster.celestial.eye`.
+   * @returns {boolean}
+   */
+  static validIdentifier(id) {
+    const [type, subtype, subsubtype] = id?.split(".") ?? [];
     const types = Crafting.resourceTypes;
+    let path = `${type}.subtypes.${subtype}`;
+    if (type === "monster") path += `.subsubtypes.${subsubtype}`;
+    return foundry.utils.hasProperty(types, path);
+  }
 
-    let path = `${data.type}.subtypes.${data.subtype}`;
-    if (data.type === "monster") path += `.subsubtypes.${data.subsubtype}`;
+  /**
+   * Get a human-readable label from a resource identifier.
+   * @param {string} id
+   * @returns {string}
+   */
+  static getLabel(id) {
+    const types = Crafting.resourceTypes;
+    const [type, subtype, subsubtype] = id.split(".");
+    const typeLabel = game.i18n.localize(types[type].label);
+    const subtypeLabel = game.i18n.localize(!subsubtype ? types[type].subtypes[subtype] : types[type].subtypes[subtype].label);
+    const subsubtypeLabel = subsubtype ? game.i18n.localize(types[type].subtypes[subtype].subsubtypes[subsubtype]) : null;
 
-    const has = foundry.utils.hasProperty(types, path);
-    if (!has) return null;
-
-    if (data.type === "monster") return `${data.type}.${data.subtype}.${data.subsubtype}`;
-    else return `${data.type}.${data.subtype}`;
+    const data = {type: typeLabel, subtype: subtypeLabel, subsubtype: subsubtypeLabel};
+    return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, data);
   }
 
   /**

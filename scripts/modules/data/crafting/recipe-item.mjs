@@ -1,4 +1,5 @@
 import {MODULE} from "../../constants.mjs";
+import {Crafting} from "./base-crafting.mjs";
 
 /**
  * Data model for `recipe` items.
@@ -54,7 +55,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @type {string[]}
    */
   get allowedTargetTypes() {
-    return ["feat", "backpack", "consumable", "weapon", "loot", "equipment", "tool"];
+    return ["feat", "backpack", "consumable", "weapon", "equipment", "tool"];
   }
 
   /**
@@ -62,22 +63,42 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {Promise<Item|null>}      The item that will be created, if valid.
    */
   async getTarget() {
-    const uuid = this.crafting.target.uuid || "";
-    if (!uuid || (typeof uuid !== "string")) return null;
-    const item = await fromUuid(uuid);
-    if ((item instanceof Item) && this.allowedTargetTypes.includes(item.type)) return item;
-    return null;
+    if (!this.hasTarget) return null;
+    return fromUuid(this.crafting.target.uuid) || null;
   }
 
   /**
-   * Get the crafting array reduced to only those that are valid identifiers.
-   * @returns {object[]}      An array of objects with `identifier` and `quantity`.
+   * Does this item have a valid target?
+   * @type {boolean}
+   */
+  get hasTarget() {
+    const uuid = this.crafting.target.uuid || "";
+    if (!uuid || (typeof uuid !== "string")) return false;
+    const entry = fromUuidSync(uuid);
+    return this.allowedTargetTypes.includes(entry?.type);
+  }
+
+  /**
+   * Get the crafting object reduced to only those that are valid identifiers.
+   * @returns {object}      An object mapping `identifier` to `quantity`.
    */
   getComponents() {
     return this.crafting.components.reduce((acc, c) => {
-      if (c.identifier) acc.push({identifier: c.identifier, quantity: c.quantity || 1});
+      const id = c.identifier;
+      if (Crafting.validIdentifier(id)) {
+        acc[id] ??= 0;
+        acc[id] += (c.quantity || 1);
+      }
       return acc;
-    }, []);
+    }, {});
+  }
+
+  /**
+   * Does this item have valid components?
+   * @type {boolean}
+   */
+  get hasComponents() {
+    return this.crafting.components.some(c => Crafting.validIdentifier(c.identifier));
   }
 
   /**
