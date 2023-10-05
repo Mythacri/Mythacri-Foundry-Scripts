@@ -122,6 +122,14 @@ export class Settings {
       default: {},
       scope: "world"
     });
+
+    /** Remember where the soundboard was last dragged. */
+    game.settings.register(MODULE.ID, "soundboard-position", {
+      config: false,
+      type: Object,
+      default: {},
+      scope: "client"
+    });
   }
 
   /** Register settings menus. */
