@@ -133,9 +133,8 @@ export class Crafting {
 
   /**
    * Handle clicking a crafting button.
-   * @TODO Render a crafting app rather than returning undefined.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {*}                     The crafting application.
+   * @param {PointerEvent} event        The initiating click event.
+   * @returns {CraftingApplication}     The rendered crafting application.
    */
   static _onClickCraft(event) {
     const type = event.currentTarget.dataset.action;

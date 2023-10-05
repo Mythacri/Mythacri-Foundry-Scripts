@@ -266,7 +266,7 @@ class CraftingHandler extends Application {
   /**
    * Finalize the crafting process using assigned resources.
    * @param {PointerEvent} event        The initiating click event.
-   * @returns {Promise<Item5e[][]>}     The deleted, created, and updated items.
+   * @returns {Promise<void>}
    */
   async _onClickCraft(event) {
     this.close();
