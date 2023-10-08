@@ -130,6 +130,14 @@ export class Settings {
       default: {},
       scope: "client"
     });
+
+    /** The current number of random encounter dice. */
+    game.settings.register(MODULE.ID, "encounter-dice", {
+      config: false,
+      type: Number,
+      default: 1,
+      scope: "world"
+    });
   }
 
   /** Register settings menus. */

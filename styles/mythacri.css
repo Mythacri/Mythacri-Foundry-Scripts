@@ -291,3 +291,56 @@
 .mythacri-scripts.soundboard .sound .actions a {
   margin: 0 5px;
 }
+
+.mythacri-scripts.encounter {
+  width: auto !important;
+  min-width: 400px;
+}
+.mythacri-scripts.encounter button {
+  margin: 5px 2px;
+}
+.mythacri-scripts.encounter .roll {
+  display: flex;
+}
+.mythacri-scripts.encounter .roll [data-action=adjust] {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 3em;
+}
+.mythacri-scripts.encounter .player {
+  border: 2px inset;
+  padding: 3px;
+}
+.mythacri-scripts.encounter .player.match {
+  color: green;
+}
+.mythacri-scripts.encounter .player.mismatch {
+  color: red;
+}
+.mythacri-scripts.encounter .gm .rolls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+.mythacri-scripts.encounter .gm .rolls .roll {
+  min-width: 40px;
+  line-height: 40px;
+  justify-content: center;
+  margin-right: 5px;
+  background-image: url(../../../icons/svg/d12-grey.svg);
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  font-size: var(--font-size-16);
+  font-weight: bold;
+  color: gray;
+}
+.mythacri-scripts.encounter .gm .rolls .roll:first-child {
+  margin-left: 1em;
+}
+.mythacri-scripts.encounter .gm .rolls .roll.match {
+  color: black;
+  filter: drop-shadow(0 0 3px green);
+}

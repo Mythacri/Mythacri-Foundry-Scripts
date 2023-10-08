@@ -1,11 +1,13 @@
 import {Crafting} from "./data/crafting/base-crafting.mjs";
+import {Encounter} from "./data/encounter.mjs";
 import {Mayhem} from "./data/mayhem.mjs";
 
 export class PublicInterface {
   static init() {
     globalThis.mythacri = {
       mayhem: Mayhem,
-      crafting: Crafting
+      crafting: Crafting,
+      encounter: Encounter
     };
   }
 }
