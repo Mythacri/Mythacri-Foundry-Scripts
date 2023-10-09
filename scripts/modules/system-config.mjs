@@ -8,6 +8,7 @@ export class SystemConfig {
     SystemConfig._weaponProperties();
     SystemConfig._weaponProficiencies();
     SystemConfig._conditions();
+    SystemConfig._currencies();
   }
 
   static _featureTypes() {
@@ -42,7 +43,7 @@ export class SystemConfig {
   }
 
   static _languages() {
-    const changes = {
+    foundry.utils.mergeObject(CONFIG.DND5E.languages, {
       "-=orc": null, // delete 'orc'
       "-=gith": null, // delete 'gith'
       "-=gnoll": null, // delete 'gnoll'
@@ -52,9 +53,7 @@ export class SystemConfig {
       "-=aquan": null, // delete 'aquan'
       "-=druidic": null, // delete 'druidic'
       "-=gnomish": null, // delete 'gnomish'
-    };
-
-    foundry.utils.mergeObject(CONFIG.DND5E.languages, changes, {performDeletions: true});
+    }, {performDeletions: true});
   }
 
   static _activationTypes() {
@@ -86,12 +85,10 @@ export class SystemConfig {
       parrying: "MYTHACRI.WeaponPropertyParry",
       scatter: "MYTHACRI.WeaponPropertyScatter",
       superheavy: "MYTHACRI.WeaponPropertySuperheavy",
-
-      //Journeyman Properties
+      // Journeyman Properties
       rocket: "MYTHACRI.WeaponPropertyRocket",
       heat: "MYTHACRI.WeaponPropertyHeat",
-      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
-
+      twinshot: "MYTHACRI.WeaponPropertyTwinshot"
     });
   }
 
@@ -116,7 +113,7 @@ export class SystemConfig {
     });
 
     // Weapon ids.
-    CONFIG.DND5E.weaponIds.gun = "<compendium id>.<item id>";
+    // CONFIG.DND5E.weaponIds.gun = "<compendium id>.<item id>";
   }
 
   static _conditions() {
@@ -136,5 +133,10 @@ export class SystemConfig {
       dazed: "MYTHACRI.ConDazed",
       impaired: "MYTHACRI.ConImpaired"
     });
+  }
+
+  static _currencies() {
+    // Remove electrum.
+    delete CONFIG.DND5E.currencies.ep;
   }
 }
