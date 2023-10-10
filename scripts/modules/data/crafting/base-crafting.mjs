@@ -107,7 +107,7 @@ export class Crafting {
   static async _renderItemSheet(sheet, [html]) {
     const type = sheet.document.type;
     if (type === "loot") await Crafting._renderLootItemDropdowns(sheet, html);
-    else if (["weapon", "equipment"].includes(type)) await Crafting._renderRunesData(sheet, html);
+    else if (["equipment", "tool", "weapon"].includes(type)) await Crafting._renderRunesData(sheet, html);
     sheet.setPosition();
   }
 
