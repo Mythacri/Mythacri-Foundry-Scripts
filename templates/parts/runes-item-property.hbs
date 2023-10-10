@@ -1,0 +1,7 @@
+<div class="form-group runes">
+  <label>{{localize "MYTHACRI.CraftingRunes"}}</label>
+  {{#if enabled}}
+  <input type="number" name="flags.mythacri-scripts.runes.max" value="{{max}}" placeholder="{{localize 'DND5E.Max'}}">
+  {{/if}}
+  <input type="checkbox" name="flags.mythacri-scripts.runes.enabled" {{checked enabled}}>
+</div>

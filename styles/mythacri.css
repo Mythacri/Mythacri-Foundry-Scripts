@@ -2,9 +2,18 @@
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
+.dnd5e.sheet.actor.character .item-detail.runes {
+  flex: none;
+  border-right: none;
+  color: #7a7971;
+}
 
 .dnd5e.sheet.item select[name^="flags.mythacri-scripts.resource"] {
   border: none;
+}
+.dnd5e.sheet.item .form-group.runes input[type="number"] {
+  flex: 0 0 50px;
+  text-align: center;
 }
 
 .dnd5e.sheet.item.recipe {
@@ -343,4 +352,42 @@
 .mythacri-scripts.encounter .gm .rolls .roll.match {
   color: black;
   filter: drop-shadow(0 0 3px green);
+}
+
+/* ------------------------------ */
+/*                                */
+/*          RUNES CONFIG          */
+/*                                */
+/* ------------------------------ */
+.mythacri-scripts.runes-config {}
+.mythacri-scripts.runes-config .content header {
+  font-weight: bold;
+  font-size: 24px;
+  border-bottom: 2px groove black;
+  text-align: center;
+}
+.mythacri-scripts.runes-config .content .bonus {
+  position: relative;
+  padding: 1em;
+}
+.mythacri-scripts.runes-config .content .bonus:last-child {
+  padding-bottom: 0;
+}
+.mythacri-scripts.runes-config .content .bonus label {
+  font-weight: bold;
+  color: rgb(73, 73, 73);
+}
+.mythacri-scripts.runes-config .content .bonus a {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+.mythacri-scripts.runes-config .content .bonus a:not([data-action]) {
+  color: gray;
+  pointer-events: none;
+}
+.mythacri-scripts.runes-config .content .bonus .notes {
+  font-style: italic;
+  padding: 0 1em;
+  margin: 1em 0;
 }
