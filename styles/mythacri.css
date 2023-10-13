@@ -4,8 +4,8 @@
 /*                                */
 /* ------------------------------ */
 .dnd5e.sheet.actor.character .alignment,
-.dnd5e.sheet.actor.npc .legendary,
-.dnd5e.sheet.actor.character .experience {
+.dnd5e.sheet.actor.character .experience
+.dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
 .dnd5e.sheet.actor.character .sheet-header .header-exp {
