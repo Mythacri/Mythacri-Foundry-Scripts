@@ -6,6 +6,7 @@ import {Settings} from "./modules/data/settings.mjs";
 import {SystemConfig} from "./modules/system-config.mjs";
 import {Soundboard} from "./modules/applications/soundboard.mjs";
 import {Encounter} from "./modules/data/encounter.mjs";
+import {ExperiencePips} from "./modules/data/pips.mjs";
 
 Hooks.once("init", SystemConfig.init);
 Hooks.once("init", PublicInterface.init);
@@ -15,3 +16,4 @@ Hooks.once("init", Crafting.init);
 Hooks.once("init", Settings.init);
 Hooks.once("init", Soundboard.init);
 Hooks.once("init", Encounter.init);
+Hooks.once("init", ExperiencePips.init);

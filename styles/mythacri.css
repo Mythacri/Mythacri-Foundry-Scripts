@@ -4,8 +4,31 @@
 /*                                */
 /* ------------------------------ */
 .dnd5e.sheet.actor.character .alignment,
-.dnd5e.sheet.actor.npc .legendary {
+.dnd5e.sheet.actor.npc .legendary,
+.dnd5e.sheet.actor.character .experience {
   display: none;
+}
+.dnd5e.sheet.actor.character .sheet-header .header-exp {
+  flex: 0 0 160px;
+}
+.dnd5e.sheet.actor.character .sheet-header .xpbar {
+  flex: 0 0 22px;
+  display: flex;
+  border-radius: 1em;
+  border: 2px inset;
+  overflow: hidden;
+}
+.dnd5e.sheet.actor.character .sheet-header .xpbar .pip {
+  flex: 1;
+  border-right: 2px groove black;
+  opacity: 70%;
+  margin: 1px 0;
+}
+.dnd5e.sheet.actor.character .sheet-header .xpbar .pip:last-child {
+  border: none;
+}
+.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active {
+  background-color: rgb(199 0 255 / 80%);
 }
 
 /* ------------------------------ */
