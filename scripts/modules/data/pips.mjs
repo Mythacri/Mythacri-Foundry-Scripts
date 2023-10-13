@@ -2,7 +2,16 @@ export class ExperiencePips {
   /** Initialize module. */
   static init() {
     ExperiencePips._expLevels();
+    Hooks.once("ready", ExperiencePips._enableExperience);
     Hooks.on("renderActorSheet5eCharacter", ExperiencePips._renderActorSheet);
+  }
+
+  /**
+   * Forcibly set the system setting to be disabled.
+   * @returns {Promise<Setting>}
+   */
+  static async _enableExperience() {
+    return game.settings.set("dnd5e", "disableExperienceTracking", false);
   }
 
   /**
