@@ -4,7 +4,7 @@
 /*                                */
 /* ------------------------------ */
 .dnd5e.sheet.actor.character .alignment,
-.dnd5e.sheet.actor.character .experience,
+.dnd5e.sheet.actor.character .attributes:has(> .resource),
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
