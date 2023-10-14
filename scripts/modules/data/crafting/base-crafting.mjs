@@ -1,5 +1,6 @@
 import {CraftingApplication} from "../../applications/crafting-application.mjs";
 import {RecipeSheet} from "../../applications/recipe-sheet.mjs";
+import {RunesConfig} from "../../applications/runes-config.mjs";
 import {MODULE} from "../../constants.mjs";
 import {RecipeData} from "./recipe-item.mjs";
 
@@ -99,13 +100,37 @@ export class Crafting {
   }
 
   /**
-   * Inject dropdowns into loot item sheets for setting the resource type.
+   * Inject module fields into item sheets.
    * @param {ItemSheet} sheet
    * @param {HTMLElement} html
    */
   static async _renderItemSheet(sheet, [html]) {
-    if (sheet.document.type !== "loot") return;
+    const type = sheet.document.type;
+    if (type === "loot") await Crafting._renderLootItemDropdowns(sheet, html);
+    else if (["equipment", "tool", "weapon"].includes(type)) await Crafting._renderRunesData(sheet, html);
+    sheet.setPosition();
+  }
 
+  /**
+   * Render form group for runes.
+   * @param {ItemSheet} sheet
+   * @param {HTMLElement} html
+   */
+  static async _renderRunesData(sheet, html) {
+    const prof = html.querySelector(".form-group:has([name='system.proficient'])");
+    const data = sheet.document.flags[MODULE.ID]?.runes ?? {};
+    const div = document.createElement("DIV");
+    div.innerHTML = await renderTemplate("modules/mythacri-scripts/templates/parts/runes-item-property.hbs", data);
+    div.querySelector("[type=number]")?.addEventListener("focus", event => event.currentTarget.select());
+    prof.after(div.firstElementChild);
+  }
+
+  /**
+   * Inject dropdowns into loot item sheets for setting the resource type.
+   * @param {ItemSheet} sheet
+   * @param {HTMLElement} html
+   */
+  static async _renderLootItemDropdowns(sheet, html) {
     const data = sheet.document.getFlag(MODULE.ID, "resource") ?? {};
     const template = "modules/mythacri-scripts/templates/parts/resource-types.hbs";
     const div = document.createElement("DIV");
@@ -118,17 +143,75 @@ export class Crafting {
   }
 
   /**
-   * Inject crafting buttons into the character sheet.
+   * Inject module elements into the character sheet.
    * @param {ActorSheet5eCharacter} sheet
    * @param {HTMLElement} html
    */
   static async _renderCharacterSheet(sheet, [html]) {
+    // Render crafting buttons.
+    Crafting._renderCraftingButtons(sheet, html);
+
+    // Render rune configuration menus.
+    if (game.modules.get("babonus")?.active) {
+      for (const node of html.querySelectorAll(".tab.inventory .inventory-list .item")) {
+        const item = sheet.document.items.get(node.closest("[data-item-id]")?.dataset.itemId);
+        if (Crafting.itemCanHaveRunes(item)) Crafting._renderRunesOnItem(item, node);
+      }
+    }
+  }
+
+  /**
+   * Inject crafting buttons into the character sheet.
+   * @param {ActorSheet5eCharacter} sheet
+   * @param {HTMLElement} html
+   */
+  static async _renderCraftingButtons(sheet, html) {
     const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
     const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
     const div = document.createElement("DIV");
     div.innerHTML = await renderTemplate(template, buttons);
     div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
     html.querySelector(".center-pane .counters").append(...div.childNodes);
+  }
+
+  /**
+   * Inject runes config button on each relevant item.
+   * @param {Item5e} item
+   * @param {HTMLElement}
+   */
+  static async _renderRunesOnItem(item, html) {
+    const after = html.querySelector(".dnd5e.sheet.actor .inventory-list .item .item-name h4");
+    const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
+    const div = document.createElement("DIV");
+    const value = babonus.getCollection(item).filter(bonus => {
+      return bonus.enabled && bonus.flags[MODULE.ID]?.isRune;
+    }).length;
+    div.innerHTML = await renderTemplate(template, {...item.flags[MODULE.ID].runes, value: value});
+    div.querySelector("[data-action]").addEventListener("click", Crafting._onClickRunesConfig.bind(item));
+    after.after(div.firstElementChild);
+  }
+
+  /**
+   * Return whether an item can have runes on it.
+   * @param {Item5e} item
+   * @returns {boolean}
+   */
+  static itemCanHaveRunes(item) {
+    const runes = item?.flags[MODULE.ID]?.runes || {};
+    return runes.enabled && Number.isNumeric(runes.max) && (runes.max > 0);
+  }
+
+  /**
+   * Render runes config for the given item.
+   * @returns {null|RunesConfig}
+   */
+  static _onClickRunesConfig() {
+    const runes = babonus.getCollection(this).filter(bonus => bonus.flags[MODULE.ID]?.isRune);
+    if (!runes.length) {
+      ui.notifications.warn("MYTHACRI.CraftingNoRunesOnItem", {localize: true});
+      return null;
+    }
+    return new RunesConfig(this).render(true);
   }
 
   /**

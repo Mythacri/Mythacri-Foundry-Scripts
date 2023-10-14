@@ -1,0 +1,14 @@
+<div class="content">
+  <header>
+    {{localize "MYTHACRI.CraftingRunes"}}: {{value}} / {{max}}
+  </header>
+  {{#each bonuses}}
+  <div class="bonus" data-bonus-id="{{bonus.id}}">
+    <label>{{name}}</label>
+    <a {{#unless (and ../atMax (not enabled))}} data-action="toggle" {{/unless}}>
+      <i class="fa-solid fa-toggle-{{ifThen enabled 'on' 'off'}}"></i>
+    </a>
+    <div class="notes notification">{{{text}}}</div>
+  </div>
+  {{/each}}
+</div>
