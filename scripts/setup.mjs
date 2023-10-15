@@ -1,4 +1,4 @@
-import {Crafting} from "./modules/data/crafting/base-crafting.mjs";
+import {Crafting} from "./modules/data/crafting.mjs";
 import {Mayhem} from "./modules/data/mayhem.mjs";
 import {Resting} from "./modules/data/resting.mjs";
 import {PublicInterface} from "./modules/interface.mjs";
