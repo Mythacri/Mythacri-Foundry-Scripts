@@ -1,0 +1,20 @@
+<form class="dnd5e">
+  <p class="notes">{{localize "MYTHACRI.CraftingRuneTargetPick"}}</p>
+  <p><strong>{{bonus.name}}</strong></p>
+  <p class="notification">{{{bonus.description}}}</p>
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.CraftingRuneTarget"}}</label>
+    <div class="form-fields">
+      <select name="itemId">
+        <option>&mdash;</option>
+        {{#each targets as |items key|}}
+        {{log items}}
+        {{log key}}
+        <optgroup label="{{localize (concat 'TYPES.Item.' key 'Pl')}}">
+          {{selectOptions items labelAttr="name" nameAttr="id" sort=true}}
+        </optgroup>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</form>
