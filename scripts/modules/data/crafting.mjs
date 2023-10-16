@@ -1,8 +1,8 @@
-import {CraftingApplication} from "../../applications/crafting-application.mjs";
-import {RecipeSheet} from "../../applications/recipe-sheet.mjs";
-import {RunesConfig} from "../../applications/runes-config.mjs";
-import {MODULE} from "../../constants.mjs";
-import {RecipeData} from "./recipe-item.mjs";
+import {CraftingApplication} from "../applications/crafting-application.mjs";
+import {RecipeSheet} from "../applications/recipe-sheet.mjs";
+import {RunesConfig} from "../applications/runes-config.mjs";
+import {MODULE} from "../constants.mjs";
+import {RecipeData} from "./models/recipe-item.mjs";
 
 /** Utility export class. */
 export class Crafting {
@@ -28,8 +28,58 @@ export class Crafting {
       gem: {
         label: "MYTHACRI.ResourceTypeGem",
         subtypes: {
+          alexandrite: "MYTHACRI.ResourceGemAlexandrite",
+          amber: "MYTHACRI.ResourceGemAmber",
+          amethyst: "MYTHACRI.ResourceGemAmethyst",
+          aquamarine: "MYTHACRI.ResourceGemAquamarine",
+          azurite: "MYTHACRI.ResourceGemAzurite",
+          bandedAgate: "MYTHACRI.ResourceGemBandedAgate",
+          blackOpal: "MYTHACRI.ResourceGemBlackOpal",
+          blackPearl: "MYTHACRI.ResourceGemBlackPearl",
+          blackSapphire: "MYTHACRI.ResourceGemBlackSapphire",
+          bloodstone: "MYTHACRI.ResourceGemBloodstone",
+          blueQuartz: "MYTHACRI.ResourceGemBlueQuartz",
+          blueSapphire: "MYTHACRI.ResourceGemBlueSapphire",
+          blueSpinel: "MYTHACRI.ResourceGemBlueSpinel",
+          carnelian: "MYTHACRI.ResourceGemCarnelian",
+          chalcedony: "MYTHACRI.ResourceGemChalcedony",
+          chrysoberyl: "MYTHACRI.ResourceGemChrysoberyl",
+          chrysoprase: "MYTHACRI.ResourceGemChrysoprase",
+          citrine: "MYTHACRI.ResourceGemCitrine",
+          coral: "MYTHACRI.ResourceGemCoral",
+          diamond: "MYTHACRI.ResourceGemDiamond",
+          emerald: "MYTHACRI.ResourceGemEmerald",
+          eyeAgate: "MYTHACRI.ResourceGemEyeAgate",
+          fireOpal: "MYTHACRI.ResourceGemFireOpal",
+          garnet: "MYTHACRI.ResourceGemGarnet",
+          hematite: "MYTHACRI.ResourceGemHematite",
+          jacinth: "MYTHACRI.ResourceGemJacinth",
+          jade: "MYTHACRI.ResourceGemJade",
+          jasper: "MYTHACRI.ResourceGemJasper",
+          jet: "MYTHACRI.ResourceGemJet",
+          lapisLazuli: "MYTHACRI.ResourceGemLapisLazuli",
+          malachite: "MYTHACRI.ResourceGemMalachite",
+          moonstone: "MYTHACRI.ResourceGemMoonstone",
+          mossAgate: "MYTHACRI.ResourceGemMossAgate",
+          obsidian: "MYTHACRI.ResourceGemObsidian",
+          onyx: "MYTHACRI.ResourceGemOnyx",
+          opal: "MYTHACRI.ResourceGemOpal",
+          pearl: "MYTHACRI.ResourceGemPearl",
+          peridot: "MYTHACRI.ResourceGemPeridot",
+          quartz: "MYTHACRI.ResourceGemQuartz",
+          rhodochrosite: "MYTHACRI.ResourceGemRhodochrosite",
           ruby: "MYTHACRI.ResourceGemRuby",
-          emerald: "MYTHACRI.ResourceGemEmerald"
+          sardonyx: "MYTHACRI.ResourceGemSardonyx",
+          spinel: "MYTHACRI.ResourceGemSpinel",
+          starRoseQuartz: "MYTHACRI.ResourceGemStarRoseQuartz",
+          starRuby: "MYTHACRI.ResourceGemStarRuby",
+          starSapphire: "MYTHACRI.ResourceGemStarSapphire",
+          tigerEye: "MYTHACRI.ResourceGemTigerEye",
+          topaz: "MYTHACRI.ResourceGemTopaz",
+          tourmaline: "MYTHACRI.ResourceGemTourmaline",
+          turquoise: "MYTHACRI.ResourceGemTurquoise",
+          yellowSapphire: "MYTHACRI.ResourceGemYellowSapphire",
+          zircon: "MYTHACRI.ResourceGemZircon"
         }
       },
       essence: {
@@ -87,10 +137,19 @@ export class Crafting {
     };
   }
 
+  /**
+   * Valid item types for having runes.
+   * @type {string[]}
+   */
+  static get validRuneItemTypes() {
+    return ["equipment", "tool", "weapon"];
+  }
+
   /** Initialize crafting. */
   static init() {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
     Hooks.on("renderActorSheet5eCharacter", Crafting._renderCharacterSheet);
+    Hooks.on("dnd5e.preUseItem", Crafting._preUseItem);
     Crafting._characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
@@ -107,7 +166,7 @@ export class Crafting {
   static async _renderItemSheet(sheet, [html]) {
     const type = sheet.document.type;
     if (type === "loot") await Crafting._renderLootItemDropdowns(sheet, html);
-    else if (["equipment", "tool", "weapon"].includes(type)) await Crafting._renderRunesData(sheet, html);
+    else if (Crafting.validRuneItemTypes.includes(type)) await Crafting._renderRunesData(sheet, html);
     sheet.setPosition();
   }
 
@@ -313,5 +372,83 @@ export class Crafting {
         type: Boolean
       };
     }
+  }
+
+  /**
+   * Cancel the use of a consumable item if it is a rune, then execute transfer behaviour.
+   * @param {Item5e} item     The item being used.
+   * @returns {void|boolean}
+   */
+  static _preUseItem(item) {
+    if ((item.type !== "consumable") || (item.system.consumableType !== "rune")) return;
+    if (!game.modules.get("babonus")?.active) {
+      ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
+      return;
+    }
+    Crafting.promptRuneTransfer(item);
+    return false;
+  }
+
+  /**
+   * Initiate the dialog to transfer a rune from the consumable to target item.
+   * @param {Item5e} item                 The consumable rune's item.
+   * @returns {Promise<Item5e|null>}      The targeted item receiving the rune.
+   */
+  static async promptRuneTransfer(item) {
+    const targets = item.actor.items.reduce((acc, item) => {
+      if (!Crafting.validRuneItemTypes.includes(item.type)) return acc;
+      const {enabled, max} = item.flags[MODULE.ID]?.runes ?? {};
+      if (enabled && (max > 0)) acc[item.type].push(item);
+      return acc;
+    }, Object.fromEntries(Crafting.validRuneItemTypes.map(type => [type, []])));
+
+    if (!Object.values(targets).some(v => v.length > 0)) {
+      ui.notifications.warn("MYTHACRI.CraftingRuneTargetNoneAvailable", {localize: true});
+      return null;
+    }
+
+    const bonus = babonus.getCollection(item).find(bonus => bonus).toObject();
+    foundry.utils.mergeObject(bonus, {
+      [`flags.${MODULE.ID}.isRune`]: true,
+      name: game.i18n.format("MYTHACRI.CraftingRuneBonus", {name: bonus.name})
+    });
+
+    const itemId = await Dialog.prompt({
+      content: await renderTemplate("modules/mythacri-scripts/templates/runes-target.hbs", {bonus, targets}),
+      title: game.i18n.localize("MYTHACRI.CraftingApplyRune"),
+      label: game.i18n.localize("MYTHACRI.CraftingApplyRune"),
+      rejectClose: false,
+      callback: html => new FormDataExtended(html[0].querySelector("FORM")).object.itemId,
+      options: {id: `apply-rune-${item.uuid.replaceAll(".", "-")}`}
+    });
+    if (!itemId) return null;
+
+    const target = item.actor.items.get(itemId);
+    if (bonus.enabled) bonus.enabled = Crafting._determineSuppression(target);
+    const rune = babonus.createBabonus(bonus);
+    await Crafting.reduceOrDestroyConsumable(item);
+    return babonus.embedBabonus(target, rune);
+  }
+
+  /**
+   * Set the enabled state of the rune depending on whether its addition would put the target item over the maximum.
+   * @param {Item5e} item     The item receiving a rune.
+   * @returns {boolean}       The enabled state.
+   */
+  static _determineSuppression(item) {
+    const value = babonus.getCollection(item).filter(bonus => bonus.enabled && bonus.flags[MODULE.ID]?.isRune).length;
+    const max = item.getFlag(MODULE.ID, "runes.max") ?? 0;
+    return value < max;
+  }
+
+  /**
+   * Reduce the quantity of an item by 1. If that would reduce it to 0, delete it instead.
+   * @param {Item5e} item           The item to modify or delete.
+   * @returns {Promise<Item5e>}     The updated or deleted item.
+   */
+  static async reduceOrDestroyConsumable(item) {
+    const qty = item.system.quantity;
+    if (qty === 1) return item.delete();
+    else return item.update({"system.quantity": qty - 1});
   }
 }

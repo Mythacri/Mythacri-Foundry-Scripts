@@ -9,6 +9,7 @@ export class SystemConfig {
     SystemConfig._weaponProficiencies();
     SystemConfig._conditions();
     SystemConfig._currencies();
+    SystemConfig._consumableTypes();
   }
 
   static _featureTypes() {
@@ -138,5 +139,9 @@ export class SystemConfig {
   static _currencies() {
     // Remove electrum.
     delete CONFIG.DND5E.currencies.ep;
+  }
+
+  static _consumableTypes() {
+    CONFIG.DND5E.consumableTypes.rune = "MYTHACRI.ConsumableRune";
   }
 }

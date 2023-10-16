@@ -1,5 +1,5 @@
 import {MODULE} from "../constants.mjs";
-import {Crafting} from "../data/crafting/base-crafting.mjs";
+import {Crafting} from "../data/crafting.mjs";
 
 export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
 

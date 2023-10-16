@@ -1,5 +1,5 @@
 import {MODULE} from "../../constants.mjs";
-import {Crafting} from "./base-crafting.mjs";
+import {Crafting} from "../crafting.mjs";
 
 /**
  * Data model for `recipe` items.
