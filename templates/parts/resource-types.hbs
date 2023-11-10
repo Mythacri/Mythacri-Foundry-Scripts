@@ -1,42 +1,19 @@
 <div class="form-group">
-  <label>{{localize "MYTHACRI.ResourceLabelType"}}</label>
-  <select name="flags.mythacri-scripts.resource.type" {{disabled disable}}>
-    {{selectOptions typeOptions selected=type labelAttr="label" localize=true sort=true blank="-"}}
-  </select>
-</div>
-
-{{#if hasSubtype}}
-<div class="form-group">
   <label>{{localize subtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subtype" {{disabled disable}}>
-    {{#select subtype}}
-    <option value="">-</option>
-    <option value="*">{{localize "MYTHACRI.ResourceWildcard"}}</option>
     {{#if hasSubsubtype}}
-    {{#each subtypeOptions as |value key|}}
-    <option value="{{key}}">{{localize value.label}}</option>
-    {{/each}}
+    {{selectOptions subtypeOptions selected=subtype labelAttr="label" localize=true sort=true blank="-"}}
     {{else}}
-    {{#each subtypeOptions as |label key|}}
-    <option value="{{key}}">{{localize label}}</option>
-    {{/each}}
+    {{selectOptions subtypeOptions selected=subtype localize=true sort=true blank="-"}}
     {{/if}}
-    {{/select}}
   </select>
 </div>
 {{/if}}
-
 {{#if showSubsubtype}}
 <div class="form-group">
   <label>{{localize subsubtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subsubtype" {{disabled disable}}>
-    {{#select subsubtype}}
-    <option value="">-</option>
-    <option value="*">{{localize "MYTHACRI.ResourceWildcard"}}</option>
-    {{#each subsubtypeOptions as |label key|}}
-    <option value="{{key}}">{{localize label}}</option>
-    {{/each}}
-    {{/select}}
+    {{selectOptions subsubtypeOptions selected=subsubtype localize=true sort=true blank="-"}}
   </select>
 </div>
 {{/if}}
