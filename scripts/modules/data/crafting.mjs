@@ -341,6 +341,29 @@ export class Crafting {
   }
 
   /**
+   * Is this item a valid match for this part of the recipe?
+   * @param {Item5e} item     The item being tested.
+   * @param {string} id       The id in the recipe.
+   * @returns {boolean}       Whether the item can be used for this part of the recipe.
+   */
+  static validResourceForComponent(item, id) {
+    const [type, subtype, subsubtype] = id.split(".");
+    const hasWildcard = (subtype === "*") || ((type === "monster") && (subsubtype === "*"));
+
+    const identifier = Crafting.getIdentifier(item);
+    if (!identifier) return false;
+    if (!hasWildcard) return identifier === id;
+
+    const [itype, isubtype, isubsubtype] = identifier.split(".");
+    if (type !== itype) return false;
+
+    const validSub = (subtype === isubtype) || (subtype === "*");
+    if (!validSub) return false;
+
+    return (type === "monster") ? ((subsubtype === isubsubtype) || (subsubtype === "*")) : true;
+  }
+
+  /**
    * Get a human-readable label from a resource identifier.
    * @param {string} id
    * @returns {string}
