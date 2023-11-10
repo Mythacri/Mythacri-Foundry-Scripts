@@ -290,10 +290,10 @@ export class Crafting {
       ...data,
       typeOptions: typeOptions,
       subtypeOptions: subtypeOptions,
-      subsubtypeOptions: subsubtypeOptions,
-      hasSubtype: !foundry.utils.isEmpty(subtypeOptions),
+      subsubtypeOptions: (data.type === "monster") ? Crafting.subsubtypes : subsubtypeOptions,
+      hasSubtype: data.type in typeOptions,
       hasSubsubtype: data.type === "monster",
-      showSubsubtype: !foundry.utils.isEmpty(subsubtypeOptions),
+      showSubsubtype: (data.type === "monster") && ((data.subtype === "*") || (data.subtype in CONFIG.DND5E.creatureTypes)),
       subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
       subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`
     };
