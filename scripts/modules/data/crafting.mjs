@@ -20,67 +20,96 @@ export class Crafting {
   }
 
   /**
+   * Monster sub-subtypes. The parts that can be harvested for physical parts.
+   * @type {object}
+   */
+  static get subsubtypes() {
+    return {
+      acid: "MYTHACRI.ResourceMonsterAcid",
+      antenna: "MYTHACRI.ResourceMonsterAntenna",
+      antler: "MYTHACRI.ResourceMonsterAntler",
+      blood: "MYTHACRI.ResourceMonsterBlood",
+      bone: "MYTHACRI.ResourceMonsterBone",
+      brain: "MYTHACRI.ResourceMonsterBrain",
+      breathSac: "MYTHACRI.ResourceMonsterBreathSac",
+      carapace: "MYTHACRI.ResourceMonsterCarapace",
+      claws: "MYTHACRI.ResourceMonsterClaws",
+      dust: "MYTHACRI.ResourceMonsterDust",
+      egg: "MYTHACRI.ResourceMonsterEgg",
+      etherealIchor: "MYTHACRI.ResourceMonsterEtherealIchor",
+      eye: "MYTHACRI.ResourceMonsterEye",
+      fat: "MYTHACRI.ResourceMonsterFat",
+      feathers: "MYTHACRI.ResourceMonsterFeathers",
+      fin: "MYTHACRI.ResourceMonsterFin",
+      flesh: "MYTHACRI.ResourceMonsterFlesh",
+      heart: "MYTHACRI.ResourceMonsterHeart",
+      hide: "MYTHACRI.ResourceMonsterHide",
+      horn: "MYTHACRI.ResourceMonsterHorn",
+      instructions: "MYTHACRI.ResourceMonsterInstructions",
+      liver: "MYTHACRI.ResourceMonsterLiver",
+      mainEye: "MYTHACRI.ResourceMonsterMainEye",
+      mote: "MYTHACRI.ResourceMonsterMote",
+      mucus: "MYTHACRI.ResourceMonsterMucus",
+      oil: "MYTHACRI.ResourceMonsterOil",
+      pincer: "MYTHACRI.ResourceMonsterPincer",
+      plating: "MYTHACRI.ResourceMonsterPlating",
+      poisonGland: "MYTHACRI.ResourceMonsterPoisonGland",
+      sap: "MYTHACRI.ResourceMonsterSap",
+      scales: "MYTHACRI.ResourceMonsterScales",
+      skin: "MYTHACRI.ResourceMonsterSkin",
+      stinger: "MYTHACRI.ResourceMonsterStinger",
+      talon: "MYTHACRI.ResourceMonsterTalon",
+      teeth: "MYTHACRI.ResourceMonsterTeeth",
+      tentacle: "MYTHACRI.ResourceMonsterTentacle",
+      tusk: "MYTHACRI.ResourceMonsterTusk"
+    };
+  }
+
+  /**
+   * Gem subtypes.
+   * @type {object}
+   */
+  static get gemSubtypes() {
+    return {
+      amber: "MYTHACRI.ResourceGemAmber",
+      amethyst: "MYTHACRI.ResourceGemAmethyst",
+      aquamarine: "MYTHACRI.ResourceGemAquamarine",
+      citrine: "MYTHACRI.ResourceGemCitrine",
+      diamond: "MYTHACRI.ResourceGemDiamond",
+      emerald: "MYTHACRI.ResourceGemEmerald",
+      garnet: "MYTHACRI.ResourceGemGarnet",
+      jade: "MYTHACRI.ResourceGemJade",
+      jasper: "MYTHACRI.ResourceGemJasper",
+      jet: "MYTHACRI.ResourceGemJet",
+      lapisLazuli: "MYTHACRI.ResourceGemLapisLazuli",
+      moonstone: "MYTHACRI.ResourceGemMoonstone",
+      mossAgate: "MYTHACRI.ResourceGemMossAgate",
+      obsidian: "MYTHACRI.ResourceGemObsidian",
+      onyx: "MYTHACRI.ResourceGemOnyx",
+      opal: "MYTHACRI.ResourceGemOpal",
+      pearl: "MYTHACRI.ResourceGemPearl",
+      peridot: "MYTHACRI.ResourceGemPeridot",
+      quartz: "MYTHACRI.ResourceGemQuartz",
+      ruby: "MYTHACRI.ResourceGemRuby",
+      sapphire: "MYTHACRI.ResourceGemSapphire",
+      spinel: "MYTHACRI.ResourceGemSpinel",
+      topaz: "MYTHACRI.ResourceGemTopaz",
+      turquoise: "MYTHACRI.ResourceGemTurquoise",
+      zircon: "MYTHACRI.ResourceGemZircon"
+    };
+  }
+
+  /**
    * Resource config.
    * @type {object}
    */
   static get resourceTypes() {
+    const subsubtypes = Crafting.subsubtypes;
+    const gemTypes = Crafting.gemSubtypes;
     return {
       gem: {
         label: "MYTHACRI.ResourceTypeGem",
-        subtypes: {
-          alexandrite: "MYTHACRI.ResourceGemAlexandrite",
-          amber: "MYTHACRI.ResourceGemAmber",
-          amethyst: "MYTHACRI.ResourceGemAmethyst",
-          aquamarine: "MYTHACRI.ResourceGemAquamarine",
-          azurite: "MYTHACRI.ResourceGemAzurite",
-          bandedAgate: "MYTHACRI.ResourceGemBandedAgate",
-          blackOpal: "MYTHACRI.ResourceGemBlackOpal",
-          blackPearl: "MYTHACRI.ResourceGemBlackPearl",
-          blackSapphire: "MYTHACRI.ResourceGemBlackSapphire",
-          bloodstone: "MYTHACRI.ResourceGemBloodstone",
-          blueQuartz: "MYTHACRI.ResourceGemBlueQuartz",
-          blueSapphire: "MYTHACRI.ResourceGemBlueSapphire",
-          blueSpinel: "MYTHACRI.ResourceGemBlueSpinel",
-          carnelian: "MYTHACRI.ResourceGemCarnelian",
-          chalcedony: "MYTHACRI.ResourceGemChalcedony",
-          chrysoberyl: "MYTHACRI.ResourceGemChrysoberyl",
-          chrysoprase: "MYTHACRI.ResourceGemChrysoprase",
-          citrine: "MYTHACRI.ResourceGemCitrine",
-          coral: "MYTHACRI.ResourceGemCoral",
-          diamond: "MYTHACRI.ResourceGemDiamond",
-          emerald: "MYTHACRI.ResourceGemEmerald",
-          eyeAgate: "MYTHACRI.ResourceGemEyeAgate",
-          fireOpal: "MYTHACRI.ResourceGemFireOpal",
-          garnet: "MYTHACRI.ResourceGemGarnet",
-          hematite: "MYTHACRI.ResourceGemHematite",
-          jacinth: "MYTHACRI.ResourceGemJacinth",
-          jade: "MYTHACRI.ResourceGemJade",
-          jasper: "MYTHACRI.ResourceGemJasper",
-          jet: "MYTHACRI.ResourceGemJet",
-          lapisLazuli: "MYTHACRI.ResourceGemLapisLazuli",
-          malachite: "MYTHACRI.ResourceGemMalachite",
-          moonstone: "MYTHACRI.ResourceGemMoonstone",
-          mossAgate: "MYTHACRI.ResourceGemMossAgate",
-          obsidian: "MYTHACRI.ResourceGemObsidian",
-          onyx: "MYTHACRI.ResourceGemOnyx",
-          opal: "MYTHACRI.ResourceGemOpal",
-          pearl: "MYTHACRI.ResourceGemPearl",
-          peridot: "MYTHACRI.ResourceGemPeridot",
-          quartz: "MYTHACRI.ResourceGemQuartz",
-          rhodochrosite: "MYTHACRI.ResourceGemRhodochrosite",
-          ruby: "MYTHACRI.ResourceGemRuby",
-          sardonyx: "MYTHACRI.ResourceGemSardonyx",
-          spinel: "MYTHACRI.ResourceGemSpinel",
-          starRoseQuartz: "MYTHACRI.ResourceGemStarRoseQuartz",
-          starRuby: "MYTHACRI.ResourceGemStarRuby",
-          starSapphire: "MYTHACRI.ResourceGemStarSapphire",
-          tigerEye: "MYTHACRI.ResourceGemTigerEye",
-          topaz: "MYTHACRI.ResourceGemTopaz",
-          tourmaline: "MYTHACRI.ResourceGemTourmaline",
-          turquoise: "MYTHACRI.ResourceGemTurquoise",
-          yellowSapphire: "MYTHACRI.ResourceGemYellowSapphire",
-          zircon: "MYTHACRI.ResourceGemZircon"
-        }
+        subtypes: gemTypes
       },
       essence: {
         label: "MYTHACRI.ResourceTypeEssence",
@@ -91,45 +120,7 @@ export class Crafting {
         subtypes: Object.entries(CONFIG.DND5E.creatureTypes).reduce((acc, [key, label]) => {
           acc[key] = {
             label: label,
-            subsubtypes: {
-              acid: "MYTHACRI.ResourceMonsterAcid",
-              antenna: "MYTHACRI.ResourceMonsterAntenna",
-              antler: "MYTHACRI.ResourceMonsterAntler",
-              blood: "MYTHACRI.ResourceMonsterBlood",
-              bone: "MYTHACRI.ResourceMonsterBone",
-              brain: "MYTHACRI.ResourceMonsterBrain",
-              breathSac: "MYTHACRI.ResourceMonsterBreathSac",
-              carapace: "MYTHACRI.ResourceMonsterCarapace",
-              claws: "MYTHACRI.ResourceMonsterClaws",
-              dust: "MYTHACRI.ResourceMonsterDust",
-              egg: "MYTHACRI.ResourceMonsterEgg",
-              etherealIchor: "MYTHACRI.ResourceMonsterEtherealIchor",
-              eye: "MYTHACRI.ResourceMonsterEye",
-              fat: "MYTHACRI.ResourceMonsterFat",
-              feathers: "MYTHACRI.ResourceMonsterFeathers",
-              fin: "MYTHACRI.ResourceMonsterFin",
-              flesh: "MYTHACRI.ResourceMonsterFlesh",
-              heart: "MYTHACRI.ResourceMonsterHeart",
-              hide: "MYTHACRI.ResourceMonsterHide",
-              horn: "MYTHACRI.ResourceMonsterHorn",
-              instructions: "MYTHACRI.ResourceMonsterInstructions",
-              liver: "MYTHACRI.ResourceMonsterLiver",
-              mainEye: "MYTHACRI.ResourceMonsterMainEye",
-              mote: "MYTHACRI.ResourceMonsterMote",
-              mucus: "MYTHACRI.ResourceMonsterMucus",
-              oil: "MYTHACRI.ResourceMonsterOil",
-              pincer: "MYTHACRI.ResourceMonsterPincer",
-              plating: "MYTHACRI.ResourceMonsterPlating",
-              poisonGland: "MYTHACRI.ResourceMonsterPoisonGland",
-              sap: "MYTHACRI.ResourceMonsterSap",
-              scales: "MYTHACRI.ResourceMonsterScales",
-              skin: "MYTHACRI.ResourceMonsterSkin",
-              stinger: "MYTHACRI.ResourceMonsterStinger",
-              talon: "MYTHACRI.ResourceMonsterTalon",
-              teeth: "MYTHACRI.ResourceMonsterTeeth",
-              tentacle: "MYTHACRI.ResourceMonsterTentacle",
-              tusk: "MYTHACRI.ResourceMonsterTusk"
-            }
+            subsubtypes: subsubtypes
           };
           return acc;
         }, {})
@@ -322,7 +313,7 @@ export class Crafting {
     let id = `${data.type}.${data.subtype}`;
     if (data.type === "monster") id += `.${data.subsubtype}`;
 
-    const valid = Crafting.validIdentifier(id);
+    const valid = Crafting.validIdentifier(id, {allowWildCard: false});
     if (!valid) return null;
 
     return id;
@@ -330,15 +321,23 @@ export class Crafting {
 
   /**
    * Is this resource identifier valid?
-   * @param {string} id     A string id, usually of the form `monster.celestial.eye`.
+   * @param {string} id                         A string id, usually of the form `monster.celestial.eye`.
+   * @param {boolean} [allowWildCard=true]      Is the wildcard token `*` allowed?
    * @returns {boolean}
    */
-  static validIdentifier(id) {
+  static validIdentifier(id, {allowWildCard=true}={}) {
     const [type, subtype, subsubtype] = id?.split(".") ?? [];
     const types = Crafting.resourceTypes;
     let path = `${type}.subtypes.${subtype}`;
-    if (type === "monster") path += `.subsubtypes.${subsubtype}`;
-    return foundry.utils.hasProperty(types, path);
+
+    if (type !== "monster") {
+      if (subtype === "*") return allowWildCard && (type in types);
+      return foundry.utils.hasProperty(types, path);
+    }
+
+    // Special handling for monster parts.
+    const validSubsub = ((subsubtype === "*") && allowWildCard) || (subsubtype in Crafting.subsubtypes);
+    return validSubsub && (((subtype === "*") && allowWildCard) || (subtype in CONFIG.DND5E.creatureTypes));
   }
 
   /**
@@ -347,16 +346,39 @@ export class Crafting {
    * @returns {string}
    */
   static getLabel(id) {
-    const types = Crafting.resourceTypes;
     const [type, subtype, subsubtype] = id.split(".");
-    const subtypeObj = types[type].subtypes[subtype];
-    const subsubtypeLabel = subsubtype ? subtypeObj.subsubtypes[subsubtype] : null;
-    const data = {
+    if (["gem", "essence"].includes(type)) return Crafting._getLabel(type, subtype);
+    if (type === "monster") return Crafting._getMonsterLabel(type, subtype, subsubtype);
+  }
+  static _getLabel(type, subtype) {
+    if (subtype === "*") return game.i18n.localize(`MYTHACRI.ResourceTypeLabel${type.capitalize()}Wildcard`);
+    const types = Crafting.resourceTypes;
+    return game.i18n.format(`MTYHACRI.ResourceTypeLabel${type.localize()}`, {
       type: game.i18n.localize(types[type].label),
-      subtype: game.i18n.localize(!subsubtype ? subtypeObj : subtypeObj.label),
-      subsubtype: subsubtypeLabel ? game.i18n.localize(subsubtypeLabel) : null
+      subtype: game.i18n.localize(types[type].subtypes[subtype])
+    });
+  }
+  static _getMonsterLabel(type, subtype, subsubtype) {
+    if ((subtype === "*") && (subsubtype === "*")) return Crafting._getLabel(type, subtype);
+
+    if (subtype === "*") {
+      return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubtype", {
+        subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype])
+      });
+    }
+
+    if (subsubtype === "*") {
+      return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubsubtype", {
+        subtype: game.i18n.localize(CONFIG.DND5E.creatureTypes[subtype])
+      });
+    }
+
+    const data = {
+      type: game.i18n.localize("MYTHACRI.ResourceTypeMonster"),
+      subtype: game.i18n.localize(CONFIG.DND5E.creatureTypes[subtype]),
+      subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype])
     };
-    return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, data);
+    return game.i18n.format("MYTHACRI.ResourceTypeLabelMonster", data);
   }
 
   /**

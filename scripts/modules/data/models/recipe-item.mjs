@@ -85,7 +85,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   getComponents() {
     return this.crafting.components.reduce((acc, c) => {
       const id = c.identifier;
-      if (Crafting.validIdentifier(id)) {
+      if (Crafting.validIdentifier(id, {allowWildcard: true})) {
         acc[id] ??= 0;
         acc[id] += (c.quantity || 1);
       }
@@ -98,7 +98,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @type {boolean}
    */
   get hasComponents() {
-    return this.crafting.components.some(c => Crafting.validIdentifier(c.identifier));
+    return this.crafting.components.some(c => Crafting.validIdentifier(c.identifier, {allowWildcard: true}));
   }
 
   /**

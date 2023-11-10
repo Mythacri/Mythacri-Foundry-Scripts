@@ -9,11 +9,19 @@
 <div class="form-group">
   <label>{{localize subtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subtype" {{disabled disable}}>
+    {{#select subtype}}
+    <option value="">-</option>
+    <option value="*">{{localize "MYTHACRI.ResourceWildcard"}}</option>
     {{#if hasSubsubtype}}
-    {{selectOptions subtypeOptions selected=subtype labelAttr="label" localize=true sort=true blank="-"}}
+    {{#each subtypeOptions as |value key|}}
+    <option value="{{key}}">{{localize value.label}}</option>
+    {{/each}}
     {{else}}
-    {{selectOptions subtypeOptions selected=subtype localize=true sort=true blank="-"}}
+    {{#each subtypeOptions as |label key|}}
+    <option value="{{key}}">{{localize label}}</option>
+    {{/each}}
     {{/if}}
+    {{/select}}
   </select>
 </div>
 {{/if}}
@@ -22,7 +30,13 @@
 <div class="form-group">
   <label>{{localize subsubtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subsubtype" {{disabled disable}}>
-    {{selectOptions subsubtypeOptions selected=subsubtype localize=true sort=true blank="-"}}
+    {{#select subsubtype}}
+    <option value="">-</option>
+    <option value="*">{{localize "MYTHACRI.ResourceWildcard"}}</option>
+    {{#each subsubtypeOptions as |label key|}}
+    <option value="{{key}}">{{localize label}}</option>
+    {{/each}}
+    {{/select}}
   </select>
 </div>
 {{/if}}
