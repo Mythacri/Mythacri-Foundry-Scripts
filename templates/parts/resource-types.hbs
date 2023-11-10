@@ -1,4 +1,12 @@
 <div class="form-group">
+  <label>{{localize "MYTHACRI.ResourceLabelType"}}</label>
+  <select name="flags.mythacri-scripts.resource.type" {{disabled disable}}>
+    {{selectOptions typeOptions selected=type labelAttr="label" localize=true sort=true blank="-"}}
+  </select>
+</div>
+
+{{#if hasSubtype}}
+<div class="form-group">
   <label>{{localize subtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subtype" {{disabled disable}}>
     {{#if hasSubsubtype}}
@@ -9,6 +17,7 @@
   </select>
 </div>
 {{/if}}
+
 {{#if showSubsubtype}}
 <div class="form-group">
   <label>{{localize subsubtypeLabel}}</label>
