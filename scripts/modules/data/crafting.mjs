@@ -290,10 +290,10 @@ export class Crafting {
       ...data,
       typeOptions: typeOptions,
       subtypeOptions: subtypeOptions,
-      subsubtypeOptions: (data.type === "monster") ? Crafting.subsubtypes : subsubtypeOptions,
-      hasSubtype: data.type in typeOptions,
+      subsubtypeOptions: subsubtypeOptions,
+      hasSubtype: !foundry.utils.isEmpty(subtypeOptions),
       hasSubsubtype: data.type === "monster",
-      showSubsubtype: (data.type === "monster") && ((data.subtype === "*") || (data.subtype in CONFIG.DND5E.creatureTypes)),
+      showSubsubtype: !foundry.utils.isEmpty(subsubtypeOptions),
       subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
       subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`
     };
@@ -325,7 +325,7 @@ export class Crafting {
    * @param {boolean} [allowWildCard=true]      Is the wildcard token `*` allowed?
    * @returns {boolean}
    */
-  static validIdentifier(id, {allowWildCard=true}={}) {
+  static validIdentifier(id, {allowWildCard = true} = {}) {
     const [type, subtype, subsubtype] = id?.split(".") ?? [];
     const types = Crafting.resourceTypes;
     let path = `${type}.subtypes.${subtype}`;
