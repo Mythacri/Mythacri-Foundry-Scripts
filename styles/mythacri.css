@@ -270,8 +270,8 @@
 .mythacri-scripts.crafting-handler {
   min-height: 100px;
   max-height: 90%;
-  width: auto !important;
   min-width: 200px;
+  width: auto;
 }
 .mythacri-scripts.crafting-handler img {
   border-radius: 5px;
@@ -286,8 +286,9 @@
   justify-content: center;
   align-items: center;
   font-size: 20px;
+  gap: 5px;
   border-bottom: 3px groove;
-  padding-bottom: 1em;
+  padding-bottom: 10px;
 }
 .mythacri-scripts.crafting-handler .header img {
   height: 50px;
@@ -322,7 +323,7 @@
   filter: grayscale(1);
 }
 .mythacri-scripts.crafting-handler .components .component-header {
-  border-bottom: 2px groove;
+  border-bottom: 2px solid;
   flex: none;
   padding-bottom: 1em;
   padding-top: 0.5em;
@@ -335,6 +336,8 @@
   font-weight: bold;
   font-family: "Modesto Condensed";
   font-size: 20px;
+  white-space: nowrap;
+  padding: 0 10px;
 }
 .mythacri-scripts.crafting-handler .craft {
   margin-top: 5px;

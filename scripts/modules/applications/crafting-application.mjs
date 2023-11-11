@@ -190,7 +190,7 @@ class CraftingHandler extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-handler.hbs",
       classes: [MODULE.ID, "crafting-handler"],
-      width: 400
+      width: "auto"
     });
   }
 
