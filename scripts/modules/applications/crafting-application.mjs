@@ -108,11 +108,8 @@ export class CraftingApplication extends Application {
   canCreateRecipe(item) {
     const components = item.system.getComponents();
     const resources = this.actor.items.reduce((acc, item) => {
-      const id = Crafting.getIdentifier(item);
-      if (id && (id in components)) {
-        acc[id] ??= 0;
-        acc[id] += item.system.quantity;
-      }
+      const validFor = Object.keys(components).find(id => Crafting.validResourceForComponent(item, id));
+      if (validFor) acc[validFor] = Math.max(acc[validFor] ?? 0, item.system.quantity);
       return acc;
     }, {});
     for (const key in components) {
@@ -132,8 +129,7 @@ export class CraftingApplication extends Application {
    */
   static getPossibleResources(actor, id, value = 1) {
     return actor.items.filter(item => {
-      const identifier = Crafting.getIdentifier(item);
-      return identifier && (identifier === id) && (item.system.quantity >= value);
+      return Crafting.validResourceForComponent(item, id) && (item.system.quantity >= value);
     });
   }
 
@@ -194,7 +190,7 @@ class CraftingHandler extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-handler.hbs",
       classes: [MODULE.ID, "crafting-handler"],
-      width: 400
+      width: "auto"
     });
   }
 
