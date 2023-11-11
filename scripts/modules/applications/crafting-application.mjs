@@ -129,7 +129,7 @@ export class CraftingApplication extends Application {
    */
   static getPossibleResources(actor, id, value = 1) {
     return actor.items.filter(item => {
-      return Crafting.validResourceForComponent(item, id) && (item.system.quantity > value);
+      return Crafting.validResourceForComponent(item, id) && (item.system.quantity >= value);
     });
   }
 
