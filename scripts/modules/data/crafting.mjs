@@ -167,12 +167,13 @@ export class Crafting {
    * @param {HTMLElement} html
    */
   static async _renderRunesData(sheet, html) {
-    const prof = html.querySelector(".form-group:has([name='system.proficient'])");
+    const node = html.querySelector("[name='system.proficient'], [name='system.armor.value']");
     const data = sheet.document.flags[MODULE.ID]?.runes ?? {};
     const div = document.createElement("DIV");
     div.innerHTML = await renderTemplate("modules/mythacri-scripts/templates/parts/runes-item-property.hbs", data);
     div.querySelector("[type=number]")?.addEventListener("focus", event => event.currentTarget.select());
-    prof.after(div.firstElementChild);
+    if (node?.name === "system.proficient") node.closest(".form-group").after(div.firstElementChild);
+    else if (node?.name === "system.armor.value") node.closest(".form-group").before(div.firstElementChild);
   }
 
   /**
