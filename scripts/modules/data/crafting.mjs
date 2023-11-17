@@ -277,10 +277,10 @@ export class Crafting {
 
   /**
    * Utility function for the template data of the triple dropdowns for resource items.
-   * @param {object} data
-   * @param {string} data.type
-   * @param {string} data.subtype
-   * @param {string} data.subsubtype
+   * @param {object} data                 Flag data.
+   * @param {string} data.type            The stored type.
+   * @param {string} data.subtype         The stored subtype.
+   * @param {string} data.subsubtype      The stored sub-subtype.
    * @returns {object}
    */
   static getTemplateData(data = {}) {
@@ -377,7 +377,7 @@ export class Crafting {
   static _getLabel(type, subtype) {
     if (subtype === "*") return game.i18n.localize(`MYTHACRI.ResourceTypeLabel${type.capitalize()}Wildcard`);
     const types = Crafting.resourceTypes;
-    return game.i18n.format(`MTYHACRI.ResourceTypeLabel${type.localize()}`, {
+    return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, {
       type: game.i18n.localize(types[type].label),
       subtype: game.i18n.localize(types[type].subtypes[subtype])
     });
