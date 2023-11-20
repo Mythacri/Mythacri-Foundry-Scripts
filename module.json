@@ -12,13 +12,23 @@
         "id": "mythacri-shared-compendium",
         "type": "module",
         "compatibility": {}
+      },
+      {
+        "id": "babonus",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "concentrationnotifier",
+        "type": "module",
+        "compatibility": {}
       }
     ]
   },
   "authors": [
     {
       "name": "Mythacri",
-      "discord": "Mythacri",
+      "discord": "mythacri",
       "flags": {}
     }
   ],

@@ -22,7 +22,7 @@ export class Mayhem extends foundry.abstract.DataModel {
   static #preUseItem(item, config, options) {
     if (!game.user.isGM) return;
     const isMayhem = item.system.activation.type === "mayhem";
-    if (isMayhem) config.needsConfiguration = config.consumeMayhem = true;
+    if (isMayhem) config.consumeMayhem = true;
   }
 
   /**
@@ -137,7 +137,7 @@ export class Mayhem extends foundry.abstract.DataModel {
   canDeduct(value) {
     if (Number.isNumeric(value)) value = Number(value);
     else return false;
-    return value.between(1, this.points);
+    return (value <= this.points);
   }
 
   /**

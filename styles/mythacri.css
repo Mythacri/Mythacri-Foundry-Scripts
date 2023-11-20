@@ -74,6 +74,7 @@
 /* ------------------------------ */
 .dnd5e.sheet.item select[name^="flags.mythacri-scripts.resource"] {
   border: none;
+  margin-left: 3px;
 }
 .dnd5e.sheet.item .form-group.runes input[type="number"] {
   flex: 0 0 50px;
