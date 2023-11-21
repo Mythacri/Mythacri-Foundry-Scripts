@@ -1,6 +1,9 @@
+/**
+ * Extend the functionality of the 'Concentration Notifier' module for witch hexes.
+ */
 export class Concentration {
+  /** Initialize module. */
   static init() {
-
     if (!game.modules.get("concentrationnotifier")?.active) {
       console.warn("Concentration Notifier is needed to track extra types of concentration.");
       return;

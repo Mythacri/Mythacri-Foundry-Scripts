@@ -1,8 +1,16 @@
 import {MODULE} from "../constants.mjs";
 
+/**
+ * Application for managing runes on an item.
+ */
 export class RunesConfig extends Application {
-  constructor(item) {
-    super();
+  /**
+   * @constructor
+   * @param {Item5e} item             The item with bonuses.
+   * @param {object} [options={}]     Rendering options.
+   */
+  constructor(item, options={}) {
+    super(options);
     this.item = item;
   }
 

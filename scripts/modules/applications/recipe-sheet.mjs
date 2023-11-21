@@ -1,8 +1,10 @@
 import {MODULE} from "../constants.mjs";
 import {Crafting} from "../data/crafting.mjs";
 
+/**
+ * Item sheet for recipe-type items.
+ */
 export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
-
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {

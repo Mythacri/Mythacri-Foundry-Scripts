@@ -1,5 +1,8 @@
 import {MODULE} from "../constants.mjs";
 
+/**
+ * Soundboard application for previewing and playing sound files.
+ */
 export class Soundboard extends Application {
   /**
    * Initialize the soundboard.
@@ -17,8 +20,12 @@ export class Soundboard extends Application {
     return new Soundboard().render(true);
   }
 
-  constructor() {
-    super();
+  /**
+   * @constructor
+   * @param {object} [options={}]     Rendering options.
+   */
+  constructor(options={}) {
+    super(options);
     this.path = game.settings.get(MODULE.ID, "identifiers").paths.soundboard;
   }
 
@@ -27,7 +34,7 @@ export class Soundboard extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/soundboard.hbs",
       classes: [MODULE.ID, "soundboard"],
-      minimizable: false,
+      minimizable: false
     });
   }
 
