@@ -37,6 +37,8 @@
   "MYTHACRI.CraftingSectionSpirit": "Spirit Binding",
   "MYTHACRI.CraftingSectionSpiritHint": "Enable 'Spirit Binding' for this actor.",
   "MYTHACRI.CraftingUnavailable": "Unavailable Recipes",
+  "MYTHACRI.CurrencyAbbrMarbles": "Mrb",
+  "MYTHACRI.CurrencyMarbles": "Marbles",
   "MYTHACRI.EncounterContent": "Roll a d12 to help determine a random encounter. The GM will be rolling {amount}d12.",
   "MYTHACRI.EncounterGMRolls": "Game Master Rolls",
   "MYTHACRI.EncounterPromptUsers": "Prompt Players",
