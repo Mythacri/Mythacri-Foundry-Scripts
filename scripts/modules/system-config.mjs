@@ -137,8 +137,23 @@ export class SystemConfig {
   }
 
   static _currencies() {
-    // Remove electrum.
-    delete CONFIG.DND5E.currencies.ep;
+    // Remove all currencies, replacing them with 'marbles'.
+    foundry.utils.mergeObject(CONFIG.DND5E.currencies, {
+      "-=cp": null,
+      "-=sp": null,
+      "-=ep": null,
+      "-=gp": null,
+      "-=pp": null,
+      mrb: {
+        abbreviation: "MYTHACRI.CurrencyAbbrMarbles",
+        conversion: 1,
+        label: "MYTHACRI.CurrencyMarbles"
+      }
+    }, {performDeletions: true});
+
+    // Change currency weight (marbles weigh half as much as a coin).
+    CONFIG.DND5E.encumbrance.currencyPerWeight.imperial *= 2;
+    CONFIG.DND5E.encumbrance.currencyPerWeight.metric *= 2;
   }
 
   static _consumableTypes() {
