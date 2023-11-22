@@ -28,6 +28,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     data.recipeTypes = Crafting.recipeTypes;
     data.recipeTarget = await this._validTargetItemLink();
     data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";
+    data.descriptionHTML = await TextEditor.enrichHTML(this.document.system.description.value, {async: true});
 
     const isBasic = this.document.system.crafting.basic;
     if (!isBasic) {
