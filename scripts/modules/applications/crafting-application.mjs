@@ -1,9 +1,18 @@
 import {MODULE} from "../constants.mjs";
 import {Crafting} from "../data/crafting.mjs";
 
+/**
+ * Main crafting application class to handle all types of crafting.
+ */
 export class CraftingApplication extends Application {
-  constructor(actor, type) {
-    super();
+  /**
+   * @constructor
+   * @param {Actor5e} actor           The crafting actor.
+   * @param {string} type             The type of crafting.
+   * @param {object} [options={}]     Rendering options.
+   */
+  constructor(actor, type, options = {}) {
+    super(options);
     this.actor = actor;
     this.type = type;
   }
@@ -178,9 +187,18 @@ export class CraftingApplication extends Application {
   }
 }
 
+/**
+ * Subapplication to handle crafting of a single recipe.
+ */
 class CraftingHandler extends Application {
-  constructor(actor, recipe) {
-    super();
+  /**
+   * @constructor
+   * @param {Actor5e} actor           The actor crafting.
+   * @param {Item5e} recipe           The recipe item.
+   * @param {object} [options={}]     Rendering options.
+   */
+  constructor(actor, recipe, options = {}) {
+    super(options);
     this.actor = actor;
     this.recipe = recipe;
   }
