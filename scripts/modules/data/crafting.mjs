@@ -300,7 +300,7 @@ export class Crafting {
       subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
       subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`,
       isEssence: isEssence,
-      gradeOptions: Array.fromRange(6, 1).reduce((acc, n) => Object.assign(acc, {[n]: n.ordinalString()}), {})
+      gradeOptions: Object.fromEntries(Array.fromRange(6, 1).map(n => [n, n.ordinalString()]))
     };
 
     return templateData;
