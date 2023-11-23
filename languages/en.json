@@ -14,6 +14,8 @@
   "MYTHACRI.CraftingAvailable": "Available Recipes",
   "MYTHACRI.CraftingConfigureRunes": "Configure Runes",
   "MYTHACRI.CraftingConfirm": "Confirm",
+  "MYTHACRI.CraftingConsumeSpiritItemHint": "Destroy this item and learn the {name} technique?",
+  "MYTHACRI.CraftingConsumeSpiritItemTitle": "Spiritbinding: {name}",
   "MYTHACRI.CraftingCreate": "Create",
   "MYTHACRI.CraftingHandlerHint": "The required components are displayed here. Your items that can be used to fill in for each component are displayed below.",
   "MYTHACRI.CraftingHandlerTitle": "Recipe: {name}",

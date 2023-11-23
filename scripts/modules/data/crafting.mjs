@@ -492,9 +492,12 @@ export class Crafting {
    * @returns {Promise<Item5e|null>}      The created item.
    */
   static async promptSpiritTransfer(item) {
-    const confirm = await Dialog.confirm({content: game.i18n.localize("MYTHACRI.CraftingConsumeSpiritItem")});
-    if (!confirm) return null;
     const target = await fromUuid(item.flags[MODULE.ID].sourceId);
+    const confirm = await Dialog.confirm({
+      title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name}),
+      content: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {name: target.name})
+    });
+    if (!confirm) return null;
     const itemData = game.items.fromCompendium(target);
     const grade = item.flags[MODULE.ID].spiritGrade || 1;
 
