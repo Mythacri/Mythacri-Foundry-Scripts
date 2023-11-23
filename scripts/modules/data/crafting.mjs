@@ -493,13 +493,20 @@ export class Crafting {
    */
   static async promptSpiritTransfer(item) {
     const target = await fromUuid(item.flags[MODULE.ID].sourceId);
+    const grade = item.flags[MODULE.ID].spiritGrade || 1;
     const confirm = await Dialog.confirm({
       title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name}),
-      content: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {name: target.name})
+      content: "<p>" + game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {
+        name: target.name,
+        grade: grade.ordinalString()
+      }) + "</p>"
     });
     if (!confirm) return null;
     const itemData = game.items.fromCompendium(target);
-    const grade = item.flags[MODULE.ID].spiritGrade || 1;
+    itemData.name = game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemName", {
+      name: itemData.name,
+      grade: grade.ordinalString()
+    });
 
     if (target.hasDamage) {
       const parts = [];
@@ -510,13 +517,17 @@ export class Crafting {
       }
       itemData.system.damage.parts = parts;
     }
-    //if (target.hasAttack) itemData.system.attackBonus = `${grade}`; // TODO: do they not gain atk bonus?
     if (target.hasSave) {
       itemData.system.save.dc = dnd5e.utils.simplifyBonus(`10 + @prof + ${grade}`, item.getRollData({deterministic: true}));
       itemData.system.save.scaling = "flat";
     }
-    if (target.hasAreaTarget) { /* TODO: is this range or size of aoe? */}
-    else if (target.hasIndividualTarget) itemData.system.target.value += grade - 1;
+    if (target.hasAreaTarget) {
+      itemData.system.target.value += (grade - 1) * 5;
+      if (["wall", "line"].includes(itemData.system.target.type)) {
+        itemData.system.target.width ||= 5;
+        itemData.system.target.width += (grade - 1) * 2.5;
+      }
+    } else if (target.hasIndividualTarget) itemData.system.target.value += grade - 1;
 
     itemData.system.type.value = "spiritTech";
     itemData.flags[MODULE.ID] = foundry.utils.deepClone(item.flags[MODULE.ID]);
