@@ -36,6 +36,9 @@ export class SystemConfig {
           witchGrandHex: "MYTHACRI.FeatureWitchGrandHex",
           witchHex: "MYTHACRI.FeatureWitchHex"
         }
+      },
+      spiritTech: {
+        label: "MYTHACRI.FeatureSpiritTech"
       }
     });
 
