@@ -331,7 +331,7 @@ class CraftingHandler extends Application {
    */
   _createItemData(type, target, grade) {
     const data = (type !== "spirit") ? game.items.fromCompendium(target) : {
-      name: game.i18n.format("MYTHACRI.CraftingSpiritBinding", {name: target.name, grade: grade}),
+      name: game.i18n.format("MYTHACRI.CraftingSpiritBinding", {name: target.name, grade: grade.ordinalString()}),
       type: "consumable",
       img: target.img,
       flags: {},
