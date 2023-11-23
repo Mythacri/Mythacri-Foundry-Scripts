@@ -183,7 +183,7 @@ export class CraftingApplication extends Application {
   async _onCreate(event) {
     const recipe = await fromUuid(event.currentTarget.dataset.uuid);
     const canCreate = this.canCreateRecipe(recipe);
-    return !canCreate ? this.render() : new CraftingHandler(this.actor, recipe).render(true);
+    return !canCreate ? this.render() : new CraftingHandler(this.actor, this.type, recipe).render(true);
   }
 }
 
@@ -194,12 +194,14 @@ class CraftingHandler extends Application {
   /**
    * @constructor
    * @param {Actor5e} actor           The actor crafting.
+   * @param {string} type             The type of crafting (monster, spirit, cooking, rune).
    * @param {Item5e} recipe           The recipe item.
    * @param {object} [options={}]     Rendering options.
    */
-  constructor(actor, recipe, options = {}) {
+  constructor(actor, type, recipe, options = {}) {
     super(options);
     this.actor = actor;
+    this.type = type;
     this.recipe = recipe;
   }
 

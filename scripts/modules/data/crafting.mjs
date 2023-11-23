@@ -424,18 +424,25 @@ export class Crafting {
   }
 
   /**
-   * Cancel the use of a consumable item if it is a rune, then execute transfer behaviour.
+   * Cancel the use of a consumable item if it is a rune or bound spirit, then execute transfer behaviour.
    * @param {Item5e} item     The item being used.
    * @returns {void|boolean}
    */
   static _preUseItem(item) {
-    if ((item.type !== "consumable") || (item.system.consumableType !== "rune")) return;
-    if (!game.modules.get("babonus")?.active) {
-      ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
-      return;
+    const cons = item.system.consumableType;
+    if ((item.type !== "consumable") || !["rune", "spirit"].includes(cons)) return;
+
+    if (cons === "rune") {
+      if (!game.modules.get("babonus")?.active) {
+        ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
+        return;
+      }
+      Crafting.promptRuneTransfer(item);
+      return false;
+    } else if (cons === "spirit") {
+      // TODO
+      return false;
     }
-    Crafting.promptRuneTransfer(item);
-    return false;
   }
 
   /**
