@@ -141,6 +141,7 @@ export class Crafting {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
     Hooks.on("renderActorSheet5eCharacter", Crafting._renderCharacterSheet);
     Hooks.on("dnd5e.preUseItem", Crafting._preUseItem);
+    Hooks.on("dnd5e.preRollAttack", Crafting._preRollAttack);
     Crafting._characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
@@ -443,6 +444,21 @@ export class Crafting {
       Crafting.promptSpiritTransfer(item);
       return false;
     }
+  }
+
+  /**
+   * When an item with a 'grade' is used for an attack roll, if the ability used (strength or dexterity) is
+   * lower than the grade, set `@mod` to be equal to the grade.
+   * @param {Item5e} item     The item used for the attack roll.
+   * @param {object} config     The roll config.
+   */
+  static _preRollAttack(item, config) {
+    if ((item.type === "feat") && (item.system.type.value = "spiritTech")) {
+      const mod = item.abilityMod;
+      const grade = item.flags[MODULE.ID].spiritGrade || 1;
+      if ((grade > config.data.mod) && ["str", "dex"].includes(mod)) config.data.mod = grade;
+    }
+
   }
 
   /**
