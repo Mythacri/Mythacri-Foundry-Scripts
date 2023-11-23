@@ -8,7 +8,7 @@ export class CraftingApplication extends Application {
   /**
    * @constructor
    * @param {Actor5e} actor           The crafting actor.
-   * @param {string} type             The type of crafting.
+   * @param {string} type             The type of crafting (monster, spirit, rune, cooking).
    * @param {object} [options={}]     Rendering options.
    */
   constructor(actor, type, options = {}) {
@@ -298,12 +298,23 @@ class CraftingHandler extends Application {
     }, []);
     const toCreate = [];
     const itemData = game.items.fromCompendium(target);
-    foundry.utils.setProperty(itemData.flags, `${MODULE.ID}.recipeUuid`, this.recipe.uuid);
-    const qty = this.recipe.system.crafting.target.quantity || 1;
+    const spiritGrade = this._getSpiritGrade(resources);
+    foundry.utils.mergeObject(itemData.flags, {
+      [`${MODULE.ID}.recipeUuid`]: this.recipe.uuid,
+      [`${MODULE.ID}.sourceId`]: target.uuid,
+      [`${MODULE.ID}.spiritGrade`]: spiritGrade
+    });
+
+    // Determine how many of the item to make.
+    const qty = (this.type === "spirit") ? 1 : (this.recipe.system.crafting.target.quantity || 1);
+
+    // Append name to the created item to show spirit grade.
+    if (this.type === "spirit") {
+      itemData.name = `${itemData.name} (${game.i18n.format("MYTHACRI.CraftingSpiritGrade", {grade: spiritGrade})})`;
+    }
 
     // Stack consumable items either in one stack or onto an existing stack.
-    if (target.type === "consumable") {
-      foundry.utils.setProperty(itemData.flags, `${MODULE.ID}.sourceId`, target.uuid);
+    if ((target.type === "consumable") && (this.type !== "spirit")) {
       const existingItem = this.actor.items.find(item => item.flags[MODULE.ID]?.sourceId === target.uuid);
       if (existingItem) {
         updates.push({_id: existingItem.id, "system.quantity": existingItem.system.quantity + qty});
@@ -317,5 +328,23 @@ class CraftingHandler extends Application {
     if (deleteIds.length) await this.actor.deleteEmbeddedDocuments("Item", deleteIds);
     if (toCreate.length) await this.actor.createEmbeddedDocuments("Item", toCreate);
     if (updates.length) await this.actor.updateEmbeddedDocuments("Item", updates);
+  }
+
+  /**
+   * Get the highest grade from all essences used in the creation of this item.
+   * @param {object} resources      The assigned resources being used, an object of identifiers and items.
+   * @returns {number|null}         The highest grade of all essences assigned, otherwise null.
+   */
+  _getSpiritGrade(resources) {
+    const items = Object.values(resources);
+    let grade = null;
+    for (const item of items) {
+      const ir = item.flags[MODULE.ID].resource;
+      if ((ir.type === "essence") && (ir.subtype in CONFIG.DND5E.creatureTypes)) {
+        const ig = ir.grade || 1;
+        if (ig > grade) grade = ig;
+      }
+    }
+    return grade;
   }
 }

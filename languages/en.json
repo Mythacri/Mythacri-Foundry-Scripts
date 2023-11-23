@@ -36,6 +36,7 @@
   "MYTHACRI.CraftingSectionRuneHint": "Enable 'Rune Carving' for this actor.",
   "MYTHACRI.CraftingSectionSpirit": "Spirit Binding",
   "MYTHACRI.CraftingSectionSpiritHint": "Enable 'Spirit Binding' for this actor.",
+  "MYTHACRI.CraftingSpiritGrade": "Spirit Grade {grade}",
   "MYTHACRI.CraftingUnavailable": "Unavailable Recipes",
   "MYTHACRI.CurrencyAbbrMarbles": "Mrb",
   "MYTHACRI.CurrencyMarbles": "Marbles",
