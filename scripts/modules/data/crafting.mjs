@@ -458,7 +458,6 @@ export class Crafting {
       const grade = item.flags[MODULE.ID].spiritGrade || 1;
       if ((grade > config.data.mod) && ["str", "dex"].includes(mod)) config.data.mod = grade;
     }
-
   }
 
   /**
@@ -508,14 +507,30 @@ export class Crafting {
    * @returns {Promise<Item5e|null>}      The created item.
    */
   static async promptSpiritTransfer(item) {
-    const target = await fromUuid(item.flags[MODULE.ID].sourceId);
-    const grade = item.flags[MODULE.ID].spiritGrade || 1;
+    const data = item.flags[MODULE.ID];
+    const grade = data.spiritGrade || 1;
+    const recipe = data.recipeUuid;
+    const existing = item.actor.items.find(item => {
+      return (item.type === "feat") && (item.flags[MODULE.ID]?.recipeUuid === recipe);
+    });
+
+    if (existing) {
+      const eg = existing.flags[MODULE.ID].spiritGrade;
+      if (eg >= grade) {
+        ui.notifications.warn("MYTHACRI.CraftingConsumeSpiritItemWarn", {localize: true});
+        return null;
+      }
+    }
+
+    const target = await fromUuid(data.sourceId);
+    let content = "<p>" + game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {
+      name: target.name,
+      grade: grade.ordinalString()
+    }) + "</p>";
+    if (existing) content += `<p><em>${game.i18n.localize("MYTHACRI.CraftingConsumeSpiritItemHintReplace")}</em></p>`;
     const confirm = await Dialog.confirm({
       title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name}),
-      content: "<p>" + game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {
-        name: target.name,
-        grade: grade.ordinalString()
-      }) + "</p>"
+      content: content
     });
     if (!confirm) return null;
     const itemData = game.items.fromCompendium(target);
@@ -546,13 +561,10 @@ export class Crafting {
     } else if (target.hasIndividualTarget) itemData.system.target.value += grade - 1;
 
     itemData.system.type.value = "spiritTech";
-    itemData.flags[MODULE.ID] = foundry.utils.deepClone(item.flags[MODULE.ID]);
-    // TODO: detect if you have an identical one already.
-    // if higher, warn and abort.
-    // if lower, prompt to replace.
-    // if equal, warn and abort.
+    itemData.flags[MODULE.ID] = foundry.utils.deepClone(data);
 
     await Crafting.reduceOrDestroyConsumable(item);
+    if (existing) await existing.delete();
     return Item.implementation.create(itemData, {parent: item.actor});
   }
 
