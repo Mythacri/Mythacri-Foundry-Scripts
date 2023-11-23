@@ -281,22 +281,25 @@ export class Crafting {
    * @param {string} data.type            The stored type.
    * @param {string} data.subtype         The stored subtype.
    * @param {string} data.subsubtype      The stored sub-subtype.
+   * @param {number} data.grade           A stored spirit grade.
    * @returns {object}
    */
   static getTemplateData(data = {}) {
     const typeOptions = Crafting.resourceTypes;
     const subtypeOptions = typeOptions[data.type]?.subtypes ?? {};
-    const subsubtypeOptions = subtypeOptions[data.subtype]?.subsubtypes ?? {};
+    const isEssence = (data.type === "essence") && (data.subtype in CONFIG.DND5E.creatureTypes);
+    const isMonster = (data.type === "monster") && (data.subtype in CONFIG.DND5E.creatureTypes);
     const templateData = {
       ...data,
       typeOptions: typeOptions,
       subtypeOptions: subtypeOptions,
-      subsubtypeOptions: subsubtypeOptions,
-      hasSubtype: !foundry.utils.isEmpty(subtypeOptions),
-      hasSubsubtype: data.type === "monster",
-      showSubsubtype: !foundry.utils.isEmpty(subsubtypeOptions),
+      hasSubtype: data.type in typeOptions,
+      isMonster: isMonster,
+      monsterPartOptions: Crafting.subsubtypes,
       subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
-      subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`
+      subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`,
+      isEssence: isEssence,
+      gradeOptions: Array.fromRange(6, 1).reduce((acc, n) => Object.assign(acc, {[n]: n.ordinalString()}), {})
     };
 
     return templateData;
