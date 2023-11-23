@@ -333,10 +333,13 @@ class CraftingHandler extends Application {
     const data = (type !== "spirit") ? game.items.fromCompendium(target) : {
       name: game.i18n.format("MYTHACRI.CraftingSpiritBinding", {name: target.name, grade: grade}),
       type: "consumable",
-      img: "icons/magic/symbols/mask-yellow-orange.webp",
+      img: target.img,
       flags: {},
       system: {
-        description: {value: target.system.description.value},
+        description: {
+          value: `<p><strong>${game.i18n.localize("MYTHACRI.ResourceEssenceGrade")}:</strong> ${grade}</p>
+          <fieldset><legend>${target.name}</legend>${target.system.description.value}</fieldset>`
+        },
         quantity: 1,
         weight: 0,
         rarity: Object.keys(CONFIG.DND5E.itemRarity)[grade - 1] || "",
