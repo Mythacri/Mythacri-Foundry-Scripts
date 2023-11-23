@@ -298,6 +298,7 @@ class CraftingHandler extends Application {
     }, []);
     const toCreate = [];
     const itemData = game.items.fromCompendium(target);
+    foundry.utils.setProperty(itemData.flags, `${MODULE.ID}.recipeUuid`, this.recipe.uuid);
     const qty = this.recipe.system.crafting.target.quantity || 1;
 
     // Stack consumable items either in one stack or onto an existing stack.
