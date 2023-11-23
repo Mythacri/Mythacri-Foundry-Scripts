@@ -297,21 +297,11 @@ class CraftingHandler extends Application {
       return acc;
     }, []);
     const toCreate = [];
-    const itemData = game.items.fromCompendium(target);
     const spiritGrade = this._getSpiritGrade(resources);
-    foundry.utils.mergeObject(itemData.flags, {
-      [`${MODULE.ID}.recipeUuid`]: this.recipe.uuid,
-      [`${MODULE.ID}.sourceId`]: target.uuid,
-      [`${MODULE.ID}.spiritGrade`]: spiritGrade
-    });
+    const itemData = this._createItemData(this.type, target, spiritGrade);
 
     // Determine how many of the item to make.
     const qty = (this.type === "spirit") ? 1 : (this.recipe.system.crafting.target.quantity || 1);
-
-    // Append name to the created item to show spirit grade.
-    if (this.type === "spirit") {
-      itemData.name = `${itemData.name} (${game.i18n.format("MYTHACRI.CraftingSpiritGrade", {grade: spiritGrade})})`;
-    }
 
     // Stack consumable items either in one stack or onto an existing stack.
     if ((target.type === "consumable") && (this.type !== "spirit")) {
@@ -328,6 +318,40 @@ class CraftingHandler extends Application {
     if (deleteIds.length) await this.actor.deleteEmbeddedDocuments("Item", deleteIds);
     if (toCreate.length) await this.actor.createEmbeddedDocuments("Item", toCreate);
     if (updates.length) await this.actor.updateEmbeddedDocuments("Item", updates);
+  }
+
+  /**
+   * Generate item data. Handles the edge case for spiritbinding, which creates an intermediary item.
+   * @param {string} type           The crafting type (monster, spirit, cooking, rune).
+   * @param {Item5e} target         The target item of crafting.
+   * @param {number|null} grade     The spirit grade.
+   * @returns {object}              Item data.
+   */
+  _createItemData(type, target, grade) {
+    const data = (type !== "spirit") ? game.items.fromCompendium(target) : {
+      name: game.i18n.format("MYTHACRI.CraftingSpiritBinding", {name: target.name, grade: grade}),
+      type: "consumable",
+      img: "icons/magic/symbols/mask-yellow-orange.webp",
+      flags: {},
+      system: {
+        description: {value: target.system.description.value},
+        quantity: 1,
+        weight: 0,
+        rarity: Object.keys(CONFIG.DND5E.itemRarity)[grade - 1] || "",
+        activation: {type: "none"},
+        duration: {units: "perm"},
+        target: {value: 1, type: "willing"},
+        range: {units: "touch"},
+        uses: {value: 1, max: "1", per: "charges", autoDestroy: true},
+        consumableType: "spirit"
+      }
+    };
+    foundry.utils.mergeObject(data.flags, {
+      [`${MODULE.ID}.recipeUuid`]: this.recipe.uuid,
+      [`${MODULE.ID}.sourceId`]: target.uuid,
+      [`${MODULE.ID}.spiritGrade`]: grade
+    });
+    return data;
   }
 
   /**
