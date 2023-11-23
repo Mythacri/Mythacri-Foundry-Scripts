@@ -45,15 +45,12 @@ export class SystemConfig {
 
   static _languages() {
     foundry.utils.mergeObject(CONFIG.DND5E.languages, {
-      "-=orc": null, // delete 'orc'
-      "-=gith": null, // delete 'gith'
-      "-=gnoll": null, // delete 'gnoll'
-      "-=ignan": null, // delete 'ignan'
-      "-=terran": null, // delete 'terran'
-      "-=auran": null, // delete 'auran'
-      "-=aquan": null, // delete 'aquan'
       "-=druidic": null, // delete 'druidic'
-      "-=gnomish": null, // delete 'gnomish'
+      "exotic.children.-=gith": null, // delete 'gith'
+      "exotic.children.-=gnoll": null, // delete 'gnoll'
+      "exotic.children.primordial.-=children": null, // delete 'ignan, terran, auran, aquan'
+      "standard.children.-=gnomish": null, // delete 'gnomish'
+      "standard.children.-=orc": null // delete 'orc'
     }, {performDeletions: true});
   }
 
