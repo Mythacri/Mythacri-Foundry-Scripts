@@ -440,7 +440,7 @@ export class Crafting {
       Crafting.promptRuneTransfer(item);
       return false;
     } else if (cons === "spirit") {
-      // TODO
+      Crafting.promptSpiritTransfer(item);
       return false;
     }
   }
@@ -484,6 +484,46 @@ export class Crafting {
     const rune = babonus.createBabonus(bonus);
     await Crafting.reduceOrDestroyConsumable(item);
     return babonus.embedBabonus(target, rune);
+  }
+
+  /**
+   * Prompt for using the bound spirit's item and transferring the held technique onto the owner.
+   * @param {Item5e} item                 The item being used.
+   * @returns {Promise<Item5e|null>}      The created item.
+   */
+  static async promptSpiritTransfer(item) {
+    const confirm = await Dialog.confirm({content: game.i18n.localize("MYTHACRI.CraftingConsumeSpiritItem")});
+    if (!confirm) return null;
+    const target = await fromUuid(item.flags[MODULE.ID].sourceId);
+    const itemData = game.items.fromCompendium(target);
+    const grade = item.flags[MODULE.ID].spiritGrade || 1;
+
+    if (target.hasDamage) {
+      const parts = [];
+      for (const [formula, type] of target.toObject().system.damage.parts) {
+        const roll = new Roll(formula);
+        roll.dice.forEach(die => die.number += (grade - 1));
+        parts.push([roll.formula, type]);
+      }
+      itemData.system.damage.parts = parts;
+    }
+    //if (target.hasAttack) itemData.system.attackBonus = `${grade}`; // TODO: do they not gain atk bonus?
+    if (target.hasSave) {
+      itemData.system.save.dc = dnd5e.utils.simplifyBonus(`10 + @prof + ${grade}`, item.getRollData({deterministic: true}));
+      itemData.system.save.scaling = "flat";
+    }
+    if (target.hasAreaTarget) { /* TODO: is this range or size of aoe? */}
+    else if (target.hasIndividualTarget) itemData.system.target.value += grade - 1;
+
+    itemData.system.type.value = "spiritTech";
+    itemData.flags[MODULE.ID] = foundry.utils.deepClone(item.flags[MODULE.ID]);
+    // TODO: detect if you have an identical one already.
+    // if higher, warn and abort.
+    // if lower, prompt to replace.
+    // if equal, warn and abort.
+
+    await Crafting.reduceOrDestroyConsumable(item);
+    return Item.implementation.create(itemData, {parent: item.actor});
   }
 
   /**
