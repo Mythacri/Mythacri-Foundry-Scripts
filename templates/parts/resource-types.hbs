@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group resource">
   <label>{{localize "MYTHACRI.ResourceLabelType"}}</label>
   <select name="flags.mythacri-scripts.resource.type" {{disabled disable}}>
     {{selectOptions typeOptions selected=type labelAttr="label" localize=true sort=true blank="-"}}
@@ -6,10 +6,10 @@
 </div>
 
 {{#if hasSubtype}}
-<div class="form-group">
+<div class="form-group resource">
   <label>{{localize subtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subtype" {{disabled disable}}>
-    {{#if hasSubsubtype}}
+    {{#if (eq type "monster")}}
     {{selectOptions subtypeOptions selected=subtype labelAttr="label" localize=true sort=true blank="-"}}
     {{else}}
     {{selectOptions subtypeOptions selected=subtype localize=true sort=true blank="-"}}
@@ -18,11 +18,20 @@
 </div>
 {{/if}}
 
-{{#if showSubsubtype}}
-<div class="form-group">
+{{#if isMonster}}
+<div class="form-group resource">
   <label>{{localize subsubtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subsubtype" {{disabled disable}}>
-    {{selectOptions subsubtypeOptions selected=subsubtype localize=true sort=true blank="-"}}
+    {{selectOptions monsterPartOptions selected=subsubtype localize=true sort=true blank="-"}}
+  </select>
+</div>
+{{/if}}
+
+{{#if isEssence}}
+<div class="form-group resource">
+  <label>{{localize "MYTHACRI.ResourceEssenceGrade"}}</label>
+  <select name="flags.mythacri-scripts.resource.grade" data-dtype="Number" {{disabled disable}}>
+    {{selectOptions gradeOptions selected=grade}}
   </select>
 </div>
 {{/if}}
