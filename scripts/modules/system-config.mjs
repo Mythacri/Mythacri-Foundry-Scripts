@@ -51,7 +51,10 @@ export class SystemConfig {
       "-=druidic": null, // delete 'druidic'
       "exotic.children.-=gith": null, // delete 'gith'
       "exotic.children.-=gnoll": null, // delete 'gnoll'
-      "exotic.children.primordial.-=children": null, // delete 'ignan, terran, auran, aquan'
+      "exotic.children.primordial.children.-=ignan": null, // delete 'ignan, terran, auran, aquan'
+      "exotic.children.primordial.children.-=terran": null, // delete 'ignan, terran, auran, aquan'
+      "exotic.children.primordial.children.-=auran": null, // delete 'ignan, terran, auran, aquan'
+      "exotic.children.primordial.children.-=aquan": null, // delete 'ignan, terran, auran, aquan'
       "standard.children.-=gnomish": null, // delete 'gnomish'
       "standard.children.-=orc": null // delete 'orc'
     }, {performDeletions: true});
