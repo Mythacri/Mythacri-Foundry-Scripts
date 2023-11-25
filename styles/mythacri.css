@@ -97,7 +97,7 @@
 /*                                */
 /* ------------------------------ */
 .dnd5e.sheet.item.recipe {
-  min-height: 600px;
+  min-height: 400px;
 }
 .dnd5e.sheet.item.recipe h4.components-header,
 .dnd5e.sheet.item.recipe h4.target-header {
@@ -140,6 +140,7 @@
   align-items: center;
   border-radius: 5px;
 }
+.dnd5e.sheet.item.recipe .component-warn,
 .dnd5e.sheet.item.recipe [data-action="delete-component"],
 .dnd5e.sheet.item.recipe [data-action="clear-target"] {
   width: 18px;
@@ -148,6 +149,18 @@
   float: right;
   text-align: right;
   color: #7a7971;
+}
+.dnd5e.sheet.item.recipe .component-warn {
+  color: rgb(160, 0, 0);
+}
+.dnd5e.sheet.item.recipe .item-name {
+  position: relative;
+}
+.dnd5e.sheet.item.recipe [data-action=refresh] {
+  position: absolute;
+  right: 0;
+  margin: 4px;
+  font-size: 14px;
 }
 
 /* ------------------------------ */

@@ -107,6 +107,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {boolean}
    */
   knowsRecipe(actor) {
+    if (actor.type !== "character") return false;
     const isBasic = this.crafting.basic;
     const isEnabled = !!actor.flags.dnd5e?.crafting?.[this.type.value];
     const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(this.parent.id);
@@ -119,6 +120,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {boolean}
    */
   canLearnRecipe(actor) {
+    if (actor.type !== "character") return false;
     const isBasic = this.crafting.basic;
     const isEnabled = !!actor.flags.dnd5e?.crafting?.[this.type.value];
     const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(this.parent.id);

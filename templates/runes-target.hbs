@@ -8,11 +8,11 @@
       <select name="itemId">
         <option>&mdash;</option>
         {{#each targets as |items key|}}
-        {{log items}}
-        {{log key}}
+        {{#if items.length}}
         <optgroup label="{{localize (concat 'TYPES.Item.' key 'Pl')}}">
           {{selectOptions items labelAttr="name" nameAttr="id" sort=true}}
         </optgroup>
+        {{/if}}
         {{/each}}
       </select>
     </div>

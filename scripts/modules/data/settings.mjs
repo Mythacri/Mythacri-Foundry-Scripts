@@ -120,7 +120,7 @@ export class Settings {
     game.settings.register(MODULE.ID, "identifiers", {
       config: false,
       type: IdentifiersSettingsModel,
-      default: {},
+      default: IdentifiersSettingsModel.schema.initial(),
       scope: "world"
     });
 
