@@ -21,7 +21,7 @@ export class ExperiencePips {
    */
   static _renderActorSheet(sheet, [html]) {
     const width = html.querySelector(".xpbar .bar").style.width;
-    const filled = Number(width.replace("%", "")) / 10;
+    const filled = parseInt(width) / 10;
     const pips = Array.fromRange(10).reduce((acc, n) => {
       const active = n < filled ? "active" : "";
       return acc + `<span class="pip ${active}"></span>`;
