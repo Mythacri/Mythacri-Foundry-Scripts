@@ -92,6 +92,11 @@
           {{{recipeTarget}}}
           {{else}}
           <input type="text" name="system.crafting.target.uuid" value="{{system.crafting.target.uuid}}">
+          {{#if invalidTarget}}
+          <span class="component-warn" data-tooltip="MYTHACRI.ItemRecipeTargetWarn">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </span>
+          {{/if}}
           {{/if}}
           <a data-action="clear-target"><i class="fa-solid fa-minus"></i></a>
         </li>
@@ -103,10 +108,15 @@
         <a data-action="add-component"><i class="fa-solid fa-plus"></i></a>
       </h4>
       <ol class="recipe-components form-group" data-action="drop-component">
-        {{#each system.crafting.components as |c idx|}}
+        {{#each components}}
         <li class="recipe-component flexrow" data-idx="{{idx}}">
-          <input type="number" name="system.crafting.components.{{idx}}.quantity" value="{{c.quantity}}" min="1" placeholder="1">
-          <input type="text" name="system.crafting.components.{{idx}}.identifier" value="{{c.identifier}}">
+          <input type="number" name="system.crafting.components.{{idx}}.quantity" value="{{qty}}" min="1" placeholder="1">
+          <input type="text" name="system.crafting.components.{{idx}}.identifier" value="{{value}}">
+          {{#unless valid}}
+          <span class="component-warn" data-tooltip="MYTHACRI.ItemRecipeComponentWarn">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </span>
+          {{/unless}}
           <a data-action="delete-component"><i class="fa-solid fa-minus"></i></a>
         </li>
         {{/each}}
@@ -120,14 +130,17 @@
       {{else}}
       <ol class="items-list">
         <li class="items-header flexrow">
-          <h3 class="item-name flexrow">{{localize "MYTHACRI.ItemRecipeLearned"}}</h3>
+          <h3 class="item-name flexrow">
+            {{localize "MYTHACRI.ItemRecipeLearned"}}
+            <a data-action="refresh" data-tooltip="MYTHACRI.Refresh"><i class="fa-solid fa-rotate-right"></i></a>
+          </h3>
         </li>
         <ol class="item-list">
           {{#each learned}}
           <li class="item flexrow" data-actor-id="{{id}}">
             <div class="item-name flexrow">
-              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}')"></div>
-              <h4>{{name}}</h4>
+              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}'); transform: scale({{prototypeToken.texture.scaleX}})"></div>
+              <h4><a data-action="render-actor">{{name}}</a></h4>
             </div>
             <div class="item-controls flexrow">
               <a class="item-control" data-action="unlearn-recipe"><i class="fa-solid fa-times"></i></a>
@@ -142,11 +155,24 @@
           {{#each learners}}
           <li class="item flexrow" data-actor-id="{{id}}">
             <div class="item-name flexrow">
-              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}')"></div>
-              <h4>{{name}}</h4>
+              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}'); transform: scale({{prototypeToken.texture.scaleX}})"></div>
+              <h4><a data-action="render-actor">{{name}}</a></h4>
             </div>
             <div class="item-controls flexrow">
               <a class="item-control" data-action="learn-recipe"><i class="fa-solid fa-check"></i></a>
+            </div>
+          </li>
+          {{/each}}
+        </ol>
+        <li class="items-header flexrow">
+          <h3 class="item-name flexrow">{{localize "MYTHACRI.ItemRecipeUnlearned"}}</h3>
+        </li>
+        <ol class="item-list">
+          {{#each unlearned}}
+          <li class="item flexrow" data-actor-id="{{id}}">
+            <div class="item-name flexrow">
+              <div class="item-image" style="background-image: url('{{prototypeToken.texture.src}}'); transform: scale({{prototypeToken.texture.scaleX}})"></div>
+              <h4><a data-action="render-actor">{{name}}</a></h4>
             </div>
           </li>
           {{/each}}

@@ -27,15 +27,32 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     const data = await super.getData(options);
     data.recipeTypes = Crafting.recipeTypes;
     data.recipeTarget = await this._validTargetItemLink();
+    data.invalidTarget = !!this.document.system.crafting.target.uuid && !data.recipeTarget;
     data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";
     data.descriptionHTML = await TextEditor.enrichHTML(this.document.system.description.value, {async: true});
+    data.components = data.system.crafting.components.map((c, idx) => {
+      return {
+        idx: idx,
+        qty: c.quantity,
+        value: c.identifier,
+        valid: !c.identifier || Crafting.validIdentifier(c.identifier)
+      };
+    });
 
     const isBasic = this.document.system.crafting.basic;
     if (!isBasic) {
-      data.learned = this.getLearned();
-      data.learners = this.getLearners();
+      const [learned, learners, unlearned] = this.getLearners()
+      data.learned = learned;
+      data.learners = learners;
+      data.unlearned = unlearned;
     }
     return data;
+  }
+
+  /** @override */
+  setPosition(pos = {}) {
+    if (!pos.height && (this._tabs[0].active !== "description")) pos.height = "auto";
+    return super.setPosition(pos);
   }
 
   /**
@@ -91,6 +108,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
       else if (action === "clear-target") n.addEventListener("click", this._onClearTarget.bind(this));
       else if (action === "learn-recipe") n.addEventListener("click", this._learnRecipe.bind(this));
       else if (action === "unlearn-recipe") n.addEventListener("click", this._unlearnRecipe.bind(this));
+      else if (action === "render-actor") n.addEventListener("click", this._renderActor.bind(this));
+      else if (action === "refresh") n.addEventListener("click", this.render.bind(this));
     });
     html[0].querySelectorAll("[type=text], [type=number]").forEach(n => {
       n.addEventListener("focus", event => event.currentTarget.select());
@@ -139,7 +158,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     const actor = game.actors.get(id);
     const learned = new Set(actor.flags[MODULE.ID]?.recipes?.learned ?? []);
     learned.add(this.document.id);
-    await actor.setFlag(MODULE.ID, "recipes.learned", [...learned]);
+    await actor.setFlag(MODULE.ID, "recipes.learned", Array.from(learned));
     this.render();
     return actor;
   }
@@ -154,26 +173,36 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     const actor = game.actors.get(id);
     const learned = new Set(actor.flags[MODULE.ID]?.recipes?.learned ?? []);
     learned.delete(this.document.id);
-    await actor.setFlag(MODULE.ID, "recipes.learned", [...learned]);
+    await actor.setFlag(MODULE.ID, "recipes.learned", Array.from(learned));
     this.render();
     return actor;
   }
 
   /**
-   * Find what actors know this recipe.
-   * @returns {Actor5e[]}
+   * Render an actor's sheet when clicked.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {ActorSheet5e}          The rendered actor sheet.
    */
-  getLearned() {
-    const folder = game.settings.get(MODULE.ID, "identifiers").folders.partyActors;
-    return folder ? folder.contents.filter(a => this.document.system.knowsRecipe(a)) : [];
+  _renderActor(event) {
+    const id = event.currentTarget.closest("[data-actor-id]").dataset.actorId;
+    return game.actors.get(id).sheet.render(true);
   }
 
   /**
-   * Find what actors can learn this recipe.
-   * @returns {Actor5e[]}
+   * Find what actors know this recipe, can learn this recipe, and cannot learn this recipe.
+   * @returns {Actor5e[][]}     Array of arrays of learned, learners, and unavailable.
    */
   getLearners() {
     const folder = game.settings.get(MODULE.ID, "identifiers").folders.partyActors;
-    return folder ? folder.contents.filter(a => this.document.system.canLearnRecipe(a)) : [];
+    const parts = [[], [], []];
+    if (!folder) return parts;
+
+    for(const actor of folder.contents) {
+      if (this.document.system.knowsRecipe(actor)) parts[0].push(actor);
+      else if (this.document.system.canLearnRecipe(actor)) parts[1].push(actor);
+      else parts[2].push(actor);
+    }
+
+    return parts;
   }
 }
