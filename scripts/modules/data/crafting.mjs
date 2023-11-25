@@ -141,6 +141,7 @@ export class Crafting {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
     Hooks.on("renderActorSheet5eCharacter", Crafting._renderCharacterSheet);
     Hooks.on("dnd5e.preUseItem", Crafting._preUseItem);
+    Hooks.on("dnd5e.preRollAttack", Crafting._preRollAttack);
     Crafting._characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
@@ -281,22 +282,25 @@ export class Crafting {
    * @param {string} data.type            The stored type.
    * @param {string} data.subtype         The stored subtype.
    * @param {string} data.subsubtype      The stored sub-subtype.
+   * @param {number} data.grade           A stored spirit grade.
    * @returns {object}
    */
   static getTemplateData(data = {}) {
     const typeOptions = Crafting.resourceTypes;
     const subtypeOptions = typeOptions[data.type]?.subtypes ?? {};
-    const subsubtypeOptions = subtypeOptions[data.subtype]?.subsubtypes ?? {};
+    const isEssence = (data.type === "essence") && (data.subtype in CONFIG.DND5E.creatureTypes);
+    const isMonster = (data.type === "monster") && (data.subtype in CONFIG.DND5E.creatureTypes);
     const templateData = {
       ...data,
       typeOptions: typeOptions,
       subtypeOptions: subtypeOptions,
-      subsubtypeOptions: subsubtypeOptions,
-      hasSubtype: !foundry.utils.isEmpty(subtypeOptions),
-      hasSubsubtype: data.type === "monster",
-      showSubsubtype: !foundry.utils.isEmpty(subsubtypeOptions),
+      hasSubtype: data.type in typeOptions,
+      isMonster: isMonster,
+      monsterPartOptions: Crafting.subsubtypes,
       subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
-      subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`
+      subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`,
+      isEssence: isEssence,
+      gradeOptions: Object.fromEntries(Array.fromRange(6, 1).map(n => [n, n.ordinalString()]))
     };
 
     return templateData;
@@ -421,18 +425,39 @@ export class Crafting {
   }
 
   /**
-   * Cancel the use of a consumable item if it is a rune, then execute transfer behaviour.
+   * Cancel the use of a consumable item if it is a rune or bound spirit, then execute transfer behaviour.
    * @param {Item5e} item     The item being used.
    * @returns {void|boolean}
    */
   static _preUseItem(item) {
-    if ((item.type !== "consumable") || (item.system.consumableType !== "rune")) return;
-    if (!game.modules.get("babonus")?.active) {
-      ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
-      return;
+    const cons = item.system.consumableType;
+    if ((item.type !== "consumable") || !["rune", "spirit"].includes(cons)) return;
+
+    if (cons === "rune") {
+      if (!game.modules.get("babonus")?.active) {
+        ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
+        return;
+      }
+      Crafting.promptRuneTransfer(item);
+      return false;
+    } else if (cons === "spirit") {
+      Crafting.promptSpiritTransfer(item);
+      return false;
     }
-    Crafting.promptRuneTransfer(item);
-    return false;
+  }
+
+  /**
+   * When an item with a 'grade' is used for an attack roll, if the ability used (strength or dexterity) is
+   * lower than the grade, set `@mod` to be equal to the grade.
+   * @param {Item5e} item     The item used for the attack roll.
+   * @param {object} config     The roll config.
+   */
+  static _preRollAttack(item, config) {
+    if ((item.type === "feat") && (item.system.type.value = "spiritTech")) {
+      const mod = item.abilityMod;
+      const grade = item.flags[MODULE.ID].spiritGrade || 1;
+      if ((grade > config.data.mod) && ["str", "dex"].includes(mod)) config.data.mod = grade;
+    }
   }
 
   /**
@@ -474,6 +499,73 @@ export class Crafting {
     const rune = babonus.createBabonus(bonus);
     await Crafting.reduceOrDestroyConsumable(item);
     return babonus.embedBabonus(target, rune);
+  }
+
+  /**
+   * Prompt for using the bound spirit's item and transferring the held technique onto the owner.
+   * @param {Item5e} item                 The item being used.
+   * @returns {Promise<Item5e|null>}      The created item.
+   */
+  static async promptSpiritTransfer(item) {
+    const data = item.flags[MODULE.ID];
+    const grade = data.spiritGrade || 1;
+    const recipe = data.recipeUuid;
+    const existing = item.actor.items.find(item => {
+      return (item.type === "feat") && (item.flags[MODULE.ID]?.recipeUuid === recipe);
+    });
+
+    if (existing) {
+      const eg = existing.flags[MODULE.ID].spiritGrade;
+      if (eg >= grade) {
+        ui.notifications.warn("MYTHACRI.CraftingConsumeSpiritItemWarn", {localize: true});
+        return null;
+      }
+    }
+
+    const target = await fromUuid(data.sourceId);
+    let content = "<p>" + game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {
+      name: target.name,
+      grade: grade.ordinalString()
+    }) + "</p>";
+    if (existing) content += `<p><em>${game.i18n.localize("MYTHACRI.CraftingConsumeSpiritItemHintReplace")}</em></p>`;
+    const confirm = await Dialog.confirm({
+      title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name}),
+      content: content
+    });
+    if (!confirm) return null;
+    const itemData = game.items.fromCompendium(target);
+    itemData.name = game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemName", {
+      name: itemData.name,
+      grade: grade.ordinalString()
+    });
+
+    if (target.hasDamage) {
+      const parts = [];
+      for (const [formula, type] of target.toObject().system.damage.parts) {
+        const roll = new Roll(formula);
+        roll.dice.forEach(die => die.number += (grade - 1));
+        parts.push([roll.formula, type]);
+      }
+      itemData.system.damage.parts = parts;
+    }
+    if (target.hasSave) {
+      itemData.system.save.dc = dnd5e.utils.simplifyBonus(`10 + @prof + ${grade}`, item.getRollData({deterministic: true}));
+      itemData.system.save.scaling = "flat";
+    }
+    if (target.hasAreaTarget) {
+      itemData.system.target.value += (grade - 1) * 5;
+      if (["wall", "line"].includes(itemData.system.target.type)) {
+        itemData.system.target.width ||= 5;
+        itemData.system.target.width += (grade - 1) * 2.5;
+      }
+    } else if (target.hasIndividualTarget) itemData.system.target.value += grade - 1;
+
+    itemData.system.type.value = "spiritTech";
+    itemData.flags[MODULE.ID] = foundry.utils.deepClone(data);
+
+    await Crafting.reduceOrDestroyConsumable(item);
+    if (existing) await existing.delete();
+    return Item.implementation.create(itemData, {parent: item.actor});
   }
 
   /**
