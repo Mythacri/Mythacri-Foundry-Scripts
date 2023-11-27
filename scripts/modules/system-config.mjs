@@ -118,7 +118,32 @@ export class SystemConfig {
 
     // Weapon ids.
     // CONFIG.DND5E.weaponIds.gun = "<compendium id>.<item id>";
+    CONFIG.DND5E.weaponIds.assaultRifle = "mythacri-shared-compendium.equipment-myth.2mg0Z9UsSTCv9hw2";
+    CONFIG.DND5E.weaponIds.huntingRifle = "mythacri-shared-compendium.equipment-myth.WHXDLxF6lJ6toaMm";
+    CONFIG.DND5E.weaponIds.machineGun = "mythacri-shared-compendium.equipment-myth.k7PvZwWEDYWJNVtH";
+    CONFIG.DND5E.weaponIds.Pistol = "mythacri-shared-compendium.equipment-myth.jY3XQOpCfp8rRF2l";
+    CONFIG.DND5E.weaponIds.Revolver = "mythacri-shared-compendium.equipment-myth.i8Ysr1zn74h8jxlr";
+    CONFIG.DND5E.weaponIds.doublebarrelShotgun = "mythacri-shared-compendium.equipment-myth.RkMpHsAsAgFsl6OP";
+    CONFIG.DND5E.weaponIds.Blunderbuss = "mythacri-shared-compendium.equipment-myth.U9xCVu4nMr2o4Ip0";
+    CONFIG.DND5E.weaponIds.Flintlock = "mythacri-shared-compendium.equipment-myth.csl5Lu9LCoD8ZnwD";
+    CONFIG.DND5E.weaponIds.Musket = "mythacri-shared-compendium.equipment-myth.J6kVMp2X9WrUoRzT";
+    CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
+
+    CONFIG.DND5E.weaponIds.Cutlass = "mythacri-shared-compendium.equipment-myth.9r8gPk4RGDUUytZy";
+    CONFIG.DND5E.weaponIds.Estoc = "mythacri-shared-compendium.equipment-myth.xw77ea4rCFnpHgNy";
+    CONFIG.DND5E.weaponIds.Harpoon = "mythacri-shared-compendium.equipment-myth.EanNQeIbvCMz03w5";
+    CONFIG.DND5E.weaponIds.throwingDagger = "mythacri-shared-compendium.equipment-myth.5fAnwS37xiOTwpOS";
+
+    CONFIG.DND5E.weaponIds.Fishhook = "mythacri-shared-compendium.equipment-myth.lQqGpkcldeOKwZM0";
+    CONFIG.DND5E.weaponIds.Shovel = "mythacri-shared-compendium.equipment-myth.1D0WRHGVgbjaikkM";
   }
+
+  static _toolProficiencies() {
+    // Tool ids.
+    // CONFIG.DND5E.toolIds.gun = "<compendium id>.<item id>";
+    //CONFIG.DND5E.toolIds.fletchersTools = "";
+  }
+
 
   static _conditions() {
     // Add two new conditions to the token HUD.
