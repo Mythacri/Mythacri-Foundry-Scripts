@@ -134,7 +134,7 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.harpoon = "mythacri-shared-compendium.equipment-myth.EanNQeIbvCMz03w5";
     CONFIG.DND5E.weaponIds.throwingDagger = "mythacri-shared-compendium.equipment-myth.5fAnwS37xiOTwpOS";
 
-    CONFIG.DND5E.weaponIds.Fishhook = "mythacri-shared-compendium.equipment-myth.lQqGpkcldeOKwZM0";
+    CONFIG.DND5E.weaponIds.fishhook = "mythacri-shared-compendium.equipment-myth.lQqGpkcldeOKwZM0";
     CONFIG.DND5E.weaponIds.Shovel = "mythacri-shared-compendium.equipment-myth.1D0WRHGVgbjaikkM";
   }
 
