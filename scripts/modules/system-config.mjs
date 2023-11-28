@@ -130,7 +130,7 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
 
     CONFIG.DND5E.weaponIds.cutlass = "mythacri-shared-compendium.equipment-myth.9r8gPk4RGDUUytZy";
-    CONFIG.DND5E.weaponIds.Estoc = "mythacri-shared-compendium.equipment-myth.xw77ea4rCFnpHgNy";
+    CONFIG.DND5E.weaponIds.estoc = "mythacri-shared-compendium.equipment-myth.xw77ea4rCFnpHgNy";
     CONFIG.DND5E.weaponIds.Harpoon = "mythacri-shared-compendium.equipment-myth.EanNQeIbvCMz03w5";
     CONFIG.DND5E.weaponIds.throwingDagger = "mythacri-shared-compendium.equipment-myth.5fAnwS37xiOTwpOS";
 
