@@ -126,7 +126,7 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.doubleBarrelShotgun = "mythacri-shared-compendium.equipment-myth.RkMpHsAsAgFsl6OP";
     CONFIG.DND5E.weaponIds.blunderbuss = "mythacri-shared-compendium.equipment-myth.U9xCVu4nMr2o4Ip0";
     CONFIG.DND5E.weaponIds.flintlock = "mythacri-shared-compendium.equipment-myth.csl5Lu9LCoD8ZnwD";
-    CONFIG.DND5E.weaponIds.Musket = "mythacri-shared-compendium.equipment-myth.J6kVMp2X9WrUoRzT";
+    CONFIG.DND5E.weaponIds.musket = "mythacri-shared-compendium.equipment-myth.J6kVMp2X9WrUoRzT";
     CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
 
     CONFIG.DND5E.weaponIds.Cutlass = "mythacri-shared-compendium.equipment-myth.9r8gPk4RGDUUytZy";
