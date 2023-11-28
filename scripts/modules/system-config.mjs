@@ -144,7 +144,6 @@ export class SystemConfig {
     //CONFIG.DND5E.toolIds.fletchersTools = "";
   }
 
-
   static _conditions() {
     // Add two new conditions to the token HUD.
     CONFIG.statusEffects.push({
