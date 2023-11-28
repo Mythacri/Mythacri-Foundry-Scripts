@@ -159,7 +159,6 @@ export class Crafting {
     const type = sheet.document.type;
     if (type === "loot") await Crafting._renderLootItemDropdowns(sheet, html);
     else if (Crafting.validRuneItemTypes.includes(type)) await Crafting._renderRunesData(sheet, html);
-    sheet.setPosition();
   }
 
   /**
