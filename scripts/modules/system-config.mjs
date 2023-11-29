@@ -28,6 +28,7 @@ export class SystemConfig {
       class: {
         subtypes: {
           investigatorTrinket: "MYTHACRI.FeatureInvestigatorTrinket",
+          moxie: "MYTHACRI.FeatureMoxie",
           wardenManeuver: "MYTHACRI.FeatureWardenManeuver",
           wardenSentinelSoul: "MYTHACRI.FeatureWardenSentinelSoul",
           wardenSentinelStand: "MYTHACRI.FeatureWardenSentinelStand",
@@ -80,6 +81,10 @@ export class SystemConfig {
       hexMalevolence: {
         label: "MYTHACRI.ArmorClassMalevolence",
         formula: "12 + @abilities.dex.mod + @abilities.cha.mod"
+      },
+      ironChin: {
+        label: "MYTHACRI.ArmorClassIronChin",
+        formula: "12 + @abilities.con.mod"
       }
     });
   }
