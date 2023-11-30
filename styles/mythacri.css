@@ -5,7 +5,6 @@
 /* ------------------------------ */
 .dnd5e.sheet.actor.character .alignment,
 .dnd5e.sheet.actor.character .experience,
-.dnd5e.sheet.actor.character .attributes:has(> .resource),
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
@@ -65,6 +64,22 @@
 }
 .dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(10) {
   filter: brightness(1.5);
+}
+.dnd5e.sheet.actor.character .center-pane .traits {
+  display: flex;
+  flex-direction: column;
+}
+.dnd5e.sheet.actor.character .center-pane .traits .form-group:has(.actor-size) {
+  order: -3;
+}
+.dnd5e.sheet.actor.character .center-pane .traits .form-group:has(.tag) {
+  order: -1;
+}
+.dnd5e.sheet.actor.character .center-pane .traits .form-group:has([data-trait=tool]) {
+  order: -2;
+}
+.dnd5e.sheet.actor .center-pane ul.attributes:not(:has(input[type=text]:not(:placeholder-shown))) {
+  order: 5;
 }
 
 /* ------------------------------ */
