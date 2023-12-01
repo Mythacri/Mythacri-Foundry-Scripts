@@ -91,12 +91,19 @@ export class SystemConfig {
 
   static _weaponProperties() {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      parrying: "MYTHACRI.WeaponPropertyParry",
+      aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
+      concealable: "MYTHACRI.WeaponPropertyConcealable",      
       scatter: "MYTHACRI.WeaponPropertyScatter",
+      sighted: "MYTHACRI.WeaponPropertySighted",
       superheavy: "MYTHACRI.WeaponPropertySuperheavy",
+      parrying: "MYTHACRI.WeaponPropertyParry",
       // Journeyman Properties
-      rocket: "MYTHACRI.WeaponPropertyRocket",
+      explosive: "MYTHACRI.WeaponPropertyExplosive",
       heat: "MYTHACRI.WeaponPropertyHeat",
+      massive: "MYTHACRI.WeaponPropertyMassive",
+      mounted: "MYTHACRI.WeaponPropertyMounted",
+      rocket: "MYTHACRI.WeaponPropertyRocket",
+      tension: "MYTHACRI.WeaponPropertyTension",
       twinshot: "MYTHACRI.WeaponPropertyTwinshot"
     });
   }
@@ -105,7 +112,8 @@ export class SystemConfig {
     // The sections in the weapon proficiency config.
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProficiencies, {
       firearmRen: "MYTHACRI.WeaponProficiencyFirearmRenPl",
-      firearmInd: "MYTHACRI.WeaponProficiencyFirearmIndPl"
+      firearmInd: "MYTHACRI.WeaponProficiencyFirearmIndPl",
+      exotic: "MYTHACRI.WeaponProficiencyExoticPl"
     });
 
     // Which section each entry belongs under (like 'simple melee' belongs under 'simple').
@@ -118,7 +126,8 @@ export class SystemConfig {
     // The weapon type itself, as an option in an item sheet.
     foundry.utils.mergeObject(CONFIG.DND5E.weaponTypes, {
       firearmRen: "MYTHACRI.WeaponProficiencyFirearmRen",
-      firearmInd: "MYTHACRI.WeaponProficiencyFirearmInd"
+      firearmInd: "MYTHACRI.WeaponProficiencyFirearmInd",
+      exotic: "MYTHACRI.WeaponProficiencyExotic"
     });
 
     // Weapon ids.
@@ -132,7 +141,7 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.blunderbuss = "mythacri-shared-compendium.equipment-myth.U9xCVu4nMr2o4Ip0";
     CONFIG.DND5E.weaponIds.flintlock = "mythacri-shared-compendium.equipment-myth.csl5Lu9LCoD8ZnwD";
     CONFIG.DND5E.weaponIds.musket = "mythacri-shared-compendium.equipment-myth.J6kVMp2X9WrUoRzT";
-    CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
+
 
     CONFIG.DND5E.weaponIds.cutlass = "mythacri-shared-compendium.equipment-myth.9r8gPk4RGDUUytZy";
     CONFIG.DND5E.weaponIds.estoc = "mythacri-shared-compendium.equipment-myth.xw77ea4rCFnpHgNy";
@@ -141,6 +150,14 @@ export class SystemConfig {
 
     CONFIG.DND5E.weaponIds.fishhook = "mythacri-shared-compendium.equipment-myth.lQqGpkcldeOKwZM0";
     CONFIG.DND5E.weaponIds.shovel = "mythacri-shared-compendium.equipment-myth.1D0WRHGVgbjaikkM";
+    CONFIG.DND5E.weaponIds.machete = "mythacri-shared-compendium.equipment-myth.06hcru0PpE0Q33Av";
+
+    CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
+    CONFIG.DND5E.weaponIds.duckfootPistol = "mythacri-shared-compendium.equipment-myth.GthTZpxLEVrMHQMm";
+    CONFIG.DND5E.weaponIds.greatspear = "mythacri-shared-compendium.equipment-myth.YK1KjJ1qtDJlppVd";
+    CONFIG.DND5E.weaponIds.portableBallista = "mythacri-shared-compendium.equipment-myth.52ayA03VImoL1361";
+
+
   }
 
   static _toolProficiencies() {
