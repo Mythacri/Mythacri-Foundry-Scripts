@@ -155,7 +155,7 @@ export class SystemConfig {
 
     CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
     CONFIG.DND5E.weaponIds.duckfootPistol = "mythacri-shared-compendium.equipment-myth.GthTZpxLEVrMHQMm";
-    CONFIG.DND5E.weaponIds.Greatspear = "mythacri-shared-compendium.equipment-myth.YK1KjJ1qtDJlppVd";
+    CONFIG.DND5E.weaponIds.greatspear = "mythacri-shared-compendium.equipment-myth.YK1KjJ1qtDJlppVd";
     CONFIG.DND5E.weaponIds.portableBallista = "mythacri-shared-compendium.equipment-myth.52ayA03VImoL1361";
 
 
