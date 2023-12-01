@@ -114,7 +114,7 @@ export class SystemConfig {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProficiencies, {
       firearmRen: "MYTHACRI.WeaponProficiencyFirearmRenPl",
       firearmInd: "MYTHACRI.WeaponProficiencyFirearmIndPl",
-      Exotic: "MYTHACRI.WeaponProficiencyExoticPl"
+      exotic: "MYTHACRI.WeaponProficiencyExoticPl"
     });
 
     // Which section each entry belongs under (like 'simple melee' belongs under 'simple').
