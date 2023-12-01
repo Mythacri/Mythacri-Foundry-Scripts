@@ -128,7 +128,7 @@ export class SystemConfig {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponTypes, {
       firearmRen: "MYTHACRI.WeaponProficiencyFirearmRen",
       firearmInd: "MYTHACRI.WeaponProficiencyFirearmInd",
-      Exotic: "MYTHACRI.WeaponProficiencyExotic"
+      exotic: "MYTHACRI.WeaponProficiencyExotic"
     });
 
     // Weapon ids.
