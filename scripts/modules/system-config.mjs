@@ -91,20 +91,20 @@ export class SystemConfig {
 
   static _weaponProperties() {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      parrying: "MYTHACRI.WeaponPropertyParry",
-      scatter: "MYTHACRI.WeaponPropertyScatter",
-      superheavy: "MYTHACRI.WeaponPropertySuperheavy",
-      concealable: "MYTHACRI.WeaponPropertyConcealable",
       aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
+      concealable: "MYTHACRI.WeaponPropertyConcealable",      
+      scatter: "MYTHACRI.WeaponPropertyScatter",
       sighted: "MYTHACRI.WeaponPropertySighted",
+      superheavy: "MYTHACRI.WeaponPropertySuperheavy",
+      parrying: "MYTHACRI.WeaponPropertyParry",
       // Journeyman Properties
-      rocket: "MYTHACRI.WeaponPropertyRocket",
-      heat: "MYTHACRI.WeaponPropertyHeat",
-      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
-      mounted: "MYTHACRI.WeaponPropertyMounted",
       explosive: "MYTHACRI.WeaponPropertyExplosive",
+      heat: "MYTHACRI.WeaponPropertyHeat",
       massive: "MYTHACRI.WeaponPropertyMassive",
-      tension: "MYTHACRI.WeaponPropertyTension"
+      mounted: "MYTHACRI.WeaponPropertyMounted",
+      rocket: "MYTHACRI.WeaponPropertyRocket",
+      tension: "MYTHACRI.WeaponPropertyTension",
+      twinshot: "MYTHACRI.WeaponPropertyTwinshot"
     });
   }
 
