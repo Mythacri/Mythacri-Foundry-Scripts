@@ -95,7 +95,6 @@ export class SystemConfig {
       scatter: "MYTHACRI.WeaponPropertyScatter",
       superheavy: "MYTHACRI.WeaponPropertySuperheavy",
       concealable: "MYTHACRI.WeaponPropertyConcealable",
-      parrying: "MYTHACRI.WeaponPropertyParrying",
       aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
       sighted: "MYTHACRI.WeaponPropertySighted",
       // Journeyman Properties
