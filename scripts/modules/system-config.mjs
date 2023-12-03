@@ -29,6 +29,7 @@ export class SystemConfig {
         subtypes: {
           investigatorTrinket: "MYTHACRI.FeatureInvestigatorTrinket",
           moxie: "MYTHACRI.FeatureMoxie",
+          rangerAspect: "MYTHACRI.FeatureRangerAspect",
           wardenManeuver: "MYTHACRI.FeatureWardenManeuver",
           wardenSentinelSoul: "MYTHACRI.FeatureWardenSentinelSoul",
           wardenSentinelStand: "MYTHACRI.FeatureWardenSentinelStand",
@@ -92,7 +93,7 @@ export class SystemConfig {
   static _weaponProperties() {
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
       aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
-      concealable: "MYTHACRI.WeaponPropertyConcealable",      
+      concealable: "MYTHACRI.WeaponPropertyConcealable",
       scatter: "MYTHACRI.WeaponPropertyScatter",
       sighted: "MYTHACRI.WeaponPropertySighted",
       superheavy: "MYTHACRI.WeaponPropertySuperheavy",
