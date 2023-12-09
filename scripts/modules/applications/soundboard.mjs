@@ -24,7 +24,7 @@ export class Soundboard extends Application {
    * @constructor
    * @param {object} [options={}]     Rendering options.
    */
-  constructor(options={}) {
+  constructor(options = {}) {
     super(options);
     this.path = game.settings.get(MODULE.ID, "identifiers").paths.soundboard;
   }
@@ -62,14 +62,13 @@ export class Soundboard extends Application {
    * @returns {Promise<object[]>}     A promise that resolves to an array of objects with `src` and `name`.
    */
   async getFiles() {
-    const errorMessage = "No sound files were found at the specified location.";
     try {
       const extentions = Object.keys(CONST.AUDIO_FILE_EXTENSIONS).map(k => `.${k}`);
       const {files} = await FilePicker.browse("data", this.path, {extentions});
-      if (!files.length) throw new Error(errorMessage);
+      if (!files.length) throw new Error(game.i18n.localize("MYTHACRI.SoundboardError"));
       return files.map(src => ({src: src, name: AudioHelper.getDefaultSoundName(src)}));
     } catch (err) {
-      ui.notifications.error(errorMessage, {permanent: true});
+      ui.notifications.error("MYTHACRI.SoundboardError", {localize: true, permanent: true});
       return [];
     }
   }

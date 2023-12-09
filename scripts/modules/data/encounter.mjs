@@ -63,7 +63,7 @@ export class Encounter extends Application {
 
   /**
    * Factory method to render this application and apply a hook.
-   * @returns {Encounter}
+   * @returns {Encounter}      The rendered Encounter application.
    */
   static create() {
     Hooks.on("createChatMessage", Encounter.hook);
