@@ -28,15 +28,22 @@ export class Crafting {
     return {
       acid: {
         label: "MYTHACRI.ResourceMonsterAcid",
-        uncommon: ["beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "plant", "undead"]
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "plant", "undead"
+        ]
       },
       antenna: {
         label: "MYTHACRI.ResourceMonsterAntenna",
-        uncommon: ["celestial", "construct", "dragon", "elemental", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
       },
       antler: {
         label: "MYTHACRI.ResourceMonsterAntler",
-        uncommon: ["aberration", "celestial", "construct", "dragon", "elemental", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "aberration", "celestial", "construct", "dragon", "elemental", "fiend", "giant",
+          "humanoid", "ooze", "plant", "undead"
+        ]
       },
       blood: {
         label: "MYTHACRI.ResourceMonsterBlood",
@@ -52,11 +59,16 @@ export class Crafting {
       },
       breathSac: {
         label: "MYTHACRI.ResourceMonsterBreathSac",
-        uncommon: ["aberration", "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "aberration", "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       carapace: {
         label: "MYTHACRI.ResourceMonsterCarapace",
-        uncommon: ["celestial", "construct", "dragon", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "celestial", "construct", "dragon", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
       },
       claws: {
         label: "MYTHACRI.ResourceMonsterClaws",
@@ -64,15 +76,22 @@ export class Crafting {
       },
       dust: {
         label: "MYTHACRI.ResourceMonsterDust",
-        uncommon: ["beast", "construct", "dragon", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "beast", "construct", "dragon", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       egg: {
         label: "MYTHACRI.ResourceMonsterEgg",
-        uncommon: ["celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
       },
       etherealIchor: {
         label: "MYTHACRI.ResourceMonsterEtherealIchor",
-        uncommon: ["aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant"]
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "plant"
+        ]
       },
       eye: {
         label: "MYTHACRI.ResourceMonsterEye",
@@ -100,7 +119,10 @@ export class Crafting {
       },
       hide: {
         label: "MYTHACRI.ResourceMonsterHide",
-        uncommon: ["celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "ooze", "plant", "undead"
+        ]
       },
       horn: {
         label: "MYTHACRI.ResourceMonsterHorn",
@@ -108,7 +130,10 @@ export class Crafting {
       },
       instructions: {
         label: "MYTHACRI.ResourceMonsterInstructions",
-        uncommon: ["aberration", "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "aberration", "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       liver: {
         label: "MYTHACRI.ResourceMonsterLiver",
@@ -116,35 +141,58 @@ export class Crafting {
       },
       mainEye: {
         label: "MYTHACRI.ResourceMonsterMainEye",
-        uncommon: ["beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       mote: {
         label: "MYTHACRI.ResourceMonsterMote",
-        uncommon: ["aberration", "beast", "celestial", "construct", "dragon", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       mucus: {
         label: "MYTHACRI.ResourceMonsterMucus",
-        uncommon: ["beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "plant", "undead"]
+        uncommon: [
+          "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "plant", "undead"
+        ]
       },
       oil: {
         label: "MYTHACRI.ResourceMonsterOil",
-        uncommon: ["beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       pincer: {
         label: "MYTHACRI.ResourceMonsterPincer",
-        uncommon: ["celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
       },
       plating: {
         label: "MYTHACRI.ResourceMonsterPlating",
-        uncommon: ["beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"]
+        uncommon: [
+          "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
       },
       poisonGland: {
         label: "MYTHACRI.ResourceMonsterPoisonGland",
-        uncommon: ["celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid",
+          "ooze", "plant", "undead"
+        ]
       },
       sap: {
         label: "MYTHACRI.ResourceMonsterSap",
-        uncommon: ["aberration", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "undead"]
+        uncommon: [
+          "aberration", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "undead"
+        ]
       },
       scales: {
         label: "MYTHACRI.ResourceMonsterScales",
@@ -156,11 +204,16 @@ export class Crafting {
       },
       stinger: {
         label: "MYTHACRI.ResourceMonsterStinger",
-        uncommon: ["beast", "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "undead"]
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "undead"
+        ]
       },
       talon: {
         label: "MYTHACRI.ResourceMonsterTalon",
-        uncommon: ["aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant",
+          "humanoid", "ooze", "plant", "undead"
+        ]
       },
       teeth: {
         label: "MYTHACRI.ResourceMonsterTeeth",
@@ -168,11 +221,17 @@ export class Crafting {
       },
       tentacle: {
         label: "MYTHACRI.ResourceMonsterTentacle",
-        uncommon: ["beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "ooze", "plant", "undead"
+        ]
       },
       tusk: {
         label: "MYTHACRI.ResourceMonsterTusk",
-        uncommon: ["aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend",
+          "giant", "humanoid", "ooze", "plant", "undead"
+        ]
       }
     };
   }
