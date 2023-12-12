@@ -115,8 +115,8 @@ export class Mayhem extends foundry.abstract.DataModel {
 
   /**
    * Deduct mayhem points from yourself.
-   * @param {number} [value=1]      The amount of points to deduct.
-   * @returns {Promise<User>}       The user after having their points updated.
+   * @param {number} [value=1]          The amount of points to deduct.
+   * @returns {Promise<User|null>}      The updated User, or null if the value was invalid.
    */
   static async deduct(value = 1) {
     const mayhem = Mayhem.create();
@@ -142,8 +142,8 @@ export class Mayhem extends foundry.abstract.DataModel {
 
   /**
    * Add mayhem points to yourself.
-   * @param {number} [value=1]      The amount of points to add.
-   * @returns {Promise<User>}       The user after having their points updated.
+   * @param {number} [value=1]          The amount of points to add.
+   * @returns {Promise<User|null>}      The updated User, or null if the value was invalid.
    */
   static async add(value = 1) {
     const mayhem = Mayhem.create();
