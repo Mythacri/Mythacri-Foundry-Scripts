@@ -120,11 +120,18 @@ export class ResourcePopulator extends FormApplication {
         }
       }
     });
-    const list = Object.entries(data).reduce((acc, [key, {formula}]) => {
+    let list = foundry.utils.deepClone(this.actor.getFlag("simple-loot-list", "loot-list") ?? []);
+    list = Object.entries(data).reduce((acc, [key, {formula}]) => {
       const item = items.find(item => item.flags[MODULE.ID].resource.subsubtype === key);
       if (!item) throw new Error(`No item with monster part type '${key}' exists!`);
-      return acc.concat([{uuid: item.uuid, quantity: formula}])
-    }, []);
+      const uuid = item.uuid;
+      const existing = acc.find(e => e.uuid === uuid);
+      if (existing) {
+        existing.quantity = dnd5e.dice.simplifyRollFormula(`${existing.quantity} + ${formula}`);
+        return acc;
+      }
+      return acc.concat([{uuid: uuid, quantity: formula}])
+    }, list);
     return this.actor.setFlag("simple-loot-list", "loot-list", list);
   }
 
