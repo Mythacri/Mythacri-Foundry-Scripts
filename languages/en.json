@@ -167,6 +167,10 @@
   "MYTHACRI.ResourceMonsterTeeth": "Teeth",
   "MYTHACRI.ResourceMonsterTentacle": "Tentacle",
   "MYTHACRI.ResourceMonsterTusk": "Tusk",
+  "MYTHACRI.ResourcePopulatorActive": "Active",
+  "MYTHACRI.ResourcePopulatorNoActors": "You must provide at least one valid actor.",
+  "MYTHACRI.ResourcePopulatorSave": "Save",
+  "MYTHACRI.ResourcePopulatorTitle": "Populate Loot List: {name}",
   "MYTHACRI.ResourceTypeEssence": "Essence",
   "MYTHACRI.ResourceTypeGem": "Gem",
   "MYTHACRI.ResourceTypeLabelEssence": "{subtype} {type}",
@@ -214,9 +218,5 @@
   "MYTHACRI.WeaponPropertySuperheavy": "Superheavy",
   "MYTHACRI.WeaponPropertyTension": "Tension",
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
-  "MYTHACRI.ResourcePopulatorActive": "Active",
-  "MYTHACRI.ResourcePopulatorSave": "Save",
-  "MYTHACRI.ResourcePopulatorTitle": "Populate Loot List: {name}",
-  "MYTHACRI.ResourcePopulatorNoActors": "You must provide at least one valid actor.",
   "TYPES.Item.mythacri-scripts.recipe": "Recipe"
 }
