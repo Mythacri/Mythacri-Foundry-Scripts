@@ -1,3 +1,4 @@
+import {ResourcePopulator} from "./applications/resource-populator.mjs";
 import {Crafting} from "./data/crafting.mjs";
 import {Encounter} from "./data/encounter.mjs";
 import {Mayhem} from "./data/mayhem.mjs";
@@ -13,7 +14,8 @@ export class PublicInterface {
       mayhem: Mayhem,
       crafting: Crafting,
       encounter: Encounter,
-      experience: ExperiencePips
+      experience: ExperiencePips,
+      resource: ResourcePopulator
     };
   }
 }
