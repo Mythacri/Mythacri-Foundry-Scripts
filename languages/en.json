@@ -213,5 +213,9 @@
   "MYTHACRI.WeaponPropertyRocket": "Rocket",
   "MYTHACRI.WeaponPropertyTension": "Tension",
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
+  "MYTHACRI.ResourcePopulatorActive": "Active",
+  "MYTHACRI.ResourcePopulatorSave": "Save",
+  "MYTHACRI.ResourcePopulatorTitle": "Populate Loot List: {name}",
+  "MYTHACRI.ResourcePopulatorNoActors": "You must provide at least one valid actor.",
   "TYPES.Item.mythacri-scripts.recipe": "Recipe"
 }
