@@ -21,47 +21,218 @@ export class Crafting {
 
   /**
    * Monster sub-subtypes. The parts that can be harvested for physical parts.
+   * The 'uncommon' array contains a list of creature types from which this part is rarely or never found.
    * @type {object}
    */
   static get subsubtypes() {
     return {
-      acid: "MYTHACRI.ResourceMonsterAcid",
-      antenna: "MYTHACRI.ResourceMonsterAntenna",
-      antler: "MYTHACRI.ResourceMonsterAntler",
-      blood: "MYTHACRI.ResourceMonsterBlood",
-      bone: "MYTHACRI.ResourceMonsterBone",
-      brain: "MYTHACRI.ResourceMonsterBrain",
-      breathSac: "MYTHACRI.ResourceMonsterBreathSac",
-      carapace: "MYTHACRI.ResourceMonsterCarapace",
-      claws: "MYTHACRI.ResourceMonsterClaws",
-      dust: "MYTHACRI.ResourceMonsterDust",
-      egg: "MYTHACRI.ResourceMonsterEgg",
-      etherealIchor: "MYTHACRI.ResourceMonsterEtherealIchor",
-      eye: "MYTHACRI.ResourceMonsterEye",
-      fat: "MYTHACRI.ResourceMonsterFat",
-      feathers: "MYTHACRI.ResourceMonsterFeathers",
-      fin: "MYTHACRI.ResourceMonsterFin",
-      flesh: "MYTHACRI.ResourceMonsterFlesh",
-      heart: "MYTHACRI.ResourceMonsterHeart",
-      hide: "MYTHACRI.ResourceMonsterHide",
-      horn: "MYTHACRI.ResourceMonsterHorn",
-      instructions: "MYTHACRI.ResourceMonsterInstructions",
-      liver: "MYTHACRI.ResourceMonsterLiver",
-      mainEye: "MYTHACRI.ResourceMonsterMainEye",
-      mote: "MYTHACRI.ResourceMonsterMote",
-      mucus: "MYTHACRI.ResourceMonsterMucus",
-      oil: "MYTHACRI.ResourceMonsterOil",
-      pincer: "MYTHACRI.ResourceMonsterPincer",
-      plating: "MYTHACRI.ResourceMonsterPlating",
-      poisonGland: "MYTHACRI.ResourceMonsterPoisonGland",
-      sap: "MYTHACRI.ResourceMonsterSap",
-      scales: "MYTHACRI.ResourceMonsterScales",
-      skin: "MYTHACRI.ResourceMonsterSkin",
-      stinger: "MYTHACRI.ResourceMonsterStinger",
-      talon: "MYTHACRI.ResourceMonsterTalon",
-      teeth: "MYTHACRI.ResourceMonsterTeeth",
-      tentacle: "MYTHACRI.ResourceMonsterTentacle",
-      tusk: "MYTHACRI.ResourceMonsterTusk"
+      acid: {
+        label: "MYTHACRI.ResourceMonsterAcid",
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "plant", "undead"
+        ]
+      },
+      antenna: {
+        label: "MYTHACRI.ResourceMonsterAntenna",
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      antler: {
+        label: "MYTHACRI.ResourceMonsterAntler",
+        uncommon: [
+          "aberration", "celestial", "construct", "dragon", "elemental", "fiend", "giant",
+          "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      blood: {
+        label: "MYTHACRI.ResourceMonsterBlood",
+        uncommon: ["celestial", "dragon", "elemental", "ooze", "plant"]
+      },
+      bone: {
+        label: "MYTHACRI.ResourceMonsterBone",
+        uncommon: ["humanoid", "ooze", "plant"]
+      },
+      brain: {
+        label: "MYTHACRI.ResourceMonsterBrain",
+        uncommon: ["dragon", "elemental", "fey", "humanoid", "monstrosity", "ooze", "plant"]
+      },
+      breathSac: {
+        label: "MYTHACRI.ResourceMonsterBreathSac",
+        uncommon: [
+          "aberration", "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      carapace: {
+        label: "MYTHACRI.ResourceMonsterCarapace",
+        uncommon: [
+          "celestial", "construct", "dragon", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      claws: {
+        label: "MYTHACRI.ResourceMonsterClaws",
+        uncommon: ["construct", "elemental", "giant", "humanoid", "ooze", "plant", "undead"]
+      },
+      dust: {
+        label: "MYTHACRI.ResourceMonsterDust",
+        uncommon: [
+          "beast", "construct", "dragon", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      egg: {
+        label: "MYTHACRI.ResourceMonsterEgg",
+        uncommon: [
+          "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      etherealIchor: {
+        label: "MYTHACRI.ResourceMonsterEtherealIchor",
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "plant"
+        ]
+      },
+      eye: {
+        label: "MYTHACRI.ResourceMonsterEye",
+        uncommon: ["construct", "humanoid", "ooze", "plant"]
+      },
+      fat: {
+        label: "MYTHACRI.ResourceMonsterFat",
+        uncommon: ["construct", "elemental", "humanoid", "ooze", "plant", "undead"]
+      },
+      feathers: {
+        label: "MYTHACRI.ResourceMonsterFeathers",
+        uncommon: ["aberration", "construct", "elemental", "giant", "humanoid", "ooze", "plant", "undead"]
+      },
+      fin: {
+        label: "MYTHACRI.ResourceMonsterFin",
+        uncommon: ["construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
+      },
+      flesh: {
+        label: "MYTHACRI.ResourceMonsterFlesh",
+        uncommon: ["elemental", "humanoid", "ooze", "plant"]
+      },
+      heart: {
+        label: "MYTHACRI.ResourceMonsterHeart",
+        uncommon: ["construct", "elemental", "humanoid", "ooze", "plant", "undead"]
+      },
+      hide: {
+        label: "MYTHACRI.ResourceMonsterHide",
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "ooze", "plant", "undead"
+        ]
+      },
+      horn: {
+        label: "MYTHACRI.ResourceMonsterHorn",
+        uncommon: ["construct", "giant", "humanoid", "ooze", "plant", "undead"]
+      },
+      instructions: {
+        label: "MYTHACRI.ResourceMonsterInstructions",
+        uncommon: [
+          "aberration", "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      liver: {
+        label: "MYTHACRI.ResourceMonsterLiver",
+        uncommon: ["construct", "elemental", "humanoid", "ooze", "plant", "undead"]
+      },
+      mainEye: {
+        label: "MYTHACRI.ResourceMonsterMainEye",
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      mote: {
+        label: "MYTHACRI.ResourceMonsterMote",
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      mucus: {
+        label: "MYTHACRI.ResourceMonsterMucus",
+        uncommon: [
+          "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "plant", "undead"
+        ]
+      },
+      oil: {
+        label: "MYTHACRI.ResourceMonsterOil",
+        uncommon: [
+          "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      pincer: {
+        label: "MYTHACRI.ResourceMonsterPincer",
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      plating: {
+        label: "MYTHACRI.ResourceMonsterPlating",
+        uncommon: [
+          "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
+          "monstrosity", "ooze", "plant", "undead"
+        ]
+      },
+      poisonGland: {
+        label: "MYTHACRI.ResourceMonsterPoisonGland",
+        uncommon: [
+          "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid",
+          "ooze", "plant", "undead"
+        ]
+      },
+      sap: {
+        label: "MYTHACRI.ResourceMonsterSap",
+        uncommon: [
+          "aberration", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "monstrosity", "ooze", "undead"
+        ]
+      },
+      scales: {
+        label: "MYTHACRI.ResourceMonsterScales",
+        uncommon: ["beast", "construct", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"]
+      },
+      skin: {
+        label: "MYTHACRI.ResourceMonsterSkin",
+        uncommon: ["beast", "construct", "dragon", "elemental", "humanoid", "ooze", "undead"]
+      },
+      stinger: {
+        label: "MYTHACRI.ResourceMonsterStinger",
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "undead"
+        ]
+      },
+      talon: {
+        label: "MYTHACRI.ResourceMonsterTalon",
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant",
+          "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      teeth: {
+        label: "MYTHACRI.ResourceMonsterTeeth",
+        uncommon: ["beast", "construct", "elemental", "humanoid", "ooze", "plant"]
+      },
+      tentacle: {
+        label: "MYTHACRI.ResourceMonsterTentacle",
+        uncommon: [
+          "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
+          "humanoid", "ooze", "plant", "undead"
+        ]
+      },
+      tusk: {
+        label: "MYTHACRI.ResourceMonsterTusk",
+        uncommon: [
+          "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend",
+          "giant", "humanoid", "ooze", "plant", "undead"
+        ]
+      }
     };
   }
 
@@ -390,7 +561,7 @@ export class Crafting {
 
     if (subtype === "*") {
       return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubtype", {
-        subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype])
+        subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype].label)
       });
     }
 
@@ -403,7 +574,7 @@ export class Crafting {
     const data = {
       type: game.i18n.localize("MYTHACRI.ResourceTypeMonster"),
       subtype: game.i18n.localize(CONFIG.DND5E.creatureTypes[subtype]),
-      subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype])
+      subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype].label)
     };
     return game.i18n.format("MYTHACRI.ResourceTypeLabelMonster", data);
   }

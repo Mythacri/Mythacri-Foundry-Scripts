@@ -90,3 +90,14 @@ Accessed through any `character` type actor, the new async method `Actor5e#fullR
  */
 async fullRestDialog()
 ```
+
+### Resources
+Accessed through `mythacri.resource`.
+```js
+/**
+ * Factory method to create an instance of this application for several actors.
+ * @param {Actor5e|Actor5e[]} [actors]      An actor or array of actors.
+ * @returns {void}
+ */
+static create(actors = [])
+```
