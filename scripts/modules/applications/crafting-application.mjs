@@ -50,7 +50,7 @@ export class CraftingApplication extends Application {
     const context = await Promise.all(recipes.map(async (item) => {
       const components = item.system.getComponents();
       const labels = Object.entries(components).map(([id, qty]) => {
-        const items = this.getPossibleResources(id, qty);
+        const items = this.getPossibleResources(id);
         const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
         return {
           cssClass: (max < qty) ? "missing" : "",

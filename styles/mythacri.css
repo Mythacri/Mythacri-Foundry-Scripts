@@ -265,6 +265,13 @@
   display: flex;
   justify-content: space-between;
 }
+.mythacri-scripts.crafting .recipe .header .name .create {
+  white-space: nowrap;
+  max-width: 30%;
+  font-size: 20px;
+  font-family: 'Modesto Condensed';
+  padding: 4px;
+}
 .mythacri-scripts.crafting .recipe .header .basic {
   font-style: italic;
   color: gray;
@@ -282,6 +289,8 @@
 .mythacri-scripts.crafting .recipe .details .description {
   flex: 3;
   font-style: italic;
+  max-width: 60%;
+  overflow: hidden;
 }
 .mythacri-scripts.crafting .recipe .details .components {
   padding-top: 5px;
@@ -331,6 +340,7 @@
 }
 .mythacri-scripts.crafting-handler .header img {
   height: 50px;
+  width: 50px;
   border: none;
 }
 .mythacri-scripts.crafting-handler .components {

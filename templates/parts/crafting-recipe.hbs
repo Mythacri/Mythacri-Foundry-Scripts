@@ -3,10 +3,10 @@
     <div class="name">
       {{recipe.name}}
       {{#if canCreate}}
-      <a class="create" data-uuid="{{recipe.uuid}}">
+      <button type="button" class="create" data-uuid="{{recipe.uuid}}">
         {{localize "MYTHACRI.CraftingCreate"}}
         <i class="fa-solid fa-{{icon}}"></i>
-      </a>
+      </button>
       {{/if}}
     </div>
     <div class="basic">{{#if isBasic}}{{localize "MYTHACRI.ItemRecipeBasic"}}{{/if}}</div>
