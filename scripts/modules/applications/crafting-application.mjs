@@ -96,7 +96,8 @@ export class CraftingApplication extends Application {
         "system.type.value",
         "system.crafting.basic",
         "system.crafting.target",
-        "system.crafting.components"
+        "system.crafting.components",
+        "system.description.value"
       ]
     })).filter(idx => {
       const isType = (idx.type === "mythacri-scripts.recipe") && (idx.system.type.value === this.type);
