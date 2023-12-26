@@ -264,6 +264,7 @@
   font-family: "Modesto Condensed";
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .mythacri-scripts.crafting .recipe .header .name .create {
   white-space: nowrap;
@@ -290,7 +291,8 @@
   flex: 3;
   font-style: italic;
   max-width: 60%;
-  overflow: hidden;
+  overflow: hidden auto;
+  max-height: 250px;
 }
 .mythacri-scripts.crafting .recipe .details .components {
   padding-top: 5px;
