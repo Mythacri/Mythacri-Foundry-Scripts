@@ -1,7 +1,7 @@
 <div class="recipe">
   <div class="header">
     <div class="name">
-      {{recipe.name}}
+      <a class="label">{{recipe.name}}</a>
       {{#if canCreate}}
       <button type="button" class="create" data-uuid="{{recipe.uuid}}">
         <i class="fa-solid fa-{{icon}}"></i>

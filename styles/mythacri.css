@@ -278,15 +278,17 @@
   color: gray;
 }
 .mythacri-scripts.crafting .recipe .details {
-  display: flex;
+  display: none;
   gap: 1em;
+}
+.mythacri-scripts.crafting .recipe.expanded .details {
+  display: flex;
 }
 .mythacri-scripts.crafting .recipe .details .description {
   flex: 3;
   font-style: italic;
   max-width: 60%;
-  overflow: hidden auto;
-  max-height: 250px;
+  overflow: hidden;
 }
 .mythacri-scripts.crafting .recipe .details .components {
   padding-top: 5px;

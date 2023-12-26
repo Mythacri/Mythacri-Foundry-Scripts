@@ -113,7 +113,7 @@ export class CraftingApplication extends Application {
         return false;
       }
       return RecipeData.knowsRecipe(this.actor, idx._id, idx.system.type.value, idx.system.crafting.basic);
-    });
+    }).sort((a, b) => a.name.localeCompare(b.name));
   }
 
   /**
@@ -174,7 +174,12 @@ export class CraftingApplication extends Application {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html[0].querySelectorAll(".create").forEach(n => n.addEventListener("click", this._onCreate.bind(this)));
+    html[0].querySelectorAll(".create").forEach(n => {
+      n.addEventListener("click", this._onCreate.bind(this));
+    });
+    html[0].querySelectorAll(".header .name .label").forEach(n => {
+      n.addEventListener("click", this._toggleDescription.bind(this));
+    });
   }
 
   /* ------------------------------------ */
@@ -191,6 +196,14 @@ export class CraftingApplication extends Application {
     const recipe = await fromUuid(event.currentTarget.dataset.uuid);
     const canCreate = this.canCreateRecipe(recipe);
     return !canCreate ? this.render() : new CraftingHandler(this.actor, this.type, recipe).render(true);
+  }
+
+  /**
+   * Slide a description up or down.
+   * @param {PointerEvent} event
+   */
+  _toggleDescription(event) {
+    event.currentTarget.closest(".recipe").classList.toggle("expanded");
   }
 }
 
