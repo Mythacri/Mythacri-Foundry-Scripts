@@ -1,5 +1,6 @@
 import {MODULE} from "../constants.mjs";
 import {Crafting} from "../data/crafting.mjs";
+import {RecipeData} from "../data/models/recipe-item.mjs";
 
 /**
  * Main crafting application class to handle all types of crafting.
@@ -47,8 +48,8 @@ export class CraftingApplication extends Application {
       spirit: "fire-flame-simple"
     }[this.type];
     const recipes = await this.getAvailableRecipes();
-    const context = await Promise.all(recipes.map(async (item) => {
-      const components = item.system.getComponents();
+    const context = recipes.map(idx => {
+      const components = RecipeData.getComponents(idx.system.crafting.components);
       const labels = Object.entries(components).map(([id, qty]) => {
         const items = this.getPossibleResources(id);
         const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
@@ -58,22 +59,19 @@ export class CraftingApplication extends Application {
         };
       });
 
-      const qty = item.system.crafting.target.quantity || 1;
-      const target = await item.system.getTarget();
-      const targetLink = await TextEditor.enrichHTML(target.link, {async: true});
+      const qty = idx.system.crafting.target.quantity || 1;
 
       return {
-        recipe: item,
-        canCreate: this.canCreateRecipe(item),
-        target: targetLink,
+        recipe: idx,
+        canCreate: this.canCreateRecipe(idx),
         isStack: qty > 1,
         stack: qty,
-        isBasic: item.system.crafting.basic,
+        isBasic: idx.system.crafting.basic,
         labels: labels,
         components: components,
         icon: icon
       };
-    }));
+    });
 
     const [unavailable, available] = context.partition(c => c.canCreate);
     return {unavailable, available};
@@ -87,35 +85,43 @@ export class CraftingApplication extends Application {
 
   /**
    * Retrieve all recipes that are of this type and that this actor has learned (or are basic).
-   * @returns {Promise<Item5e[]>}
+   * @returns {Promise<object[]>}     Compendium index entries.
    */
   async getAvailableRecipes() {
     const pack = game.settings.get(MODULE.ID, "identifiers").packs.craftingRecipes;
     if (!pack) throw new Error("There is no valid crafting recipes compendium in the settings.");
 
-    const documents = await pack.getDocuments({type: "mythacri-scripts.recipe", system: {type: {value: this.type}}});
-    return documents.filter(item => {
-      const hasT = item.system.hasTarget;
+    return (await pack.getIndex({
+      fields: [
+        "system.type.value",
+        "system.crafting.basic",
+        "system.crafting.target",
+        "system.crafting.components"
+      ]
+    })).filter(idx => {
+      const isType = (idx.type === "mythacri-scripts.recipe") && (idx.system.type.value === this.type);
+      if (!isType) return false;
+      const hasT = RecipeData.hasTarget(idx.system.crafting.target.uuid);
       if (!hasT) {
-        console.warn(`Recipe item '${item.name}' has no valid target.`);
+        console.warn(`Recipe item '${idx.name}' has no valid target.`);
         return false;
       }
-      const hasC = item.system.hasComponents;
+      const hasC = RecipeData.hasComponents(idx.system.crafting.components);
       if (!hasC) {
-        console.warn(`Recipe item '${item.name}' has no valid components.`);
+        console.warn(`Recipe item '${idx.name}' has no valid components.`);
         return false;
       }
-      return item.system.knowsRecipe(this.actor);
+      return RecipeData.knowsRecipe(this.actor, idx._id, idx.system.type.value, idx.system.crafting.basic);
     });
   }
 
   /**
    * Does the actor have the needed components for this recipe?
-   * @param {Item5e} item     The recipe.
+   * @param {object} idx     The recipe retrieved from compendium index.
    * @returns {boolean}
    */
-  canCreateRecipe(item) {
-    const components = item.system.getComponents();
+  canCreateRecipe(idx) {
+    const components = RecipeData.getComponents(idx.system.crafting.components);
     const resources = this.actor.items.reduce((acc, item) => {
       const validFor = Object.keys(components).find(id => Crafting.validResourceForComponent(item, id));
       if (validFor) acc[validFor] = Math.max(acc[validFor] ?? 0, item.system.quantity);
@@ -153,13 +159,13 @@ export class CraftingApplication extends Application {
   }
 
   /** @override */
-  async render(...args) {
+  render(...args) {
     this.actor.apps[`crafting-${this.type}`] = this;
     return super.render(...args);
   }
 
   /** @override */
-  async close(...args) {
+  close(...args) {
     delete this.actor.apps[`crafting-${this.type}`];
     return super.close(...args);
   }

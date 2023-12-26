@@ -55,6 +55,9 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @type {string[]}
    */
   get allowedTargetTypes() {
+    return this.constructor.allowedTargetTypes;
+  }
+  static get allowedTargetTypes() {
     return ["feat", "backpack", "consumable", "weapon", "equipment", "tool"];
   }
 
@@ -72,7 +75,15 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @type {boolean}
    */
   get hasTarget() {
-    const uuid = this.crafting.target.uuid || "";
+    return this.constructor.hasTarget(this.crafting.target.uuid);
+  }
+
+  /**
+   * Does this item have a valid target?
+   * @param {string} uuid     The uuid of the target.
+   * @returns {boolean}       Whether the item has a target.
+   */
+  static hasTarget(uuid) {
     if (!uuid || (typeof uuid !== "string")) return false;
     const entry = fromUuidSync(uuid);
     return this.allowedTargetTypes.includes(entry?.type);
@@ -83,7 +94,16 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {object}      An object mapping `identifier` to `quantity`.
    */
   getComponents() {
-    return this.crafting.components.reduce((acc, c) => {
+    return this.constructor.getComponents(this.crafting.components);
+  }
+
+  /**
+   * Get the crafting object reduced to only those that are valid identifiers.
+   * @param {object[]} [components]     The array of components with `identifier` and `quantity`.
+   * @returns {object}                  An object mapping `identifier` to `quantity`.
+   */
+  static getComponents(components = []) {
+    return components.reduce((acc, c) => {
       const id = c.identifier;
       if (Crafting.validIdentifier(id, {allowWildcard: true})) {
         acc[id] ??= 0;
@@ -98,7 +118,16 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @type {boolean}
    */
   get hasComponents() {
-    return this.crafting.components.some(c => Crafting.validIdentifier(c.identifier, {allowWildcard: true}));
+    return this.constructor.hasComponents(this.crafting.components);
+  }
+
+  /**
+   * Does this item have valid components?
+   * @param {object[]} [components]     The array of components with `identifier` and `quantity`.
+   * @returns {boolean}                 Whether any components are valid.
+   */
+  static hasComponents(components = []) {
+    return components.some(c => Crafting.validIdentifier(c.identifier, {allowWildcard: true}));
   }
 
   /**
@@ -107,11 +136,21 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {boolean}
    */
   knowsRecipe(actor) {
+    return this.constructor.knowsRecipe(actor, this.parent.id, this.type.value, this.crafting.basic);
+  }
+
+  /**
+   * Return whether an actor knows a recipe.
+   * @param {Actor5e} actor             The actor to test.
+   * @param {string} id                 The id of the recipe.
+   * @param {string} recipeType         The type of recipe ('rune', 'spirit', 'monster', 'cooking').
+   * @param {boolean} [basic=false]     Is this a basic recipe?
+   */
+  static knowsRecipe(actor, id, recipeType, basic = false) {
     if (actor.type !== "character") return false;
-    const isBasic = this.crafting.basic;
-    const isEnabled = !!actor.flags.dnd5e?.crafting?.[this.type.value];
-    const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(this.parent.id);
-    return isEnabled && (isBasic || isLearned);
+    const isEnabled = !!actor.flags.dnd5e?.crafting?.[recipeType];
+    const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(id);
+    return isEnabled && (basic || isLearned);
   }
 
   /**
@@ -120,10 +159,20 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {boolean}
    */
   canLearnRecipe(actor) {
+    return this.constructor.canLearnRecipe(actor, this.parent.id, this.type.value, this.crafting.basic);
+  }
+
+  /**
+   * Return whether an actor can learn a recipe.
+   * @param {Actor5e} actor             The actor to test.
+   * @param {string} id                 The id of the recipe.
+   * @param {string} recipeType         The type of recipe ('rune', 'spirit', 'monster', 'cooking').
+   * @param {boolean} [basic=false]     Is this a basic recipe?
+   */
+  static canLearnRecipe(actor, id, recipeType, basic = false) {
     if (actor.type !== "character") return false;
-    const isBasic = this.crafting.basic;
-    const isEnabled = !!actor.flags.dnd5e?.crafting?.[this.type.value];
-    const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(this.parent.id);
-    return isEnabled && !isBasic && !isLearned;
+    const isEnabled = !!actor.flags.dnd5e?.crafting?.[recipeType];
+    const isLearned = !!actor.flags[MODULE.ID]?.recipes?.learned?.includes(id);
+    return isEnabled && !basic && !isLearned;
   }
 }

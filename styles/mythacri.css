@@ -277,12 +277,6 @@
   font-style: italic;
   color: gray;
 }
-.mythacri-scripts.crafting .recipe .target {
-  border-top: 2px groove;
-  border-bottom: 2px groove;
-  padding: 0.5em 0;
-  margin-top: 0.5em;
-}
 .mythacri-scripts.crafting .recipe .details {
   display: flex;
   gap: 1em;
@@ -385,6 +379,9 @@
 }
 .mythacri-scripts.crafting-handler .components .component-header .counter {
   color: gray;
+}
+.mythacri-scripts.crafting-handler .components .component-header img {
+  border-radius: 50%;
 }
 .mythacri-scripts.crafting-handler .components .component-header .label {
   font-weight: bold;
