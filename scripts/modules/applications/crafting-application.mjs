@@ -227,15 +227,14 @@ class CraftingHandler extends Application {
   /** @override */
   async getData() {
     this.assigned ??= {};
-    const target = await this.recipe.system.getTarget();
+    const target = this.target ??= await this.recipe.system.getTarget();
     const components = this.recipe.system.getComponents();
     const context = Object.entries(components).map(([key, qty]) => {
       const resources = CraftingApplication.getPossibleResources(this.actor, key);
-      if (resources.length === 1) this.assigned[key] = resources[0];
       return {
         identifier: key,
         quantity: qty,
-        icon: this.assigned[key]?.img || "icons/svg/item-bag.svg",
+        icon: this.assigned[key]?.img || "icons/svg/circle.svg",
         resources: resources.map(r => ({resource: r, active: this.assigned[key] === r})),
         assigned: this.assigned[key] ?? null,
         label: Crafting.getLabel(key)
@@ -259,7 +258,12 @@ class CraftingHandler extends Application {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html[0].querySelectorAll(".component").forEach(n => n.addEventListener("click", this._onClickComponent.bind(this)));
+    const columns = Array.from(html[0].querySelectorAll(".column"));
+    const minWidth = columns.reduce((acc, col) => Math.max(acc, col.clientWidth), 142);
+    html[0].querySelector(".components").style.minWidth = `${minWidth * columns.length}px`;
+    html[0].querySelectorAll("[data-item-id]").forEach(n => {
+      n.addEventListener("click", this._onClickComponent.bind(this));
+    });
     html[0].querySelectorAll(".craft").forEach(n => n.addEventListener("click", this._onClickCraft.bind(this)));
   }
 
@@ -275,7 +279,8 @@ class CraftingHandler extends Application {
    */
   _onClickComponent(event) {
     const {identifier, itemId} = event.currentTarget.dataset;
-    this.assigned[identifier] = this.actor.items.get(itemId);
+    const item = this.actor.items.get(itemId);
+    this.assigned[identifier] = (this.assigned[identifier] === item) ? null : item;
     this.render();
   }
 

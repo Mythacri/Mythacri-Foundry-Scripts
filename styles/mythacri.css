@@ -355,6 +355,9 @@
 .mythacri-scripts.crafting-handler .column:not(:last-child) {
   border-right: 2px groove;
 }
+.mythacri-scripts.crafting-handler .column .resources {
+  flex: 1;
+}
 .mythacri-scripts.crafting-handler .components .component-header,
 .mythacri-scripts.crafting-handler .components .component {
   display: flex;
