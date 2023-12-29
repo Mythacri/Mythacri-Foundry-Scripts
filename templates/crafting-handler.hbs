@@ -14,11 +14,16 @@
         <span class="label">{{label}}</span>
         <span class="counter">({{ifThen assigned assigned.system.quantity 0}}/{{quantity}})</span>
       </div>
-      {{#each resources}}
-      <a class="component" data-identifier="{{../identifier}}" data-item-id="{{resource.id}}">
-        <img src="{{resource.img}}" {{#if active}} class="active" {{/if}} data-tooltip="{{resource.name}}">
-      </a>
-      {{/each}}
+      <div class="resources">
+        {{#each resources}}
+        <div class="component">
+          <a data-identifier="{{../identifier}}" data-item-id="{{resource.id}}">
+            <img src="{{resource.img}}" {{#if active}} class="active" {{/if}} data-tooltip="{{resource.name}}">
+          </a>
+          <span class="quantity">{{localize "DND5E.Quantity"}}: {{resource.system.quantity}}</span>
+        </div>
+        {{/each}}
+      </div>
     </div>
     {{/each}}
   </div>

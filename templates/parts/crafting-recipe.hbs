@@ -1,19 +1,15 @@
 <div class="recipe">
   <div class="header">
     <div class="name">
-      {{recipe.name}}
+      <a class="label">{{recipe.name}}</a>
       {{#if canCreate}}
-      <a class="create" data-uuid="{{recipe.uuid}}">
-        {{localize "MYTHACRI.CraftingCreate"}}
+      <button type="button" class="create" data-uuid="{{recipe.uuid}}">
         <i class="fa-solid fa-{{icon}}"></i>
-      </a>
+        {{localize "MYTHACRI.CraftingCreate"}}
+      </button>
       {{/if}}
     </div>
     <div class="basic">{{#if isBasic}}{{localize "MYTHACRI.ItemRecipeBasic"}}{{/if}}</div>
-  </div>
-  <div class="target">
-    {{{target}}}
-    {{#if isStack}}({{stack}}){{/if}}
   </div>
   <div class="details">
     <div class="description">{{{recipe.system.description.value}}}</div>
