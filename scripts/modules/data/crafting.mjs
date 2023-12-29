@@ -316,7 +316,7 @@ export class Crafting {
     Crafting._characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
-      types: ["mythacri-scripts.recipe"], makeDefault: true
+      types: ["mythacri-scripts.recipe"], makeDefault: true, label: "MYTHACRI.SheetRecipe"
     });
     loadTemplates(["modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"]);
   }

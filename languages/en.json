@@ -218,5 +218,8 @@
   "MYTHACRI.WeaponPropertySuperheavy": "Superheavy",
   "MYTHACRI.WeaponPropertyTension": "Tension",
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
+  "MYTHACRI.SheetStorage": "Mythacri Storage Sheet",
+  "MYTHACRI.SheetRecipe": "Mythacri Recipe Sheet",
+  "TYPES.Actor.mythacri-scripts.storage": "Storage",
   "TYPES.Item.mythacri-scripts.recipe": "Recipe"
 }

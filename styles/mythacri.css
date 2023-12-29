@@ -545,3 +545,13 @@
   padding: 0 1em;
   margin: 1em 0;
 }
+
+/* ------------------------------ */
+/*                                */
+/*         STORAGE SHEET          */
+/*                                */
+/* ------------------------------ */
+.sheet.actor.dnd5e.storage {
+  min-width: 600px;
+  min-height: 600px;
+}

@@ -65,6 +65,9 @@
   "documentTypes": {
     "Item": {
       "recipe": {}
+    },
+    "Actor": {
+      "storage": {}
     }
   },
   "url": "https://github.com/Mythacri/Mythacri-Foundry-Scripts",
