@@ -221,7 +221,9 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
       quantity: "DND5E.Quantity",
       weight: "DND5E.Weight"
     };
-    const selectOptions = HandlebarsHelpers.selectOptions(options, {hash: {selected: cap.type, localize: true, sort: true}});
+    const selectOptions = HandlebarsHelpers.selectOptions(options, {
+      hash: {selected: cap.type, localize: true, sort: true}
+    });
 
     return Dialog.prompt({
       title: `${game.i18n.localize("MYTHACRI.CapacityConfig")}: ${this.document.name}`,
@@ -232,7 +234,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
         <div class="form-group">
           <label>${game.i18n.localize("MYTHACRI.CapacityMax")}</label>
           <div class="form-fields">
-            <input type="number" name="system.attributes.capacity.max" value="${this.document.system.attributes.capacity.max}" autofocus>
+            <input type="number" name="system.attributes.capacity.max" value="${cap.max}" autofocus>
           </div>
         </div>
         <div class="form-group">
