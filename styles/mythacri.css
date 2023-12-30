@@ -553,5 +553,35 @@
 /* ------------------------------ */
 .sheet.actor.dnd5e.storage {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 800px;
+}
+.sheet.actor.dnd5e.storage .header-details {
+  height: calc(100% - 10px);
+  padding: 5px;
+  margin: 0;
+}
+.sheet.actor.dnd5e.storage .sheet-header .charname {
+  position: relative;
+  height: 100%;
+}
+.sheet.actor.dnd5e.storage .sheet-header .charname input {
+  height: 100%;
+  margin: 0;
+  width: calc(100% - 50px);
+}
+.sheet.actor.dnd5e.storage .charname .config-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px;
+  font-size: 16px;
+  display: none;
+}
+.sheet.actor.dnd5e.storage .charname:hover .config-button {
+  display: block;
+}
+.sheet.actor.dnd5e.storage .sheet-header img.profile {
+  flex: 0 0 100px;
+  max-width: 100px;
+  height: 100px;
 }

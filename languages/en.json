@@ -220,6 +220,16 @@
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
   "MYTHACRI.SheetStorage": "Mythacri Storage Sheet",
   "MYTHACRI.SheetRecipe": "Mythacri Recipe Sheet",
+  "MYTHACRI.StorageTabGear": "Gear",
+  "MYTHACRI.StorageTabConsumables": "Consumables",
+  "MYTHACRI.StorageTabLoot": "Loot",
+  "MYTHACRI.StorageTabResources": "Resources",
+  "MYTHACRI.ConsumableTypeOther": "Other Consumables",
+  "MYTHACRI.LootTypeOther": "Other Loot",
+  "MYTHACRI.Capacity": "Capacity",
+  "MYTHACRI.CapacityMax": "Max Capacity",
+  "MYTHACRI.CapacityType": "Capacity Type",
+  "MYTHACRI.CapacityConfig": "Modify Attributes",
   "TYPES.Actor.mythacri-scripts.storage": "Storage",
   "TYPES.Item.mythacri-scripts.recipe": "Recipe"
 }

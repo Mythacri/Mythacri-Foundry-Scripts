@@ -318,7 +318,10 @@ export class Crafting {
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
       types: ["mythacri-scripts.recipe"], makeDefault: true, label: "MYTHACRI.SheetRecipe"
     });
-    loadTemplates(["modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"]);
+    loadTemplates([
+      "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs",
+      "modules/mythacri-scripts/templates/parts/storage-inventory.hbs"
+    ]);
   }
 
   /**
