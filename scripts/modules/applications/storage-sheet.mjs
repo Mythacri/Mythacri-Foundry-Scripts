@@ -257,4 +257,14 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     const item = this.document.items.get(id);
     return item.deleteDialog();
   }
+
+  /** @override */
+  _onItemUse() {
+    return null;
+  }
+
+  /** @override */
+  _onItemContext() {
+    return null;
+  }
 }
