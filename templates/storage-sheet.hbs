@@ -1,0 +1,39 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header flexrow">
+    <img class="profile" src="{{actor.img}}" data-tooltip="{{actor.name}}" data-edit="img">
+    <section class="header-details flexrow">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'DND5E.Name' }}">
+        <a class="config-button" data-action="capacity" data-tooltip="MYTHACRI.CapacityConfig">
+          <i class="fas fa-cog"></i>
+        </a>
+      </h1>
+    </section>
+  </header>
+
+  {{!-- Sheet Navigation --}}
+  <nav class="sheet-navigation tabs" data-group="primary">
+    <a class="item" data-tab="gear">{{ localize "MYTHACRI.StorageTabGear" }}</a>
+    <a class="item" data-tab="consumables">{{ localize "MYTHACRI.StorageTabConsumables" }}</a>
+    <a class="item" data-tab="loot">{{ localize "MYTHACRI.StorageTabLoot" }}</a>
+    <a class="item" data-tab="resources">{{ localize "MYTHACRI.StorageTabResources" }}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <div class="tab inventory flexcol" data-group="primary" data-tab="gear">
+      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=gear showCurrency=false}}
+    </div>
+    <div class="tab inventory flexcol" data-group="primary" data-tab="consumables">
+      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=consumables showCurrency=false}}
+    </div>
+    <div class="tab inventory flexcol" data-group="primary" data-tab="loot">
+      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=loot showCurrency=true}}
+    </div>
+    <div class="tab inventory flexcol" data-group="primary" data-tab="resources">
+      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=resources showCurrency=false}}
+    </div>
+  </section>
+</form>
