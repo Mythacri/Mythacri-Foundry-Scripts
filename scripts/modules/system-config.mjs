@@ -10,6 +10,7 @@ export class SystemConfig {
     SystemConfig._conditions();
     SystemConfig._currencies();
     SystemConfig._consumableTypes();
+    SystemConfig._characterFlags();
   }
 
   static _featureTypes() {
@@ -206,5 +207,14 @@ export class SystemConfig {
   static _consumableTypes() {
     CONFIG.DND5E.consumableTypes.rune = "MYTHACRI.ConsumableRune";
     CONFIG.DND5E.consumableTypes.spirit = "MYTHACRI.ConsumableSpirit";
+  }
+
+  static _characterFlags() {
+    CONFIG.DND5E.characterFlags.peakPhysical = {
+      hint: "MYTHACRI.FlagsPeakPhysicalHint",
+      name: "MYTHACRI.FlagsPeakPhysicalName",
+      section: "DND5E.Feats",
+      type: Boolean
+    };
   }
 }
