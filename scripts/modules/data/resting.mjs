@@ -23,8 +23,17 @@ export class Resting {
   static preRestCompleted(actor, result) {
     if (result.longRest) {
       const exh = actor.system.attributes.exhaustion;
-      result.updateData["system.attributes.exhaustion"] = Math.max(exh - 1, 0);
+      const isPeak = actor.flags.dnd5e?.peakPhysical ?? false;
+      result.updateData["system.attributes.exhaustion"] = Math.max(exh - (isPeak ? 2 : 1), 0);
       delete result.updateData["system.attributes.hp.value"];
+      if (!isPeak) return;
+      result.dhd = 0;
+      for (const cls of Object.values(actor.classes)) {
+        result.dhd += cls.system.hitDiceUsed;
+        const existing = result.updateItems.find(upd => upd._id === cls.id);
+        if (existing) existing["system.hitDiceUsed"] = 0;
+        else result.updateItems.push({_id: cls.id, "system.hitDiceUsed": 0});
+      }
     }
   }
 
