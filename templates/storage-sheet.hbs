@@ -30,10 +30,10 @@
       {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=consumables showCurrency=false}}
     </div>
     <div class="tab inventory flexcol" data-group="primary" data-tab="loot">
-      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=loot showCurrency=true}}
+      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=loot showCurrency=true hideUses=true hideAction=true}}
     </div>
     <div class="tab inventory flexcol" data-group="primary" data-tab="resources">
-      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=resources showCurrency=false}}
+      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=resources showCurrency=false hideUses=true hideAction=true}}
     </div>
   </section>
 </form>

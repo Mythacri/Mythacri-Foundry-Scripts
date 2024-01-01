@@ -15,8 +15,8 @@
   <li class="items-header flexrow">
     <h3 class="item-name flexrow">{{localize section.label}}</h3>
     <div class="item-detail item-quantity">{{localize "DND5E.QuantityAbbr"}}</div>
-    <div class="item-detail item-uses">{{localize "DND5E.Charges"}}</div>
-    <div class="item-detail item-action">{{localize "DND5E.Usage"}}</div>
+    {{#unless ../hideUses}}<div class="item-detail item-uses">{{localize "DND5E.Charges"}}</div>{{/unless}}
+    {{#unless ../hideAction}}<div class="item-detail item-action">{{localize "DND5E.Usage"}}</div>{{/unless}}
     {{#if @root.owner}}<div class="item-controls flexrow"></div>{{/if}}
   </li>
 
@@ -38,6 +38,7 @@
           data-name="system.quantity">
       </div>
 
+      {{#unless ../../hideUses}}
       <div class="item-detail item-uses">
         {{#if ctx.hasUses }}
         <input type="text" value="{{item.system.uses.value}}" placeholder="0" data-dtype="Number"
@@ -45,12 +46,15 @@
         / {{item.system.uses.max}}
         {{/if}}
       </div>
+      {{/unless}}
 
+      {{#unless ../../hideAction}}
       <div class="item-detail item-action">
         {{#if item.system.activation.type }}
         {{item.labels.activation}}
         {{/if}}
       </div>
+      {{/unless}}
 
       {{#if @root.owner}}
       <div class="item-controls flexrow">

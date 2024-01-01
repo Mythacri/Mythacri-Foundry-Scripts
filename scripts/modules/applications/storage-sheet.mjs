@@ -36,7 +36,6 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     const data = {
       actor: this.document,
       system: this.document.system,
-      items: this.document.items.contents,
       itemContext: {},
       owner: this.document.isOwner,
       limited: this.document.limited,
@@ -63,21 +62,11 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
 
   /**
    * Prepare the data structure for items which appear on the actor sheet.
-   * Each subclass overrides this method to implement type-specific logic.
-   * @protected
+   * @param {object} context      The rendering data.
    */
   _prepareItems(context) {
-
-    // Categorize items as inventory, spellbook, features, and classes
-    const inventory = {};
-    for (const type of ["weapon", "equipment", "consumable", "tool", "backpack", "loot"]) {
-      inventory[type] = {label: `${CONFIG.Item.typeLabels[type]}Pl`, items: [], dataset: {type}};
-    }
-
-    context.itemContext = {};
-
     // Partition items by category
-    const items = context.items.reduce((obj, item) => {
+    const items = this.document.items.reduce((obj, item) => {
       const quantity = item.system.quantity;
 
       // Item details
@@ -151,6 +140,11 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     context.loot = Object.keys(CONFIG.DND5E.lootTypes).map(k => items[k]).concat([items["loot-other"]]);
     context.resources = Object.keys(mythacri.crafting.resourceTypes).map(k => items[k]);
     ["gear", "consumables", "loot", "resources"].forEach(k => context[k] = context[k].filter(u => u));
+    for (const k in items) items[k].items.sort((a, b) => {
+      const diff = a.sort - b.sort;
+      if (diff !== 0) return diff;
+      return a.name.localeCompare(b.name);
+    });
   }
 
   /** @override */
@@ -247,6 +241,9 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
       callback: ([html]) => {
         const update = new FormDataExtended(html.querySelector("FORM")).object;
         return this.document.update(update);
+      },
+      options: {
+        id: `storage-config-${this.document.uuid.replaceAll(".", "-")}`
       }
     });
   }
