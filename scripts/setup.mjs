@@ -8,7 +8,7 @@ import {Soundboard} from "./modules/applications/soundboard.mjs";
 import {Encounter} from "./modules/data/encounter.mjs";
 import {ExperiencePips} from "./modules/data/pips.mjs";
 import {CombatEnhancement} from "./modules/data/combat.mjs";
-import {Storage} from "./modules/data/storage.mjs";
+import {ModuleActors} from "./modules/data/module-actors.mjs";
 
 Hooks.once("init", SystemConfig.init);
 Hooks.once("init", PublicInterface.init);
@@ -20,4 +20,4 @@ Hooks.once("init", Soundboard.init);
 Hooks.once("init", Encounter.init);
 Hooks.once("init", ExperiencePips.init);
 Hooks.once("init", CombatEnhancement.init);
-Hooks.once("init", Storage.init);
+Hooks.once("init", ModuleActors.init);

@@ -219,6 +219,7 @@
   "MYTHACRI.WeaponPropertyTension": "Tension",
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
   "MYTHACRI.SheetStorage": "Mythacri Storage Sheet",
+  "MYTHACRI.SheetShip": "Mythacri Ship Sheet",
   "MYTHACRI.SheetRecipe": "Mythacri Recipe Sheet",
   "MYTHACRI.StorageTabGear": "Gear",
   "MYTHACRI.StorageTabConsumables": "Consumables",
@@ -233,5 +234,6 @@
   "MYTHACRI.FlagsPeakPhysicalName": "Peak Physical Condition",
   "MYTHACRI.FlagsPeakPhysicalHint": "Remove an additional level of exhaustion on a long rest, and recover all hit dice.",
   "TYPES.Actor.mythacri-scripts.storage": "Storage",
+  "TYPES.Actor.mythacri-scripts.ship": "Ship",
   "TYPES.Item.mythacri-scripts.recipe": "Recipe"
 }

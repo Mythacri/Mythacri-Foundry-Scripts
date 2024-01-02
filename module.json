@@ -67,7 +67,8 @@
       "recipe": {}
     },
     "Actor": {
-      "storage": {}
+      "storage": {},
+      "ship": {}
     }
   },
   "url": "https://github.com/Mythacri/Mythacri-Foundry-Scripts",

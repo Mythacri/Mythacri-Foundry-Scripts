@@ -1,15 +1,24 @@
+import {ShipSheet} from "../applications/ship-sheet.mjs";
 import {StorageSheet} from "../applications/storage-sheet.mjs";
+import {ShipData} from "./models/ship-actor.mjs";
 import {StorageData} from "./models/storage-actor.mjs";
 
-export class Storage {
+/**
+ * Utility class for module actor subtypes.
+ */
+export class ModuleActors {
   /** Initialize module. */
   static init() {
     Object.assign(CONFIG.Actor.dataModels, {"mythacri-scripts.storage": StorageData});
+    Object.assign(CONFIG.Actor.dataModels, {"mythacri-scripts.ship": ShipData});
     DocumentSheetConfig.registerSheet(Actor, "mythacri-scripts", StorageSheet, {
       types: ["mythacri-scripts.storage"], makeDefault: true, label: "MYTHACRI.SheetStorage"
     });
-    Hooks.on("preCreateActiveEffect", Storage._cancelEffectCreation);
-    Storage._patchActor();
+    DocumentSheetConfig.registerSheet(Actor, "mythacri-scripts", ShipSheet, {
+      types: ["mythacri-scripts.ship"], makeDefault: true, label: "MYTHACRI.SheetShip"
+    });
+    Hooks.on("preCreateActiveEffect", ModuleActors._cancelEffectCreation);
+    ModuleActors._patchActor();
   }
 
   /**
