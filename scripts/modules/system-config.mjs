@@ -37,7 +37,9 @@ export class SystemConfig {
           wardenSentinelStep: "MYTHACRI.FeatureWardenSentinelStep",
           witchCurse: "MYTHACRI.FeatureWitchCurse",
           witchGrandHex: "MYTHACRI.FeatureWitchGrandHex",
-          witchHex: "MYTHACRI.FeatureWitchHex"
+          witchHex: "MYTHACRI.FeatureWitchHex",
+          bewitcherCurse: "MYTHACRI.FeatureBewitcherCurse",
+          bewitcherGrandEnchantment: "MYTHACRI.FeatureBewitcherGrandEnchantment"
         }
       },
       spiritTech: {
