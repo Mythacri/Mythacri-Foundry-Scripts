@@ -7,6 +7,7 @@ export class SystemConfig {
     SystemConfig._armorClasses();
     SystemConfig._weaponProperties();
     SystemConfig._weaponProficiencies();
+    SystemConfig._armorProficencies();
     SystemConfig._conditions();
     SystemConfig._currencies();
     SystemConfig._consumableTypes();
@@ -105,7 +106,9 @@ export class SystemConfig {
       mounted: "MYTHACRI.WeaponPropertyMounted",
       rocket: "MYTHACRI.WeaponPropertyRocket",
       tension: "MYTHACRI.WeaponPropertyTension",
-      twinshot: "MYTHACRI.WeaponPropertyTwinshot"
+      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
+      // Metal Types
+      coldIron: "MYTHACRI.WeaponPropertyColdIron"
     });
   }
 
@@ -142,7 +145,7 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.blunderbuss = "mythacri-shared-compendium.equipment-myth.U9xCVu4nMr2o4Ip0";
     CONFIG.DND5E.weaponIds.flintlock = "mythacri-shared-compendium.equipment-myth.csl5Lu9LCoD8ZnwD";
     CONFIG.DND5E.weaponIds.musket = "mythacri-shared-compendium.equipment-myth.J6kVMp2X9WrUoRzT";
-
+    CONFIG.DND5E.weaponIds.pepperbox = "mythacri-shared-compendium.equipment-myth.qdwtzYWwQ7Ac3Goj";
 
     CONFIG.DND5E.weaponIds.cutlass = "mythacri-shared-compendium.equipment-myth.9r8gPk4RGDUUytZy";
     CONFIG.DND5E.weaponIds.estoc = "mythacri-shared-compendium.equipment-myth.xw77ea4rCFnpHgNy";
@@ -165,6 +168,13 @@ export class SystemConfig {
     // Tool ids.
     // CONFIG.DND5E.toolIds.gun = "<compendium id>.<item id>";
     //CONFIG.DND5E.toolIds.fletchersTools = "";
+  }
+
+  static _armorProficencies() {
+    //Armor ids
+    CONFIG.DND5E.shieldIds.bucklerShield = "mythacri-shared-compendium.equipment-myth.NhBHlkBDDLBKkxGL";
+    CONFIG.DND5E.shieldIds.towerShield = "mythacri-shared-compendium.equipment-myth.LzlPn07cT6FPV1fs";
+  
   }
 
   static _conditions() {
