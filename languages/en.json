@@ -222,6 +222,7 @@
   "MYTHACRI.WeaponProficiencyFirearmRen": "Renaissance Firearm",
   "MYTHACRI.WeaponProficiencyFirearmRenPl": "Renaissance Firearms",
   "MYTHACRI.WeaponPropertyAerodynamic": "Aerodynamic",
+  "MYTHACRI.WeaponPropertyColdIron": "Cold Iron",
   "MYTHACRI.WeaponPropertyConcealable": "Concealable",
   "MYTHACRI.WeaponPropertyExplosive": "Explosive",
   "MYTHACRI.WeaponPropertyHeat": "Heat",
@@ -234,7 +235,6 @@
   "MYTHACRI.WeaponPropertySuperheavy": "Superheavy",
   "MYTHACRI.WeaponPropertyTension": "Tension",
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
-  "MYTHACRI.WeaponPropertyColdIron": "Cold Iron",
   "TYPES.Actor.mythacri-scripts.storage": "Storage",
   "TYPES.Item.mythacri-scripts.recipe": "Recipe"
 }
