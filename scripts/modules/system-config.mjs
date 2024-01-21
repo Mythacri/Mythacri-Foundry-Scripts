@@ -92,9 +92,7 @@ export class SystemConfig {
   }
 
   static _weaponProperties() {
-    foundry.utils.mergeObject 
-      CONFIG.DND5E.physicalWeaponProperties.coldIron = CONFIG.DND5E.weaponProperties.coldIron;
-      (CONFIG.DND5E.weaponProperties, {
+    foundry.utils.mergeObject (CONFIG.DND5E.weaponProperties, {
       aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
       concealable: "MYTHACRI.WeaponPropertyConcealable",
       scatter: "MYTHACRI.WeaponPropertyScatter",
@@ -112,6 +110,7 @@ export class SystemConfig {
       // Metal Types
       coldIron: "MYTHACRI.WeaponPropertyColdIron"
     });
+    CONFIG.DND5E.physicalWeaponProperties.coldIron = CONFIG.DND5E.weaponProperties.coldIron;
   }
 
   static _weaponProficiencies() {
