@@ -92,7 +92,9 @@ export class SystemConfig {
   }
 
   static _weaponProperties() {
-    foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
+    foundry.utils.mergeObject 
+      CONFIG.DND5E.physicalWeaponProperties.coldIron = CONFIG.DND5E.weaponProperties.coldIron;
+      (CONFIG.DND5E.weaponProperties, {
       aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
       concealable: "MYTHACRI.WeaponPropertyConcealable",
       scatter: "MYTHACRI.WeaponPropertyScatter",
