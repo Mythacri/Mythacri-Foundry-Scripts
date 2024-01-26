@@ -174,10 +174,9 @@ export class SystemConfig {
   }
 
   static _armorProficencies() {
-    //Armor ids
+    // Armor ids
     CONFIG.DND5E.shieldIds.bucklerShield = "mythacri-shared-compendium.equipment-myth.NhBHlkBDDLBKkxGL";
     CONFIG.DND5E.shieldIds.towerShield = "mythacri-shared-compendium.equipment-myth.LzlPn07cT6FPV1fs";
-  
   }
 
   static _conditions() {
