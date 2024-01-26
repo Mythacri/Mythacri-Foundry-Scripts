@@ -92,7 +92,7 @@ export class SystemConfig {
   }
 
   static _weaponProperties() {
-    foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
+    foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties,{
       aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
       concealable: "MYTHACRI.WeaponPropertyConcealable",
       scatter: "MYTHACRI.WeaponPropertyScatter",
@@ -160,6 +160,8 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
     CONFIG.DND5E.weaponIds.duckfootPistol = "mythacri-shared-compendium.equipment-myth.GthTZpxLEVrMHQMm";
     CONFIG.DND5E.weaponIds.greatspear = "mythacri-shared-compendium.equipment-myth.YK1KjJ1qtDJlppVd";
+    CONFIG.DND5E.weaponIds.greatbow = "mythacri-shared-compendium.equipment-myth.XPPoSL8Xhp2gYZPn";
+    CONFIG.DND5E.weaponIds.goliathSling = "mythacri-shared-compendium.equipment-myth.8lqu07cKqDTt6qeE";
     CONFIG.DND5E.weaponIds.portableBallista = "mythacri-shared-compendium.equipment-myth.52ayA03VImoL1361";
 
 
@@ -172,9 +174,10 @@ export class SystemConfig {
   }
 
   static _armorProficencies() {
-    // Armor ids
+    //Armor ids
     CONFIG.DND5E.shieldIds.bucklerShield = "mythacri-shared-compendium.equipment-myth.NhBHlkBDDLBKkxGL";
     CONFIG.DND5E.shieldIds.towerShield = "mythacri-shared-compendium.equipment-myth.LzlPn07cT6FPV1fs";
+  
   }
 
   static _conditions() {
