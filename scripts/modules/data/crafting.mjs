@@ -626,9 +626,9 @@ export class Crafting {
    * @param {object} config     The roll config.
    */
   static _preRollAttack(item, config) {
-    if ((item.type === "feat") && (item.system.type.value = "spiritTech")) {
+    if ((item.type === "feat") && (item.system.type.value === "spiritTech")) {
       const mod = item.abilityMod;
-      const grade = item.flags[MODULE.ID].spiritGrade || 1;
+      const grade = item.flags[MODULE.ID]?.spiritGrade || 1;
       if ((grade > config.data.mod) && ["str", "dex"].includes(mod)) config.data.mod = grade;
     }
   }
