@@ -24,16 +24,16 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     <div class="tab inventory flexcol" data-group="primary" data-tab="gear">
-      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=gear showCurrency=false}}
+      {{> "dnd5e.inventory" sections=gear isNPC=true}}
     </div>
     <div class="tab inventory flexcol" data-group="primary" data-tab="consumables">
-      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=consumables showCurrency=false}}
+      {{> "dnd5e.inventory" sections=consumables isNPC=true}}
     </div>
     <div class="tab inventory flexcol" data-group="primary" data-tab="loot">
-      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=loot showCurrency=true hideUses=true hideAction=true}}
+      {{> "dnd5e.inventory" sections=loot isNPC=false}}
     </div>
     <div class="tab inventory flexcol" data-group="primary" data-tab="resources">
-      {{> "modules/mythacri-scripts/templates/parts/storage-inventory.hbs" sections=resources showCurrency=false hideUses=true hideAction=true}}
+      {{> "dnd5e.inventory" sections=resources isNPC=true}}
     </div>
   </section>
 </form>

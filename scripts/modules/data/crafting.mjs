@@ -242,31 +242,31 @@ export class Crafting {
    */
   static get gemSubtypes() {
     return {
-      amber: "MYTHACRI.ResourceGemAmber",
-      amethyst: "MYTHACRI.ResourceGemAmethyst",
-      aquamarine: "MYTHACRI.ResourceGemAquamarine",
-      citrine: "MYTHACRI.ResourceGemCitrine",
-      diamond: "MYTHACRI.ResourceGemDiamond",
-      emerald: "MYTHACRI.ResourceGemEmerald",
-      garnet: "MYTHACRI.ResourceGemGarnet",
-      jade: "MYTHACRI.ResourceGemJade",
-      jasper: "MYTHACRI.ResourceGemJasper",
-      jet: "MYTHACRI.ResourceGemJet",
-      lapisLazuli: "MYTHACRI.ResourceGemLapisLazuli",
-      moonstone: "MYTHACRI.ResourceGemMoonstone",
-      mossAgate: "MYTHACRI.ResourceGemMossAgate",
-      obsidian: "MYTHACRI.ResourceGemObsidian",
-      onyx: "MYTHACRI.ResourceGemOnyx",
-      opal: "MYTHACRI.ResourceGemOpal",
-      pearl: "MYTHACRI.ResourceGemPearl",
-      peridot: "MYTHACRI.ResourceGemPeridot",
-      quartz: "MYTHACRI.ResourceGemQuartz",
-      ruby: "MYTHACRI.ResourceGemRuby",
-      sapphire: "MYTHACRI.ResourceGemSapphire",
-      spinel: "MYTHACRI.ResourceGemSpinel",
-      topaz: "MYTHACRI.ResourceGemTopaz",
-      turquoise: "MYTHACRI.ResourceGemTurquoise",
-      zircon: "MYTHACRI.ResourceGemZircon"
+      amber: {label: "MYTHACRI.ResourceGemAmber"},
+      amethyst: {label: "MYTHACRI.ResourceGemAmethyst"},
+      aquamarine: {label: "MYTHACRI.ResourceGemAquamarine"},
+      citrine: {label: "MYTHACRI.ResourceGemCitrine"},
+      diamond: {label: "MYTHACRI.ResourceGemDiamond"},
+      emerald: {label: "MYTHACRI.ResourceGemEmerald"},
+      garnet: {label: "MYTHACRI.ResourceGemGarnet"},
+      jade: {label: "MYTHACRI.ResourceGemJade"},
+      jasper: {label: "MYTHACRI.ResourceGemJasper"},
+      jet: {label: "MYTHACRI.ResourceGemJet"},
+      lapisLazuli: {label: "MYTHACRI.ResourceGemLapisLazuli"},
+      moonstone: {label: "MYTHACRI.ResourceGemMoonstone"},
+      mossAgate: {label: "MYTHACRI.ResourceGemMossAgate"},
+      obsidian: {label: "MYTHACRI.ResourceGemObsidian"},
+      onyx: {label: "MYTHACRI.ResourceGemOnyx"},
+      opal: {label: "MYTHACRI.ResourceGemOpal"},
+      pearl: {label: "MYTHACRI.ResourceGemPearl"},
+      peridot: {label: "MYTHACRI.ResourceGemPeridot"},
+      quartz: {label: "MYTHACRI.ResourceGemQuartz"},
+      ruby: {label: "MYTHACRI.ResourceGemRuby"},
+      sapphire: {label: "MYTHACRI.ResourceGemSapphire"},
+      spinel: {label: "MYTHACRI.ResourceGemSpinel"},
+      topaz: {label: "MYTHACRI.ResourceGemTopaz"},
+      turquoise: {label: "MYTHACRI.ResourceGemTurquoise"},
+      zircon: {label: "MYTHACRI.ResourceGemZircon"}
     };
   }
 
@@ -288,7 +288,7 @@ export class Crafting {
       },
       monster: {
         label: "MYTHACRI.ResourceTypeMonster",
-        subtypes: Object.entries(CONFIG.DND5E.creatureTypes).reduce((acc, [key, label]) => {
+        subtypes: Object.entries(CONFIG.DND5E.creatureTypes).reduce((acc, [key, {label}]) => {
           acc[key] = {
             label: label,
             subsubtypes: subsubtypes
@@ -301,10 +301,10 @@ export class Crafting {
 
   /**
    * Valid item types for having runes.
-   * @type {string[]}
+   * @type {Set<string>}
    */
   static get validRuneItemTypes() {
-    return ["equipment", "tool", "weapon"];
+    return new Set(["equipment", "tool", "weapon"]);
   }
 
   /** Initialize crafting. */
@@ -319,8 +319,7 @@ export class Crafting {
       types: ["mythacri-scripts.recipe"], makeDefault: true, label: "MYTHACRI.SheetRecipe"
     });
     loadTemplates([
-      "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs",
-      "modules/mythacri-scripts/templates/parts/storage-inventory.hbs"
+      "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"
     ]);
   }
 
@@ -332,7 +331,7 @@ export class Crafting {
   static async _renderItemSheet(sheet, [html]) {
     const type = sheet.document.type;
     if (type === "loot") await Crafting._renderLootItemDropdowns(sheet, html);
-    else if (Crafting.validRuneItemTypes.includes(type)) await Crafting._renderRunesData(sheet, html);
+    else if (Crafting.validRuneItemTypes.has(type)) await Crafting._renderRunesData(sheet, html);
   }
 
   /**
@@ -392,11 +391,13 @@ export class Crafting {
    */
   static async _renderCraftingButtons(sheet, html) {
     const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
+    const isLegacy = sheet.constructor.name === "ActorSheet5eCharacter";
     const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, buttons);
+    div.innerHTML = await renderTemplate(template, {...buttons, isLegacy: isLegacy});
     div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
-    html.querySelector(".center-pane .counters").append(...div.childNodes);
+    if (isLegacy) html.querySelector(".center-pane .counters").append(...div.childNodes);
+    else html.querySelector(".sheet-header-buttons").append(...div.childNodes);
   }
 
   /**
@@ -422,7 +423,8 @@ export class Crafting {
    * @returns {boolean}
    */
   static itemCanHaveRunes(item) {
-    const runes = item?.flags[MODULE.ID]?.runes || {};
+    const runes = item?.flags[MODULE.ID]?.runes;
+    if (!runes) return false;
     return runes.enabled && Number.isNumeric(runes.max) && (runes.max > 0);
   }
 
@@ -499,8 +501,8 @@ export class Crafting {
 
   /**
    * Is this resource identifier valid?
-   * @param {string} id                         A string id, usually of the form `monster.celestial.eye`.
-   * @param {boolean} [allowWildCard=true]      Is the wildcard token `*` allowed?
+   * @param {string} id                   A string id, usually of the form `monster.celestial.eye`.
+   * @param {boolean} [allowWildCard]     Is the wildcard token `*` allowed?
    * @returns {boolean}
    */
   static validIdentifier(id, {allowWildCard = true} = {}) {
@@ -556,7 +558,7 @@ export class Crafting {
     const types = Crafting.resourceTypes;
     return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, {
       type: game.i18n.localize(types[type].label),
-      subtype: game.i18n.localize(types[type].subtypes[subtype])
+      subtype: game.i18n.localize(types[type].subtypes[subtype]?.label)
     });
   }
   static _getMonsterLabel(type, subtype, subsubtype) {
@@ -570,13 +572,13 @@ export class Crafting {
 
     if (subsubtype === "*") {
       return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubsubtype", {
-        subtype: game.i18n.localize(CONFIG.DND5E.creatureTypes[subtype])
+        subtype: CONFIG.DND5E.creatureTypes[subtype].label
       });
     }
 
     const data = {
       type: game.i18n.localize("MYTHACRI.ResourceTypeMonster"),
-      subtype: game.i18n.localize(CONFIG.DND5E.creatureTypes[subtype]),
+      subtype: CONFIG.DND5E.creatureTypes[subtype].label,
       subsubtype: game.i18n.localize(Crafting.subsubtypes[subsubtype].label)
     };
     return game.i18n.format("MYTHACRI.ResourceTypeLabelMonster", data);
@@ -603,17 +605,17 @@ export class Crafting {
    * @returns {void|boolean}
    */
   static _preUseItem(item) {
-    const cons = item.system.consumableType;
-    if ((item.type !== "consumable") || !["rune", "spirit"].includes(cons)) return;
+    const type = item.system.type;
+    if ((item.type !== "consumable") || !["rune", "spirit"].includes(type.value)) return;
 
-    if (cons === "rune") {
+    if (type.value === "rune") {
       if (!game.modules.get("babonus")?.active) {
         ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
         return;
       }
       Crafting.promptRuneTransfer(item);
       return false;
-    } else if (cons === "spirit") {
+    } else if (type.value === "spirit") {
       Crafting.promptSpiritTransfer(item);
       return false;
     }
@@ -640,18 +642,18 @@ export class Crafting {
    */
   static async promptRuneTransfer(item) {
     const targets = item.actor.items.reduce((acc, item) => {
-      if (!Crafting.validRuneItemTypes.includes(item.type)) return acc;
+      if (!Crafting.validRuneItemTypes.has(item.type)) return acc;
       const {enabled, max} = item.flags[MODULE.ID]?.runes ?? {};
       if (enabled && (max > 0)) acc[item.type].push(item);
       return acc;
-    }, Object.fromEntries(Crafting.validRuneItemTypes.map(type => [type, []])));
+    }, Object.fromEntries(Array.from(Crafting.validRuneItemTypes).map(type => [type, []])));
 
     if (!Object.values(targets).some(v => v.length > 0)) {
       ui.notifications.warn("MYTHACRI.CraftingRuneTargetNoneAvailable", {localize: true});
       return null;
     }
 
-    const bonus = babonus.getCollection(item).find(bonus => bonus).toObject();
+    const bonus = babonus.getCollection(item).contents[0].toObject();
     foundry.utils.mergeObject(bonus, {
       [`flags.${MODULE.ID}.isRune`]: true,
       name: game.i18n.format("MYTHACRI.CraftingRuneBonus", {name: bonus.name})
@@ -747,8 +749,10 @@ export class Crafting {
    * @returns {boolean}       The enabled state.
    */
   static _determineSuppression(item) {
-    const value = babonus.getCollection(item).filter(bonus => bonus.enabled && bonus.flags[MODULE.ID]?.isRune).length;
-    const max = item.getFlag(MODULE.ID, "runes.max") ?? 0;
+    const value = babonus.getCollection(item).filter(bonus => {
+      return bonus.enabled && bonus.flags[MODULE.ID]?.isRune;
+    }).length;
+    const max = item.flags[MODULE.ID]?.runes?.max ?? 0;
     return value < max;
   }
 

@@ -20,10 +20,12 @@ export class ExperiencePips {
    * @param {HTMLElement} html
    */
   static _renderActorSheet(sheet, [html]) {
+    const isLegacy = sheet.constructor.name === "ActorSheet5eCharacter";
+    if (!isLegacy) return;
     const width = html.querySelector(".xpbar .bar").style.width;
     const filled = parseInt(width) / 10;
     const pips = Array.fromRange(10).reduce((acc, n) => {
-      const active = n < filled ? "active" : "";
+      const active = (n < filled) ? "active" : "";
       return acc + `<span class="pip ${active}"></span>`;
     }, "");
     const div = document.createElement("DIV");
@@ -39,13 +41,12 @@ export class ExperiencePips {
 
   /**
    * Award all player-owned character-type actors with 1 pip.
-   * @param {boolean} [assigned=false]      Whether to restrict to assigned actors.
-   * @returns {Promise<Actor5e[]>}          The updated actors.
+   * @param {boolean} [assigned]        Whether to restrict to assigned actors.
+   * @returns {Promise<Actor5e[]>}      The updated actors.
    */
   static async grantPip(assigned = false) {
     const updates = game.actors.reduce((acc, actor) => {
-      if (actor.type !== "character") return acc;
-      if (!actor.hasPlayerOwner) return acc;
+      if ((actor.type !== "character") || !actor.hasPlayerOwner) return acc;
       if (assigned && !game.users.some(user => user.character === actor)) return acc;
       const xp = actor.system.details.xp.value;
       acc.push({_id: actor.id, "system.details.xp.value": xp + 1});

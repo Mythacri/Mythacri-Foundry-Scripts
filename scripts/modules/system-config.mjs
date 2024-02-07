@@ -189,21 +189,28 @@ export class SystemConfig {
 
   static _conditions() {
     // Add two new conditions to the token HUD.
-    CONFIG.statusEffects.push({
-      id: "dazed",
-      label: "MYTHACRI.ConDazed",
-      icon: "icons/svg/stoned.svg"
-    }, {
-      id: "impaired",
-      label: "MYTHACRI.ConImpaired",
-      icon: "icons/svg/tankard.svg"
-    });
+    const effects = {
+      dazed: {
+        label: "MYTHACRI.ConDazed",
+        icon: "icons/svg/stoned.svg",
+        reference: "", // uuid to a journal page
+      },
+      impaired: {
+        label: "MYTHACRI.ConImpaired",
+        icon: "icons/svg/tankard.svg",
+        reference: ""
+      }
+    };
 
-    // Add two new condition types available on the actor sheets.
-    foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, {
-      dazed: "MYTHACRI.ConDazed",
-      impaired: "MYTHACRI.ConImpaired"
-    });
+    for (const [k, v] of Object.entries(effects)) {
+      CONFIG.statusEffects.push({
+        id: k,
+        name: v.label,
+        icon: v.icon,
+        reference: v.reference
+      });
+      CONFIG.DND5E.conditionTypes[k] = v;
+    }
   }
 
   static _currencies() {
@@ -227,8 +234,8 @@ export class SystemConfig {
   }
 
   static _consumableTypes() {
-    CONFIG.DND5E.consumableTypes.rune = "MYTHACRI.ConsumableRune";
-    CONFIG.DND5E.consumableTypes.spirit = "MYTHACRI.ConsumableSpirit";
+    CONFIG.DND5E.consumableTypes.rune = {label: "MYTHACRI.ConsumableRune"};
+    CONFIG.DND5E.consumableTypes.spirit = {label: "MYTHACRI.ConsumableSpirit"};
   }
 
   static _characterFlags() {

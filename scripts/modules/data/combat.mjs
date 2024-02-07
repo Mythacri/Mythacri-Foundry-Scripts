@@ -17,9 +17,7 @@ export class CombatEnhancement {
     Hooks.once("setup", () => CN.extendModule("hex-concentration", function itemRequiresConcentration(item) {
       if (item.type !== "feat") return false;
       const type = item.system.type;
-      const units = item.system.duration?.units in CONFIG.DND5E.scalarTimePeriods;
-      const flags = !!item.flags.concentrationnotifier?.data.requiresConcentration;
-      return units && flags && (type.value === "class") && (type.subtype === "witchHex");
+      return (type.value === "class") && (type.subtype === "witchHex") && item.requiresConcentration;
     }));
   }
 
@@ -30,19 +28,18 @@ export class CombatEnhancement {
     Hooks.on("dnd5e.preRollDamage", (item, config) => {
       const isPugilist = item && ("pugilist" in (item.actor.classes ?? {})) && this._isPugilistWeapon(item);
       if (!isPugilist) return;
-      const [formula] = config.parts ?? [];
-      if (!formula) return;
+      const parts = config.rollConfigs[0].parts;
       const rgx = /^[0-9]*d([0-9]+)/d;
-      const match = rgx.exec(formula);
+      const match = rgx.exec(parts[0]);
       if (!match) return;
       const [start, end] = match.indices[1];
-      const faces = parseInt(formula.slice(start, end));
+      const faces = parseInt(parts[0].slice(start, end));
       const pugilist = item.actor.system.scale?.pugilist?.fisticuffs?.faces ?? 0;
       if (pugilist < faces) return;
-      const left = formula.slice(0, start);
-      const right = formula.slice(end);
+      const left = parts[0].slice(0, start);
+      const right = parts[0].slice(end);
       const part = `${left}${pugilist}${right}`;
-      config.parts[0] = part;
+      parts[0] = part;
     });
   }
 
@@ -52,12 +49,11 @@ export class CombatEnhancement {
    * @returns {boolean}       Whether it is a valid pugilist weapon.
    */
   static _isPugilistWeapon(item) {
-    const isWeapon = item.type === "weapon";
-    if (!isWeapon || item.system.properties.two) return false;
+    if ((item.type !== "weapon") || item.system.properties.has("two")) return false;
 
-    const isSimpleM = item.system.weaponType === "simpleM";
-    const isWhip = (item.system.weaponType === "martialM") && (item.system.baseItem === "whip");
-    const isImprovised = item.system.weaponType === "improv";
+    const isSimpleM = item.system.type.value === "simpleM";
+    const isWhip = (item.system.type.value === "martialM") && (item.system.type.baseItem === "whip");
+    const isImprovised = item.system.type.value === "improv";
     return isSimpleM || isWhip || isImprovised;
   }
 }

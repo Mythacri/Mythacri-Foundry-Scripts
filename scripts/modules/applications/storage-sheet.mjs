@@ -44,6 +44,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
       cssClass: this.document.isOwner ? "editable" : "locked",
       config: CONFIG.DND5E,
       rollableClass: this.isEditable ? "rollable" : "",
+      elements: {inventory: "dnd5e-inventory"},
       labels: {
         currencies: Object.entries(CONFIG.DND5E.currencies).reduce((obj, [k, c]) => {
           obj[k] = c.label;
@@ -51,6 +52,11 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
         }, {})
       }
     };
+
+    const capacity = this.document.system.attributes.capacity;
+    data.weightUnit = capacity.type === "quantity" ? "" : "lbs";
+    data.encumbrance = {...capacity};
+
     this._prepareItems(data);
     data.expandedData = {};
     for (const id of this._expanded) {
@@ -91,17 +97,17 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
       } else if (item.type === "equipment") {
         category = "equipment";
         label = `${CONFIG.Item.typeLabels[item.type]}Pl`;
-      } else if (item.type === "backpack") {
-        category = "backpacks";
+      } else if (item.type === "container") {
+        category = "containers";
         label = `${CONFIG.Item.typeLabels[item.type]}Pl`;
       } else if (item.type === "tool") {
         category = "tools";
         label = `${CONFIG.Item.typeLabels[item.type]}Pl`;
       } else if (item.type === "consumable") {
-        const ct = item.system.consumableType;
+        const ct = item.system.type.value;
         if (ct in CONFIG.DND5E.consumableTypes) {
           category = ct;
-          label = CONFIG.DND5E.consumableTypes[ct];
+          label = CONFIG.DND5E.consumableTypes[ct].label;
         } else {
           category = "consumable-other";
           label = "MYTHACRI.ConsumableTypeOther";
@@ -135,7 +141,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     }, {});
 
     // Assign and return
-    context.gear = [items.weapons, items.armors, items.equipment, items.backpacks, items.tools];
+    context.gear = [items.weapons, items.armors, items.equipment, items.containers, items.tools];
     context.consumables = Object.keys(CONFIG.DND5E.consumableTypes).map(k => items[k]).concat([items["consumable-other"]]);
     context.loot = Object.keys(CONFIG.DND5E.lootTypes).map(k => items[k]).concat([items["loot-other"]]);
     context.resources = Object.keys(mythacri.crafting.resourceTypes).map(k => items[k]);
@@ -246,22 +252,5 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
         id: `storage-config-${this.document.uuid.replaceAll(".", "-")}`
       }
     });
-  }
-
-  /** @override */
-  async _onItemDelete(event) {
-    const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-    const item = this.document.items.get(id);
-    return item.deleteDialog();
-  }
-
-  /** @override */
-  _onItemUse() {
-    return null;
-  }
-
-  /** @override */
-  _onItemContext() {
-    return null;
   }
 }

@@ -81,6 +81,19 @@
 .dnd5e.sheet.actor .center-pane ul.attributes:not(:has(input[type=text]:not(:placeholder-shown))) {
   order: 5;
 }
+:is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
+  /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
+  background-image: url(../../../systems/dnd5e/icons/currency/platinum.webp);
+}
+.dnd5e2.sheet.actor.character .sheet-header-buttons {
+  left: -1em;
+  flex-wrap: wrap;
+  max-width: 150px;
+}
+.dnd5e2.sheet.actor.character .sheet-header > .right > div:last-child .sheet-header-buttons:has(.rune, .spirit, .cooking, .monster) {
+  top: -0.5em; /* default is 1.5625rem */
+  /* this style should be more removed if we move the crafting buttons to their own tab */
+}
 
 /* ------------------------------ */
 /*                                */
@@ -584,4 +597,7 @@
   flex: 0 0 100px;
   max-width: 100px;
   height: 100px;
+}
+.sheet.actor.dnd5e.storage [data-action=create] {
+  display: none;
 }
