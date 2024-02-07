@@ -19,7 +19,8 @@ import {Crafting} from "../crafting.mjs";
  * @property {string} price.denomination                    The denomination of the value, as defined in `DND5E.currencies`.
  */
 export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
-  dnd5e.dataModels.item.ItemDescriptionTemplate
+  dnd5e.dataModels.item.ItemDescriptionTemplate,
+  dnd5e.dataModels.item.ItemTypeTemplate
 ) {
   /** @override */
   static defineSchema() {
