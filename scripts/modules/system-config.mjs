@@ -94,25 +94,26 @@ export class SystemConfig {
   }
 
   static _weaponProperties() {
-    foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
-      concealable: "MYTHACRI.WeaponPropertyConcealable",
-      scatter: "MYTHACRI.WeaponPropertyScatter",
-      sighted: "MYTHACRI.WeaponPropertySighted",
-      superheavy: "MYTHACRI.WeaponPropertySuperheavy",
-      parrying: "MYTHACRI.WeaponPropertyParry",
-      // Journeyman Properties
-      explosive: "MYTHACRI.WeaponPropertyExplosive",
-      heat: "MYTHACRI.WeaponPropertyHeat",
-      massive: "MYTHACRI.WeaponPropertyMassive",
-      mounted: "MYTHACRI.WeaponPropertyMounted",
-      rocket: "MYTHACRI.WeaponPropertyRocket",
-      tension: "MYTHACRI.WeaponPropertyTension",
-      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
-      // Metal Types
-      coldIron: "MYTHACRI.WeaponPropertyColdIron"
-    });
-    CONFIG.DND5E.physicalWeaponProperties.coldIron = CONFIG.DND5E.weaponProperties.coldIron;
+    const properties = {
+      aerodynamic: {label: "MYTHACRI.WeaponPropertyAerodynamic"},
+      concealable: {label: "MYTHACRI.WeaponPropertyConcealable"},
+      scatter: {label: "MYTHACRI.WeaponPropertyScatter"},
+      sighted: {label: "MYTHACRI.WeaponPropertySighted"},
+      superheavy: {label: "MYTHACRI.WeaponPropertySuperheavy"},
+      parrying: {label: "MYTHACRI.WeaponPropertyParry"},
+      explosive: {label: "MYTHACRI.WeaponPropertyExplosive", isJourneyman: true},
+      heat: {label: "MYTHACRI.WeaponPropertyHeat", isJourneyman: true},
+      massive: {label: "MYTHACRI.WeaponPropertyMassive", isJourneyman: true},
+      mounted: {label: "MYTHACRI.WeaponPropertyMounted", isJourneyman: true},
+      rocket: {label: "MYTHACRI.WeaponPropertyRocket", isJourneyman: true},
+      tension: {label: "MYTHACRI.WeaponPropertyTension", isJourneyman: true},
+      twinshot: {label: "MYTHACRI.WeaponPropertyTwinshot", isJourneyman: true},
+      coldIron: {label: "MYTHACRI.WeaponPropertyColdIron", isPhysical: true}
+    };
+    for (const [k, v] of Object.entries(properties)) {
+      CONFIG.DND5E.itemProperties[k] = v;
+      CONFIG.DND5E.validProperties.weapon.add(k);
+    }
   }
 
   static _weaponProficiencies() {
@@ -138,7 +139,6 @@ export class SystemConfig {
     });
 
     // Weapon ids.
-    // CONFIG.DND5E.weaponIds.gun = "<compendium id>.<item id>";
     CONFIG.DND5E.weaponIds.assaultRifle = "mythacri-shared-compendium.equipment-myth.2mg0Z9UsSTCv9hw2";
     CONFIG.DND5E.weaponIds.huntingRifle = "mythacri-shared-compendium.equipment-myth.WHXDLxF6lJ6toaMm";
     CONFIG.DND5E.weaponIds.machineGun = "mythacri-shared-compendium.equipment-myth.k7PvZwWEDYWJNVtH";
@@ -166,8 +166,6 @@ export class SystemConfig {
     CONFIG.DND5E.weaponIds.grimScythe = "mythacri-shared-compendium.equipment-myth.Gx1ChtHKXEE5AEfN";
     CONFIG.DND5E.weaponIds.goliathSling = "mythacri-shared-compendium.equipment-myth.8lqu07cKqDTt6qeE";
     CONFIG.DND5E.weaponIds.portableBallista = "mythacri-shared-compendium.equipment-myth.52ayA03VImoL1361";
-
-
   }
 
   static _toolProficiencies() {
@@ -177,7 +175,6 @@ export class SystemConfig {
   }
 
   static _armorProficencies() {
-    // Armor ids
     CONFIG.DND5E.shieldIds.bucklerShield = "mythacri-shared-compendium.equipment-myth.NhBHlkBDDLBKkxGL";
     CONFIG.DND5E.shieldIds.towerShield = "mythacri-shared-compendium.equipment-myth.LzlPn07cT6FPV1fs";
   }
