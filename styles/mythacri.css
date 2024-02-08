@@ -601,3 +601,20 @@
 .sheet.actor.dnd5e.storage [data-action=create] {
   display: none;
 }
+
+/* ------------------------------ */
+/*                                */
+/*         EXHAUSTION PIPS        */
+/*                                */
+/* ------------------------------ */
+.dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] {
+  position: relative;
+}
+.dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] .pip:nth-child(even) {
+  position: absolute;
+  left: calc(16px + 3px + 0.3125rem/2);
+  top: -0.3125rem;
+}
+.dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] .pip:nth-child(4) {
+  left: calc(32px + 8px + 0.3125rem/2);
+}

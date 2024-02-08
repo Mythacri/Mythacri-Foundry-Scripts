@@ -208,6 +208,12 @@ export class SystemConfig {
       });
       CONFIG.DND5E.conditionTypes[k] = v;
     }
+
+    // Modify exhaustion.
+    CONFIG.DND5E.conditionEffects.halfHealth.delete("exhaustion-4");
+    CONFIG.DND5E.conditionEffects.halfMovement.delete("exhaustion-2");
+    CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
+    CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;
   }
 
   static _currencies() {
