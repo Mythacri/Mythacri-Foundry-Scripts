@@ -406,7 +406,7 @@ export class Crafting {
    * @param {HTMLElement}
    */
   static async _renderRunesOnItem(item, html) {
-    const after = html.querySelector(".dnd5e.sheet.actor .inventory-list .item .item-name h4");
+    const after = html.querySelector(".item-name");
     const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
     const div = document.createElement("DIV");
     const value = babonus.getCollection(item).filter(bonus => {
