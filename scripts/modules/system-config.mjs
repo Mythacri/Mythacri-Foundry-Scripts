@@ -210,7 +210,7 @@ export class SystemConfig {
     }
 
     // Modify exhaustion.
-    CONFIG.DND5E.conditionEffects.halfHealth.delete("exhaustion-4");
+    CONFIG.DND5E.conditionEffects.halfHealth?.delete("exhaustion-4");
     CONFIG.DND5E.conditionEffects.halfMovement.delete("exhaustion-2");
     CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
     CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;

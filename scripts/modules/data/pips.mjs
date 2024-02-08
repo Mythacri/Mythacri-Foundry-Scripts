@@ -3,7 +3,6 @@ export class ExperiencePips {
   static init() {
     ExperiencePips._expLevels();
     Hooks.once("ready", ExperiencePips._enableExperience);
-    Hooks.on("renderActorSheet5eCharacter", ExperiencePips._renderActorSheet);
   }
 
   /**
@@ -12,25 +11,6 @@ export class ExperiencePips {
    */
   static async _enableExperience() {
     return game.settings.set("dnd5e", "disableExperienceTracking", false);
-  }
-
-  /**
-   * Swap out the experience bar with ten spans, colored by progression.
-   * @param {ActorSheet5eCharacter} sheet
-   * @param {HTMLElement} html
-   */
-  static _renderActorSheet(sheet, [html]) {
-    const isLegacy = sheet.constructor.name === "ActorSheet5eCharacter";
-    if (!isLegacy) return;
-    const width = html.querySelector(".xpbar .bar").style.width;
-    const filled = parseInt(width) / 10;
-    const pips = Array.fromRange(10).reduce((acc, n) => {
-      const active = (n < filled) ? "active" : "";
-      return acc + `<span class="pip ${active}"></span>`;
-    }, "");
-    const div = document.createElement("DIV");
-    div.innerHTML = `<div class="xpbar">${pips}</div>`;
-    html.querySelector(".xpbar").replaceWith(div.firstElementChild);
   }
 
 

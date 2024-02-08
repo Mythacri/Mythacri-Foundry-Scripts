@@ -93,20 +93,12 @@ export class Resting {
    * @param {HTMLElement} html                The element of the sheet.
    */
   static renderCharacterSheet(sheet, [html]) {
-    const isLegacy = sheet.constructor.name === "ActorSheet5eCharacter";
     const div = document.createElement("DIV");
-    if (isLegacy) {
-      div.innerHTML = `
-      <a class="rest full-rest" data-tooltip="MYTHACRI.FullRest">
-        ${game.i18n.localize("MYTHACRI.RestF")}
-      </a`;
-    } else {
-      const tip = "MYTHACRI.FullRest";
-      div.innerHTML = `
-      <button type="button" class="full-rest gold-button" data-tooltip="${tip}" aria-label="${game.i18n.localize(tip)}">
-        <i class="fa-solid fa-house-chimney">
-      </button>`;
-    }
+    const tip = "MYTHACRI.FullRest";
+    div.innerHTML = `
+    <button type="button" class="full-rest gold-button" data-tooltip="${tip}" aria-label="${game.i18n.localize(tip)}">
+      <i class="fa-solid fa-house-chimney">
+    </button>`;
     div.querySelector(".full-rest").addEventListener("click", Resting.fullRestDialog.bind(sheet.actor));
     html.querySelector(".long-rest").after(div.firstElementChild);
   }

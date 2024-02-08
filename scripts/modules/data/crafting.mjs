@@ -391,13 +391,11 @@ export class Crafting {
    */
   static async _renderCraftingButtons(sheet, html) {
     const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
-    const isLegacy = sheet.constructor.name === "ActorSheet5eCharacter";
     const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, {...buttons, isLegacy: isLegacy});
+    div.innerHTML = await renderTemplate(template, buttons);
     div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
-    if (isLegacy) html.querySelector(".center-pane .counters").append(...div.childNodes);
-    else html.querySelector(".sheet-header-buttons").append(...div.childNodes);
+    html.querySelector(".sheet-header-buttons").append(...div.childNodes);
   }
 
   /**

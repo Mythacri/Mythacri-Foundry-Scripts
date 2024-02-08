@@ -3,84 +3,10 @@
 /*          ACTOR SHEETS          */
 /*                                */
 /* ------------------------------ */
-.dnd5e.sheet.actor.character .alignment,
-.dnd5e.sheet.actor.character .experience,
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
-.dnd5e.sheet.actor.character .item-detail.runes {
-  flex: none;
-  border-right: none;
-  color: #7a7971;
-}
-.dnd5e.sheet.actor.character .sheet-header .header-exp {
-  flex: 0 0 160px;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar {
-  flex: 0 0 22px;
-  display: flex;
-  border-radius: 1em;
-  border: 2px inset;
-  overflow: hidden;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip {
-  flex: 1;
-  border-right: 2px groove black;
-  opacity: 70%;
-  margin: 1px 0;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip:last-child {
-  border: none;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active {
-  background-color: rgb(36, 124, 255);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(1) {
-  filter: brightness(0.6);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(2) {
-  filter: brightness(0.7);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(3) {
-  filter: brightness(0.8);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(4) {
-  filter: brightness(0.9);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(5) {
-  filter: brightness(1.0);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(6) {
-  filter: brightness(1.1);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(7) {
-  filter: brightness(1.2);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(8) {
-  filter: brightness(1.3);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(9) {
-  filter: brightness(1.4);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(10) {
-  filter: brightness(1.5);
-}
-.dnd5e.sheet.actor.character .center-pane .traits {
-  display: flex;
-  flex-direction: column;
-}
-.dnd5e.sheet.actor.character .center-pane .traits .form-group:has(.actor-size) {
-  order: -3;
-}
-.dnd5e.sheet.actor.character .center-pane .traits .form-group:has(.tag) {
-  order: -1;
-}
-.dnd5e.sheet.actor.character .center-pane .traits .form-group:has([data-trait=tool]) {
-  order: -2;
-}
-.dnd5e.sheet.actor .center-pane ul.attributes:not(:has(input[type=text]:not(:placeholder-shown))) {
-  order: 5;
-}
+
 :is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
   /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
   background-image: url(../../../systems/dnd5e/icons/currency/platinum.webp);

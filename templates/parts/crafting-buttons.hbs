@@ -1,55 +1,23 @@
 {{#if cooking}}
-{{#if isLegacy}}
-<div class="counter flexrow cooking">
-  <h4 class="rollable" data-action="cooking">
-    {{localize "MYTHACRI.CraftingSectionCooking"}}
-  </h4>
-</div>
-{{else}}
 <button type="button" class="cooking gold-button" data-action="cooking" data-tooltip="MYTHACRI.CraftingSectionCooking">
   <i class="fa-solid fa-drumstick-bite"></i>
 </button>
 {{/if}}
-{{/if}}
 
 {{#if rune}}
-{{#if isLegacy}}
-<div class="counter flexrow rune-carving">
-  <h4 class="rollable" data-action="rune">
-    {{localize "MYTHACRI.CraftingSectionRune"}}
-  </h4>
-</div>
-{{else}}
 <button type="button" class="rune gold-button" data-action="rune" data-tooltip="MYTHACRI.CraftingSectionRune">
   <i class="fa-solid fa-gem"></i>
 </button>
 {{/if}}
-{{/if}}
 
 {{#if spirit}}
-{{#if isLegacy}}
-<div class="counter flexrow spirit-binding">
-  <h4 class="rollable" data-action="spirit">
-    {{localize "MYTHACRI.CraftingSectionSpirit"}}
-  </h4>
-</div>
-{{else}}
 <button type="button" class="spirit gold-button" data-action="spirit" data-tooltip="MYTHACRI.CraftingSectionSpirit">
   <i class="fa-solid fa-fire-flame-simple"></i>
 </button>
 {{/if}}
-{{/if}}
 
 {{#if monster}}
-{{#if isLegacy}}
-<div class="counter flexrow monster-crafting">
-  <h4 class="rollable" data-action="monster">
-    {{localize "MYTHACRI.CraftingSectionMonster"}}
-  </h4>
-</div>
-{{else}}
 <button type="button" class="monster gold-button" data-action="monster" data-tooltip="MYTHACRI.CraftingSectionMonster">
   <i class="fa-solid fa-hand-fist"></i>
 </button>
-{{/if}}
 {{/if}}
