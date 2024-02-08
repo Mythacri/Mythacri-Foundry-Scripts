@@ -5,7 +5,7 @@ export class Resting {
     Hooks.on("dnd5e.preRestCompleted", Resting.preRestCompleted);
     Hooks.on("dnd5e.restCompleted", Resting.restCompleted);
     Hooks.on("renderLongRestDialog", Resting.renderLongRestDialog);
-    Hooks.on("renderActorSheet5eCharacter", Resting.renderCharacterSheet);
+    Hooks.on("renderActorSheet5eCharacter2", Resting.renderCharacterSheet);
     Hooks.on("preCreateActor", Resting.preCreateActor);
     dnd5e.documents.Actor5e.prototype.fullRest = Resting.fullRestDialog;
   }

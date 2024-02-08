@@ -310,7 +310,7 @@ export class Crafting {
   /** Initialize crafting. */
   static init() {
     Hooks.on("renderItemSheet", Crafting._renderItemSheet);
-    Hooks.on("renderActorSheet5eCharacter", Crafting._renderCharacterSheet);
+    Hooks.on("renderActorSheet5eCharacter2", Crafting._renderCharacterSheet);
     Hooks.on("dnd5e.preUseItem", Crafting._preUseItem);
     Hooks.on("dnd5e.preRollAttack", Crafting._preRollAttack);
     Crafting._characterFlags();
