@@ -318,6 +318,9 @@ export class Crafting {
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
       types: ["mythacri-scripts.recipe"], makeDefault: true, label: "MYTHACRI.SheetRecipe"
     });
+    dnd5e.applications.actor.ActorSheet5eCharacter2.TABS.push({
+      label: "MYTHACRI.Crafting", icon: "fa-solid fa-hammer", tab: "mythacri"
+    });
     loadTemplates([
       "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"
     ]);
@@ -373,7 +376,7 @@ export class Crafting {
    */
   static async _renderCharacterSheet(sheet, [html]) {
     // Render crafting buttons.
-    Crafting._renderCraftingButtons(sheet, html);
+    Crafting._renderCraftingTab(sheet, html);
 
     // Render rune configuration menus.
     if (game.modules.get("babonus")?.active) {
@@ -389,13 +392,14 @@ export class Crafting {
    * @param {ActorSheet5eCharacter} sheet
    * @param {HTMLElement} html
    */
-  static async _renderCraftingButtons(sheet, html) {
+  static async _renderCraftingTab(sheet, html) {
     const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
     const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
+    const active = sheet._tabs[0].active === "mythacri" ? "active" : "";
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, buttons);
+    div.innerHTML = await renderTemplate(template, {...buttons, active: active});
     div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
-    html.querySelector(".sheet-header-buttons").append(...div.childNodes);
+    html.querySelector(".tab-body").append(...div.childNodes);
   }
 
   /**

@@ -6,19 +6,38 @@
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
-
 :is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
   /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
   background-image: url(../../../systems/dnd5e/icons/currency/platinum.webp);
 }
 .dnd5e2.sheet.actor.character .sheet-header-buttons {
-  left: -1em;
-  flex-wrap: wrap;
-  max-width: 150px;
+  left: -1.5em;
 }
-.dnd5e2.sheet.actor.character .sheet-header > .right > div:last-child .sheet-header-buttons:has(.rune, .spirit, .cooking, .monster) {
-  top: -0.5em; /* default is 1.5625rem */
-  /* this style should be more removed if we move the crafting buttons to their own tab */
+.dnd5e2.sheet.actor.character .tab.mythacri .gold-button {
+  width: 100%;
+  height: 150px;
+  margin: 5px;
+  font-size: 40px;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+}
+.dnd5e2.sheet.actor.character .tab.mythacri .gold-button::after {
+  border-width: 3px;
+}
+.dnd5e2.sheet.actor.character .tab.mythacri .gold-button:hover:not(:disabled) {
+  background: var(--dnd5e-color-black);
+}
+.dnd5e2.sheet.actor.character .tab.mythacri .gold-button:disabled {
+  background: rgba(0, 0, 0, 0.5);
+}
+.dnd5e2.sheet.actor.character .tab.mythacri .gold-button .fa-solid {
+  border-right: 2px dashed var(--dnd5e-color-gold);
+  flex: 0 0 135px;
+  padding: 20px 0;
+  font-size: 60px;
+}
+.dnd5e2.sheet.actor.character .tab.mythacri .gold-button .label {
+  flex: 1;
 }
 
 /* ------------------------------ */
