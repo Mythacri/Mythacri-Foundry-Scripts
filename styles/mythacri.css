@@ -39,6 +39,9 @@
 .dnd5e2.sheet.actor.character .tab.mythacri .gold-button .label {
   flex: 1;
 }
+.dnd5e2.sheet.actor.character .sheet-body .pills-group .pill > i.coldIron::before {
+  content: "\f6fc";
+}
 
 /* ------------------------------ */
 /*                                */
