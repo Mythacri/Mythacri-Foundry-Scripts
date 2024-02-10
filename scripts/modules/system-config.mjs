@@ -12,6 +12,7 @@ export class SystemConfig {
     SystemConfig._currencies();
     SystemConfig._consumableTypes();
     SystemConfig._characterFlags();
+    SystemConfig._spellProgression();
   }
 
   static _featureTypes() {
@@ -171,13 +172,18 @@ export class SystemConfig {
   static _toolProficiencies() {
     // Tool ids.
     // CONFIG.DND5E.toolIds.gun = "<compendium id>.<item id>";
-    //CONFIG.DND5E.toolIds.fletchersTools = "";
+    CONFIG.DND5E.toolIds.piano = "mythacri-shared-compendium.equipment-myth.AMehut6zpyXifMqo";
   }
 
   static _armorProficencies() {
     // Armor ids
     CONFIG.DND5E.shieldIds.bucklerShield = "mythacri-shared-compendium.equipment-myth.NhBHlkBDDLBKkxGL";
     CONFIG.DND5E.shieldIds.towerShield = "mythacri-shared-compendium.equipment-myth.LzlPn07cT6FPV1fs";
+  }
+
+  static _spellProgression(){
+    CONFIG.DND5E.spellcastingTypes.leveled.progression.bewitcher = {label: "MYTHACRI.Bewitcher", divisor: 100};
+    CONFIG.DND5E.spellProgression.bewitcher = "MYTHACRI.Bewitcher";
   }
 
   static _conditions() {
