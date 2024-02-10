@@ -13,6 +13,7 @@ export class SystemConfig {
     SystemConfig._consumableTypes();
     SystemConfig._characterFlags();
     SystemConfig._spellProgression();
+    SystemConfig._toolProficiencies();
   }
 
   static _featureTypes() {
