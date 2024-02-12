@@ -24,6 +24,7 @@ export class Soundboard extends Application {
 
   /**
    * Destroy the current soundboard.
+   * @returns {void}
    */
   destroy() {
     game.settings.set(MODULE.ID, "soundboard-visibility", false);
@@ -32,6 +33,7 @@ export class Soundboard extends Application {
 
   /**
    * Destroy the current soundboard, otherwise create and show a new one.
+   * @returns {void}
    */
   static toggle() {
     const current = Object.values(ui.windows).filter(app => app.id === "soundboard");

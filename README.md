@@ -107,6 +107,7 @@ Accessed through `mythacri.soundboard`.
 ```js
 /**
  * Destroy the current soundboard, otherwise create and show a new one.
+ * @returns {void}
  */
 toggle()
 ```
