@@ -10,37 +10,46 @@
   /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
   background-image: url(../../../systems/dnd5e/icons/currency/platinum.webp);
 }
-.dnd5e2.sheet.actor.character .sheet-header-buttons {
-  left: -1.5em;
-}
-.dnd5e2.sheet.actor.character .tab.mythacri .gold-button {
-  width: 100%;
-  height: 150px;
-  margin: 5px;
-  font-size: 40px;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-}
-.dnd5e2.sheet.actor.character .tab.mythacri .gold-button::after {
-  border-width: 3px;
-}
-.dnd5e2.sheet.actor.character .tab.mythacri .gold-button:hover:not(:disabled) {
-  background: var(--dnd5e-color-black);
-}
-.dnd5e2.sheet.actor.character .tab.mythacri .gold-button:disabled {
-  background: rgba(0, 0, 0, 0.5);
-}
-.dnd5e2.sheet.actor.character .tab.mythacri .gold-button .fa-solid {
-  border-right: 2px dashed var(--dnd5e-color-gold);
-  flex: 0 0 135px;
-  padding: 20px 0;
-  font-size: 60px;
-}
-.dnd5e2.sheet.actor.character .tab.mythacri .gold-button .label {
-  flex: 1;
-}
-.dnd5e2.sheet.actor.character .sheet-body .pills-group .pill > i.coldIron::before {
-  content: "\f6fc";
+.dnd5e2.sheet.actor.character {
+  .sheet-header-buttons {
+    left: -1.5em;
+  }
+
+  .tab.mythacri .gold-button {
+    width: 100%;
+    height: 150px;
+    margin: 5px;
+    font-size: 40px;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+
+    &::after {
+      border-width: 3px;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--dnd5e-color-black);
+    }
+
+    &:disabled {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .fa-solid {
+      border-right: 2px dashed var(--dnd5e-color-gold);
+      flex: 0 0 135px;
+      padding: 20px 0;
+      font-size: 60px;
+    }
+
+    .label {
+      flex: 1;
+    }
+  }
+
+  .sheet-body .pills-group .pill > i.coldIron::before {
+    content: "\f6fc";
+  }
 }
 
 /* ------------------------------ */
@@ -74,69 +83,74 @@
 /* ------------------------------ */
 .dnd5e.sheet.item.recipe {
   min-height: 400px;
-}
-.dnd5e.sheet.item.recipe h4.components-header,
-.dnd5e.sheet.item.recipe h4.target-header {
-  margin: 0;
-  padding: 0;
-  font-weight: bold;
-  line-height: 24px;
-  color: #4b4a44;
-}
-.dnd5e.sheet.item.recipe [data-action="add-component"] {
-  width: 18px;
-  flex: 0 0 18px;
-  line-height: 24px;
-  float: right;
-  text-align: right;
-  color: #7a7971;
-}
-.dnd5e.sheet.item.recipe .recipe-status .checkbox {
-  flex: none;
-}
-.dnd5e.sheet.item.recipe .recipe-components,
-.dnd5e.sheet.item.recipe .recipe-targets {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.dnd5e.sheet.item.recipe .recipe-components .recipe-component,
-.dnd5e.sheet.item.recipe .recipe-targets .recipe-target {
-  flex: 0 0 100%;
-  padding: 0;
-}
-.dnd5e.sheet.item.recipe .recipe-components .recipe-component [type="number"],
-.dnd5e.sheet.item.recipe .recipe-targets .recipe-target [type="number"] {
-  flex: 0 0 40px;
-  margin-right: 5px;
-  text-align: center;
-}
-.dnd5e.sheet.item.recipe .recipe-targets .recipe-target .content-link {
-  display: flex;
-  align-items: center;
-  border-radius: 5px;
-}
-.dnd5e.sheet.item.recipe .component-warn,
-.dnd5e.sheet.item.recipe [data-action="delete-component"],
-.dnd5e.sheet.item.recipe [data-action="clear-target"] {
-  width: 18px;
-  flex: 0 0 18px;
-  line-height: 24px;
-  float: right;
-  text-align: right;
-  color: #7a7971;
-}
-.dnd5e.sheet.item.recipe .component-warn {
-  color: rgb(160, 0, 0);
-}
-.dnd5e.sheet.item.recipe .item-name {
-  position: relative;
-}
-.dnd5e.sheet.item.recipe [data-action=refresh] {
-  position: absolute;
-  right: 0;
-  margin: 4px;
-  font-size: 14px;
+
+  & h4.components-header, h4.target-header {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    line-height: 24px;
+    color: #4b4a44;
+  }
+
+  [data-action="add-component"] {
+    width: 18px;
+    flex: 0 0 18px;
+    line-height: 24px;
+    float: right;
+    text-align: right;
+    color: #7a7971;
+  }
+
+  .recipe-status .checkbox {
+    flex: none;
+  }
+
+  .recipe-components, .recipe-targets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .recipe-component, .recipe-target {
+      flex: 0 0 100%;
+      padding: 0;
+
+      [type="number"] {
+        flex: 0 0 40px;
+        margin-right: 5px;
+        text-align: center;
+      }
+
+      .content-link {
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .component-warn, [data-action="delete-component"], [data-action="clear-target"] {
+    width: 18px;
+    flex: 0 0 18px;
+    line-height: 24px;
+    float: right;
+    text-align: right;
+    color: #7a7971;
+  }
+
+  .component-warn {
+    color: rgb(160, 0, 0);
+  }
+
+  .item-name {
+    position: relative;
+  }
+
+  [data-action=refresh] {
+    position: absolute;
+    right: 0;
+    margin: 4px;
+    font-size: 14px;
+  }
 }
 
 /* ------------------------------ */
@@ -146,42 +160,48 @@
 /* ------------------------------ */
 .mythacri-scripts.mayhem-ui {
   width: 400px;
-}
-.mythacri-scripts.mayhem-ui .content {
-  display: flex;
-  flex-direction: column;
-}
-.mythacri-scripts.mayhem-ui .content .note {
-  font-style: italic;
-  margin: 1em 1em 2em 1em;
-  align-self: center;
-}
-.mythacri-scripts.mayhem-ui .content .controls {
-  display: flex;
-  flex: 1;
-  gap: 1em;
-}
-.mythacri-scripts.mayhem-ui .content .controls [data-action] {
-  font-size: 40px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 0;
-  text-align: center;
-  align-items: center;
-}
-.mythacri-scripts.mayhem-ui .content .diff {
-  width: 100%;
-  text-align: center;
-  font-style: italic;
-  padding: 0.5em 0;
-  color: gray;
-  font-size: 25px;
-  margin-bottom: 0.5em;
-}
-.mythacri-scripts.mayhem-ui .content [data-action="submit"] {
-  font-size: 20px;
-  padding: 5px 0;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    .note {
+      font-style: italic;
+      margin: 1em 1em 2em 1em;
+      align-self: center;
+    }
+
+    .controls {
+      display: flex;
+      flex: 1;
+      gap: 1em;
+
+      [data-action] {
+        font-size: 40px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0.5em 0;
+        text-align: center;
+        align-items: center;
+      }
+    }
+
+    .diff {
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+      padding: 0.5em 0;
+      color: gray;
+      font-size: 25px;
+      margin-bottom: 0.5em;
+    }
+
+    [data-action="submit"] {
+      font-size: 20px;
+      padding: 5px 0;
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -193,80 +213,95 @@
   min-height: 400px;
   overflow: hidden;
   max-height: 90%;
-}
-.mythacri-scripts.crafting .content {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.mythacri-scripts.crafting nav.tabs {
-  font-weight: bold;
-  padding-bottom: 5px;
-  font-size: 16px;
-}
-.mythacri-scripts.crafting .tab {
-  overflow: hidden overlay;
-  flex: 1;
-  border: 2px inset;
-}
-.mythacri-scripts.crafting .recipe {
-  border-top: 2px inset;
-  border-bottom: 2px inset;
-  padding: 1em;
-}
-.mythacri-scripts.crafting .recipe:first-child {
-  border-top: none;
-}
-.mythacri-scripts.crafting .recipe:last-child {
-  border-bottom: none;
-}
-.mythacri-scripts.crafting .recipe .header .name {
-  font-size: 25px;
-  font-family: "Modesto Condensed";
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.mythacri-scripts.crafting .recipe .header .name .create {
-  white-space: nowrap;
-  max-width: 30%;
-  font-size: 20px;
-  font-family: 'Modesto Condensed';
-  padding: 4px;
-}
-.mythacri-scripts.crafting .recipe .header .basic {
-  font-style: italic;
-  color: gray;
-}
-.mythacri-scripts.crafting .recipe .details {
-  display: none;
-  gap: 1em;
-}
-.mythacri-scripts.crafting .recipe.expanded .details {
-  display: flex;
-}
-.mythacri-scripts.crafting .recipe .details .description {
-  flex: 3;
-  font-style: italic;
-  max-width: 60%;
-  overflow: hidden;
-}
-.mythacri-scripts.crafting .recipe .details .components {
-  padding-top: 5px;
-  flex: 2;
-}
-.mythacri-scripts.crafting .recipe .details .components .component {
-  white-space: nowrap;
-  margin: 3px;
-  padding: 0 2px;
-  background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
-  text-align: center;
-  font-size: 13px;
-  line-height: 18px;
-}
-.mythacri-scripts.crafting .recipe .details .components .component.missing {
-  color: red;
+
+  .content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  & nav.tabs {
+    font-weight: bold;
+    padding-bottom: 5px;
+    font-size: 16px;
+  }
+
+  .tab {
+    overflow: hidden overlay;
+    flex: 1;
+    border: 2px inset;
+  }
+
+  .recipe {
+    border-top: 2px inset;
+    border-bottom: 2px inset;
+    padding: 1em;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .header .name {
+      font-size: 25px;
+      font-family: "Modesto Condensed";
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .create {
+        white-space: nowrap;
+        max-width: 30%;
+        font-size: 20px;
+        font-family: 'Modesto Condensed';
+        padding: 4px;
+      }
+    }
+
+    .header .basic {
+      font-style: italic;
+      color: gray;
+    }
+
+    .details {
+      display: none;
+      gap: 1em;
+
+      .description {
+        flex: 3;
+        font-style: italic;
+        max-width: 60%;
+        overflow: hidden;
+      }
+
+      .components {
+        padding-top: 5px;
+        flex: 2;
+
+        .component {
+          white-space: nowrap;
+          margin: 3px;
+          padding: 0 2px;
+          background: rgba(0, 0, 0, 0.05);
+          border: 2px groove #eeede0;
+          text-align: center;
+          font-size: 13px;
+          line-height: 18px;
+
+          &.missing {
+            color: red;
+          }
+        }
+      }
+    }
+
+    &.expanded .details {
+      display: flex;
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -279,86 +314,100 @@
   max-height: 90%;
   min-width: 200px;
   width: auto;
-}
-.mythacri-scripts.crafting-handler img {
-  border-radius: 5px;
-  border: none;
-  height: 60px;
-  width: 60px;
-  max-height: 60px;
-  max-width: 60px;
-}
-.mythacri-scripts.crafting-handler .header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  gap: 5px;
-  border-bottom: 3px groove;
-  padding-bottom: 10px;
-}
-.mythacri-scripts.crafting-handler .header img {
-  height: 50px;
-  width: 50px;
-  border: none;
-}
-.mythacri-scripts.crafting-handler .components {
-  display: flex;
-}
-.mythacri-scripts.crafting-handler .column {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex: 1;
-}
-.mythacri-scripts.crafting-handler .column:not(:last-child) {
-  border-right: 2px groove;
-}
-.mythacri-scripts.crafting-handler .column .resources {
-  flex: 1;
-}
-.mythacri-scripts.crafting-handler .components .component-header,
-.mythacri-scripts.crafting-handler .components .component {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.mythacri-scripts.crafting-handler .components .component {
-  flex: 1;
-  margin: 5px;
-}
-.mythacri-scripts.crafting-handler .components .component img.active {
-  filter: drop-shadow(0 0 10px blue);
-}
-.mythacri-scripts.crafting-handler .components .component img {
-  filter: grayscale(1);
-}
-.mythacri-scripts.crafting-handler .components .component-header {
-  border-bottom: 2px solid;
-  flex: none;
-  padding-bottom: 1em;
-  padding-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-.mythacri-scripts.crafting-handler .components .component-header .counter {
-  color: gray;
-}
-.mythacri-scripts.crafting-handler .components .component-header img {
-  border-radius: 50%;
-}
-.mythacri-scripts.crafting-handler .components .component-header .label {
-  font-weight: bold;
-  font-family: "Modesto Condensed";
-  font-size: 20px;
-  white-space: nowrap;
-  padding: 0 10px;
-}
-.mythacri-scripts.crafting-handler .craft {
-  margin-top: 5px;
-}
-.mythacri-scripts.crafting-handler .craft:disabled {
-  background-color: inherit;
-  color: rgb(163, 163, 163);
+
+  & img {
+    border-radius: 5px;
+    border: none;
+    height: 60px;
+    width: 60px;
+    max-height: 60px;
+    max-width: 60px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    gap: 5px;
+    border-bottom: 3px groove;
+    padding-bottom: 10px;
+  }
+
+  .header img {
+    height: 50px;
+    width: 50px;
+  }
+
+  .components {
+    display: flex;
+
+    .component-header, .component {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .component-header {
+      border-bottom: 2px solid;
+      flex: none;
+      padding-bottom: 1em;
+      padding-top: 0.5em;
+      margin-bottom: 0.5em;
+
+      .counter {
+        color: gray;}
+      }
+
+      & img {
+        border-radius: 50%;
+      }
+
+      .label {
+        font-weight: bold;
+        font-family: "Modesto Condensed";
+        font-size: 20px;
+        white-space: nowrap;
+        padding: 0 10px;
+      }
+    }
+
+    .component {
+      flex: 1;
+      margin: 5px;
+
+      & img {
+        filter: grayscale(1);
+
+        &.active {
+        filter: drop-shadow(0 0 10px blue);
+      }
+    }
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 1;
+
+    &:not(:last-child) {
+      border-right: 2px groove;
+    }
+
+    .resources {
+      flex: 1;
+    }
+  }
+
+  .craft {
+    margin-top: 5px;
+
+    &:disabled {
+      background-color: inherit;
+      color: rgb(163, 163, 163);
+    }
+  }
 }
 
 /* ------------------------------ */
