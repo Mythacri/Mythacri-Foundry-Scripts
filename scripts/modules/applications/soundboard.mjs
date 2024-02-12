@@ -8,16 +8,38 @@ export class Soundboard extends Application {
    * Initialize the soundboard.
    */
   static init() {
+    if (!game.settings.get(MODULE.ID, "soundboard-visibility")) return;
     Hooks.once("ready", Soundboard.create);
   }
 
   /**
-   * Factor method for rendering an instance of this application.
+   * Factory method for rendering an instance of this application.
    * @returns {Soundboard}
    */
   static create() {
     if (!game.user.isGM) return;
+    game.settings.set(MODULE.ID, "soundboard-visibility", true);
     return new Soundboard().render(true);
+  }
+
+  /**
+   * Destroy the current soundboard.
+   */
+  destroy() {
+    game.settings.set(MODULE.ID, "soundboard-visibility", false);
+    super.close();
+  }
+
+  /**
+   * Destroy the current soundboard, otherwise create and show a new one.
+   */
+  static toggle() {
+    const current = Object.values(ui.windows).filter(app => app.id === "soundboard");
+    if (current.length) {
+      current.forEach(app => app.destroy());
+    } else {
+      this.create();
+    }
   }
 
   /**
@@ -34,7 +56,8 @@ export class Soundboard extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/soundboard.hbs",
       classes: [MODULE.ID, "soundboard"],
-      minimizable: false
+      minimizable: false,
+      id: "soundboard"
     });
   }
 

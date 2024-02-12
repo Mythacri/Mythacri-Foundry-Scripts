@@ -132,6 +132,14 @@ export class Settings {
       scope: "client"
     });
 
+    /** Remember whether the soundboard was visible. */
+    game.settings.register(MODULE.ID, "soundboard-visibility", {
+      config: false,
+      type: Boolean,
+      default: false,
+      scope: "client"
+    });
+
     /** The current number of random encounter dice. */
     game.settings.register(MODULE.ID, "encounter-dice", {
       config: false,

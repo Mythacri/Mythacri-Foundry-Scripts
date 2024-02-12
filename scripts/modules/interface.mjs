@@ -1,4 +1,5 @@
 import {ResourcePopulator} from "./applications/resource-populator.mjs";
+import {Soundboard} from "./applications/soundboard.mjs";
 import {Crafting} from "./data/crafting.mjs";
 import {Encounter} from "./data/encounter.mjs";
 import {Mayhem} from "./data/mayhem.mjs";
@@ -15,7 +16,8 @@ export class PublicInterface {
       crafting: Crafting,
       encounter: Encounter,
       experience: ExperiencePips,
-      resource: ResourcePopulator
+      resource: ResourcePopulator,
+      soundboard: Soundboard
     };
   }
 }

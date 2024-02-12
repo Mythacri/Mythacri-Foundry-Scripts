@@ -99,5 +99,14 @@ Accessed through `mythacri.resource`.
  * @param {Actor5e|Actor5e[]} [actors]      An actor or array of actors.
  * @returns {void}
  */
-static create(actors = [])
+create(actors = [])
+```
+
+### Soundboard
+Accessed through `mythacri.soundboard`.
+```js
+/**
+ * Destroy the current soundboard, otherwise create and show a new one.
+ */
+toggle()
 ```
