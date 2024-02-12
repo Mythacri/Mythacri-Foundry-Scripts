@@ -369,46 +369,57 @@
 .mythacri-scripts.soundboard {
   border: 1px solid var(--color-border-dark);
   height: auto !important;
-}
-.mythacri-scripts.soundboard .window-header {
-  display: none;
-}
-.mythacri-scripts.soundboard .window-content {
-  background: unset;
-  color: unset;
-}
-.mythacri-scripts.soundboard .header {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 2px groove var(--color-border-dark-secondary);
-  padding-bottom: 0.5em;
-}
-.mythacri-scripts.soundboard .header .toggle:before {
-  content: "\f078";
-}
-.mythacri-scripts.soundboard .header.collapsed .toggle:before {
-  content: "\f077";
-}
-.mythacri-scripts.soundboard .sound-list {
-  overflow: hidden;
-}
-.mythacri-scripts.soundboard .collapsed + .sound-list {
-  height: 0;
-}
-.mythacri-scripts.soundboard .sound {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-}
-.mythacri-scripts.soundboard .sound .sound-name {
-  overflow: hidden;
-  flex: 1;
-}
-.mythacri-scripts.soundboard .sound .actions {
-  margin-left: 5px;
-}
-.mythacri-scripts.soundboard .sound .actions a {
-  margin: 0 5px;
+
+  .window-header {
+    display: none;
+  }
+
+  .window-content {
+    background: unset;
+    color: unset;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px groove var(--color-border-dark-secondary);
+    padding-bottom: 0.5em;
+
+    .toggle:before {
+      content: "\f078";
+    }
+
+    &.collapsed .toggle:before {
+      content: "\f077";
+    }
+  }
+
+  .sound-list {
+    overflow: hidden;
+  }
+
+  .collapsed + .sound-list {
+    height: 0;
+  }
+
+  .sound {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    .sound-name {
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .actions {
+      margin-left: 5px;
+
+      & a {
+        margin: 0 5px;
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -419,54 +430,63 @@
 .mythacri-scripts.encounter {
   width: auto !important;
   min-width: 400px;
-}
-.mythacri-scripts.encounter button {
-  margin: 5px 2px;
-}
-.mythacri-scripts.encounter .roll {
-  display: flex;
-}
-.mythacri-scripts.encounter .roll [data-action=adjust] {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 3em;
-}
-.mythacri-scripts.encounter .player {
-  border: 2px inset;
-  padding: 3px;
-}
-.mythacri-scripts.encounter .player.match {
-  color: green;
-}
-.mythacri-scripts.encounter .player.mismatch {
-  color: red;
-}
-.mythacri-scripts.encounter .gm .rolls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-}
-.mythacri-scripts.encounter .gm .rolls .roll {
-  min-width: 40px;
-  line-height: 40px;
-  justify-content: center;
-  margin-right: 5px;
-  background-image: url(../../../icons/svg/d12-grey.svg);
-  background-repeat: no-repeat;
-  background-size: 40px 40px;
-  font-size: var(--font-size-16);
-  font-weight: bold;
-  color: gray;
-}
-.mythacri-scripts.encounter .gm .rolls .roll:first-child {
-  margin-left: 1em;
-}
-.mythacri-scripts.encounter .gm .rolls .roll.match {
-  color: black;
-  filter: drop-shadow(0 0 3px green);
+
+  & button {
+    margin: 5px 2px;
+  }
+
+  .roll {
+    display: flex;
+
+    [data-action=adjust] {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 3em;
+    }
+  }
+
+  .player {
+    border: 2px inset;
+    padding: 3px;
+
+    &.match {
+      color: green;
+    }
+    &.mismatch {
+      color: red;
+    }
+  }
+
+  .gm .rolls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+
+    .roll {
+      min-width: 40px;
+      line-height: 40px;
+      justify-content: center;
+      margin-right: 5px;
+      background-image: url(../../../icons/svg/d12-grey.svg);
+      background-repeat: no-repeat;
+      background-size: 40px 40px;
+      font-size: var(--font-size-16);
+      font-weight: bold;
+      color: gray;
+
+      &:first-child {
+        margin-left: 1em;
+      }
+
+      &.match {
+        color: black;
+        filter: drop-shadow(0 0 3px green);
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -474,37 +494,46 @@
 /*          RUNES CONFIG          */
 /*                                */
 /* ------------------------------ */
-.mythacri-scripts.runes-config {}
-.mythacri-scripts.runes-config .content header {
-  font-weight: bold;
-  font-size: 24px;
-  border-bottom: 2px groove black;
-  text-align: center;
-}
-.mythacri-scripts.runes-config .content .bonus {
-  position: relative;
-  padding: 1em;
-}
-.mythacri-scripts.runes-config .content .bonus:last-child {
-  padding-bottom: 0;
-}
-.mythacri-scripts.runes-config .content .bonus label {
-  font-weight: bold;
-  color: rgb(73, 73, 73);
-}
-.mythacri-scripts.runes-config .content .bonus a {
-  position: absolute;
-  right: 1em;
-  top: 1em;
-}
-.mythacri-scripts.runes-config .content .bonus a:not([data-action]) {
-  color: gray;
-  pointer-events: none;
-}
-.mythacri-scripts.runes-config .content .bonus .notes {
-  font-style: italic;
-  padding: 0 1em;
-  margin: 1em 0;
+.mythacri-scripts.runes-config {
+  .content {
+    & header {
+      font-weight: bold;
+      font-size: 24px;
+      border-bottom: 2px groove black;
+      text-align: center;
+    }
+
+    .bonus {
+      position: relative;
+      padding: 1em;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+
+      & label {
+        font-weight: bold;
+        color: rgb(73, 73, 73);
+      }
+
+      & a {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+
+        &:not([data-action]) {
+          color: gray;
+          pointer-events: none;
+        }
+      }
+
+      .notes {
+        font-style: italic;
+        padding: 0 1em;
+        margin: 1em 0;
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -514,40 +543,49 @@
 /* ------------------------------ */
 .sheet.actor.dnd5e.storage {
   min-width: 600px;
-  min-height: 800px;
-}
-.sheet.actor.dnd5e.storage .header-details {
-  height: calc(100% - 10px);
-  padding: 5px;
-  margin: 0;
-}
-.sheet.actor.dnd5e.storage .sheet-header .charname {
-  position: relative;
-  height: 100%;
-}
-.sheet.actor.dnd5e.storage .sheet-header .charname input {
-  height: 100%;
-  margin: 0;
-  width: calc(100% - 50px);
-}
-.sheet.actor.dnd5e.storage .charname .config-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px;
-  font-size: 16px;
-  display: none;
-}
-.sheet.actor.dnd5e.storage .charname:hover .config-button {
-  display: block;
-}
-.sheet.actor.dnd5e.storage .sheet-header img.profile {
-  flex: 0 0 100px;
-  max-width: 100px;
-  height: 100px;
-}
-.sheet.actor.dnd5e.storage [data-action=create] {
-  display: none;
+  min-height: 600px;
+
+  .header-details {
+    height: calc(100% - 10px);
+    padding: 5px;
+    margin: 0;
+  }
+
+  .sheet-header {
+    .charname {
+      position: relative;
+      height: 100%;
+
+      & input {
+        height: 100%;
+        margin: 0;
+        width: calc(100% - 50px);
+      }
+
+      .config-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px;
+        font-size: 16px;
+        display: none;
+      }
+
+      &:hover .config-button {
+        display: block;
+      }
+    }
+
+    .profile {
+      flex: 0 0 100px;
+      max-width: 100px;
+      height: 100px;
+    }
+  }
+
+  [data-action=create] {
+    display: none;
+  }
 }
 
 /* ------------------------------ */
@@ -557,12 +595,68 @@
 /* ------------------------------ */
 .dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] {
   position: relative;
+
+  .pip:nth-child(even) {
+    position: absolute;
+    left: calc(16px + 3px + 0.3125rem/2);
+    top: -0.3125rem;
+  }
+
+  .pip:nth-child(4) {
+    left: calc(32px + 8px + 0.3125rem/2);
+  }
 }
-.dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] .pip:nth-child(even) {
-  position: absolute;
-  left: calc(16px + 3px + 0.3125rem/2);
-  top: -0.3125rem;
+
+/* ------------------------------ */
+/*                                */
+/*           PAUSE ICON           */
+/*                                */
+/* ------------------------------ */
+#pause#pause {
+  background: url("../assets/skull-and-bones.svg") no-repeat 50% 50%;
+  background-position: center;
+  height: 200px;
+  animation: pulsate 15000ms infinite ease-in-out;
+
+  & img {
+    display: none;
+  }
+
+  & figcaption {
+    line-height: 300px;
+    color: white;
+    text-shadow: 4px 2px 2px black;
+  }
 }
-.dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] .pip:nth-child(4) {
-  left: calc(32px + 8px + 0.3125rem/2);
+@keyframes pulsate {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  17% {
+    filter: drop-shadow(0 0 50px rgba(136, 3, 173, 1));
+  }
+  34% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  51% {
+    filter: drop-shadow(0 0 50px rgba(0, 255, 0, 1));
+  }
+  68% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  85% {
+    filter: drop-shadow(0 0 50px rgba(255, 0, 0, 1));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+}
+
+/* ------------------------------ */
+/*                                */
+/*          SYSTEM BADGE          */
+/*                                */
+/* ------------------------------ */
+.dnd5e2.system-badge img {
+  display: none;
 }
