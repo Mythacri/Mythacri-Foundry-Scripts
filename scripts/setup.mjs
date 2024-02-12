@@ -6,7 +6,7 @@ import {Settings} from "./modules/data/settings.mjs";
 import {SystemConfig} from "./modules/system-config.mjs";
 import {Soundboard} from "./modules/applications/soundboard.mjs";
 import {Encounter} from "./modules/data/encounter.mjs";
-import {ExperiencePips} from "./modules/data/pips.mjs";
+import {Award} from "./modules/data/award.mjs";
 import {CombatEnhancement} from "./modules/data/combat.mjs";
 import {Storage} from "./modules/data/storage.mjs";
 
@@ -18,6 +18,6 @@ Hooks.once("init", Crafting.init);
 Hooks.once("init", Settings.init);
 Hooks.once("init", Soundboard.init);
 Hooks.once("init", Encounter.init);
-Hooks.once("init", ExperiencePips.init);
+Hooks.once("init", Award.init);
 Hooks.once("init", CombatEnhancement.init);
 Hooks.once("init", Storage.init);
