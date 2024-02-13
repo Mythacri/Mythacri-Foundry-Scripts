@@ -1,18 +1,13 @@
 <div class="content">
-  <nav class="tabs" data-group="main">
-    <a class="item" data-tab="available">{{localize "MYTHACRI.CraftingAvailable"}}</a>
-    <a class="item" data-tab="unavailable">{{localize "MYTHACRI.CraftingUnavailable"}}</a>
-  </nav>
+  <h3 class="header">{{title}}</h3>
 
-  <div class="tab available" data-tab="available" data-group="main">
-    {{#each available}}
-    {{> "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"}}
-    {{/each}}
-  </div>
+  <section class="recipes">
+    <menu class="list">
+      {{#each recipes}}
+      {{> "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"}}
+      {{/each}}
+    </menu>
 
-  <div class="tab unavailable" data-tab="unavailable" data-group="main">
-    {{#each unavailable}}
-    {{> "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"}}
-    {{/each}}
-  </div>
+    <section class="selected"></section>
+  </section>
 </div>

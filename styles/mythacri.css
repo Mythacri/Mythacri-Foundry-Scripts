@@ -211,46 +211,38 @@
 /* ------------------------------ */
 .mythacri-scripts.crafting {
   min-height: 400px;
-  overflow: hidden;
-  max-height: 90%;
+  max-height: 900px;
 
-  .content {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  & nav.tabs {
-    font-weight: bold;
-    padding-bottom: 5px;
-    font-size: 16px;
-  }
-
-  .tab {
-    overflow: hidden overlay;
+  .window-content, .content {
     flex: 1;
-    border: 2px inset;
+
+    > .header {
+      height: 30px;
+    }
   }
 
-  .recipe {
-    border-top: 2px inset;
-    border-bottom: 2px inset;
-    padding: 1em;
+  .recipes {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
 
-    &:first-child {
-      border-top: none;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    .header .name {
-      font-size: 25px;
-      font-family: "Modesto Condensed";
+    .list, .selected {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      flex: 1;
+      min-height: 200px;
+      margin: 0;
+      padding: 0;
+      width: calc(50% - 1em);
+      height: 100%;
+    }
+
+    .selected {
+      .description {
+        flex: 3;
+        font-style: italic;
+        max-width: 60%;
+      }
 
       .create {
         white-space: nowrap;
@@ -258,23 +250,6 @@
         font-size: 20px;
         font-family: 'Modesto Condensed';
         padding: 4px;
-      }
-    }
-
-    .header .basic {
-      font-style: italic;
-      color: gray;
-    }
-
-    .details {
-      display: none;
-      gap: 1em;
-
-      .description {
-        flex: 3;
-        font-style: italic;
-        max-width: 60%;
-        overflow: hidden;
       }
 
       .components {
@@ -298,9 +273,33 @@
       }
     }
 
-    &.expanded .details {
-      display: flex;
+    .recipe {
+      border-top: 2px inset;
+      border-bottom: 2px inset;
+
+      &:first-child {
+        border-top: none;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
+  }
+
+  .header .label {
+    font-size: 25px;
+    font-family: "Modesto Condensed";
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+  }
+
+  .header .basic {
+    font-style: italic;
+    color: gray;
   }
 }
 

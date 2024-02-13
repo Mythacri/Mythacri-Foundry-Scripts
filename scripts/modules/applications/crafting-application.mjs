@@ -23,9 +23,8 @@ export class CraftingApplication extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-application.hbs",
       classes: [MODULE.ID, "crafting"],
-      tabs: [{navSelector: "nav", contentSelector: ".content"}],
-      width: 500,
-      scrollY: [".tab.available", ".tab.unavailable"]
+      width: 800,
+      scrollY: [".recipes"]
     });
   }
 
@@ -39,16 +38,24 @@ export class CraftingApplication extends Application {
     return game.i18n.localize(`MYTHACRI.CraftingSection${this.type.capitalize()}`) + ` (${this.actor.name})`;
   }
 
-  /** @override */
-  async getData() {
-    const icon = {
+  /**
+   * Get the icon specific to this type of crafting.
+   * @type {string}
+   */
+  get icon() {
+    return {
       cooking: "drumstick-bite",
       rune: "gem",
       monster: "hand-fist",
       spirit: "fire-flame-simple"
     }[this.type];
-    const recipes = await this.getAvailableRecipes();
-    const context = recipes.map(idx => {
+  }
+
+  /** @override */
+  async getData() {
+    const context = {};
+    context.recipes = await this.getAvailableRecipes();
+    context.recipes = context.recipes.map(idx => {
       const components = RecipeData.getComponents(idx.system.crafting.components);
       const labels = Object.entries(components).map(([id, qty]) => {
         const items = this.getPossibleResources(id);
@@ -63,18 +70,49 @@ export class CraftingApplication extends Application {
 
       return {
         recipe: idx,
-        canCreate: this.canCreateRecipe(idx),
+        isAvailable: this.canCreateRecipe(idx),
         isStack: qty > 1,
         stack: qty,
         isBasic: idx.system.crafting.basic,
         labels: labels,
-        components: components,
-        icon: icon
+        components: components
       };
     });
 
-    const [unavailable, available] = context.partition(c => c.canCreate);
-    return {unavailable, available};
+    context.title = this.title;
+    return context;
+  }
+
+  /**
+   * Get the details of a recipe and provide it in the selected area.
+   * @param {Event} event     The initiating click event.
+   * @returns {Promise<void>}
+   */
+  async _showDetails(event) {
+    const uuid = event.currentTarget.closest("[data-uuid]").dataset.uuid;
+    const item = await fromUuid(uuid);
+
+    const text = await TextEditor.enrichHTML(item.system.description.value, {async: true});
+
+    const components = item.system.getComponents();
+    const labels = Object.entries(components).reduce((acc, [id, qty]) => {
+      const items = this.getPossibleResources(id);
+      const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
+      return acc + `
+      <div class="component ${(max < qty) ? "missing" : ""}">
+        ${Crafting.getLabel(id)} (${max}/${qty})
+      </div>`;
+    }, "");
+    const area = this.element[0].querySelector(".selected");
+    area.childNodes.forEach(n => n.remove());
+    const html = `
+    <div class="components">${labels}</div>
+    <button type="button" class="create">
+      <i class="fa-solid fa-${this.icon}"></i>
+      ${game.i18n.localize("MYTHACRI.CraftingCreate")}
+    </button>
+    <div class="description">${text}</div>`;
+    area.innerHTML = html;
   }
 
   /** @override */
@@ -177,8 +215,8 @@ export class CraftingApplication extends Application {
     html[0].querySelectorAll(".create").forEach(n => {
       n.addEventListener("click", this._onCreate.bind(this));
     });
-    html[0].querySelectorAll(".header .name .label").forEach(n => {
-      n.addEventListener("click", this._toggleDescription.bind(this));
+    html[0].querySelectorAll("[data-action=show]").forEach(n => {
+      n.addEventListener("click", this._showDetails.bind(this));
     });
   }
 
