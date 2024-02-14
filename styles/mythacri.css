@@ -682,7 +682,7 @@
 /*                                */
 /* ------------------------------ */
 #pause#pause {
-  background: url("../assets/skull-and-bones.svg") no-repeat 50% 50%;
+  background: url("../assets/icons/skull-and-bones.svg") no-repeat 50% 50%;
   background-position: center;
   height: 200px;
   animation: pulsate 15000ms infinite ease-in-out;
