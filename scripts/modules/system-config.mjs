@@ -244,6 +244,7 @@ export class SystemConfig {
     CONFIG.DND5E.conditionEffects.halfMovement.delete("exhaustion-2");
     CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
     CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;
+    CONFIG.DND5E.conditionTypes.exhaustion.icon = "modules/mythacri-scripts/assets/exhaustion.svg";
   }
 
   /** Merge in new and remove some old currencies, and change the weight of 'coin'. */
