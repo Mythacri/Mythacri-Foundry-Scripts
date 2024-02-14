@@ -24,7 +24,9 @@ export class CraftingApplication extends Application {
       template: "modules/mythacri-scripts/templates/crafting-application.hbs",
       classes: [MODULE.ID, "crafting"],
       width: 800,
-      scrollY: [".recipes"]
+      scrollY: [".recipes"],
+      resizable: true,
+      height: 700
     });
   }
 
@@ -79,7 +81,7 @@ export class CraftingApplication extends Application {
       };
     });
 
-    context.title = this.title;
+    context.title = `MYTHACRI.CraftingSection${this.type.capitalize()}`;
     return context;
   }
 
@@ -113,12 +115,6 @@ export class CraftingApplication extends Application {
     </button>
     <div class="description">${text}</div>`;
     area.innerHTML = html;
-  }
-
-  /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height) pos.height = "auto";
-    return super.setPosition(pos);
   }
 
   /**

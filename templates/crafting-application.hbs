@@ -1,13 +1,18 @@
 <div class="content">
-  <h3 class="header">{{title}}</h3>
-
-  <section class="recipes">
-    <menu class="list">
+  <h3 class="header">
+    {{localize title}}
+    <label class="checkbox">
+      <input type="checkbox" id="available">
+      {{localize "MYTHACRI.CraftingShowAvailableOnly"}}
+    </label>
+  </h3>
+  <div class="sections">
+    <section class="recipes">
       {{#each recipes}}
       {{> "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"}}
       {{/each}}
-    </menu>
-
-    <section class="selected"></section>
-  </section>
+    </section>
+    <section class="selected">
+    </section>
+  </div>
 </div>
