@@ -322,7 +322,15 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
         identifier: key,
         quantity: qty,
         icon: this.assigned[key]?.img || "icons/svg/circle.svg",
-        resources: resources.map(r => ({resource: r, active: this.assigned[key] === r})),
+        resources: resources.map(r => ({
+          resource: r,
+          active: this.assigned[key] === r,
+          tooltipCss: "dnd5e2 dnd5e-tooltip item-tooltip",
+          tooltipHint: `
+          <section class='loading' data-uuid='${r.uuid}'>
+            <i class='fas fa-spinner fa-spin-pulse'></i>
+          </section>`
+        })),
         assigned: this.assigned[key] ?? null,
         label: Crafting.getLabel(key)
       };
