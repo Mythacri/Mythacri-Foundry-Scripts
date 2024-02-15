@@ -2,7 +2,7 @@
   <h3 class="header">
     {{localize title}}
     <label class="checkbox">
-      <input type="checkbox" id="available">
+      <input type="checkbox" id="available" {{checked availableOnly}}>
       {{localize "MYTHACRI.CraftingShowAvailableOnly"}}
     </label>
   </h3>
@@ -13,6 +13,9 @@
       {{/each}}
     </section>
     <section class="selected">
+      {{#if recipe}}
+      {{> "modules/mythacri-scripts/templates/parts/crafting-selected.hbs"}}
+      {{/if}}
     </section>
   </div>
 </div>

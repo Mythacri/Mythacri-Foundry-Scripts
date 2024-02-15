@@ -32,6 +32,7 @@
   "MYTHACRI.CraftingCreate": "Create",
   "MYTHACRI.CraftingHandlerHint": "The required components are displayed here. Your items that can be used to fill in for each component are displayed below.",
   "MYTHACRI.CraftingHandlerTitle": "Recipe: {name}",
+  "MYTHACRI.CraftingMissingComponents": "You do not have all the needed components to create this item.",
   "MYTHACRI.CraftingNoRunesOnItem": "This item has no runes applied.",
   "MYTHACRI.CraftingRecipeCooking": "Cooking Recipe",
   "MYTHACRI.CraftingRecipeMonster": "Monster Crafting Recipe",

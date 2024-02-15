@@ -1,3 +1,8 @@
+:root {
+  --recipe-height: 70px;
+  --recipe-height-increase: 30px;
+}
+
 /* ------------------------------ */
 /*                                */
 /*          ACTOR SHEETS          */
@@ -212,8 +217,15 @@
 .mythacri-scripts.crafting {
   min-height: 400px;
   min-width: 700px;
+  background: none;
+  background-color: rgb(56, 56, 56, 1);
 
   .window-content {
+    background: none;
+    color: rgb(190, 190, 190);
+    margin: 0;
+    padding: 0;
+
     .content {
       display: flex;
       flex-direction: column;
@@ -223,34 +235,70 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         overflow: hidden;
+        gap: 1em;
 
         .recipes {
           overflow: auto;
+          margin-left: 5px;
 
           .recipe {
-            border-top: 2px inset;
-            border-bottom: 2px inset;
+            border-top: 3px inset;
+            border-left: 3px inset;
 
-            &:first-child {
-              border-top: none;
-            }
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+            position: relative;
+            overflow: hidden;
+            padding-left: 0.25em;
+            box-shadow: 0 -4px 10px rgb(0, 0, 0);
+            margin-top: 0;
+            height: var(--recipe-height);
 
             &:last-child {
               border-bottom: none;
             }
 
-            .header {
-              .label {
-                font-size: 25px;
-                font-family: "Modesto Condensed";
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              }
+            &:hover {
+              text-shadow: 0 0 2px rgba(255, 255, 255, 0.767);
+              color: rgb(255, 255, 255);
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(125, 125, 125, 1));
+              height: calc(var(--recipe-height) + var(--recipe-height-increase) + 10px);
+            }
 
-              .basic {
-                font-style: italic;
-                color: gray;
+            &.unavailable {
+              color: rgba(255, 255, 255, 0.35);
+              font-style: italic;
+            }
+
+            .label {
+              font-size: 25px;
+              font-family: "Modesto Condensed";
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              max-width: calc(100% - var(--recipe-height) - 10px);
+            }
+
+            .basic {
+              font-style: italic;
+            }
+
+            .target {
+              position: absolute;
+              top: 0;
+              right: 0;
+              width: 100%;
+              height: calc(var(--recipe-height) + var(--recipe-height-increase));
+
+              & img {
+                position: absolute;
+                width: calc(var(--recipe-height) + 20px);
+                height: calc(var(--recipe-height) + 20px);
+                top: 5px;
+                right: 5px;
+                border-radius: 10px;
+                border: 2px inset gray;
               }
             }
           }
@@ -260,63 +308,127 @@
           display: flex;
           flex-direction: column;
           gap: 5px;
+          overflow: hidden;
+          margin-right: 5px;
 
           .description {
             flex: 1;
             font-style: italic;
             margin: 5px;
+            overflow: auto;
+            font-size: 15px;
+            border-top: 1px dashed rgba(150, 146, 123, 0.774);
+
+            .content-link {
+              border: none;
+              background-color: inherit;
+              padding: inherit;
+              border-bottom: 1px solid var(--dnd5e-color-gold);
+              word-break: unset;
+              white-space: unset;
+              font-style: normal;
+
+              & i {
+                display: none;
+              }
+            }
           }
 
           .create {
             flex: none;
             white-space: nowrap;
-            width: 50%;
-            font-size: 20px;
+            width: 80%;
+            font-size: 28px;
             font-family: 'Modesto Condensed';
-            padding: 4px;
+            padding: 10px;
             margin-left: auto;
             margin-right: auto;
+            margin-top: 5px;
+            position: relative;
 
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             background: var(--dnd5e-color-black);
             color: var(--dnd5e-color-gold);
             box-shadow: 0 0 6px var(--dnd5e-shadow-45);
             place-content: center;
+
+            &:not(:disabled):is(:hover, :focus) {
+              box-shadow: 0 0 6px var(--dnd5e-color-gold);
+            }
+
+            &::before {
+              content: "";
+              border: 1px solid var(--dnd5e-color-gold);
+              border-radius: 3px;
+              inset: 3px;
+              position: absolute;
+            }
           }
 
-          .components {
-            padding-top: 5px;
-            flex: none;
+          .name {
+            font-size: 40px;
+            font-family: initial;
+            text-align: center;
+            border-bottom: 1px solid var(--dnd5e-color-gold);
+          }
 
-            .component {
-              white-space: nowrap;
-              margin: 3px;
-              padding: 0 2px;
-              background: rgba(0, 0, 0, 0.05);
-              border: 2px groove #eeede0;
-              text-align: center;
-              font-size: 13px;
-              line-height: 18px;
+          .name + div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 5px;
 
-              &.missing {
-                color: red;
+            .components {
+              flex: 1;
+              gap: 3px;
+              display: flex;
+              flex-direction: column;
+
+              .component {
+                background: rgba(0, 0, 0, 0.05);
+                border: 2px groove #eeede0;
+                text-align: center;
+                font-size: 26px;
+                line-height: 40px;
+                border-radius: 3px;
+                font-family: 'Modesto Condensed';
+
+                &.missing {
+                  color: rgba(255, 122, 122, 0.712);
+                  font-style: italic;
+                }
               }
+            }
+
+            .image {
+              width: calc(var(--recipe-height) + 45x);
+              height: calc(var(--recipe-height) + 45px);
+              border-radius: 10px;
+              border: 2px inset gray;
             }
           }
         }
       }
 
-      > .header {
-        font-size: 30px;
+      .header {
+        font-size: 35px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        border-color: var(--dnd5e-color-gold);
+
         .checkbox {
           align-self: flex-start;
+          transform: scale(1.5);
+          transform-origin: bottom left;
         }
       }
     }
+  }
+
+  .window-header {
+    border: none;
   }
 
   &:has(#available:checked) .recipe.unavailable {

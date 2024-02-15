@@ -23,7 +23,7 @@ export class CraftingApplication extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-application.hbs",
       classes: [MODULE.ID, "crafting"],
-      width: 800,
+      width: 1000,
       scrollY: [".recipes"],
       resizable: true,
       height: 700
@@ -69,20 +69,54 @@ export class CraftingApplication extends Application {
       });
 
       const qty = idx.system.crafting.target.quantity || 1;
+      const trg = fromUuidSync(idx.system.crafting.target.uuid);
+      const css = ["recipe"];
+      if (this.canCreateRecipe(idx)) css.push("available");
+      else css.push("unavailable");
 
       return {
         recipe: idx,
-        isAvailable: this.canCreateRecipe(idx),
+        cssClass: css.join(" "),
         isStack: qty > 1,
         stack: qty,
         isBasic: idx.system.crafting.basic,
         labels: labels,
-        components: components
+        components: components,
+        target: trg
       };
     });
 
     context.title = `MYTHACRI.CraftingSection${this.type.capitalize()}`;
+    context.availableOnly = !!this._availableOnly;
+
+    if (this._recipe) {
+      context.recipe = {
+        text: await TextEditor.enrichHTML(this._recipe.system.description.value, {async: true}),
+        labels: this._getRecipeLabels(this._recipe),
+        icon: this.icon,
+        uuid: this._recipe.uuid,
+        item: fromUuidSync(this._recipe.system.crafting.target.uuid)
+      };
+    }
     return context;
+  }
+
+  /**
+   * Get the labels to display for the required components.
+   * @param {Item5e} item     A recipe item.
+   * @returns {string}
+   */
+  _getRecipeLabels(item) {
+    const components = item.system.getComponents();
+    const labels = Object.entries(components).reduce((acc, [id, qty]) => {
+      const items = this.getPossibleResources(id);
+      const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
+      return acc + `
+      <div class="component ${(max < qty) ? "missing" : ""}">
+        ${Crafting.getLabel(id)} (${max}/${qty})
+      </div>`;
+    }, "");
+    return labels;
   }
 
   /**
@@ -93,28 +127,19 @@ export class CraftingApplication extends Application {
   async _showDetails(event) {
     const uuid = event.currentTarget.closest("[data-uuid]").dataset.uuid;
     const item = await fromUuid(uuid);
-
-    const text = await TextEditor.enrichHTML(item.system.description.value, {async: true});
-
-    const components = item.system.getComponents();
-    const labels = Object.entries(components).reduce((acc, [id, qty]) => {
-      const items = this.getPossibleResources(id);
-      const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
-      return acc + `
-      <div class="component ${(max < qty) ? "missing" : ""}">
-        ${Crafting.getLabel(id)} (${max}/${qty})
-      </div>`;
-    }, "");
     const area = this.element[0].querySelector(".selected");
+    const templateData = {
+      labels: this._getRecipeLabels(item),
+      uuid: uuid,
+      icon: this.icon,
+      text: await TextEditor.enrichHTML(item.system.description.value, {async: true}),
+      item: await fromUuid(item.system.crafting.target.uuid)
+    };
+    const template = "modules/mythacri-scripts/templates/parts/crafting-selected.hbs";
     area.childNodes.forEach(n => n.remove());
-    const html = `
-    <div class="components">${labels}</div>
-    <button type="button" class="create">
-      <i class="fa-solid fa-${this.icon}"></i>
-      ${game.i18n.localize("MYTHACRI.CraftingCreate")}
-    </button>
-    <div class="description">${text}</div>`;
-    area.innerHTML = html;
+    area.innerHTML = await renderTemplate(template, {recipe: templateData});
+    this._recipe = item;
+    area.querySelector(".create").addEventListener("click", this._onCreate.bind(this));
   }
 
   /**
@@ -214,6 +239,9 @@ export class CraftingApplication extends Application {
     html[0].querySelectorAll("[data-action=show]").forEach(n => {
       n.addEventListener("click", this._showDetails.bind(this));
     });
+    html[0].querySelector("#available").addEventListener("change", (event) => {
+      this._availableOnly = event.currentTarget.checked;
+    });
   }
 
   /* ------------------------------------ */
@@ -225,11 +253,16 @@ export class CraftingApplication extends Application {
   /**
    * Handle clicking a 'create' button.
    * @param {PointerEvent} event
+   * @returns {Promise<CraftingHandler|null>}
    */
   async _onCreate(event) {
     const recipe = await fromUuid(event.currentTarget.dataset.uuid);
     const canCreate = this.canCreateRecipe(recipe);
-    return !canCreate ? this.render() : new CraftingHandler(this.actor, this.type, recipe).render(true);
+    if (!canCreate) {
+      ui.notifications.warn("MYTHACRI.CraftingMissingComponents", {localize: true});
+      return null;
+    }
+    return new CraftingHandler(this.actor, this.type, recipe).render(true);
   }
 
   /**
@@ -244,7 +277,7 @@ export class CraftingApplication extends Application {
 /**
  * Subapplication to handle crafting of a single recipe.
  */
-class CraftingHandler extends Application {
+class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
   /**
    * @constructor
    * @param {Actor5e} actor           The actor crafting.
@@ -263,7 +296,7 @@ class CraftingHandler extends Application {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-handler.hbs",
-      classes: [MODULE.ID, "crafting-handler"],
+      classes: [MODULE.ID, "crafting-handler", "dnd5e2", "dialog"],
       width: "auto"
     });
   }
@@ -396,18 +429,26 @@ class CraftingHandler extends Application {
       flags: {},
       system: {
         description: {
-          value: `<p><strong>${game.i18n.localize("MYTHACRI.ResourceEssenceGrade")}:</strong> ${grade}</p>
+          value: `
+          <p><strong>${game.i18n.localize("MYTHACRI.ResourceEssenceGrade")}:</strong> ${grade}</p>
           <fieldset><legend>${target.name}</legend>${target.system.description.value}</fieldset>`
         },
         quantity: 1,
         weight: 0,
-        rarity: Object.keys(CONFIG.DND5E.itemRarity)[grade - 1] || "",
+        rarity: {
+          1: "common",
+          2: "uncommon",
+          3: "rare",
+          4: "veryRare",
+          5: "legendary",
+          6: "artifact"
+        }[grade] ?? "",
         activation: {type: "none"},
         duration: {units: "perm"},
         target: {value: 1, type: "willing"},
         range: {units: "touch"},
         uses: {value: 1, max: "1", per: "charges", autoDestroy: true},
-        consumableType: "spirit"
+        type: {value: "spirit"}
       }
     };
     foundry.utils.mergeObject(data.flags, {

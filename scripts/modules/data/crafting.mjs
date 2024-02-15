@@ -322,7 +322,8 @@ export class Crafting {
       label: "MYTHACRI.Crafting", icon: "fa-solid fa-hammer", tab: "mythacri"
     });
     loadTemplates([
-      "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs"
+      "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs",
+      "modules/mythacri-scripts/templates/parts/crafting-selected.hbs"
     ]);
   }
 

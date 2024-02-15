@@ -1,6 +1,7 @@
-<div class="recipe {{ifThen isAvailable "available" "unavailable"}}" data-uuid="{{recipe.uuid}}">
-  <div class="header">
-    <a class="label" data-action="show">{{recipe.name}}</a>
-    <div class="basic">{{#if isBasic}}{{localize "MYTHACRI.ItemRecipeBasic"}}{{/if}}</div>
-  </div>
+<div class="{{cssClass}}" data-uuid="{{recipe.uuid}}" data-action="show" data-name="{{target.name}}">
+  <span class="label">{{recipe.name}}</span>
+  <span class="basic">{{#if isBasic}}{{localize "MYTHACRI.ItemRecipeBasic"}}{{/if}}</span>
+  <span class="target" data-tooltip="<section class='loading' data-uuid='{{target.uuid}}'><i class='fas fa-spinner fa-spin-pulse'></i></section>" data-tooltip-class="dnd5e2 dnd5e-tooltip item-tooltip" data-tooltip-direction="RIGHT">
+    <img src="{{target.img}}">
+  </span>
 </div>
