@@ -338,6 +338,11 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
 
     return {
       target: target,
+      targetHint: `
+      <section class='loading' data-uuid='${target.uuid}'>
+        <i class='fas fa-spinner fa-spin-pulse'></i>
+      </section>`,
+      targetCss: "dnd5e2 dnd5e-tooltip item-tooltip",
       context: context,
       assigned: this.assigned,
       noCreate: !Object.keys(components).every(key => this.assigned[key] instanceof Item)
