@@ -17,7 +17,7 @@
       <div class="resources">
         {{#each resources}}
         <div class="component">
-          <a data-identifier="{{../identifier}}" data-item-id="{{resource.id}}" data-tooltip="{{tooltipHint}}" data-tooltip-class="{{tooltipCss}}" data-tooltip-direction="LEFT">
+          <a data-identifier="{{../identifier}}" data-item-id="{{resource.id}}" data-tooltip="{{tooltipHint}}" data-tooltip-class="{{tooltipCss}}">
             <img src="{{resource.img}}" {{#if active}} class="active" {{/if}}>
           </a>
           <span class="quantity">{{localize "DND5E.Quantity"}}: {{resource.system.quantity}}</span>

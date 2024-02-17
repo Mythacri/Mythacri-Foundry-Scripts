@@ -218,13 +218,14 @@
   min-height: 400px;
   min-width: 700px;
   background: none;
-  background-color: rgb(56, 56, 56, 1);
+  border: 1px solid black;
 
   .window-content {
     background: none;
     color: rgb(190, 190, 190);
     margin: 0;
     padding: 0;
+    border-radius: 5px;
 
     .content {
       display: flex;
@@ -236,6 +237,11 @@
         grid-template-columns: 1fr 1fr;
         overflow: hidden;
         gap: 1em;
+        padding-top: 10px;
+        background: transparent url(../../../ui/parchment.jpg) repeat top / cover;
+        background-color: rgb(5 6 15);
+        background-blend-mode: color-dodge;
+        padding-bottom: 5px;
 
         .recipes {
           overflow: auto;
@@ -255,14 +261,10 @@
             margin-top: 0;
             height: var(--recipe-height);
 
-            &:last-child {
-              border-bottom: none;
-            }
-
             &:hover {
               text-shadow: 0 0 2px rgba(255, 255, 255, 0.767);
               color: rgb(255, 255, 255);
-              background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(125, 125, 125, 1));
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(25, 80, 184, 0.5));
               height: calc(var(--recipe-height) + var(--recipe-height-increase) + 10px);
             }
 
@@ -412,15 +414,24 @@
       }
 
       .header {
-        font-size: 35px;
+        font-size: 45px;
+        color: rgb(209, 209, 209);
+        text-shadow: 2px 2px 10px black;
+        font-family: Arial;
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-color: var(--dnd5e-color-gold);
+        border: none;
+        border-bottom: 1px solid var(--dnd5e-color-gold);
+        margin: 0;
+        padding: 30px 0;
+        background: transparent url(../assets/icons/crafting-node.webp) no-repeat top / cover;
+        background-size: 100%;
+        background-position-y: 30%;
 
         .checkbox {
           align-self: flex-start;
-          transform: scale(1.5);
+          transform: scale(1.5) translateY(15px);
           transform-origin: bottom left;
         }
       }
@@ -429,6 +440,9 @@
 
   .window-header {
     border: none;
+    max-height: 0;
+    overflow: visible;
+    z-index: 1;
   }
 
   &:has(#available:checked) .recipe.unavailable {

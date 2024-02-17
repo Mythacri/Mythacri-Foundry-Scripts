@@ -23,7 +23,7 @@ export class CraftingApplication extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-application.hbs",
       classes: [MODULE.ID, "crafting"],
-      width: 1000,
+      width: 800,
       scrollY: [".recipes"],
       resizable: true,
       height: 700
@@ -82,7 +82,12 @@ export class CraftingApplication extends Application {
         isBasic: idx.system.crafting.basic,
         labels: labels,
         components: components,
-        target: trg
+        target: trg,
+        tooltip: `
+        <section class='loading' data-uuid='${trg.uuid}'>
+          <i class='fas fa-spinner fa-spin-pulse'></i>
+        </section>`,
+        tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip"
       };
     });
 
