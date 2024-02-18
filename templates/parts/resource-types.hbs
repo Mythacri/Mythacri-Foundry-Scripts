@@ -9,11 +9,7 @@
 <div class="form-group resource">
   <label>{{localize subtypeLabel}}</label>
   <select name="flags.mythacri-scripts.resource.subtype" {{disabled disable}}>
-    {{#if (eq type "monster")}}
     {{selectOptions subtypeOptions selected=subtype labelAttr="label" localize=true sort=true blank="-"}}
-    {{else}}
-    {{selectOptions subtypeOptions selected=subtype localize=true sort=true blank="-"}}
-    {{/if}}
   </select>
 </div>
 {{/if}}

@@ -1,8 +1,9 @@
 import {ResourcePopulator} from "./applications/resource-populator.mjs";
+import {Soundboard} from "./applications/soundboard.mjs";
 import {Crafting} from "./data/crafting.mjs";
 import {Encounter} from "./data/encounter.mjs";
 import {Mayhem} from "./data/mayhem.mjs";
-import {ExperiencePips} from "./data/pips.mjs";
+import {Award} from "./data/award.mjs";
 
 /**
  * Set up the public API.
@@ -14,8 +15,9 @@ export class PublicInterface {
       mayhem: Mayhem,
       crafting: Crafting,
       encounter: Encounter,
-      experience: ExperiencePips,
-      resource: ResourcePopulator
+      award: Award,
+      resource: ResourcePopulator,
+      soundboard: Soundboard
     };
   }
 }

@@ -9,7 +9,6 @@ export class Storage {
       types: ["mythacri-scripts.storage"], makeDefault: true, label: "MYTHACRI.SheetStorage"
     });
     Hooks.on("preCreateActiveEffect", Storage._cancelEffectCreation);
-    Storage._patchActor();
   }
 
   /**
@@ -19,17 +18,5 @@ export class Storage {
    */
   static _cancelEffectCreation(effect) {
     if (effect.parent?.type === "mythacri-scripts.storage") return false;
-  }
-
-  /**
-   * Patch the default Actor5e class due to roll data issues.
-   */
-  static _patchActor() {
-    CONFIG.Actor.documentClass = class Actor5e extends CONFIG.Actor.documentClass {
-      getRollData({deterministic = false} = {}) {
-        if (this.type === "mythacri-scripts.storage") return {...this.system};
-        return super.getRollData({deterministic});
-      }
-    }
   }
 }

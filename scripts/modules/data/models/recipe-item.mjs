@@ -19,21 +19,20 @@ import {Crafting} from "../crafting.mjs";
  * @property {string} price.denomination                    The denomination of the value, as defined in `DND5E.currencies`.
  */
 export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
-  dnd5e.dataModels.item.ItemDescriptionTemplate
+  dnd5e.dataModels.item.ItemDescriptionTemplate,
+  dnd5e.dataModels.item.ItemTypeTemplate
 ) {
   /** @override */
   static defineSchema() {
     return this.mergeSchema(super.defineSchema(), {
-      type: new foundry.data.fields.SchemaField({
-        value: new foundry.data.fields.StringField()
-      }),
+      type: new dnd5e.dataModels.item.ItemTypeField({subtype: false, baseItem: false}),
       crafting: new foundry.data.fields.SchemaField({
         target: new foundry.data.fields.SchemaField({
-          uuid: new foundry.data.fields.StringField(),
+          uuid: new foundry.data.fields.StringField({required: true}),
           quantity: new foundry.data.fields.NumberField({integer: true, min: 1, initial: 1})
         }),
         components: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          identifier: new foundry.data.fields.StringField(),
+          identifier: new foundry.data.fields.StringField({required: true}),
           quantity: new foundry.data.fields.NumberField({integer: true, min: 1, initial: 1})
         })),
         basic: new foundry.data.fields.BooleanField()
@@ -58,7 +57,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     return this.constructor.allowedTargetTypes;
   }
   static get allowedTargetTypes() {
-    return ["feat", "backpack", "consumable", "weapon", "equipment", "tool"];
+    return ["feat", "container", "consumable", "weapon", "equipment", "tool"];
   }
 
   /**

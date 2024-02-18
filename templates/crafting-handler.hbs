@@ -1,6 +1,6 @@
 <div class="content">
   <div class="header">
-    <img src="{{target.img}}">
+    <img src="{{target.img}}" data-tooltip="{{targetHint}}" data-tooltip-class="{{targetCss}}">
     {{target.name}}
     <a data-tooltip="MYTHACRI.CraftingHandlerHint" data-tooltip-direction="UP">
       <i class="fa-solid fa-question-circle"></i>
@@ -17,8 +17,8 @@
       <div class="resources">
         {{#each resources}}
         <div class="component">
-          <a data-identifier="{{../identifier}}" data-item-id="{{resource.id}}">
-            <img src="{{resource.img}}" {{#if active}} class="active" {{/if}} data-tooltip="{{resource.name}}">
+          <a data-identifier="{{../identifier}}" data-item-id="{{resource.id}}" data-tooltip="{{tooltipHint}}" data-tooltip-class="{{tooltipCss}}">
+            <img src="{{resource.img}}" {{#if active}} class="active" {{/if}}>
           </a>
           <span class="quantity">{{localize "DND5E.Quantity"}}: {{resource.system.quantity}}</span>
         </div>

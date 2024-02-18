@@ -1,22 +1,7 @@
-<div class="recipe">
-  <div class="header">
-    <div class="name">
-      <a class="label">{{recipe.name}}</a>
-      {{#if canCreate}}
-      <button type="button" class="create" data-uuid="{{recipe.uuid}}">
-        <i class="fa-solid fa-{{icon}}"></i>
-        {{localize "MYTHACRI.CraftingCreate"}}
-      </button>
-      {{/if}}
-    </div>
-    <div class="basic">{{#if isBasic}}{{localize "MYTHACRI.ItemRecipeBasic"}}{{/if}}</div>
-  </div>
-  <div class="details">
-    <div class="description">{{{recipe.system.description.value}}}</div>
-    <div class="components">
-      {{#each labels}}
-      <div class="component {{cssClass}}">{{label}}</div>
-      {{/each}}
-    </div>
-  </div>
+<div class="{{cssClass}}" data-uuid="{{recipe.uuid}}" data-action="show" data-name="{{target.name}}">
+  <span class="label">{{recipe.name}}</span>
+  <span class="basic">{{#if isBasic}}{{localize "MYTHACRI.ItemRecipeBasic"}}{{/if}}</span>
+  <span class="target">
+    <img src="{{target.img}}" data-tooltip="{{tooltip}}" data-tooltip-class="{{tooltipClass}}">
+  </span>
 </div>

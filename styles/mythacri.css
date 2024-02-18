@@ -1,85 +1,60 @@
+:root {
+  --recipe-height: 70px;
+  --recipe-height-increase: 30px;
+}
+
 /* ------------------------------ */
 /*                                */
 /*          ACTOR SHEETS          */
 /*                                */
 /* ------------------------------ */
-.dnd5e.sheet.actor.character .alignment,
-.dnd5e.sheet.actor.character .experience,
 .dnd5e.sheet.actor.npc .legendary {
   display: none;
 }
-.dnd5e.sheet.actor.character .item-detail.runes {
-  flex: none;
-  border-right: none;
-  color: #7a7971;
+:is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
+  /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
+  background-image: url(../assets/icons/marble.webp);
 }
-.dnd5e.sheet.actor.character .sheet-header .header-exp {
-  flex: 0 0 160px;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar {
-  flex: 0 0 22px;
-  display: flex;
-  border-radius: 1em;
-  border: 2px inset;
-  overflow: hidden;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip {
-  flex: 1;
-  border-right: 2px groove black;
-  opacity: 70%;
-  margin: 1px 0;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip:last-child {
-  border: none;
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active {
-  background-color: rgb(36, 124, 255);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(1) {
-  filter: brightness(0.6);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(2) {
-  filter: brightness(0.7);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(3) {
-  filter: brightness(0.8);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(4) {
-  filter: brightness(0.9);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(5) {
-  filter: brightness(1.0);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(6) {
-  filter: brightness(1.1);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(7) {
-  filter: brightness(1.2);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(8) {
-  filter: brightness(1.3);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(9) {
-  filter: brightness(1.4);
-}
-.dnd5e.sheet.actor.character .sheet-header .xpbar .pip.active:nth-child(10) {
-  filter: brightness(1.5);
-}
-.dnd5e.sheet.actor.character .center-pane .traits {
-  display: flex;
-  flex-direction: column;
-}
-.dnd5e.sheet.actor.character .center-pane .traits .form-group:has(.actor-size) {
-  order: -3;
-}
-.dnd5e.sheet.actor.character .center-pane .traits .form-group:has(.tag) {
-  order: -1;
-}
-.dnd5e.sheet.actor.character .center-pane .traits .form-group:has([data-trait=tool]) {
-  order: -2;
-}
-.dnd5e.sheet.actor .center-pane ul.attributes:not(:has(input[type=text]:not(:placeholder-shown))) {
-  order: 5;
+.dnd5e2.sheet.actor.character {
+  .sheet-header-buttons {
+    left: -1.5em;
+  }
+
+  .tab.mythacri .gold-button {
+    width: 100%;
+    height: 150px;
+    margin: 5px;
+    font-size: 40px;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+
+    &::after {
+      border-width: 3px;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--dnd5e-color-black);
+    }
+
+    &:disabled {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .fa-solid {
+      border-right: 2px dashed var(--dnd5e-color-gold);
+      flex: 0 0 135px;
+      padding: 20px 0;
+      font-size: 60px;
+    }
+
+    .label {
+      flex: 1;
+    }
+  }
+
+  .sheet-body .pills-group .pill > i.coldIron::before {
+    content: "\f6fc";
+  }
 }
 
 /* ------------------------------ */
@@ -113,69 +88,74 @@
 /* ------------------------------ */
 .dnd5e.sheet.item.recipe {
   min-height: 400px;
-}
-.dnd5e.sheet.item.recipe h4.components-header,
-.dnd5e.sheet.item.recipe h4.target-header {
-  margin: 0;
-  padding: 0;
-  font-weight: bold;
-  line-height: 24px;
-  color: #4b4a44;
-}
-.dnd5e.sheet.item.recipe [data-action="add-component"] {
-  width: 18px;
-  flex: 0 0 18px;
-  line-height: 24px;
-  float: right;
-  text-align: right;
-  color: #7a7971;
-}
-.dnd5e.sheet.item.recipe .recipe-status .checkbox {
-  flex: none;
-}
-.dnd5e.sheet.item.recipe .recipe-components,
-.dnd5e.sheet.item.recipe .recipe-targets {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.dnd5e.sheet.item.recipe .recipe-components .recipe-component,
-.dnd5e.sheet.item.recipe .recipe-targets .recipe-target {
-  flex: 0 0 100%;
-  padding: 0;
-}
-.dnd5e.sheet.item.recipe .recipe-components .recipe-component [type="number"],
-.dnd5e.sheet.item.recipe .recipe-targets .recipe-target [type="number"] {
-  flex: 0 0 40px;
-  margin-right: 5px;
-  text-align: center;
-}
-.dnd5e.sheet.item.recipe .recipe-targets .recipe-target .content-link {
-  display: flex;
-  align-items: center;
-  border-radius: 5px;
-}
-.dnd5e.sheet.item.recipe .component-warn,
-.dnd5e.sheet.item.recipe [data-action="delete-component"],
-.dnd5e.sheet.item.recipe [data-action="clear-target"] {
-  width: 18px;
-  flex: 0 0 18px;
-  line-height: 24px;
-  float: right;
-  text-align: right;
-  color: #7a7971;
-}
-.dnd5e.sheet.item.recipe .component-warn {
-  color: rgb(160, 0, 0);
-}
-.dnd5e.sheet.item.recipe .item-name {
-  position: relative;
-}
-.dnd5e.sheet.item.recipe [data-action=refresh] {
-  position: absolute;
-  right: 0;
-  margin: 4px;
-  font-size: 14px;
+
+  & h4.components-header, h4.target-header {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    line-height: 24px;
+    color: #4b4a44;
+  }
+
+  [data-action="add-component"] {
+    width: 18px;
+    flex: 0 0 18px;
+    line-height: 24px;
+    float: right;
+    text-align: right;
+    color: #7a7971;
+  }
+
+  .recipe-status .checkbox {
+    flex: none;
+  }
+
+  .recipe-components, .recipe-targets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .recipe-component, .recipe-target {
+      flex: 0 0 100%;
+      padding: 0;
+
+      [type="number"] {
+        flex: 0 0 40px;
+        margin-right: 5px;
+        text-align: center;
+      }
+
+      .content-link {
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .component-warn, [data-action="delete-component"], [data-action="clear-target"] {
+    width: 18px;
+    flex: 0 0 18px;
+    line-height: 24px;
+    float: right;
+    text-align: right;
+    color: #7a7971;
+  }
+
+  .component-warn {
+    color: rgb(160, 0, 0);
+  }
+
+  .item-name {
+    position: relative;
+  }
+
+  [data-action=refresh] {
+    position: absolute;
+    right: 0;
+    margin: 4px;
+    font-size: 14px;
+  }
 }
 
 /* ------------------------------ */
@@ -185,42 +165,48 @@
 /* ------------------------------ */
 .mythacri-scripts.mayhem-ui {
   width: 400px;
-}
-.mythacri-scripts.mayhem-ui .content {
-  display: flex;
-  flex-direction: column;
-}
-.mythacri-scripts.mayhem-ui .content .note {
-  font-style: italic;
-  margin: 1em 1em 2em 1em;
-  align-self: center;
-}
-.mythacri-scripts.mayhem-ui .content .controls {
-  display: flex;
-  flex: 1;
-  gap: 1em;
-}
-.mythacri-scripts.mayhem-ui .content .controls [data-action] {
-  font-size: 40px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 0;
-  text-align: center;
-  align-items: center;
-}
-.mythacri-scripts.mayhem-ui .content .diff {
-  width: 100%;
-  text-align: center;
-  font-style: italic;
-  padding: 0.5em 0;
-  color: gray;
-  font-size: 25px;
-  margin-bottom: 0.5em;
-}
-.mythacri-scripts.mayhem-ui .content [data-action="submit"] {
-  font-size: 20px;
-  padding: 5px 0;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    .note {
+      font-style: italic;
+      margin: 1em 1em 2em 1em;
+      align-self: center;
+    }
+
+    .controls {
+      display: flex;
+      flex: 1;
+      gap: 1em;
+
+      [data-action] {
+        font-size: 40px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0.5em 0;
+        text-align: center;
+        align-items: center;
+      }
+    }
+
+    .diff {
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+      padding: 0.5em 0;
+      color: gray;
+      font-size: 25px;
+      margin-bottom: 0.5em;
+    }
+
+    [data-action="submit"] {
+      font-size: 20px;
+      padding: 5px 0;
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -230,82 +216,261 @@
 /* ------------------------------ */
 .mythacri-scripts.crafting {
   min-height: 400px;
-  overflow: hidden;
-  max-height: 90%;
-}
-.mythacri-scripts.crafting .content {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.mythacri-scripts.crafting nav.tabs {
-  font-weight: bold;
-  padding-bottom: 5px;
-  font-size: 16px;
-}
-.mythacri-scripts.crafting .tab {
-  overflow: hidden overlay;
-  flex: 1;
-  border: 2px inset;
-}
-.mythacri-scripts.crafting .recipe {
-  border-top: 2px inset;
-  border-bottom: 2px inset;
-  padding: 1em;
-}
-.mythacri-scripts.crafting .recipe:first-child {
-  border-top: none;
-}
-.mythacri-scripts.crafting .recipe:last-child {
-  border-bottom: none;
-}
-.mythacri-scripts.crafting .recipe .header .name {
-  font-size: 25px;
-  font-family: "Modesto Condensed";
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.mythacri-scripts.crafting .recipe .header .name .create {
-  white-space: nowrap;
-  max-width: 30%;
-  font-size: 20px;
-  font-family: 'Modesto Condensed';
-  padding: 4px;
-}
-.mythacri-scripts.crafting .recipe .header .basic {
-  font-style: italic;
-  color: gray;
-}
-.mythacri-scripts.crafting .recipe .details {
-  display: none;
-  gap: 1em;
-}
-.mythacri-scripts.crafting .recipe.expanded .details {
-  display: flex;
-}
-.mythacri-scripts.crafting .recipe .details .description {
-  flex: 3;
-  font-style: italic;
-  max-width: 60%;
-  overflow: hidden;
-}
-.mythacri-scripts.crafting .recipe .details .components {
-  padding-top: 5px;
-  flex: 2;
-}
-.mythacri-scripts.crafting .recipe .details .components .component {
-  white-space: nowrap;
-  margin: 3px;
-  padding: 0 2px;
-  background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
-  text-align: center;
-  font-size: 13px;
-  line-height: 18px;
-}
-.mythacri-scripts.crafting .recipe .details .components .component.missing {
-  color: red;
+  min-width: 700px;
+  background: none;
+  border: 1px solid black;
+
+  .window-content {
+    background: none;
+    color: rgb(190, 190, 190);
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .sections {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        overflow: hidden;
+        gap: 1em;
+        padding-top: 10px;
+        background: transparent url(../../../ui/parchment.jpg) repeat top / cover;
+        background-blend-mode: color-dodge;
+        padding-bottom: 5px;
+
+        .recipes {
+          overflow: auto;
+          margin-left: 5px;
+
+          .recipe {
+            border-top: 3px inset;
+            border-left: 3px inset;
+
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+            position: relative;
+            overflow: hidden;
+            padding-left: 0.25em;
+            box-shadow: 0 -4px 10px rgb(0, 0, 0);
+            margin-top: 0;
+            height: var(--recipe-height);
+
+            &:hover {
+              text-shadow: 0 0 2px rgba(255, 255, 255, 0.767);
+              color: rgb(255, 255, 255);
+              height: calc(var(--recipe-height) + var(--recipe-height-increase) + 10px);
+            }
+
+            &.unavailable {
+              color: rgba(255, 255, 255, 0.35);
+              font-style: italic;
+            }
+
+            .label {
+              font-size: 25px;
+              font-family: "Modesto Condensed";
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              max-width: calc(100% - var(--recipe-height) - 10px);
+            }
+
+            .basic {
+              font-style: italic;
+            }
+
+            .target {
+              position: absolute;
+              top: 0;
+              right: 0;
+              width: 100%;
+              height: calc(var(--recipe-height) + var(--recipe-height-increase));
+
+              & img {
+                position: absolute;
+                width: calc(var(--recipe-height) + 20px);
+                height: calc(var(--recipe-height) + 20px);
+                top: 5px;
+                right: 5px;
+                border-radius: 10px;
+                border: 2px inset gray;
+              }
+            }
+          }
+        }
+
+        .selected {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          overflow: hidden;
+          margin-right: 5px;
+
+          .description {
+            flex: 1;
+            font-style: italic;
+            margin: 5px;
+            overflow: auto;
+            font-size: 15px;
+            border-top: 1px dashed rgba(150, 146, 123, 0.774);
+
+            .content-link {
+              border: none;
+              background-color: inherit;
+              padding: inherit;
+              border-bottom: 1px solid var(--dnd5e-color-gold);
+              word-break: unset;
+              white-space: unset;
+              font-style: normal;
+
+              & i {
+                display: none;
+              }
+            }
+          }
+
+          .create {
+            flex: none;
+            white-space: nowrap;
+            width: 80%;
+            font-size: 28px;
+            font-family: 'Modesto Condensed';
+            padding: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5px;
+            position: relative;
+
+            border: none;
+            border-radius: 5px;
+            background: var(--dnd5e-color-black);
+            color: var(--dnd5e-color-gold);
+            box-shadow: 0 0 6px var(--dnd5e-shadow-45);
+            place-content: center;
+
+            &:not(:disabled):is(:hover, :focus) {
+              box-shadow: 0 0 6px var(--dnd5e-color-gold);
+            }
+
+            &::before {
+              content: "";
+              border: 1px solid var(--dnd5e-color-gold);
+              border-radius: 3px;
+              inset: 3px;
+              position: absolute;
+            }
+          }
+
+          .name {
+            font-size: 40px;
+            font-family: initial;
+            text-align: center;
+            border-bottom: 1px solid var(--dnd5e-color-gold);
+          }
+
+          .name + div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 5px;
+
+            .components {
+              flex: 1;
+              gap: 3px;
+              display: flex;
+              flex-direction: column;
+
+              .component {
+                background: rgba(0, 0, 0, 0.05);
+                border: 2px groove #eeede0;
+                text-align: center;
+                font-size: 26px;
+                line-height: 40px;
+                border-radius: 3px;
+                font-family: 'Modesto Condensed';
+
+                &.missing {
+                  color: rgba(255, 122, 122, 0.712);
+                  font-style: italic;
+                }
+              }
+            }
+
+            .image {
+              width: calc(var(--recipe-height) + 45x);
+              height: calc(var(--recipe-height) + 45px);
+              border-radius: 10px;
+              border: 2px inset gray;
+            }
+          }
+        }
+      }
+
+      &.spirit .sections {
+        background-color: rgb(12 6 12);
+        .recipes .recipe:hover {
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(255, 40, 190, 0.5));
+        }
+      }
+      &.rune .sections {
+        background-color: rgb(13 10 0);
+        .recipes .recipe:hover {
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(163, 194, 27, 0.5));
+        }
+      }
+      &.cooking .sections {
+        background-color: rgb(13 1 3);
+        .recipes .recipe:hover {
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(241, 22, 22, 0.5));
+        }
+      }
+      &.monster .sections {
+        background-color: rgb(4 8 15);
+        .recipes .recipe:hover {
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(25, 80, 184, 0.5));
+        }
+      }
+
+      .header {
+        font-size: 45px;
+        color: rgb(209, 209, 209);
+        text-shadow: 2px 2px 10px black;
+        font-family: Arial;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+        border-bottom: 1px solid var(--dnd5e-color-gold);
+        margin: 0;
+        padding: 30px 0;
+        background: transparent url(../assets/icons/crafting-node.webp) no-repeat top / cover;
+        background-size: 100%;
+        background-position-y: 30%;
+
+        .checkbox {
+          align-self: flex-start;
+          transform: scale(1.5) translateY(15px);
+          transform-origin: bottom left;
+        }
+      }
+    }
+  }
+
+  .window-header {
+    border: none;
+    max-height: 0;
+    overflow: visible;
+    z-index: 1;
+  }
+
+  &:has(#available:checked) .recipe.unavailable {
+    display: none;
+  }
 }
 
 /* ------------------------------ */
@@ -318,86 +483,100 @@
   max-height: 90%;
   min-width: 200px;
   width: auto;
-}
-.mythacri-scripts.crafting-handler img {
-  border-radius: 5px;
-  border: none;
-  height: 60px;
-  width: 60px;
-  max-height: 60px;
-  max-width: 60px;
-}
-.mythacri-scripts.crafting-handler .header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  gap: 5px;
-  border-bottom: 3px groove;
-  padding-bottom: 10px;
-}
-.mythacri-scripts.crafting-handler .header img {
-  height: 50px;
-  width: 50px;
-  border: none;
-}
-.mythacri-scripts.crafting-handler .components {
-  display: flex;
-}
-.mythacri-scripts.crafting-handler .column {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex: 1;
-}
-.mythacri-scripts.crafting-handler .column:not(:last-child) {
-  border-right: 2px groove;
-}
-.mythacri-scripts.crafting-handler .column .resources {
-  flex: 1;
-}
-.mythacri-scripts.crafting-handler .components .component-header,
-.mythacri-scripts.crafting-handler .components .component {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.mythacri-scripts.crafting-handler .components .component {
-  flex: 1;
-  margin: 5px;
-}
-.mythacri-scripts.crafting-handler .components .component img.active {
-  filter: drop-shadow(0 0 10px blue);
-}
-.mythacri-scripts.crafting-handler .components .component img {
-  filter: grayscale(1);
-}
-.mythacri-scripts.crafting-handler .components .component-header {
-  border-bottom: 2px solid;
-  flex: none;
-  padding-bottom: 1em;
-  padding-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-.mythacri-scripts.crafting-handler .components .component-header .counter {
-  color: gray;
-}
-.mythacri-scripts.crafting-handler .components .component-header img {
-  border-radius: 50%;
-}
-.mythacri-scripts.crafting-handler .components .component-header .label {
-  font-weight: bold;
-  font-family: "Modesto Condensed";
-  font-size: 20px;
-  white-space: nowrap;
-  padding: 0 10px;
-}
-.mythacri-scripts.crafting-handler .craft {
-  margin-top: 5px;
-}
-.mythacri-scripts.crafting-handler .craft:disabled {
-  background-color: inherit;
-  color: rgb(163, 163, 163);
+
+  & img {
+    border-radius: 5px;
+    border: none;
+    height: 60px;
+    width: 60px;
+    max-height: 60px;
+    max-width: 60px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    gap: 5px;
+    border-bottom: 3px groove;
+    padding-bottom: 10px;
+  }
+
+  .header img {
+    height: 50px;
+    width: 50px;
+  }
+
+  .components {
+    display: flex;
+
+    .component-header, .component {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .component-header {
+      border-bottom: 2px solid;
+      flex: none;
+      padding-bottom: 1em;
+      padding-top: 0.5em;
+      margin-bottom: 0.5em;
+
+      .counter {
+        color: gray;}
+      }
+
+      & img {
+        border-radius: 50%;
+      }
+
+      .label {
+        font-weight: bold;
+        font-family: "Modesto Condensed";
+        font-size: 20px;
+        white-space: nowrap;
+        padding: 0 10px;
+      }
+    }
+
+    .component {
+      flex: 1;
+      margin: 5px;
+
+      & img {
+        filter: grayscale(1);
+
+        &.active {
+        filter: drop-shadow(0 0 10px blue);
+      }
+    }
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 1;
+
+    &:not(:last-child) {
+      border-right: 2px groove;
+    }
+
+    .resources {
+      flex: 1;
+    }
+  }
+
+  .craft {
+    margin-top: 5px;
+
+    &:disabled {
+      background-color: inherit;
+      color: rgb(163, 163, 163);
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -408,46 +587,57 @@
 .mythacri-scripts.soundboard {
   border: 1px solid var(--color-border-dark);
   height: auto !important;
-}
-.mythacri-scripts.soundboard .window-header {
-  display: none;
-}
-.mythacri-scripts.soundboard .window-content {
-  background: unset;
-  color: unset;
-}
-.mythacri-scripts.soundboard .header {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 2px groove var(--color-border-dark-secondary);
-  padding-bottom: 0.5em;
-}
-.mythacri-scripts.soundboard .header .toggle:before {
-  content: "\f078";
-}
-.mythacri-scripts.soundboard .header.collapsed .toggle:before {
-  content: "\f077";
-}
-.mythacri-scripts.soundboard .sound-list {
-  overflow: hidden;
-}
-.mythacri-scripts.soundboard .collapsed + .sound-list {
-  height: 0;
-}
-.mythacri-scripts.soundboard .sound {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-}
-.mythacri-scripts.soundboard .sound .sound-name {
-  overflow: hidden;
-  flex: 1;
-}
-.mythacri-scripts.soundboard .sound .actions {
-  margin-left: 5px;
-}
-.mythacri-scripts.soundboard .sound .actions a {
-  margin: 0 5px;
+
+  .window-header {
+    display: none;
+  }
+
+  .window-content {
+    background: unset;
+    color: unset;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px groove var(--color-border-dark-secondary);
+    padding-bottom: 0.5em;
+
+    .toggle:before {
+      content: "\f078";
+    }
+
+    &.collapsed .toggle:before {
+      content: "\f077";
+    }
+  }
+
+  .sound-list {
+    overflow: hidden;
+  }
+
+  .collapsed + .sound-list {
+    height: 0;
+  }
+
+  .sound {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    .sound-name {
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .actions {
+      margin-left: 5px;
+
+      & a {
+        margin: 0 5px;
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -458,54 +648,63 @@
 .mythacri-scripts.encounter {
   width: auto !important;
   min-width: 400px;
-}
-.mythacri-scripts.encounter button {
-  margin: 5px 2px;
-}
-.mythacri-scripts.encounter .roll {
-  display: flex;
-}
-.mythacri-scripts.encounter .roll [data-action=adjust] {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 3em;
-}
-.mythacri-scripts.encounter .player {
-  border: 2px inset;
-  padding: 3px;
-}
-.mythacri-scripts.encounter .player.match {
-  color: green;
-}
-.mythacri-scripts.encounter .player.mismatch {
-  color: red;
-}
-.mythacri-scripts.encounter .gm .rolls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-}
-.mythacri-scripts.encounter .gm .rolls .roll {
-  min-width: 40px;
-  line-height: 40px;
-  justify-content: center;
-  margin-right: 5px;
-  background-image: url(../../../icons/svg/d12-grey.svg);
-  background-repeat: no-repeat;
-  background-size: 40px 40px;
-  font-size: var(--font-size-16);
-  font-weight: bold;
-  color: gray;
-}
-.mythacri-scripts.encounter .gm .rolls .roll:first-child {
-  margin-left: 1em;
-}
-.mythacri-scripts.encounter .gm .rolls .roll.match {
-  color: black;
-  filter: drop-shadow(0 0 3px green);
+
+  & button {
+    margin: 5px 2px;
+  }
+
+  .roll {
+    display: flex;
+
+    [data-action=adjust] {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 3em;
+    }
+  }
+
+  .player {
+    border: 2px inset;
+    padding: 3px;
+
+    &.match {
+      color: green;
+    }
+    &.mismatch {
+      color: red;
+    }
+  }
+
+  .gm .rolls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+
+    .roll {
+      min-width: 40px;
+      line-height: 40px;
+      justify-content: center;
+      margin-right: 5px;
+      background-image: url(../../../icons/svg/d12-grey.svg);
+      background-repeat: no-repeat;
+      background-size: 40px 40px;
+      font-size: var(--font-size-16);
+      font-weight: bold;
+      color: gray;
+
+      &:first-child {
+        margin-left: 1em;
+      }
+
+      &.match {
+        color: black;
+        filter: drop-shadow(0 0 3px green);
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -513,37 +712,46 @@
 /*          RUNES CONFIG          */
 /*                                */
 /* ------------------------------ */
-.mythacri-scripts.runes-config {}
-.mythacri-scripts.runes-config .content header {
-  font-weight: bold;
-  font-size: 24px;
-  border-bottom: 2px groove black;
-  text-align: center;
-}
-.mythacri-scripts.runes-config .content .bonus {
-  position: relative;
-  padding: 1em;
-}
-.mythacri-scripts.runes-config .content .bonus:last-child {
-  padding-bottom: 0;
-}
-.mythacri-scripts.runes-config .content .bonus label {
-  font-weight: bold;
-  color: rgb(73, 73, 73);
-}
-.mythacri-scripts.runes-config .content .bonus a {
-  position: absolute;
-  right: 1em;
-  top: 1em;
-}
-.mythacri-scripts.runes-config .content .bonus a:not([data-action]) {
-  color: gray;
-  pointer-events: none;
-}
-.mythacri-scripts.runes-config .content .bonus .notes {
-  font-style: italic;
-  padding: 0 1em;
-  margin: 1em 0;
+.mythacri-scripts.runes-config {
+  .content {
+    & header {
+      font-weight: bold;
+      font-size: 24px;
+      border-bottom: 2px groove black;
+      text-align: center;
+    }
+
+    .bonus {
+      position: relative;
+      padding: 1em;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+
+      & label {
+        font-weight: bold;
+        color: rgb(73, 73, 73);
+      }
+
+      & a {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+
+        &:not([data-action]) {
+          color: gray;
+          pointer-events: none;
+        }
+      }
+
+      .notes {
+        font-style: italic;
+        padding: 0 1em;
+        margin: 1em 0;
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
@@ -553,35 +761,120 @@
 /* ------------------------------ */
 .sheet.actor.dnd5e.storage {
   min-width: 600px;
-  min-height: 800px;
+  min-height: 600px;
+
+  .header-details {
+    height: calc(100% - 10px);
+    padding: 5px;
+    margin: 0;
+  }
+
+  .sheet-header {
+    .charname {
+      position: relative;
+      height: 100%;
+
+      & input {
+        height: 100%;
+        margin: 0;
+        width: calc(100% - 50px);
+      }
+
+      .config-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px;
+        font-size: 16px;
+        display: none;
+      }
+
+      &:hover .config-button {
+        display: block;
+      }
+    }
+
+    .profile {
+      flex: 0 0 100px;
+      max-width: 100px;
+      height: 100px;
+    }
+  }
+
+  [data-action=create] {
+    display: none;
+  }
 }
-.sheet.actor.dnd5e.storage .header-details {
-  height: calc(100% - 10px);
-  padding: 5px;
-  margin: 0;
-}
-.sheet.actor.dnd5e.storage .sheet-header .charname {
+
+/* ------------------------------ */
+/*                                */
+/*         EXHAUSTION PIPS        */
+/*                                */
+/* ------------------------------ */
+.dnd5e2.sheet.actor.character [data-prop="system.attributes.exhaustion"] {
   position: relative;
-  height: 100%;
+
+  .pip:nth-child(even) {
+    position: absolute;
+    left: calc(16px + 3px + 0.3125rem/2);
+    top: -0.3125rem;
+  }
+
+  .pip:nth-child(4) {
+    left: calc(32px + 8px + 0.3125rem/2);
+  }
 }
-.sheet.actor.dnd5e.storage .sheet-header .charname input {
-  height: 100%;
-  margin: 0;
-  width: calc(100% - 50px);
+
+/* ------------------------------ */
+/*                                */
+/*           PAUSE ICON           */
+/*                                */
+/* ------------------------------ */
+#pause#pause {
+  background: url("../assets/icons/skull-and-bones.svg") no-repeat 50% 50%;
+  background-position: center;
+  height: 200px;
+  animation: pulsate 15000ms infinite ease-in-out;
+
+  & img {
+    display: none;
+  }
+
+  & figcaption {
+    line-height: 300px;
+    color: white;
+    text-shadow: 4px 2px 2px black;
+  }
 }
-.sheet.actor.dnd5e.storage .charname .config-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px;
-  font-size: 16px;
+@keyframes pulsate {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  17% {
+    filter: drop-shadow(0 0 50px rgba(136, 3, 173, 1));
+  }
+  34% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  51% {
+    filter: drop-shadow(0 0 50px rgba(0, 255, 0, 1));
+  }
+  68% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  85% {
+    filter: drop-shadow(0 0 50px rgba(255, 0, 0, 1));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+}
+
+/* ------------------------------ */
+/*                                */
+/*          SYSTEM BADGE          */
+/*                                */
+/* ------------------------------ */
+.dnd5e2.system-badge img {
   display: none;
-}
-.sheet.actor.dnd5e.storage .charname:hover .config-button {
-  display: block;
-}
-.sheet.actor.dnd5e.storage .sheet-header img.profile {
-  flex: 0 0 100px;
-  max-width: 100px;
-  height: 100px;
 }

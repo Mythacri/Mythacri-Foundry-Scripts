@@ -1,31 +1,23 @@
-{{#if cooking}}
-<div class="counter flexrow cooking">
-  <h4 class="rollable" data-action="cooking">
-    {{localize "MYTHACRI.CraftingSectionCooking"}}
-  </h4>
-</div>
-{{/if}}
+<div class="tab mythacri {{active}}" data-group="primary" data-tab="mythacri">
 
-{{#if rune}}
-<div class="counter flexrow rune-carving">
-  <h4 class="rollable" data-action="rune">
-    {{localize "MYTHACRI.CraftingSectionRune"}}
-  </h4>
-</div>
-{{/if}}
+  <button type="button" class="cooking gold-button" data-action="cooking" {{#unless cooking}}disabled{{/unless}}>
+    <i class="fa-solid fa-drumstick-bite"></i>
+    <span class="label">{{localize "MYTHACRI.CraftingSectionCooking"}}</span>
+  </button>
 
-{{#if spirit}}
-<div class="counter flexrow spirit-binding">
-  <h4 class="rollable" data-action="spirit">
-    {{localize "MYTHACRI.CraftingSectionSpirit"}}
-  </h4>
-</div>
-{{/if}}
+  <button type="button" class="rune gold-button" data-action="rune" {{#unless rune}}disabled{{/unless}}>
+    <i class="fa-solid fa-gem"></i>
+    <span class="label">{{localize "MYTHACRI.CraftingSectionRune"}}</span>
+  </button>
 
-{{#if monster}}
-<div class="counter flexrow monster-crafting">
-  <h4 class="rollable" data-action="monster">
-    {{localize "MYTHACRI.CraftingSectionMonster"}}
-  </h4>
+  <button type="button" class="spirit gold-button" data-action="spirit" {{#unless spirit}}disabled{{/unless}}>
+    <i class="fa-solid fa-fire-flame-simple"></i>
+    <span class="label">{{localize "MYTHACRI.CraftingSectionSpirit"}}</span>
+  </button>
+
+  <button type="button" class="monster gold-button" data-action="monster" {{#unless monster}}disabled{{/unless}}>
+    <i class="fa-solid fa-hand-fist"></i>
+    <span class="label">{{localize "MYTHACRI.CraftingSectionMonster"}}</span>
+  </button>
+
 </div>
-{{/if}}

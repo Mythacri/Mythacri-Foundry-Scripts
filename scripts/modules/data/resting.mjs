@@ -5,7 +5,7 @@ export class Resting {
     Hooks.on("dnd5e.preRestCompleted", Resting.preRestCompleted);
     Hooks.on("dnd5e.restCompleted", Resting.restCompleted);
     Hooks.on("renderLongRestDialog", Resting.renderLongRestDialog);
-    Hooks.on("renderActorSheet5eCharacter", Resting.renderCharacterSheet);
+    Hooks.on("renderActorSheet5eCharacter2", Resting.renderCharacterSheet);
     Hooks.on("preCreateActor", Resting.preCreateActor);
     dnd5e.documents.Actor5e.prototype.fullRest = Resting.fullRestDialog;
   }
@@ -52,7 +52,7 @@ export class Resting {
       if (item.type === "class") {
         const {levels, hitDice, hitDiceUsed} = item.system;
         const denom = hitDice ?? "d6";
-        const available = parseInt(levels ?? 1) - parseInt(hitDiceUsed ?? 0);
+        const available = levels - hitDiceUsed;
         hd[denom] = (denom in hd) ? (hd[denom] + available) : available;
       }
       return hd;
@@ -62,11 +62,12 @@ export class Resting {
       haveHealed: dialog.healed,
       availableHD,
       canRoll: dialog.actor.system.attributes.hd > 0,
-      denomination: availableHD[dialog._denom] > 0 ? dialog._denom : Object.keys(availableHD).find(k => availableHD[k] > 0)
+      denomination: (availableHD[dialog._denom] > 0) ? dialog._denom : Object.keys(availableHD).find(k => availableHD[k] > 0)
     });
 
     // Add event listeners.
-    div.querySelector("#roll-hd").addEventListener("click", dnd5e.applications.actor.ShortRestDialog.prototype._onRollHitDie.bind(dialog));
+    const fn = dnd5e.applications.actor.ShortRestDialog.prototype._onRollHitDie;
+    div.querySelector("#roll-hd").addEventListener("click", fn.bind(dialog));
     div.querySelector("#free-heal").addEventListener("click", Resting.freeLongRestHeal.bind(dialog, availableHD));
 
     // Inject.
@@ -81,8 +82,8 @@ export class Resting {
   static freeLongRestHeal(dice) {
     this.healed = true;
     const max = Math.max(...Object.keys(dice).map(d => Number(d.replace("d", ""))));
-    const total = max + this.actor.system.abilities.con.mod;
-    this.actor.applyDamage(total, -1);
+    const total = max + this.actor.system.abilities[CONFIG.DND5E.hitPointsAbility].mod;
+    this.actor.applyDamage(total, {multiplier: -1});
     this.render();
   }
 
@@ -93,9 +94,13 @@ export class Resting {
    */
   static renderCharacterSheet(sheet, [html]) {
     const div = document.createElement("DIV");
-    div.innerHTML = `<a class="rest full-rest" data-tooltip="MYTHACRI.FullRest">${game.i18n.localize("MYTHACRI.RestF")}</a`;
-    div.querySelector("A").addEventListener("click", Resting.fullRestDialog.bind(sheet.actor));
-    html.querySelector(".rest.long-rest").after(div.firstElementChild);
+    const tip = "MYTHACRI.FullRest";
+    div.innerHTML = `
+    <button type="button" class="full-rest gold-button" data-tooltip="${tip}" aria-label="${game.i18n.localize(tip)}">
+      <i class="fa-solid fa-house-chimney">
+    </button>`;
+    div.querySelector(".full-rest").addEventListener("click", Resting.fullRestDialog.bind(sheet.actor));
+    html.querySelector(".long-rest").after(div.firstElementChild);
   }
 
   /**
@@ -169,10 +174,10 @@ export class Resting {
 
     // Determine the chat message to display
     let message;
-    if (diceRestored && healthRestored) message = `MYTHACRI.FullRestResult`;
+    if (diceRestored && healthRestored) message = "MYTHACRI.FullRestResult";
     else if (!diceRestored && healthRestored) message = "MYTHACRI.FullRestResultHitPoints";
     else if (diceRestored && !healthRestored) message = "MYTHACRI.FullRestResultHitDice";
-    else message = `MYTHACRI.FullRestResultShort`;
+    else message = "MYTHACRI.FullRestResultShort";
 
     // Create a chat message
     const chatData = {

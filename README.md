@@ -70,15 +70,30 @@ Accessed through `mythacri.encounter`.
 create()
 ```
 
-### Experience Pips
-Accessed through `mythacri.experience`.
+### Awarding pips and currencies
+Accessed through `mythacri.award`.
 ```js
 /**
- * Award all player-owned character-type actors with 1 pip.
- * @param {boolean} [assigned=false]      Whether to restrict to assigned actors.
- * @returns {Promise<Actor5e[]>}          The updated actors.
+ * Award all player-owned character-type actors with pips.
+ * @param {object} [options]                Options to modify the awarding.
+ * @param {boolean} [options.assigned]      Whether to restrict to assigned actors.
+ * @param {number} [options.amount]         The amount of pips to grant.
+ * @param {boolean} [options.each]          Whether to grant this amount to each, or split them.
+ * @returns {Promise<void>}
  */
-async grantPip(assigned = false)
+async grantPip({assigned = false, amount = null, each = true} = {})
+```
+
+```js
+/**
+ * Award all player-owned character-type actors with marbles.
+ * @param {object} [options]                Options to modify the awarding.
+ * @param {boolean} [options.assigned]      Whether to restrict to assigned actors.
+ * @param {number} [options.amount]         The amount to grant.
+ * @param {boolean} [options.each]          Whether to grant this amount to each, or split them.
+ * @returns {Promise<void>}
+ */
+async grantMarbles({assigned = false, amount = null, each = false} = {})
 ```
 
 ### Resting
@@ -99,5 +114,15 @@ Accessed through `mythacri.resource`.
  * @param {Actor5e|Actor5e[]} [actors]      An actor or array of actors.
  * @returns {void}
  */
-static create(actors = [])
+create(actors = [])
+```
+
+### Soundboard
+Accessed through `mythacri.soundboard`.
+```js
+/**
+ * Destroy the current soundboard, otherwise create and show a new one.
+ * @returns {void}
+ */
+toggle()
 ```

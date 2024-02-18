@@ -1,5 +1,12 @@
 /* Utility class for additions, changes, and removals to the system configuration object. */
 export class SystemConfig {
+  /**
+   * Prefix for any compendium items for the purpose of proficiencies.
+   * @type {string}
+   */
+  static PREFIX = "Compendium.mythacri-shared-compendium.equipment-myth.Item";
+
+  /** Initialize module. */
   static init() {
     SystemConfig._featureTypes();
     SystemConfig._languages();
@@ -16,6 +23,7 @@ export class SystemConfig {
     SystemConfig._toolProficiencies();
   }
 
+  /** Merge in new feature types. */
   static _featureTypes() {
     foundry.utils.mergeObject(CONFIG.DND5E.featureTypes, {
       devilFruit: {
@@ -54,6 +62,7 @@ export class SystemConfig {
     dnd5e.utils.preLocalize("featureTypes.devilFruit.subtypes", {sort: true});
   }
 
+  /** Merge in new and remove some old languages. */
   static _languages() {
     foundry.utils.mergeObject(CONFIG.DND5E.languages, {
       "-=druidic": null, // delete 'druidic'
@@ -61,10 +70,12 @@ export class SystemConfig {
       "exotic.children.-=gnoll": null, // delete 'gnoll'
       "exotic.children.primordial.-=children": null, // delete 'ignan, terran, auran, aquan'
       "standard.children.-=gnomish": null, // delete 'gnomish'
-      "standard.children.-=orc": null // delete 'orc'
+      "standard.children.-=orc": null, // delete 'orc'
+      "standard.childern.-=dwarvish": null
     }, {performDeletions: true});
   }
 
+  /** Merge in new and remove some old activation types. */
   static _activationTypes() {
     foundry.utils.mergeObject(CONFIG.DND5E.abilityActivationTypes, {
       "-=legendary": null,
@@ -72,6 +83,7 @@ export class SystemConfig {
     }, {performDeletions: true});
   }
 
+  /** Merge in new armor class calculations. */
   static _armorClasses() {
     foundry.utils.mergeObject(CONFIG.DND5E.armorClasses, {
       witchCurseFeral: {
@@ -93,28 +105,31 @@ export class SystemConfig {
     });
   }
 
+  /** Merge in new weapon properties */
   static _weaponProperties() {
-    foundry.utils.mergeObject(CONFIG.DND5E.weaponProperties, {
-      aerodynamic: "MYTHACRI.WeaponPropertyAerodynamic",
-      concealable: "MYTHACRI.WeaponPropertyConcealable",
-      scatter: "MYTHACRI.WeaponPropertyScatter",
-      sighted: "MYTHACRI.WeaponPropertySighted",
-      superheavy: "MYTHACRI.WeaponPropertySuperheavy",
-      parrying: "MYTHACRI.WeaponPropertyParry",
-      // Journeyman Properties
-      explosive: "MYTHACRI.WeaponPropertyExplosive",
-      heat: "MYTHACRI.WeaponPropertyHeat",
-      massive: "MYTHACRI.WeaponPropertyMassive",
-      mounted: "MYTHACRI.WeaponPropertyMounted",
-      rocket: "MYTHACRI.WeaponPropertyRocket",
-      tension: "MYTHACRI.WeaponPropertyTension",
-      twinshot: "MYTHACRI.WeaponPropertyTwinshot",
-      // Metal Types
-      coldIron: "MYTHACRI.WeaponPropertyColdIron"
-    });
-    CONFIG.DND5E.physicalWeaponProperties.coldIron = CONFIG.DND5E.weaponProperties.coldIron;
+    const properties = {
+      aerodynamic: {label: "MYTHACRI.WeaponPropertyAerodynamic"},
+      coldIron: {label: "MYTHACRI.WeaponPropertyColdIron", isPhysical: true},
+      concealable: {label: "MYTHACRI.WeaponPropertyConcealable"},
+      explosive: {label: "MYTHACRI.WeaponPropertyExplosive", isJourneyman: true},
+      heat: {label: "MYTHACRI.WeaponPropertyHeat", isJourneyman: true},
+      massive: {label: "MYTHACRI.WeaponPropertyMassive", isJourneyman: true},
+      mounted: {label: "MYTHACRI.WeaponPropertyMounted", isJourneyman: true},
+      parrying: {label: "MYTHACRI.WeaponPropertyParry"},
+      rocket: {label: "MYTHACRI.WeaponPropertyRocket", isJourneyman: true},
+      scatter: {label: "MYTHACRI.WeaponPropertyScatter"},
+      sighted: {label: "MYTHACRI.WeaponPropertySighted"},
+      superheavy: {label: "MYTHACRI.WeaponPropertySuperheavy"},
+      tension: {label: "MYTHACRI.WeaponPropertyTension", isJourneyman: true},
+      twinshot: {label: "MYTHACRI.WeaponPropertyTwinshot", isJourneyman: true}
+    };
+    for (const [k, v] of Object.entries(properties)) {
+      CONFIG.DND5E.itemProperties[k] = v;
+      CONFIG.DND5E.validProperties.weapon.add(k);
+    }
   }
 
+  /** Merge in new weapon proficiencies. */
   static _weaponProficiencies() {
     // The sections in the weapon proficiency config.
     foundry.utils.mergeObject(CONFIG.DND5E.weaponProficiencies, {
@@ -138,74 +153,102 @@ export class SystemConfig {
     });
 
     // Weapon ids.
-    // CONFIG.DND5E.weaponIds.gun = "<compendium id>.<item id>";
-    CONFIG.DND5E.weaponIds.assaultRifle = "mythacri-shared-compendium.equipment-myth.2mg0Z9UsSTCv9hw2";
-    CONFIG.DND5E.weaponIds.huntingRifle = "mythacri-shared-compendium.equipment-myth.WHXDLxF6lJ6toaMm";
-    CONFIG.DND5E.weaponIds.machineGun = "mythacri-shared-compendium.equipment-myth.k7PvZwWEDYWJNVtH";
-    CONFIG.DND5E.weaponIds.pistol = "mythacri-shared-compendium.equipment-myth.jY3XQOpCfp8rRF2l";
-    CONFIG.DND5E.weaponIds.revolver = "mythacri-shared-compendium.equipment-myth.i8Ysr1zn74h8jxlr";
-    CONFIG.DND5E.weaponIds.doubleBarrelShotgun = "mythacri-shared-compendium.equipment-myth.RkMpHsAsAgFsl6OP";
-    CONFIG.DND5E.weaponIds.blunderbuss = "mythacri-shared-compendium.equipment-myth.U9xCVu4nMr2o4Ip0";
-    CONFIG.DND5E.weaponIds.flintlock = "mythacri-shared-compendium.equipment-myth.csl5Lu9LCoD8ZnwD";
-    CONFIG.DND5E.weaponIds.musket = "mythacri-shared-compendium.equipment-myth.J6kVMp2X9WrUoRzT";
-    CONFIG.DND5E.weaponIds.pepperbox = "mythacri-shared-compendium.equipment-myth.qdwtzYWwQ7Ac3Goj";
+    const weaponIds = {
+      assaultRifle: "2mg0Z9UsSTCv9hw2",
+      blunderbuss: "U9xCVu4nMr2o4Ip0",
+      cutlass: "9r8gPk4RGDUUytZy",
+      doubleBarrelShotgun: "RkMpHsAsAgFsl6OP",
+      duckfootPistol: "GthTZpxLEVrMHQMm",
+      estoc: "xw77ea4rCFnpHgNy",
+      fishhook: "lQqGpkcldeOKwZM0",
+      flintlock: "csl5Lu9LCoD8ZnwD",
+      goliathSling: "8lqu07cKqDTt6qeE",
+      greatbow: "XPPoSL8Xhp2gYZPn",
+      greatspear: "YK1KjJ1qtDJlppVd",
+      grimScythe: "Gx1ChtHKXEE5AEfN",
+      harpoon: "EanNQeIbvCMz03w5",
+      huntingRifle: "WHXDLxF6lJ6toaMm",
+      machete: "06hcru0PpE0Q33Av",
+      machineGun: "k7PvZwWEDYWJNVtH",
+      musket: "J6kVMp2X9WrUoRzT",
+      pepperbox: "qdwtzYWwQ7Ac3Goj",
+      pistol: "jY3XQOpCfp8rRF2l",
+      portableBallista: "52ayA03VImoL1361",
+      revolver: "i8Ysr1zn74h8jxlr",
+      shovel: "1D0WRHGVgbjaikkM",
+      throwingDagger: "5fAnwS37xiOTwpOS",
+      volleyGun: "HHePiOzWRtjYjcl6"
+    };
 
-    CONFIG.DND5E.weaponIds.cutlass = "mythacri-shared-compendium.equipment-myth.9r8gPk4RGDUUytZy";
-    CONFIG.DND5E.weaponIds.estoc = "mythacri-shared-compendium.equipment-myth.xw77ea4rCFnpHgNy";
-    CONFIG.DND5E.weaponIds.harpoon = "mythacri-shared-compendium.equipment-myth.EanNQeIbvCMz03w5";
-    CONFIG.DND5E.weaponIds.throwingDagger = "mythacri-shared-compendium.equipment-myth.5fAnwS37xiOTwpOS";
-
-    CONFIG.DND5E.weaponIds.fishhook = "mythacri-shared-compendium.equipment-myth.lQqGpkcldeOKwZM0";
-    CONFIG.DND5E.weaponIds.shovel = "mythacri-shared-compendium.equipment-myth.1D0WRHGVgbjaikkM";
-    CONFIG.DND5E.weaponIds.machete = "mythacri-shared-compendium.equipment-myth.06hcru0PpE0Q33Av";
-
-    CONFIG.DND5E.weaponIds.volleyGun = "mythacri-shared-compendium.equipment-myth.HHePiOzWRtjYjcl6";
-    CONFIG.DND5E.weaponIds.duckfootPistol = "mythacri-shared-compendium.equipment-myth.GthTZpxLEVrMHQMm";
-    CONFIG.DND5E.weaponIds.greatspear = "mythacri-shared-compendium.equipment-myth.YK1KjJ1qtDJlppVd";
-    CONFIG.DND5E.weaponIds.greatbow = "mythacri-shared-compendium.equipment-myth.XPPoSL8Xhp2gYZPn";
-    CONFIG.DND5E.weaponIds.grimScythe = "mythacri-shared-compendium.equipment-myth.Gx1ChtHKXEE5AEfN";
-    CONFIG.DND5E.weaponIds.goliathSling = "mythacri-shared-compendium.equipment-myth.8lqu07cKqDTt6qeE";
-    CONFIG.DND5E.weaponIds.portableBallista = "mythacri-shared-compendium.equipment-myth.52ayA03VImoL1361";
-
-
+    for (const [k, id] of Object.entries(weaponIds)) {
+      CONFIG.DND5E.weaponIds[k] = `${SystemConfig.PREFIX}.${id}`;
+    }
   }
 
+  /** Merge in new tool proficiencies. */
   static _toolProficiencies() {
-    // Tool ids.
-    // CONFIG.DND5E.toolIds.gun = "<compendium id>.<item id>";
-    CONFIG.DND5E.toolIds.piano = "mythacri-shared-compendium.equipment-myth.AMehut6zpyXifMqo";
+    const toolIds = {
+      piano: "AMehut6zpyXifMqo"
+    };
+
+    for (const [k, id] of Object.entries(toolIds)) {
+      CONFIG.DND5E.toolIds[k] = `${SystemConfig.PREFIX}.${id}`;
+    }
   }
 
+  /** Merge in new armor and shield proficiencies. */
   static _armorProficencies() {
-    // Armor ids
-    CONFIG.DND5E.shieldIds.bucklerShield = "mythacri-shared-compendium.equipment-myth.NhBHlkBDDLBKkxGL";
-    CONFIG.DND5E.shieldIds.towerShield = "mythacri-shared-compendium.equipment-myth.LzlPn07cT6FPV1fs";
+    const shieldIds = {
+      bucklerShield: "NhBHlkBDDLBKkxGL",
+      towerShield: "LzlPn07cT6FPV1fs"
+    };
+    for (const [k, id] of Object.entries(shieldIds)) {
+      CONFIG.DND5E.shieldIds[k] = `${SystemConfig.PREFIX}.${id}`;
+    }
   }
 
-  static _spellProgression(){
+  /** Merge in new shield progression types. */
+  static _spellProgression() {
     CONFIG.DND5E.spellcastingTypes.leveled.progression.bewitcher = {label: "MYTHACRI.Bewitcher", divisor: 100};
     CONFIG.DND5E.spellProgression.bewitcher = "MYTHACRI.Bewitcher";
   }
 
+  /** Merge in new custom conditions and configure their effects. */
   static _conditions() {
     // Add two new conditions to the token HUD.
-    CONFIG.statusEffects.push({
-      id: "dazed",
-      label: "MYTHACRI.ConDazed",
-      icon: "icons/svg/stoned.svg"
-    }, {
-      id: "impaired",
-      label: "MYTHACRI.ConImpaired",
-      icon: "icons/svg/tankard.svg"
-    });
+    const effects = {
+      dazed: {
+        label: "MYTHACRI.ConDazed",
+        icon: "modules/mythacri-scripts/assets/statuses/dazed.svg",
+        reference: "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.1LYVeWFiNIvBOl0M",
+      },
+      impaired: {
+        label: "MYTHACRI.ConImpaired",
+        icon: "modules/mythacri-scripts/assets/statuses/impaired.svg",
+        reference: "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.Rx3igCPbfykAj95u"
+      }
+    };
 
-    // Add two new condition types available on the actor sheets.
-    foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, {
-      dazed: "MYTHACRI.ConDazed",
-      impaired: "MYTHACRI.ConImpaired"
-    });
+    for (const [k, v] of Object.entries(effects)) {
+      CONFIG.statusEffects.push({
+        id: k,
+        name: v.label,
+        icon: v.icon,
+        reference: v.reference
+      });
+      CONFIG.DND5E.conditionTypes[k] = v;
+    }
+
+    // Modify exhaustion.
+    CONFIG.DND5E.conditionEffects.halfHealth.delete("exhaustion-4");
+    CONFIG.DND5E.conditionEffects.halfMovement.delete("exhaustion-2");
+    CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
+    CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;
+    CONFIG.DND5E.conditionTypes.exhaustion.icon = "modules/mythacri-scripts/assets/statuses/exhaustion.svg";
+    CONFIG.DND5E.conditionTypes.exhaustion.reference = "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.adMJ3j1HBbTJKCyY";
   }
 
+  /** Merge in new and remove some old currencies, and change the weight of 'coin'. */
   static _currencies() {
     // Remove all currencies, replacing them with 'marbles'.
     foundry.utils.mergeObject(CONFIG.DND5E.currencies, {
@@ -226,15 +269,17 @@ export class SystemConfig {
     CONFIG.DND5E.encumbrance.currencyPerWeight.metric *= 2;
   }
 
+  /** Merge in new consumable types. */
   static _consumableTypes() {
-    CONFIG.DND5E.consumableTypes.rune = "MYTHACRI.ConsumableRune";
-    CONFIG.DND5E.consumableTypes.spirit = "MYTHACRI.ConsumableSpirit";
+    CONFIG.DND5E.consumableTypes.rune = {label: "MYTHACRI.ConsumableRune"};
+    CONFIG.DND5E.consumableTypes.spirit = {label: "MYTHACRI.ConsumableSpirit"};
   }
 
+  /** Merge in new character flags. */
   static _characterFlags() {
     CONFIG.DND5E.characterFlags.peakPhysical = {
+      name: "MYTHACRI.FlagsPeakPhysical",
       hint: "MYTHACRI.FlagsPeakPhysicalHint",
-      name: "MYTHACRI.FlagsPeakPhysicalName",
       section: "DND5E.Feats",
       type: Boolean
     };

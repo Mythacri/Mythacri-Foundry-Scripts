@@ -21,7 +21,7 @@ export class Mayhem extends foundry.abstract.DataModel {
    */
   static #preUseItem(item, config, options) {
     if (!game.user.isGM) return;
-    const isMayhem = item.system.activation.type === "mayhem";
+    const isMayhem = item.system.activation?.type === "mayhem";
     if (isMayhem) config.consumeMayhem = true;
   }
 
@@ -32,7 +32,7 @@ export class Mayhem extends foundry.abstract.DataModel {
    */
   static #renderAbilityUseDialog(dialog, [html]) {
     const item = dialog.item;
-    const isMayhem = item.system.activation.type === "mayhem";
+    const isMayhem = item.system.activation?.type === "mayhem";
     if (!game.user.isGM || !isMayhem) return;
     const notes = html.querySelector(".notes");
     const cost = item.system.activation.cost || 1;
@@ -66,7 +66,7 @@ export class Mayhem extends foundry.abstract.DataModel {
    * @param {object} options      Additional options used for configuring item usage.
    */
   static #preItemUsageConsumption(item, config, options) {
-    if (!config.consumeMayhem || !(item.system.activation.type === "mayhem")) return;
+    if (!config.consumeMayhem || !(item.system.activation?.type === "mayhem")) return;
     const cost = item.system.activation.cost || 1;
     const mayhem = Mayhem.create();
     if (!mayhem.canDeduct(cost)) {
@@ -82,7 +82,7 @@ export class Mayhem extends foundry.abstract.DataModel {
    * @param {object} options      Additional options used for configuring item usage.
    */
   static #useItem(item, config, options) {
-    if (!config.consumeMayhem || !(item.system.activation.type === "mayhem")) return;
+    if (!config.consumeMayhem || !(item.system.activation?.type === "mayhem")) return;
     const cost = item.system.activation.cost || 1;
     return Mayhem.deduct(cost);
   }
