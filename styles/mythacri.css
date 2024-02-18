@@ -238,13 +238,15 @@
         overflow: hidden;
         gap: 1em;
         padding-top: 10px;
-        background: transparent url(../../../ui/parchment.jpg) repeat top / cover;
+        background: transparent url(../../../ui/parchment.jpg) repeat 50% 50%;
         background-blend-mode: color-dodge;
         padding-bottom: 5px;
+        flex: 1;
 
         .recipes {
           overflow: auto;
           margin-left: 5px;
+          margin-top: auto;
 
           .recipe {
             border-top: 3px inset;

@@ -115,8 +115,9 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
       } else if (item.type === "loot") {
         const id = mythacri.crafting.getIdentifier(item);
         if (id && mythacri.crafting.validIdentifier(id)) {
-          category = item.flags[MODULE.ID].resource.type;
-          label = `MYTHACRI.ResourceType${category.capitalize()}`;
+          const rtype = item.flags[MODULE.ID].resource.type
+          category = "resource-" + rtype;
+          label = `MYTHACRI.ResourceType${rtype.capitalize()}`;
         } else {
           const lt = item.system.type.value;
           if (lt in CONFIG.DND5E.lootTypes) {
@@ -144,7 +145,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     context.gear = [items.weapons, items.armors, items.equipment, items.containers, items.tools];
     context.consumables = Object.keys(CONFIG.DND5E.consumableTypes).map(k => items[k]).concat([items["consumable-other"]]);
     context.loot = Object.keys(CONFIG.DND5E.lootTypes).map(k => items[k]).concat([items["loot-other"]]);
-    context.resources = Object.keys(mythacri.crafting.resourceTypes).map(k => items[k]);
+    context.resources = Object.keys(mythacri.crafting.resourceTypes).map(k => items[`resource-${k}`]);
     ["gear", "consumables", "loot", "resources"].forEach(k => context[k] = context[k].filter(u => u));
     for (const k in items) items[k].items.sort((a, b) => {
       const diff = a.sort - b.sort;
