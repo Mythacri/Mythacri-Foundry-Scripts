@@ -13,7 +13,7 @@
 }
 :is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
   /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
-  background-image: url(../../../systems/dnd5e/icons/currency/platinum.webp);
+  background-image: url(../assets/icons/marble.webp);
 }
 .dnd5e2.sheet.actor.character {
   .sheet-header-buttons {
