@@ -3,12 +3,12 @@ import {MODULE} from "../constants.mjs";
 export class Auras {
   /** Initialize module. */
   static init() {
-    Hooks.on('renderTokenConfig', Auras.onConfigRender);
-    Hooks.on('updateToken', Auras.onUpdateToken);
-    Hooks.on('drawGridLayer', layer => {
-      layer.tokenAuras = layer.addChildAt(new PIXI.Container(), layer.getChildIndex(layer.borders));
-    });
-    Hooks.on('destroyToken', token => token.tokenAuras?.destroy());
+    Hooks.on("renderTokenConfig", Auras.onRenderTokenConfig);
+    Hooks.on("updateToken", Auras.onUpdateToken);
+    Hooks.on("refreshWall", Auras.onRefreshWall);
+    Hooks.on("deleteWall", Auras.onRefreshWall);
+    Hooks.on("drawGridLayer", Auras.onDrawGridLayer);
+    Hooks.on("destroyToken", Auras.onDestroyToken);
 
     /** Placeable class override. */
     CONFIG.Token.objectClass = class Token5e extends CONFIG.Token.objectClass {
@@ -23,7 +23,7 @@ export class Auras {
         if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
         if (this.document.hidden && !game.user.isGM) return;
 
-        const aura = this.document.flags?.[MODULE.ID]?.aura ?? {};
+        const aura = this.document.flags[MODULE.ID]?.aura ?? {};
         if (!aura.distance || !(aura.distance > 0)) return;
 
         this.tokenAuras ??= canvas.grid.tokenAuras.addChild(new PIXI.Container());
@@ -55,7 +55,6 @@ export class Auras {
         shape.pivot.set(x, y);
         return shape;
       }
-
     };
   }
 
@@ -64,7 +63,7 @@ export class Auras {
    * @param {TokenConfig5e} config      The token config.
    * @param {HTMLElement} html          The element of the config.
    */
-  static onConfigRender(config, [html]) {
+  static onRenderTokenConfig(config, [html]) {
     const aura = config.token.flags[MODULE.ID]?.aura ?? {};
     const div = document.createElement("DIV");
 
@@ -97,14 +96,18 @@ export class Auras {
         ${game.i18n.localize("MYTHACRI.AuraOpacity")}
         <span class="units">(0 &mdash; 1)</span>
       </label>
-      <input type="number" ${alpha} step="any" min="0" max="1" name="flags.${MODULE.ID}.aura.alpha">
+      <div class="form-fields">
+        <input type="number" ${alpha} step="any" min="0" max="1" name="flags.${MODULE.ID}.aura.alpha">
+      </div>
     </div>
     <div class="form-group">
       <label>
         ${game.i18n.localize("SCENES.GridDistance")}
         <span class="units">(${game.i18n.localize('GridUnits')})</span>
       </label>
-      <input type="number" ${distance} step="any" name="flags.${MODULE.ID}.aura.distance" min="0">
+      <div class="form-fields">
+        <input type="number" ${distance} step="any" name="flags.${MODULE.ID}.aura.distance" min="0">
+      </div>
     </div>`;
 
     div.innerHTML = `<div class="tab" data-tab="auras">${auraConfig}</div>`;
@@ -123,5 +126,28 @@ export class Auras {
     const flags = data.flags?.[MODULE.ID] ?? {};
     const isRedraw = ["hidden", "width", "height"].some(k => k in data);
     if (("aura" in flags) || isRedraw) token.object?.__drawAura();
+  }
+
+  /**
+   * Immediately refresh auras when a wall is changed, such as a new wall created, or a door opened.
+   */
+  static onRefreshWall() {
+    for (const token of canvas.tokens.placeables) token.__drawAura();
+  }
+
+  /**
+   * Initialize container for token auras on the grid layer.
+   * @param {GridLayer} layer     The grid layer.
+   */
+  static onDrawGridLayer(layer) {
+    layer.tokenAuras = layer.addChildAt(new PIXI.Container(), layer.getChildIndex(layer.borders));
+  }
+
+  /**
+   * Remove an aura from the canvas when its token is removed.
+   * @param {Token5e} token     The token that was destroyed.
+   */
+  static onDestroyToken(token) {
+    token.tokenAuras?.destroy();
   }
 }
