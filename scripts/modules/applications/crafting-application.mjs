@@ -93,6 +93,7 @@ export class CraftingApplication extends Application {
 
     context.title = `MYTHACRI.CraftingSection${this.type.capitalize()}`;
     context.availableOnly = !!this._availableOnly;
+    context.type = this.type;
 
     if (this._recipe) {
       context.recipe = {
