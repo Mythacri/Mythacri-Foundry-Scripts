@@ -9,6 +9,7 @@ import {Encounter} from "./modules/data/encounter.mjs";
 import {Award} from "./modules/data/award.mjs";
 import {CombatEnhancement} from "./modules/data/combat.mjs";
 import {Storage} from "./modules/data/storage.mjs";
+import {Auras} from "./modules/data/token-auras.mjs";
 
 Hooks.once("init", SystemConfig.init);
 Hooks.once("init", PublicInterface.init);
@@ -21,3 +22,4 @@ Hooks.once("init", Encounter.init);
 Hooks.once("init", Award.init);
 Hooks.once("init", CombatEnhancement.init);
 Hooks.once("init", Storage.init);
+Hooks.once("init", Auras.init);
