@@ -246,6 +246,8 @@ export class SystemConfig {
     CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;
     CONFIG.DND5E.conditionTypes.exhaustion.icon = "modules/mythacri-scripts/assets/statuses/exhaustion.svg";
     CONFIG.DND5E.conditionTypes.exhaustion.reference = "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.adMJ3j1HBbTJKCyY";
+    const exh = CONFIG.statusEffects.find(e => e.id === "exhaustion");
+    foundry.utils.mergeObject(exh, CONFIG.DND5E.conditionTypes.exhaustion, {insertKeys: false});
   }
 
   /** Merge in new and remove some old currencies, and change the weight of 'coin'. */
