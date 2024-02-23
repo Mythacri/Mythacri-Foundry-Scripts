@@ -238,7 +238,7 @@
         overflow: hidden;
         gap: 1em;
         padding-top: 10px;
-        background: transparent url(../../../ui/parchment.jpg) repeat 50% 50%;
+        background: transparent url(../../../ui/parchment.jpg) repeat;
         background-blend-mode: color-dodge;
         padding-bottom: 5px;
         flex: 1;
@@ -246,7 +246,7 @@
         .recipes {
           overflow: auto;
           margin-left: 5px;
-          margin-top: auto;
+          height: 100%;
 
           .recipe {
             border-top: 3px inset;
@@ -279,7 +279,7 @@
               display: flex;
               justify-content: space-between;
               align-items: center;
-              max-width: calc(100% - var(--recipe-height) - 10px);
+              max-width: calc(100% - var(--recipe-height) - 30px);
             }
 
             .basic {
