@@ -216,16 +216,17 @@ export class SystemConfig {
   /** Merge in new custom conditions and configure their effects. */
   static _conditions() {
     // Add two new conditions to the token HUD.
+    const journal = "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61";
     const effects = {
       dazed: {
         label: "MYTHACRI.ConDazed",
         icon: "modules/mythacri-scripts/assets/statuses/dazed.svg",
-        reference: "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.1LYVeWFiNIvBOl0M",
+        reference: `${journal}.JournalEntryPage.1LYVeWFiNIvBOl0M`,
       },
       impaired: {
         label: "MYTHACRI.ConImpaired",
         icon: "modules/mythacri-scripts/assets/statuses/impaired.svg",
-        reference: "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.Rx3igCPbfykAj95u"
+        reference: `${journal}.JournalEntryPage.Rx3igCPbfykAj95u`
       }
     };
 
@@ -245,7 +246,7 @@ export class SystemConfig {
     CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
     CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;
     CONFIG.DND5E.conditionTypes.exhaustion.icon = "modules/mythacri-scripts/assets/statuses/exhaustion.svg";
-    CONFIG.DND5E.conditionTypes.exhaustion.reference = "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61.JournalEntryPage.adMJ3j1HBbTJKCyY";
+    CONFIG.DND5E.conditionTypes.exhaustion.reference = `${journal}.JournalEntryPage.adMJ3j1HBbTJKCyY`;
     const exh = CONFIG.statusEffects.find(e => e.id === "exhaustion");
     foundry.utils.mergeObject(exh, CONFIG.DND5E.conditionTypes.exhaustion, {insertKeys: false});
   }
