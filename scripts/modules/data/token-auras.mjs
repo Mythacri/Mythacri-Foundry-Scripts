@@ -5,57 +5,63 @@ export class Auras {
   static init() {
     Hooks.on("renderTokenConfig", Auras.onRenderTokenConfig);
     Hooks.on("updateToken", Auras.onUpdateToken);
-    Hooks.on("refreshWall", Auras.onRefreshWall);
-    Hooks.on("deleteWall", Auras.onRefreshWall);
+    Hooks.on("refreshWall", Auras.refreshAll);
+    Hooks.on("deleteWall", Auras.refreshAll);
+    Hooks.on("sightRefresh", Auras.refreshAll);
     Hooks.on("drawGridLayer", Auras.onDrawGridLayer);
     Hooks.on("destroyToken", Auras.onDestroyToken);
+    Hooks.on("refreshToken", Auras.drawAura);
+  }
 
-    /** Placeable class override. */
-    CONFIG.Token.objectClass = class Token5e extends CONFIG.Token.objectClass {
-      /** @override */
-      _applyRenderFlags(flags) {
-        super._applyRenderFlags(flags);
-        this.__drawAura();
-      }
+  /**
+   * Bound method to draw token aura.
+   * @this {Token5e}
+   */
+  static _drawAura() {
+    if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
+    if (!this.visible || !this.renderable) return;
 
-      /** Redraw token aura. */
-      __drawAura() {
-        if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
-        if (this.document.hidden && !game.user.isGM) return;
+    const aura = this.document.flags[MODULE.ID]?.aura ?? {};
+    if (!aura.distance || !(aura.distance > 0)) return;
 
-        const aura = this.document.flags[MODULE.ID]?.aura ?? {};
-        if (!aura.distance || !(aura.distance > 0)) return;
+    this.tokenAuras ??= canvas.grid.tokenAuras.addChild(new PIXI.Container());
+    const shape = Auras._createAura.call(this, aura);
+    this.tokenAuras.addChild(shape);
+    this.tokenAuras.position.set(...Object.values(this.center));
+  }
 
-        this.tokenAuras ??= canvas.grid.tokenAuras.addChild(new PIXI.Container());
-        const shape = this.__createAura(aura);
-        this.tokenAuras.addChild(shape);
-        this.tokenAuras.position.set(...Object.values(this.center));
-      }
+  /**
+   * Create aura PIXI element.
+   * @this {Token5e}
+   * @param {object} aura     The aura configuration.
+   * @param {number} aura.distance      The range, in grid units.
+   * @param {string} aura.color         The color of the aura.
+   * @param {number} aura.alpha         The aura opacity.
+   * @returns {PIXI}
+   */
+  static _createAura({distance, color, alpha}) {
+    const shape = new PIXI.Graphics();
+    const radius = distance * canvas.dimensions.distancePixels + this.h / 2;
+    color = Color.from(color);
+    const {x, y} = this.center;
 
-      /**
-       * Create aura PIXI element.
-       * @param {object} aura     The aura configuration.
-       * @param {number} aura.distance      The range, in grid units.
-       * @param {string} aura.color         The color of the aura.
-       * @param {number} aura.alpha         The aura opacity.
-       * @returns {PIXI}
-       */
-      __createAura({distance, color, alpha}) {
-        const shape = new PIXI.Graphics();
-        const radius = distance * canvas.dimensions.distancePixels + this.h / 2;
-        color = Color.from(color);
-        const {x, y} = this.center;
+    const m = CONFIG.Canvas.polygonBackends.move.create({x, y}, {
+      type: "move",
+      hasLimitedRadius: true,
+      radius: radius
+    });
+    shape.beginFill(color, alpha).drawShape(m).endFill();
+    shape.pivot.set(x, y);
+    return shape;
+  }
 
-        const m = CONFIG.Canvas.polygonBackends.move.create({x, y}, {
-          type: "move",
-          hasLimitedRadius: true,
-          radius: radius
-        });
-        shape.beginFill(color, alpha).drawShape(m).endFill();
-        shape.pivot.set(x, y);
-        return shape;
-      }
-    };
+  /**
+   * Utility method to bind the token object.
+   * @param {Token5e} token   The token whose aura will be redrawn.
+   */
+  static drawAura(token) {
+    if (!token) return;
+    return Auras._drawAura.call(token);
   }
 
   /**
@@ -125,14 +131,14 @@ export class Auras {
   static onUpdateToken(token, data) {
     const flags = data.flags?.[MODULE.ID] ?? {};
     const isRedraw = ["hidden", "width", "height"].some(k => k in data);
-    if (("aura" in flags) || isRedraw) token.object?.__drawAura();
+    if (("aura" in flags) || isRedraw) Auras.drawAura(token.object);
   }
 
   /**
    * Immediately refresh auras when a wall is changed, such as a new wall created, or a door opened.
    */
-  static onRefreshWall() {
-    for (const token of canvas.tokens.placeables) token.__drawAura();
+  static refreshAll() {
+    for (const token of canvas.tokens.placeables) Auras.drawAura.call(token);
   }
 
   /**
