@@ -22,10 +22,12 @@ export class Resting {
    */
   static preRestCompleted(actor, result) {
     if (result.longRest) {
-      const exh = actor.system.attributes.exhaustion;
       const isPeak = actor.flags.dnd5e?.peakPhysical ?? false;
-      result.updateData["system.attributes.exhaustion"] = Math.max(exh - (isPeak ? 2 : 1), 0);
-      delete result.updateData["system.attributes.hp.value"];
+      const exh = Math.max(actor.system.attributes.exhaustion - (isPeak ? 2 : 1), 0);
+      foundry.utils.setProperty(result.updateData, "system.attributes.exhaustion", exh);
+      delete result.updateData.system?.attributes?.hp?.value;
+
+      // Peak Physical recovers all hit dice and removes 1 additional level of exhaustion.
       if (!isPeak) return;
       result.dhd = 0;
       for (const cls of Object.values(actor.classes)) {
@@ -82,8 +84,10 @@ export class Resting {
   static freeLongRestHeal(dice) {
     this.healed = true;
     const max = Math.max(...Object.keys(dice).map(d => Number(d.replace("d", ""))));
-    const total = max + this.actor.system.abilities[CONFIG.DND5E.hitPointsAbility].mod;
-    this.actor.applyDamage(total, {multiplier: -1});
+    const total = max + this.actor.system.abilities[CONFIG.DND5E.defaultAbilities.hitPoints].mod;
+    const hp = this.actor.system.attributes.hp;
+    const value = Math.min(hp.value + total, hp.effectiveMax);
+    this.actor.update({"system.attributes.hp.value": value}, {isRest: true});
     this.render();
   }
 
@@ -164,6 +168,7 @@ export class Resting {
 
   /**
    * Display the results of the actor's full rest.
+   * @this {Actor5e}
    * @param {object} result     The result of the full rest.
    * @returns {ChatMessage}     The resulting chat message.
    */
@@ -182,13 +187,13 @@ export class Resting {
     // Create a chat message
     const chatData = {
       user: game.user.id,
-      speaker: ChatMessage.getSpeaker({actor: this}),
+      speaker: ChatMessage.implementation.getSpeaker({actor: this}),
       flavor: game.i18n.localize("MYTHACRI.FullRestFlavor"),
       rolls: result.rolls,
       content: game.i18n.format(message, {name: this.name, dice: dhd, health: dhp})
     };
-    ChatMessage.applyRollMode(chatData, game.settings.get("core", "rollMode"));
-    return ChatMessage.create(chatData);
+    ChatMessage.implementation.applyRollMode(chatData, game.settings.get("core", "rollMode"));
+    return ChatMessage.implementation.create(chatData);
   }
 
   /**

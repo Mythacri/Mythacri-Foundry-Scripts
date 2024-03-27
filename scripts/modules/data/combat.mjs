@@ -1,25 +1,8 @@
 export class CombatEnhancement {
   /** Initialize module. */
   static init() {
-    CombatEnhancement.concentration();
     CombatEnhancement.pugilist();
     CombatEnhancement.animatePause();
-  }
-
-  /**
-   * Extend the functionality of the 'Concentration Notifier' module for witch hexes.
-   */
-  static concentration() {
-    if (!game.modules.get("concentrationnotifier")?.active) {
-      console.warn("Concentration Notifier is needed to track extra types of concentration.");
-      return;
-    }
-
-    Hooks.once("setup", () => CN.extendModule("hex-concentration", function itemRequiresConcentration(item) {
-      if (item.type !== "feat") return false;
-      const type = item.system.type;
-      return (type.value === "class") && (type.subtype === "witchHex") && item.requiresConcentration;
-    }));
   }
 
   /**
