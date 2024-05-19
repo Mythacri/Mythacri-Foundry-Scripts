@@ -1,12 +1,18 @@
 import {MODULE} from "../constants.mjs";
 
 export class ItemTransfer {
+  /** Initialize module. */
   static init() {
     Hooks.on("dnd5e.getItemContextOptions", ItemTransfer._onGetItemContextOptions);
     Hooks.on("renderChatMessage", ItemTransfer._onRenderChatMessage);
     game.socket.on("mythacri.transferComplete", ItemTransfer._onMarkTransferComplete);
   }
 
+  /**
+   * Hook event that adds an additional context menu option on the actor sheet.
+   * @param {Item5e} item         The item to whom the context menu belongs.
+   * @param {object[]} items      The context menu entries.
+   */
   static _onGetItemContextOptions(item, items) {
     items.push({
       name: "MYTHACRI.ItemTransfer.ContextMenuOption",
@@ -17,6 +23,11 @@ export class ItemTransfer {
     });
   }
 
+  /**
+   * Create a prompt to transfer an item via the chat log.
+   * @param {Item5e} item                   The item to be transferred.
+   * @returns {Promise<ChatMessage5e>}      A promise that resolves to the created chat message.
+   */
   static async promptTransfer(item) {
     if (!("quantity" in item.system)) {
       ui.notifications.error("MYTHACRI.ItemTransfer.InvalidItem", {localize: true});
@@ -59,6 +70,13 @@ export class ItemTransfer {
     return ItemTransfer.transfer(item, {target: uuid});
   }
 
+  /**
+   * Create a chat message for the receiver to use to receive the transferred item.
+   * @param {Item5e} item                   The item that will be deleted from its owner and placed in the chat message.
+   * @param {object} options                Context options for the transferral.
+   * @param {string} options.target         The uuid of the actor that will receive the item.
+   * @returns {Promise<ChatMessage5e>}      A promise that resolves to the created chat message.
+   */
   static async transfer(item, {target}) {
     const actor = await fromUuid(target);
     const whisperTargets = game.users.reduce((acc, user) => {
@@ -82,6 +100,11 @@ export class ItemTransfer {
     return message;
   }
 
+  /**
+   * Hook event that adds event listeners when the chat message for transferring items is created.
+   * @param {ChatMessage5e} message     The rendered chat message.
+   * @param {HTMLElement} html          The rendered html element.
+   */
   static async _onRenderChatMessage(message, [html]) {
     const transfer = message.flags[MODULE.ID]?.transfer;
     if (!transfer || transfer.completed) return;
@@ -105,6 +128,13 @@ export class ItemTransfer {
     });
   }
 
+  /**
+   * Handle click events on the 'Transfer' button.
+   * @param {Event} event               The initiating click event.
+   * @param {ChatMessage5e} message     The message the button belongs to.
+   * @param {Actor5e} target            The actor to receive the item.
+   * @param {object} transferData       The contextual transfer data within the message flags.
+   */
   static async _onClickTransfer(event, message, target, transferData) {
     event.currentTarget.disabled = true;
     if (!target.isOwner) return;
@@ -127,6 +157,13 @@ export class ItemTransfer {
     }
   }
 
+  /**
+   * Handle click events on the 'Cancel' button.
+   * @param {Event} event               The initiating click event.
+   * @param {ChatMessage5e} message     The message the button belongs to.
+   * @param {Actor5e} source            The actor to receive the item.
+   * @param {object} transferData       The contextual transfer data within the message flags.
+   */
   static async _onClickCancel(event, message, source, transferData) {
     event.currentTarget.disabled = true;
     if (!source.isOwner) return;
@@ -137,6 +174,12 @@ export class ItemTransfer {
     message.delete();
   }
 
+  /**
+   * Change the contents of the chat message to mark a transfer of an item as complete.
+   * @param {object} data               Data emitted via socket or called manually.
+   * @param {string} data.userId        The id of the user asked to update the message.
+   * @param {string} data.messageId     The id of the message to be updated.
+   */
   static async _onMarkTransferComplete({userId, messageId}) {
     if (game.user.id !== userId) return;
     const message = game.messages.get(messageId);
