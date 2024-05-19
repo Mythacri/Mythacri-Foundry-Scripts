@@ -7,6 +7,7 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
     return {
       packs: IdentifiersSettingsModelMixin(["craftingResources", "craftingRecipes"], "packs"),
       folders: IdentifiersSettingsModelMixin(["partyActors"], Folder),
+      party: new foundry.data.fields.ForeignDocumentField(Actor),
       paths: new foundry.data.fields.SchemaField({
         soundboard: new foundry.data.fields.StringField()
       })

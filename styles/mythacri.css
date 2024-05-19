@@ -880,3 +880,14 @@
 .dnd5e2.system-badge img {
   display: none;
 }
+
+/* ------------------------------ */
+/*                                */
+/*          CHAT MESSAGES         */
+/*                                */
+/* ------------------------------ */
+.mythacri-scripts.item-transfer {
+  .buttons {
+    display: flex;
+  }
+}
