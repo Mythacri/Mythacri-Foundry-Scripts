@@ -87,7 +87,9 @@ export class ItemTransfer {
     const messageData = {
       speaker: ChatMessage.implementation.getSpeaker({actor: item.actor}),
       whisper: whisperTargets,
-      content: await renderTemplate("modules/mythacri-scripts/templates/item-transfer.hbs", {item: item, source: item.actor, target: actor}),
+      content: await renderTemplate("modules/mythacri-scripts/templates/item-transfer.hbs", {
+        item: item, source: item.actor, target: actor
+      }),
       "flags.mythacri-scripts.transfer": {
         itemData: JSON.stringify(item.toObject()),
         completed: false,
