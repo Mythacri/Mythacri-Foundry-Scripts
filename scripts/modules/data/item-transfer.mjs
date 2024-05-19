@@ -139,6 +139,16 @@ export class ItemTransfer {
     event.currentTarget.disabled = true;
     if (!target.isOwner) return;
     const itemData = JSON.parse(transferData.itemData);
+
+    // Sensibly reset some item data.
+    delete itemData.folder;
+    delete itemData.ownership;
+    delete itemData.sort;
+    delete itemData.system.equipped;
+    delete itemData.system.crewed;
+    // TODO: reset attunement state.
+
+    // Create the item.
     await target.createEmbeddedDocuments("Item", [itemData]);
 
     if (!message.isOwner) {
