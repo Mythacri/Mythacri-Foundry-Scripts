@@ -233,11 +233,13 @@ export class SystemConfig {
     for (const [k, v] of Object.entries(effects)) {
       CONFIG.statusEffects.push({
         id: k,
+        _id: dnd5e.utils.staticID(`dnd5e${k}`),
         name: v.label,
-        icon: v.icon,
+        img: v.icon,
         reference: v.reference
       });
-      CONFIG.DND5E.conditionTypes[k] = v;
+      CONFIG.DND5E.conditionTypes[k] = {...v, pseudo: false};
+      CONFIG.DND5E.statusEffects[k] = {name: v.label, icon: v.icon};
     }
 
     // Modify exhaustion.

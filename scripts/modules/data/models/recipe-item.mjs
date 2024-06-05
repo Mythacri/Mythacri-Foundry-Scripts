@@ -1,6 +1,8 @@
 import {MODULE} from "../../constants.mjs";
 import {Crafting} from "../crafting.mjs";
 
+const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundry.data.fields;
+
 /**
  * Data model for `recipe` items.
  * @property {object} type
@@ -26,23 +28,23 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   static defineSchema() {
     return this.mergeSchema(super.defineSchema(), {
       type: new dnd5e.dataModels.item.ItemTypeField({subtype: false, baseItem: false}),
-      crafting: new foundry.data.fields.SchemaField({
-        target: new foundry.data.fields.SchemaField({
-          uuid: new foundry.data.fields.StringField({required: true}),
-          quantity: new foundry.data.fields.NumberField({integer: true, min: 1, initial: 1})
+      crafting: new SchemaField({
+        target: new SchemaField({
+          uuid: new StringField({required: true}),
+          quantity: new NumberField({integer: true, min: 1, initial: 1})
         }),
-        components: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          identifier: new foundry.data.fields.StringField({required: true}),
-          quantity: new foundry.data.fields.NumberField({integer: true, min: 1, initial: 1})
+        components: new ArrayField(new SchemaField({
+          identifier: new StringField({required: true}),
+          quantity: new NumberField({integer: true, min: 1, initial: 1})
         })),
-        basic: new foundry.data.fields.BooleanField()
+        basic: new BooleanField()
       }),
-      rarity: new foundry.data.fields.StringField({required: true, blank: true, label: "DND5E.Rarity"}),
-      price: new foundry.data.fields.SchemaField({
-        value: new foundry.data.fields.NumberField({
+      rarity: new StringField({required: true, blank: true, label: "DND5E.Rarity"}),
+      price: new SchemaField({
+        value: new NumberField({
           required: true, nullable: false, initial: 0, min: 0, label: "DND5E.Price"
         }),
-        denomination: new foundry.data.fields.StringField({
+        denomination: new StringField({
           required: true, blank: false, initial: "gp", label: "DND5E.Currency"
         })
       }, {label: "DND5E.Price"}),

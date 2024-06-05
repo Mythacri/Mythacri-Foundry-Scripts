@@ -95,6 +95,7 @@ export class RunesConfig extends Application {
    */
   async _onClickToggle(event) {
     const id = event.currentTarget.closest("[data-bonus-id]").dataset.bonusId;
-    return babonus.toggleBonus(this.item, id);
+    const bonus = babonus.getCollection(this.item).get(id);
+    bonus.toggle();
   }
 }

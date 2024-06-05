@@ -456,11 +456,11 @@ export class Crafting {
 
   /**
    * Utility function for the template data of the triple dropdowns for resource items.
-   * @param {object} data                 Flag data.
-   * @param {string} data.type            The stored type.
-   * @param {string} data.subtype         The stored subtype.
-   * @param {string} data.subsubtype      The stored sub-subtype.
-   * @param {number} data.grade           A stored spirit grade.
+   * @param {object} [data]                 Flag data.
+   * @param {string} [data.type]            The stored type.
+   * @param {string} [data.subtype]         The stored subtype.
+   * @param {string} [data.subsubtype]      The stored sub-subtype.
+   * @param {number} [data.grade]           A stored spirit grade.
    * @returns {object}
    */
   static getTemplateData(data = {}) {
@@ -591,7 +591,7 @@ export class Crafting {
    * Set up character flags for opting into crafting types.
    */
   static _characterFlags() {
-    for (const key in Crafting.recipeTypes) {
+    for (const key of Object.keys(Crafting.recipeTypes)) {
       const label = key.capitalize();
       CONFIG.DND5E.characterFlags[`crafting.${key}`] = {
         name: `MYTHACRI.CraftingSection${label}`,
