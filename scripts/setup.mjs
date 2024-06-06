@@ -10,6 +10,7 @@ import {Award} from "./modules/data/award.mjs";
 import {CombatEnhancement} from "./modules/data/combat.mjs";
 import {Storage} from "./modules/data/storage.mjs";
 import {Auras} from "./modules/data/token-auras.mjs";
+import {ItemTransfer} from "./modules/data/item-transfer.mjs";
 
 Hooks.once("init", SystemConfig.init);
 Hooks.once("init", PublicInterface.init);
@@ -23,3 +24,4 @@ Hooks.once("init", Award.init);
 Hooks.once("init", CombatEnhancement.init);
 Hooks.once("init", Storage.init);
 Hooks.once("init", Auras.init);
+Hooks.once("init", ItemTransfer.init);
