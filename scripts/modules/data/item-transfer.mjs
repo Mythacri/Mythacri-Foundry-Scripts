@@ -150,22 +150,20 @@ export class ItemTransfer {
     delete itemData.system.crewed;
     // TODO: reset attunement state.
 
+    const userId = game.users.find(u => u.active && message.canUserModify(u, "update"))?.id;
+    if (!userId) {
+      ui.notifications.warn("No user is available to finalize the transfer.");
+      return;
+    }
+
     // Create the item.
     await target.createEmbeddedDocuments("Item", [itemData]);
 
-    if (!message.isOwner) {
-      let userId;
-      const gm = game.users.find(u => u.active && u.isGM);
-      if (gm) userId = gm.id;
-      else {
-        const pl = game.users.find(u => {
-          return u.active && !u.isGM && message.testUserPermission(u, "OWNER");
-        });
-        if (pl) userId = pl.id;
-      }
-      game.socket.emit("mythacri.transferComplete", {messageId: message.id, userId: userId}, true);
+    const options = {messageId: message.id, userId: userId};
+    if (game.user.id !== userId) {
+      game.socket.emit("mythacri.transferComplete", options, true);
     } else {
-      ItemTransfer._onMarkTransferComplete({userId: game.user.id, messageId: message.id});
+      ItemTransfer._onMarkTransferComplete(options);
     }
   }
 
