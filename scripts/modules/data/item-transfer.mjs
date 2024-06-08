@@ -5,7 +5,17 @@ export class ItemTransfer {
   static init() {
     Hooks.on("dnd5e.getItemContextOptions", ItemTransfer._onGetItemContextOptions);
     Hooks.on("renderChatMessage", ItemTransfer._onRenderChatMessage);
-    game.socket.on("mythacri.transferComplete", ItemTransfer._onMarkTransferComplete);
+    game.socket.on("module.mythacri-scripts", ItemTransfer._onSocket);
+  }
+
+  /**
+   * Socket event handler.
+   * @param {object} eventData            Emitted event data.
+   * @param {string} eventData.action     The action to perform.
+   * @param {object} eventData.data       The socket data.
+   */
+  static _onSocket({action, ...data}) {
+    if (action === "transferComplete") ItemTransfer._onMarkTransferComplete(data);
   }
 
   /**
@@ -159,9 +169,9 @@ export class ItemTransfer {
     // Create the item.
     await target.createEmbeddedDocuments("Item", [itemData]);
 
-    const options = {messageId: message.id, userId: userId};
+    const options = {messageId: message.id, userId: userId, action: "transferComplete"};
     if (game.user.id !== userId) {
-      game.socket.emit("mythacri.transferComplete", options, true);
+      game.socket.emit("module.mythacri-scripts", options);
     } else {
       ItemTransfer._onMarkTransferComplete(options);
     }
@@ -190,7 +200,7 @@ export class ItemTransfer {
    * @param {string} data.userId        The id of the user asked to update the message.
    * @param {string} data.messageId     The id of the message to be updated.
    */
-  static async _onMarkTransferComplete({userId, messageId}) {
+  static async _onMarkTransferComplete({messageId, userId}) {
     if (game.user.id !== userId) return;
     const message = game.messages.get(messageId);
 
