@@ -132,7 +132,9 @@ export class Encounter extends Application {
   async roll(event) {
     const amount = game.settings.get(MODULE.ID, "encounter-dice") ?? 1;
     const roll = await new Roll(`${amount}d12`).evaluate();
-    await roll.toMessage({flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`});
+    await roll.toMessage({
+      flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`
+    }, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
     this.rolls = roll.dice[0].results.map(r => ({value: r.result}));
     return this.render();
   }
