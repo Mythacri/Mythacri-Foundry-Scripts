@@ -1,3 +1,5 @@
+const {SchemaField, NumberField, StringField} = foundry.data.fields;
+
 /**
  * Data model for `storage` actors.
  * @property {object} currency
@@ -10,10 +12,10 @@ export class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
   /** @override */
   static defineSchema() {
     return this.mergeSchema(super.defineSchema(), {
-      attributes: new foundry.data.fields.SchemaField({
-        capacity: new foundry.data.fields.SchemaField({
-          max: new foundry.data.fields.NumberField({positive: true, integer: true, initial: 100}),
-          type: new foundry.data.fields.StringField({required: true, initial: "quantity"})
+      attributes: new SchemaField({
+        capacity: new SchemaField({
+          max: new NumberField({positive: true, integer: true, initial: 100}),
+          type: new StringField({required: true, initial: "quantity"})
         })
       })
     });

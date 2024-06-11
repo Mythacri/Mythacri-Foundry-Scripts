@@ -453,7 +453,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
           <fieldset><legend>${target.name}</legend>${target.system.description.value}</fieldset>`
         },
         quantity: 1,
-        weight: 0,
+        weight: {value: 0},
         rarity: {
           1: "common",
           2: "uncommon",

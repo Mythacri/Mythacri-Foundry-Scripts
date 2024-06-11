@@ -23,7 +23,7 @@ export class Encounter extends Application {
     const users = game.users.reduce((acc, user) => {
       if (!user.active || user.isGM) return acc;
       const total = this.users?.[user.id];
-      for(const roll of rolls) if(roll.value === total) roll.match = true;
+      for (const roll of rolls) if (roll.value === total) roll.match = true;
       acc.push({
         user: user,
         total: total ?? null,
@@ -82,7 +82,7 @@ export class Encounter extends Application {
    * @returns {Promise<ChatMessage>}
    */
   async prompt() {
-    return ChatMessage.create({
+    return ChatMessage.implementation.create({
       content: await renderTemplate("modules/mythacri-scripts/templates/encounter-prompt.hbs", {
         amount: game.settings.get(MODULE.ID, "encounter-dice")
       })
