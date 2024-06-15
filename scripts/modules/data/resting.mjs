@@ -1,3 +1,4 @@
+/** Utility class for any hooks and data related to resting. */
 export class Resting {
   /** Initialize hooks. */
   static init() {

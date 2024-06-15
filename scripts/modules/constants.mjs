@@ -1,3 +1,1 @@
-export const MODULE = {
-  ID: "mythacri-scripts"
-};
+export const MODULE = {ID: "mythacri-scripts"};

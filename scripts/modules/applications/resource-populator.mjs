@@ -130,7 +130,7 @@ export class ResourcePopulator extends FormApplication {
         existing.quantity = dnd5e.dice.simplifyRollFormula(`${existing.quantity} + ${formula}`);
         return acc;
       }
-      return acc.concat([{uuid: uuid, quantity: formula}])
+      return acc.concat([{uuid: uuid, quantity: formula}]);
     }, list);
     return this.actor.setFlag("simple-loot-list", "loot-list", list);
   }
@@ -171,7 +171,7 @@ export class ResourcePopulator extends FormApplication {
    */
   static create(actors = []) {
     if (!game.modules.get("simple-loot-list")?.active) {
-      throw new Error(`The module 'simple-loot-list' is not active!`);
+      throw new Error("The module 'simple-loot-list' is not active!");
     }
     actors = (actors instanceof Actor) ? [actors] : actors;
     actors = actors.filter(a => ["character", "npc"].includes(a.type));

@@ -1,5 +1,6 @@
 import {MODULE} from "../constants.mjs";
 
+/** A GM-only application for rolling and prompting for random encounters. */
 export class Encounter extends Application {
   /** Initialize module. */
   static init() {

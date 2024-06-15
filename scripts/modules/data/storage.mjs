@@ -1,6 +1,7 @@
 import {StorageSheet} from "../applications/storage-sheet.mjs";
 import {StorageData} from "./models/storage-actor.mjs";
 
+/** Utility class for anything related to the storage actor and sheet. */
 export class Storage {
   /** Initialize module. */
   static init() {

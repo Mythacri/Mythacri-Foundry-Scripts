@@ -1,8 +1,6 @@
 import {MODULE} from "../constants.mjs";
 
-/**
- * Soundboard application for previewing and playing sound files.
- */
+/** Soundboard application for previewing and playing sound files. */
 export class Soundboard extends Application {
   /**
    * Initialize the soundboard.

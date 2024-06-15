@@ -19,7 +19,7 @@ export class Auras {
     config.position.width = 540;
     config.setPosition(config.position);
 
-    const nav = html.querySelector('nav.sheet-tabs.tabs[data-group="main"]');
+    const nav = html.querySelector("nav.sheet-tabs.tabs[data-group=main]");
     div.innerHTML = `
     <a class="item" data-tab="auras">
       <i class="fa-solid fa-dot-circle"></i>
@@ -39,7 +39,7 @@ export class Auras {
       step: 1,
       label: "MYTHACRI.AuraDistance",
       hint: "MYTHACRI.AuraDistanceHint"
-    })
+    });
 
     const template = `
     {{formGroup color value=colorValue localize=true name=colorName}}

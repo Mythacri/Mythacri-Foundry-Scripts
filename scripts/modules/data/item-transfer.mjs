@@ -1,5 +1,6 @@
 import {MODULE} from "../constants.mjs";
 
+/** Utility class for socket and item transfer methods. */
 export class ItemTransfer {
   /** Initialize module. */
   static init() {
