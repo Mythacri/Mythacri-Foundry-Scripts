@@ -1,0 +1,22 @@
+{
+  "name": "mythacri-scripts",
+  "version": "1.0.0",
+  "description": "Mythacri Scripts",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mythacri/Mythacri-Foundry-Scripts.git"
+  },
+  "keywords": [],
+  "author": "Mythacri",
+  "bugs": {
+    "url": "https://github.com/Mythacri/Mythacri-Foundry-Scripts"
+  },
+  "homepage": "https://github.com/Mythacri/Mythacri-Foundry-Scripts",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "rollup": "^4.17.2"
+  }
+}

@@ -221,7 +221,7 @@ export class SystemConfig {
       dazed: {
         label: "MYTHACRI.ConDazed",
         icon: "modules/mythacri-scripts/assets/statuses/dazed.svg",
-        reference: `${journal}.JournalEntryPage.1LYVeWFiNIvBOl0M`,
+        reference: `${journal}.JournalEntryPage.1LYVeWFiNIvBOl0M`
       },
       impaired: {
         label: "MYTHACRI.ConImpaired",

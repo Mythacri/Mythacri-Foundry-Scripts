@@ -46,7 +46,7 @@ function IdentifiersSettingsModelMixin(properties, model) {
         Object.defineProperty(this, key, {
           get() {
             return game[model].get(this._source[key]) || null;
-          }, configurable: true,
+          }, configurable: true
         });
       }
     }

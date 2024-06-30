@@ -9,7 +9,7 @@ export class RunesConfig extends Application {
    * @param {Item5e} item             The item with bonuses.
    * @param {object} [options={}]     Rendering options.
    */
-  constructor(item, options={}) {
+  constructor(item, options = {}) {
     super(options);
     this.item = item;
   }

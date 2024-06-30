@@ -1,5 +1,6 @@
 import {MODULE} from "../constants.mjs";
 
+/** Data model for the internal mayhem data. */
 export class Mayhem extends foundry.abstract.DataModel {
   /** Initialize dnd5e hooks. */
   static init() {

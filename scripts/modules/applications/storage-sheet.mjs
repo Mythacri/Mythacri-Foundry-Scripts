@@ -115,7 +115,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
       } else if (item.type === "loot") {
         const id = mythacri.crafting.getIdentifier(item);
         if (id && mythacri.crafting.validIdentifier(id)) {
-          const rtype = item.flags[MODULE.ID].resource.type
+          const rtype = item.flags[MODULE.ID].resource.type;
           category = "resource-" + rtype;
           label = `MYTHACRI.ResourceType${rtype.capitalize()}`;
         } else {

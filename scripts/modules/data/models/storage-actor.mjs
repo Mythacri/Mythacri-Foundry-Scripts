@@ -2,9 +2,10 @@ const {SchemaField, NumberField, StringField} = foundry.data.fields;
 
 /**
  * Data model for `storage` actors.
- * @property {object} currency
- * @property {object} capacity
- * @property {}
+ * @property {object} attributes
+ * @property {object} attributes.capacity
+ * @property {number} attributes.capacity.max
+ * @property {string} attributes.capacity.type
  */
 export class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
   dnd5e.dataModels.shared.CurrencyTemplate

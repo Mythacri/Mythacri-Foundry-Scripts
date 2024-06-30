@@ -1,3 +1,4 @@
+/** Utility class for any changes made to core foundry. */
 export default class GameConfig {
   /** Initialize module. */
   static init() {

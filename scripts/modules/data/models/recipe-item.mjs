@@ -1,5 +1,4 @@
 import {MODULE} from "../../constants.mjs";
-import {Crafting} from "../crafting.mjs";
 
 const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundry.data.fields;
 
@@ -47,7 +46,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
         denomination: new StringField({
           required: true, blank: false, initial: "gp", label: "DND5E.Currency"
         })
-      }, {label: "DND5E.Price"}),
+      }, {label: "DND5E.Price"})
     });
   }
 
@@ -106,7 +105,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   static getComponents(components = []) {
     return components.reduce((acc, c) => {
       const id = c.identifier;
-      if (Crafting.validIdentifier(id, {allowWildcard: true})) {
+      if (mythacri.crafting.validIdentifier(id, {allowWildcard: true})) {
         acc[id] ??= 0;
         acc[id] += (c.quantity || 1);
       }
@@ -128,7 +127,7 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
    * @returns {boolean}                 Whether any components are valid.
    */
   static hasComponents(components = []) {
-    return components.some(c => Crafting.validIdentifier(c.identifier, {allowWildcard: true}));
+    return components.some(c => mythacri.crafting.validIdentifier(c.identifier, {allowWildcard: true}));
   }
 
   /**

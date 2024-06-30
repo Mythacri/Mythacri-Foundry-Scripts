@@ -4,6 +4,7 @@ import {Crafting} from "./data/crafting.mjs";
 import {Encounter} from "./data/encounter.mjs";
 import {Mayhem} from "./data/mayhem.mjs";
 import {Award} from "./data/award.mjs";
+import {RecipeData} from "./data/models/recipe-item.mjs";
 
 /**
  * Set up the public API.
@@ -17,7 +18,11 @@ export class PublicInterface {
       encounter: Encounter,
       award: Award,
       resource: ResourcePopulator,
-      soundboard: Soundboard
+      soundboard: Soundboard,
+
+      dataModels: {
+        RecipeData: RecipeData
+      }
     };
   }
 }

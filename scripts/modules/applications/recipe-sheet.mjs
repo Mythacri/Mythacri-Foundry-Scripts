@@ -1,5 +1,4 @@
 import {MODULE} from "../constants.mjs";
-import {Crafting} from "../data/crafting.mjs";
 
 /**
  * Item sheet for recipe-type items.
@@ -25,7 +24,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
   /** @override */
   async getData(options = {}) {
     const data = await super.getData(options);
-    data.recipeTypes = Crafting.recipeTypes;
+    data.recipeTypes = mythacri.crafting.recipeTypes;
     data.recipeTarget = await this._validTargetItemLink();
     data.invalidTarget = !!this.document.system.crafting.target.uuid && !data.recipeTarget;
     data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";
@@ -35,13 +34,13 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
         idx: idx,
         qty: c.quantity,
         value: c.identifier,
-        valid: !c.identifier || Crafting.validIdentifier(c.identifier)
+        valid: !c.identifier || mythacri.crafting.validIdentifier(c.identifier)
       };
     });
 
     const isBasic = this.document.system.crafting.basic;
     if (!isBasic) {
-      const [learned, learners, unlearned] = this.getLearners()
+      const [learned, learners, unlearned] = this.getLearners();
       data.learned = learned;
       data.learners = learners;
       data.unlearned = unlearned;
@@ -80,7 +79,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    */
   async _onDropComponent(data) {
     const item = await fromUuid(data.uuid);
-    const id = Crafting.getIdentifier(item);
+    const id = mythacri.crafting.getIdentifier(item);
     if (!id) return;
     const components = foundry.utils.deepClone(this.document.system.crafting.components);
     components.push({quantity: null, identifier: id});
@@ -197,7 +196,7 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     const parts = [[], [], []];
     if (!folder) return parts;
 
-    for(const actor of folder.contents) {
+    for (const actor of folder.contents) {
       if (this.document.system.knowsRecipe(actor)) parts[0].push(actor);
       else if (this.document.system.canLearnRecipe(actor)) parts[1].push(actor);
       else parts[2].push(actor);

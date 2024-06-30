@@ -13,7 +13,6 @@ export class Award {
     return game.settings.set("dnd5e", "disableExperienceTracking", false);
   }
 
-
   /** Modify the experience level thresholds to multiples of 10. */
   static _expLevels() {
     CONFIG.DND5E.CHARACTER_EXP_LEVELS = Array.fromRange(20).map(n => 10 * n);
