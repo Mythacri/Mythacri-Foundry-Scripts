@@ -71,6 +71,13 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
    * @param {object} context      The rendering data.
    */
   _prepareItems(context) {
+    // Columns used on each tab
+    const columns = [
+      {css: "item-quantity", label: game.i18n.localize("DND5E.QuantityAbbr"), editable: "Number", property: "system.quantity"},
+      {css: "item-price", label: game.i18n.localize("DND5E.Price"), property: "price"},
+      {css: "item-uses", label: game.i18n.localize("DND5E.Charges"), property: "system.uses.value"}
+    ];
+
     // Partition items by category
     const items = this.document.items.reduce((obj, item) => {
       const quantity = item.system.quantity;
@@ -84,6 +91,9 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
 
       // Item usage
       ctx.hasUses = item.hasLimitedUses;
+
+      // Item price
+      ctx.price = `${item.system.price.value * quantity} ${CONFIG.DND5E.currencies.mrb.abbreviation}`;
 
       // Classify items into types
       let category;
@@ -133,7 +143,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
         console.warn("No category:", category, item);
         return obj;
       }
-      obj[category] ??= {};
+      obj[category] ??= {columns: columns};
       obj[category].label ??= label;
       obj[category].items ??= [];
       obj[category].items.push(item);
