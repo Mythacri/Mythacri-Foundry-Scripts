@@ -1,0 +1,13 @@
+<div class="dnd5e2 chat-card request-card" data-display-challenge="">
+  {{#if message}}
+  <div class="content">{{{message}}}</div>
+  {{else}}
+  <span class="flavor-text">{{name}}</span>
+  {{/if}}
+  <div class="card-buttons">
+    <button data-type="save" data-ability="{{ability}}" data-dc="{{dc}}" data-action="rollRequest">
+      <span class="hidden-dc"><i class="fas fa-shield-heart"></i>{{labelHidden}}</span>
+      <span class="visible-dc"><i class="fas fa-shield-heart"></i>{{label}}</span>
+    </button>
+  </div>
+</div>

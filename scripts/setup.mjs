@@ -12,6 +12,7 @@ import {Soundboard} from "./modules/applications/soundboard.mjs";
 import {Storage} from "./modules/data/storage.mjs";
 import {SystemConfig} from "./modules/system-config.mjs";
 import GameConfig from "./modules/game-config.mjs";
+import InitializeBehaviors from "./modules/data/models/behaviors.mjs";
 
 Hooks.once("init", Auras.init);
 Hooks.once("init", Award.init);
@@ -27,3 +28,4 @@ Hooks.once("init", Settings.init);
 Hooks.once("init", Soundboard.init);
 Hooks.once("init", Storage.init);
 Hooks.once("init", SystemConfig.init);
+Hooks.once("init", InitializeBehaviors);
