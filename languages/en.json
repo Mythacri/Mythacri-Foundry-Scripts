@@ -88,6 +88,8 @@
   "MYTHACRI.FeatureWitchCurse": "Witch's Curse",
   "MYTHACRI.FeatureWitchGrandHex": "Grand Hex",
   "MYTHACRI.FeatureWitchHex": "Hex",
+  "MYTHACRI.FlagsFeralRegression": "Feral Regression",
+  "MYTHACRI.FlagsFeralRegressionHint": "Whether this actor make use of Feral Regression, implementing a bar underneath hit dice on their sheet to keep track of the value.",
   "MYTHACRI.FlagsPeakPhysical": "Peak Physical Condition",
   "MYTHACRI.FlagsPeakPhysicalHint": "Remove an additional level of exhaustion on a long rest, and recover all hit dice.",
   "MYTHACRI.FreeLongRestHeal": "Free Heal",

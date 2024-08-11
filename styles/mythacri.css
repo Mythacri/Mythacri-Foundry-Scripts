@@ -55,6 +55,46 @@
   .sheet-body .pills-group .pill > i.coldIron::before {
     content: "\f6fc";
   }
+
+  /* Feral Regression */
+  .feral-regression {
+    .meters {
+      display: flex;
+
+      .meter.feral-regression {
+        flex: 1;
+        height: 25px;
+        font-size: var(--font-size-14);
+        cursor: pointer;
+
+        &::before {
+          background: linear-gradient(to right, rgb(57, 0, 68) 0%, rgb(128, 0, 117) 100%);
+          border-inline-end: calc(var(--border-width) / 2) solid rgb(121, 65, 121);
+        }
+
+        &.negative {
+          border-right: none;
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+
+          &::before {
+            transform: scaleX(-1);
+            right: 0;
+          }
+
+          .label {
+            justify-content: flex-end;
+          }
+        }
+
+        &.positive {
+          border-left: none;
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+        }
+      }
+    }
+  }
 }
 
 /* ------------------------------ */
