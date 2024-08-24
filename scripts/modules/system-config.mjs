@@ -288,5 +288,12 @@ export class SystemConfig {
       section: "DND5E.Feats",
       type: Boolean
     };
+
+    CONFIG.DND5E.characterFlags.feralRegression = {
+      name: "MYTHACRI.FlagsFeralRegression",
+      hint: "MYTHACRI.FlagsFeralRegressionHint",
+      section: "DND5E.RacialTraits",
+      type: Boolean
+    };
   }
 }
