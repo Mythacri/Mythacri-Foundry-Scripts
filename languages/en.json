@@ -134,6 +134,45 @@
   "MYTHACRI.MayhemUpdated": "Updated your mayhem points to ({points}).",
   "MYTHACRI.Pips": "Pips",
   "MYTHACRI.Refresh": "Refresh",
+  "MYTHACRI.REGION": {
+    "TRAP": {
+      "FIELDS": {
+        "config": {
+          "toggle": {
+            "label": "Toggle",
+            "hint": "Disable this behavior once it has been triggered."
+          },
+          "message": {
+            "label": "Message",
+            "hint": "An optional piece of text that will be displayed alongside the saving throw."
+          }
+        },
+        "damage": {
+          "label": "Damage Roll",
+          "formula": {
+            "label": "Formula",
+            "hint": "The damage formula that will be rolled. This will make use of the roll data of the triggering token's actor."
+          },
+          "type": {
+            "label": "Damage Type"
+          }
+        },
+        "save": {
+          "label": "Saving Throw",
+          "targetValue": {
+            "label": "Difficulty Class"
+          },
+          "type": {
+            "label": "Save Type"
+          }
+        }
+      },
+      "WARNINGS": {
+        "ActorMissing": "The token that triggered the trap has no actor associated with it!",
+        "FormulaMissing": "The trap region behavior does not have a damage formula configured!"
+      }
+    }
+  },
   "MYTHACRI.ResourceEssenceGrade": "Spirit Grade",
   "MYTHACRI.ResourceGemAmber": "Amber",
   "MYTHACRI.ResourceGemAmethyst": "Amethyst",
@@ -263,5 +302,6 @@
   "MYTHACRI.WeaponPropertyTension": "Tension",
   "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
   "TYPES.Actor.mythacri-scripts.storage": "Storage",
-  "TYPES.Item.mythacri-scripts.recipe": "Recipe"
+  "TYPES.Item.mythacri-scripts.recipe": "Recipe",
+  "TYPES.RegionBehavior.mythacri-scripts.trap": "Trap"
 }
