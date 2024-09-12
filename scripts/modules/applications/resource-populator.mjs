@@ -1,5 +1,5 @@
 import {MODULE} from "../constants.mjs";
-import {Crafting} from "../data/crafting.mjs";
+import Crafting from "../data/crafting.mjs";
 import {ResourcePopulatorModel} from "../data/models/resource-populator.mjs";
 
 export class ResourcePopulator extends FormApplication {

@@ -31,6 +31,26 @@
     "RunesMaximum": "Maximum Runes",
     "RunesMaximumHint": "The number of runes that can be attached to this item."
   },
+  "MYTHACRI.TRANSFER": {
+    "Prompt": {
+      "Button": "Transfer",
+      "Label": "Target",
+      "Hint": "The target that should receive the item.",
+      "Title": "Transfer Item: {name}"
+    },
+    "Message": {
+      "Accept": "Accept",
+      "Cancel": "Cancel",
+      "Completed": "Transfer Completed",
+      "Content": "{source} wants to transfer {item} to {target}."
+    },
+    "ContextOption": "Transfer Item",
+    "Warning": {
+      "Invalid": "The item is not a valid item for transferring.",
+      "Party": "There is no Group Actor assigned as the main party.",
+      "Unavailable": "No user is available to finalize the transfer."
+    }
+  },
   "MYTHACRI.Crafting": "Crafting",
   "MYTHACRI.CraftingApplyRune": "Apply Rune",
   "MYTHACRI.CraftingAvailable": "Available Recipes",
@@ -121,17 +141,6 @@
   "MYTHACRI.ItemRecipeTargetWarn": "The item to be created could not be found.",
   "MYTHACRI.ItemRecipeType": "Recipe Type",
   "MYTHACRI.ItemRecipeUnlearned": "Cannot Learn",
-  "MYTHACRI.ItemTransfer": {
-    "Accept": "Accept",
-    "Cancel": "Cancel",
-    "Completed": "Transfer Completed",
-    "ContextMenuOption": "Transfer Item",
-    "InvalidItem": "The item is not a valid item for transferring.",
-    "MessageContent": "{source} wants to transfer {item} to {target}.",
-    "MissingParty": "There is no Group Actor assigned as the main party.",
-    "PromptLabel": "Transfer",
-    "PromptTitle": "Transfer Item: {name}"
-  },
   "MYTHACRI.LootTypeOther": "Other Loot",
   "MYTHACRI.Mayhem": "Mayhem",
   "MYTHACRI.MayhemCannotDeduct": "You do not have enough Mayhem Points available!",

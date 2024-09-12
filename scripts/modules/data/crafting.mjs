@@ -5,7 +5,7 @@ import {RecipeSheet} from "../applications/recipe-sheet.mjs";
 import {RunesConfig} from "../applications/runes-config.mjs";
 
 /** Utility export class. */
-export class Crafting {
+export default class Crafting {
   /**
    * Recipe types.
    * @type {object}
