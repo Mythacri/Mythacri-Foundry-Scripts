@@ -688,13 +688,6 @@
 /*                                */
 /* ------------------------------ */
 .mythacri-scripts.encounter {
-  width: auto !important;
-  min-width: 400px;
-
-  & button {
-    margin: 5px 2px;
-  }
-
   .roll {
     display: flex;
 
@@ -707,44 +700,34 @@
     }
   }
 
-  .player {
-    border: 2px inset;
-    padding: 3px;
+  .players {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
-    &.match {
-      color: green;
-    }
-    &.mismatch {
-      color: red;
+    .player {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
     }
   }
 
-  .gm .rolls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
+  .rolls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
 
     .roll {
       min-width: 40px;
       line-height: 40px;
       justify-content: center;
-      margin-right: 5px;
       background-image: url(../../../icons/svg/d12-grey.svg);
       background-repeat: no-repeat;
       background-size: 40px 40px;
       font-size: var(--font-size-16);
       font-weight: bold;
-      color: gray;
-
-      &:first-child {
-        margin-left: 1em;
-      }
-
-      &.match {
-        color: black;
-        filter: drop-shadow(0 0 3px green);
-      }
+      color: black;
+      opacity: 0.5;
+      &.match { opacity: 1; }
     }
   }
 }

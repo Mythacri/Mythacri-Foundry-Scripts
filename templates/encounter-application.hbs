@@ -1,32 +1,33 @@
-<div class="content">
-  <div class="gm">
-    <div class="rolls">
-      {{#if rolls.length}}
-      {{localize "MYTHACRI.EncounterGMRolls"}}:
-      {{#each rolls}}
-      <span class="roll {{#if match}}match{{/if}}">{{value}}</span>
-      {{/each}}
-      {{/if}}
-    </div>
-    <button data-action="prompt">
-      <i class="fa-solid fa-rss"></i> {{localize "MYTHACRI.EncounterPromptUsers"}}
+<div class="standard-form">
+  <fieldset class="rolls">
+    <legend>{{localize "MYTHACRI.EncounterGMRolls"}}</legend>
+    {{#if rolls.length}}
+    {{#each rolls}}
+    <span class="roll {{#if match}}match{{/if}}">{{value}}</span>
+    {{/each}}
+    {{/if}}
+  </fieldset>
+  <button data-action="prompt">
+    <i class="fa-solid fa-rss"></i> {{localize "MYTHACRI.EncounterPromptUsers"}}
+  </button>
+  <div class="roll">
+    <button data-action="adjust" data-diff="-1"><i class="fa-solid fa-arrow-left"></i></button>
+    <button data-action="roll">
+      <i class="fa-solid fa-dice-d20"></i> {{localize "MYTHACRI.EncounterRollDice" amount=amount}}
     </button>
-    <div class="roll">
-      <button data-action="adjust" data-diff="-1"><i class="fa-solid fa-arrow-left"></i></button>
-      <button data-action="roll">
-        <i class="fa-solid fa-dice-d20"></i> {{localize "MYTHACRI.EncounterRollDice" amount=amount}}
-      </button>
-      <button data-action="adjust" data-diff="1"><i class="fa-solid fa-arrow-right"></i></button>
-    </div>
+    <button data-action="adjust" data-diff="1"><i class="fa-solid fa-arrow-right"></i></button>
   </div>
+
+  <hr>
+
   <div class="players">
     {{#each users}}
-    <div class="player {{#if match}}match{{/if}}{{#if mismatch}}mismatch{{/if}}">
-      {{user.name}}, total: {{total}}
+    <div class="player">
+      <span class="name">{{user.name}}</span>
+      <span class="total">{{total}}</span>
     </div>
     {{/each}}
   </div>
-  <button data-action="close">
-    <i class="fa-solid fa-times"></i> {{localize "Close"}}
-  </button>
+
+  <hr>
 </div>

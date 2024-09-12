@@ -1,94 +1,117 @@
 import {MODULE} from "../constants.mjs";
 
 /** A GM-only application for rolling and prompting for random encounters. */
-export class Encounter extends Application {
+export class Encounter extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.ApplicationV2
+) {
   /** Initialize module. */
   static init() {
     Hooks.on("renderChatMessage", Encounter.renderChatMessage);
   }
 
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: [MODULE.ID, "encounter"],
-      template: "modules/mythacri-scripts/templates/encounter-application.hbs",
-      width: 400,
-      height: "auto",
-      title: "MYTHACRI.EncounterTitle"
-    });
-  }
+  /* -------------------------------------------------- */
 
   /** @override */
-  async getData() {
+  static DEFAULT_OPTIONS = {
+    classes: [MODULE.ID, "encounter"],
+    position: {width: 400, height: "auto"},
+    window: {title: "MYTHACRI.EncounterTitle"},
+    id: "encounter",
+    actions: {
+      roll: Encounter.#gmRoll,
+      prompt: Encounter.#prompt,
+      adjust: Encounter.#adjust
+    }
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static PARTS = {
+    form: {
+      template: "modules/mythacri-scripts/templates/encounter-application.hbs"
+    }
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareContext(options) {
     const rolls = this.rolls ?? [];
     const users = game.users.reduce((acc, user) => {
-      if (!user.active || user.isGM) return acc;
+      if (!user.active || user.isSelf) return acc;
       const total = this.users?.[user.id];
-      for (const roll of rolls) if (roll.value === total) roll.match = true;
+
+      const cssClass = [];
+      for (const roll of rolls) {
+        if (roll.value === total) {
+          roll.match = true;
+          cssClass.push("match");
+        }
+      }
+
+      if (total && rolls.length && !cssClass.length) cssClass.push("mismatch");
+
       acc.push({
         user: user,
         total: total ?? null,
-        match: rolls.some(r => r.value === total),
-        mismatch: total && rolls.length && rolls.every(r => r.value !== total)
+        cssClass: Array.from(new Set(cssClass)).filterJoin(" ")
       });
+
       return acc;
     }, []);
     const amount = game.settings.get(MODULE.ID, "encounter-dice") ?? 1;
     return {rolls, users, amount};
   }
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html[0].querySelectorAll("[data-action]").forEach(n => {
-      const action = n.dataset.action;
-      if (action === "roll") n.addEventListener("click", this.roll.bind(this));
-      else if (action === "prompt") n.addEventListener("click", this.prompt.bind(this));
-      else if (action === "close") n.addEventListener("click", this.close.bind(this));
-      else if (action === "adjust") n.addEventListener("click", this.adjust.bind(this));
-    });
-  }
+  /* -------------------------------------------------- */
 
   /**
    * The rendering hook on chat message prompts.
    * @param {ChatMessage} message
    */
-  static hook(message) {
+  static #hook(message) {
     const flag = message.flags[MODULE.ID]?.encounter === true;
     if (!flag) return;
-    const user = message.user;
+    const user = message.author;
     const roll = message.rolls[0];
-    const window = Object.values(ui.windows).find(w => w instanceof Encounter);
+    const window = foundry.applications.instances.get(Encounter.DEFAULT_OPTIONS.id);
     window.setRoll(user, roll);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Factory method to render this application and apply a hook.
-   * @returns {Encounter}      The rendered Encounter application.
+   * @returns {Promise<Encounter>}      The rendered Encounter application.
    */
-  static create() {
-    Hooks.on("createChatMessage", Encounter.hook);
-    return new this().render(true);
+  static async create() {
+    const existing = foundry.applications.instances.get(Encounter.DEFAULT_OPTIONS.id);
+    if (existing) return existing.render({force: true});
+
+    const application = new this();
+    application.addEventListener("render", () => Hooks.on("createChatMessage", Encounter.#hook), {once: true});
+    application.addEventListener("close", () => Hooks.off("createChatMessage", Encounter.#hook), {once: true});
+    return application.render({force: true});
   }
 
-  /** @override */
-  close(...T) {
-    super.close(...T);
-    Hooks.off("createChatMessage", Encounter.hook);
-    return this;
-  }
+  /* -------------------------------------------------- */
 
   /**
    * Prompt users with a chat message that asks them to roll a d12.
-   * @returns {Promise<ChatMessage>}
+   * @this {Encounter}
+   * @param {PointerEvent} event      Triggering click event.
+   * @param {HTMLElement} target      The element that defined the [data-action].
    */
-  async prompt() {
-    return ChatMessage.implementation.create({
+  static async #prompt(event, target) {
+    ChatMessage.implementation.create({
       content: await renderTemplate("modules/mythacri-scripts/templates/encounter-prompt.hbs", {
         amount: game.settings.get(MODULE.ID, "encounter-dice")
       })
     });
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Hook onto chat message rendering to add event listener to the prompt button.
@@ -97,65 +120,70 @@ export class Encounter extends Application {
    */
   static renderChatMessage(message, [html]) {
     html.querySelectorAll("[data-action='roll-encounter']").forEach(n => {
-      n.addEventListener("click", Encounter.roll.bind(Encounter));
+      n.addEventListener("click", Encounter.#roll.bind(Encounter));
     });
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Create the d12 roll from the prompt.
+   * @this {Encounter}
    * @param {PointerEvent} event          The initiating click event.
    * @returns {Promise<ChatMessage>}      The created chat message.
    */
-  static async roll(event) {
+  static async #roll(event) {
     event.currentTarget.disabled = true;
-    return new Roll("1d12").toMessage({
+    Roll.create("1d12").toMessage({
       flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`,
       "flags.mythacri-scripts.encounter": true
     });
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Add the user's data to this application and then re-render.
    * @param {User} user     The user who made the roll.
    * @param {Roll} roll     The rolled d12.
-   * @returns {Encounter}
    */
   setRoll(user, roll) {
     this.users ??= {};
     this.users[user.id] ??= roll.total;
-    return this.render();
+    this.render();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Roll the GM's die and then re-render.
-   * @returns {Encounter}
+   * @this {Encounter}
+   * @param {PointerEvent} event      Triggering click event.
+   * @param {HTMLElement} target      The element that defined the [data-action].
    */
-  async roll(event) {
+  static async #gmRoll(event, target) {
     const amount = game.settings.get(MODULE.ID, "encounter-dice") ?? 1;
-    const roll = await new Roll(`${amount}d12`).evaluate();
-    await roll.toMessage({
+    const roll = await Roll.create(`${amount}d12`).evaluate();
+    roll.toMessage({
       flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`
     }, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
     this.rolls = roll.dice[0].results.map(r => ({value: r.result}));
-    return this.render();
+    this.render();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Adjust the current amount of d12s that the GM is rolling.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Encounter}
+   * @this {Encounter}
+   * @param {PointerEvent} event      Triggering click event.
+   * @param {HTMLElement} target      The element that defined the [data-action].
    */
-  async adjust(event) {
-    const diff = Number(event.currentTarget.dataset.diff);
+  static async #adjust(event, target) {
+    const diff = Number(target.dataset.diff);
     const value = game.settings.get(MODULE.ID, "encounter-dice");
     const newValue = Math.max(value + diff, 1);
     await game.settings.set(MODULE.ID, "encounter-dice", newValue);
-    return this.render();
-  }
-
-  /** @override */
-  setPosition(opt = {}) {
-    opt.height ??= "auto";
-    super.setPosition(opt);
+    this.render();
   }
 }
