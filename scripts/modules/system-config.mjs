@@ -77,10 +77,13 @@ export class SystemConfig {
 
   /** Merge in new and remove some old activation types. */
   static _activationTypes() {
-    foundry.utils.mergeObject(CONFIG.DND5E.abilityActivationTypes, {
-      "-=legendary": null,
-      mayhem: "MYTHACRI.ActivationMayhem"
-    }, {performDeletions: true});
+    foundry.utils.mergeObject(CONFIG.DND5E.activityActivationTypes, {
+      mayhem: {
+        group: "DND5E.ACTIVATION.Category.Monster",
+        label: "MYTHACRI.MAYHEM.Action",
+        scalar: true
+      }
+    });
   }
 
   /** Merge in new armor class calculations. */

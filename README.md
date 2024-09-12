@@ -10,7 +10,7 @@ Accessed through `mythacri.mayhem`.
  * Render an instance of the mayhem ui for manually changing the points.
  * @returns {MayhemUI}      A rendered MayhemUI application.
  */
-async render()
+async create()
 
 /**
  * Add mayhem points to yourself.

@@ -3,7 +3,6 @@
   "DND5E.LongRestHint": "Take a long rest? You can roll hit dice beforehand to restore health, and receive one round of free healing equal to your largest hit die plus your Constitution modifier. You will recover half your maximum hit dice, your class resources, your limited use item charges, and all your spell slots. Your levels of exhaustion will be reduced by one.",
   "DND5E.RestL": "Long",
   "DND5E.RestS": "Short",
-  "MYTHACRI.ActivationMayhem": "Mayhem Action",
   "MYTHACRI.ArmorClassFeral": "Witch's Curse: Feral",
   "MYTHACRI.ArmorClassHybrid": "Grand Hex: Hybrid",
   "MYTHACRI.ArmorClassIronChin": "Iron Chin",
@@ -30,6 +29,16 @@
     "RuneConfiguration": "Rune Configuration",
     "RunesMaximum": "Maximum Runes",
     "RunesMaximumHint": "The number of runes that can be attached to this item."
+  },
+  "MYTHACRI.MAYHEM": {
+    "Action": "Mayhem Action",
+    "Consume": "Consume Mayhem Points",
+    "Decrease": "Decrease",
+    "Increase": "Increase",
+    "Title": "Mayhem: {name}",
+    "Warning": {
+      "Deduct": "You do not have enough Mayhem Points available!"
+    }
   },
   "MYTHACRI.TRANSFER": {
     "Prompt": {
@@ -142,12 +151,6 @@
   "MYTHACRI.ItemRecipeType": "Recipe Type",
   "MYTHACRI.ItemRecipeUnlearned": "Cannot Learn",
   "MYTHACRI.LootTypeOther": "Other Loot",
-  "MYTHACRI.Mayhem": "Mayhem",
-  "MYTHACRI.MayhemCannotDeduct": "You do not have enough Mayhem Points available!",
-  "MYTHACRI.MayhemConsume": "Consume Mayhem Points",
-  "MYTHACRI.MayhemCurrentPoints": "You currently have {points} Mayhem Points.",
-  "MYTHACRI.MayhemTitle": "Mayhem: {name}",
-  "MYTHACRI.MayhemUpdated": "Updated your mayhem points to ({points}).",
   "MYTHACRI.Pips": "Pips",
   "MYTHACRI.Refresh": "Refresh",
   "MYTHACRI.REGION": {

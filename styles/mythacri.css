@@ -203,49 +203,10 @@
 /*        MAYHEM INTERFACE        */
 /*                                */
 /* ------------------------------ */
-.mythacri-scripts.mayhem-ui {
-  width: 400px;
-
-  .content {
-    display: flex;
-    flex-direction: column;
-
-    .note {
-      font-style: italic;
-      margin: 1em 1em 2em 1em;
-      align-self: center;
-    }
-
-    .controls {
-      display: flex;
-      flex: 1;
-      gap: 1em;
-
-      [data-action] {
-        font-size: 40px;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 0.5em 0;
-        text-align: center;
-        align-items: center;
-      }
-    }
-
-    .diff {
-      width: 100%;
-      text-align: center;
-      font-style: italic;
-      padding: 0.5em 0;
-      color: gray;
-      font-size: 25px;
-      margin-bottom: 0.5em;
-    }
-
-    [data-action="submit"] {
-      font-size: 20px;
-      padding: 5px 0;
-    }
+.mythacri-scripts.mayhem {
+  .total {
+    margin: 0 auto;
+    font-size: 20px;
   }
 }
 

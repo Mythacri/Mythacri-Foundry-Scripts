@@ -1,4 +1,4 @@
-import {Mayhem} from "./data/mayhem.mjs";
+import mayhem from "./data/mayhem.mjs";
 import {RecipeData} from "./data/models/recipe-item.mjs";
 import {ResourcePopulator} from "./applications/resource-populator.mjs";
 import {Soundboard} from "./applications/soundboard.mjs";
@@ -19,7 +19,7 @@ export class PublicInterface {
       combat,
       crafting: Crafting,
       encounter: Encounter,
-      mayhem: Mayhem,
+      mayhem,
       resource: ResourcePopulator,
       soundboard: Soundboard,
       transfer,
