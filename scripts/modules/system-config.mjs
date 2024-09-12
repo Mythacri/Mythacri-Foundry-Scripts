@@ -8,19 +8,20 @@ export class SystemConfig {
 
   /** Initialize module. */
   static init() {
-    SystemConfig._featureTypes();
-    SystemConfig._languages();
     SystemConfig._activationTypes();
     SystemConfig._armorClasses();
-    SystemConfig._weaponProperties();
-    SystemConfig._weaponProficiencies();
     SystemConfig._armorProficencies();
-    SystemConfig._conditions();
-    SystemConfig._currencies();
-    SystemConfig._consumableTypes();
     SystemConfig._characterFlags();
+    SystemConfig._conditions();
+    SystemConfig._consumableTypes();
+    SystemConfig._currencies();
+    SystemConfig._featureTypes();
+    SystemConfig._languages();
+    SystemConfig._restTypes();
     SystemConfig._spellProgression();
     SystemConfig._toolProficiencies();
+    SystemConfig._weaponProficiencies();
+    SystemConfig._weaponProperties();
   }
 
   /** Merge in new feature types. */
@@ -209,6 +210,23 @@ export class SystemConfig {
       CONFIG.DND5E.shieldIds[k] = `${SystemConfig.PREFIX}.${id}`;
     }
   }
+
+  /* -------------------------------------------------- */
+
+  /** Define full rest. */
+  static _restTypes() {
+    CONFIG.DND5E.restTypes.full = {
+      duration: {normal: 1440, gritty: 10080, epic: 120},
+      recoverHitDice: true,
+      recoverHitPoints: true,
+      recoverPeriods: ["sr", "lr"],
+      recoverSpellSlotTypes: new Set(["leveled", "pact"])
+    };
+
+    foundry.utils.setProperty(CONFIG.DND5E.restTypes, "long.recoverHitPoints", false);
+  }
+
+  /* -------------------------------------------------- */
 
   /** Merge in new shield progression types. */
   static _spellProgression() {

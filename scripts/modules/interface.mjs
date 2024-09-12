@@ -6,6 +6,7 @@ import award from "./data/award.mjs";
 import combat from "./data/combat.mjs";
 import Crafting from "./data/crafting.mjs";
 import Encounter from "./data/encounter.mjs";
+import resting from "./data/resting.mjs";
 import transfer from "./data/transfer.mjs";
 
 /**
@@ -21,6 +22,7 @@ export class PublicInterface {
       encounter: Encounter,
       mayhem,
       resource: ResourcePopulator,
+      resting,
       soundboard: Soundboard,
       transfer,
 
