@@ -1,4 +1,4 @@
-import {RecipeData} from "./data/models/recipe-item.mjs";
+import RecipeData from "./data/models/recipe-item.mjs";
 import {ResourcePopulator} from "./applications/resource-populator.mjs";
 import {Soundboard} from "./applications/soundboard.mjs";
 import auras from "./data/auras.mjs";
