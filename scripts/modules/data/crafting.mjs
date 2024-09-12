@@ -400,7 +400,8 @@ export class Crafting {
     const div = document.createElement("DIV");
     div.innerHTML = await renderTemplate(template, {...buttons, active: active});
     div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
-    html.querySelector(".tab-body").append(...div.childNodes);
+    const body = html.querySelector(".tab-body");
+    if (!body.querySelector(".tab.mythacri")) body.insertAdjacentElement("beforeend", div.firstElementChild);
   }
 
   /**
