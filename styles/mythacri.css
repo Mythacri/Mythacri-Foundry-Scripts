@@ -8,9 +8,6 @@
 /*          ACTOR SHEETS          */
 /*                                */
 /* ------------------------------ */
-.dnd5e.sheet.actor.npc .legendary {
-  display: none;
-}
 :is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
   /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
   background-image: url(../assets/icons/marble.webp);
@@ -52,10 +49,6 @@
     }
   }
 
-  .sheet-body .pills-group .pill > i.coldIron::before {
-    content: "\f6fc";
-  }
-
   /* Feral Regression */
   .feral-regression {
     .meters {
@@ -95,30 +88,6 @@
       }
     }
   }
-}
-
-/* ------------------------------ */
-/*                                */
-/*         LOOT ITEM SHEET        */
-/*                                */
-/* ------------------------------ */
-.dnd5e.sheet.item .item-properties .form-group.resource select {
-  border: none;
-  margin-left: 3px;
-  flex: 1;
-}
-.dnd5e.sheet.item .item-properties .form-group.resource label {
-  white-space: nowrap;
-}
-
-/* ------------------------------ */
-/*                                */
-/*  EQUIPMENT/WEAPON ITEM SHEET   */
-/*                                */
-/* ------------------------------ */
-.dnd5e.sheet.item .form-group.runes input[type="number"] {
-  flex: 0 0 50px;
-  text-align: center;
 }
 
 /* ------------------------------ */

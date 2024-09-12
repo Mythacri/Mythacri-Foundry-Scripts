@@ -350,8 +350,14 @@ function _weaponProficiencies() {
 /** Merge in new weapon properties */
 function _weaponProperties() {
   const properties = {
-    aerodynamic: {label: "MYTHACRI.WeaponPropertyAerodynamic"},
-    coldIron: {label: "MYTHACRI.WeaponPropertyColdIron", isPhysical: true},
+    aerodynamic: {
+      label: "MYTHACRI.WeaponPropertyAerodynamic"
+    },
+    coldIron: {
+      icon: "systems/dnd5e/icons/svg/activity/enchant.svg",
+      label: "MYTHACRI.WeaponPropertyColdIron",
+      isPhysical: true
+    },
     concealable: {label: "MYTHACRI.WeaponPropertyConcealable"},
     explosive: {label: "MYTHACRI.WeaponPropertyExplosive", isJourneyman: true},
     heat: {label: "MYTHACRI.WeaponPropertyHeat", isJourneyman: true},
