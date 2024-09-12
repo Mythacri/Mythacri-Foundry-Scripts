@@ -1,6 +1,7 @@
 import {RecipeData} from "./data/models/recipe-item.mjs";
 import {ResourcePopulator} from "./applications/resource-populator.mjs";
 import {Soundboard} from "./applications/soundboard.mjs";
+import auras from "./data/auras.mjs";
 import award from "./data/award.mjs";
 import combat from "./data/combat.mjs";
 import Crafting from "./data/crafting.mjs";
@@ -18,6 +19,7 @@ export class PublicInterface {
   /** Initialize module. */
   static init() {
     globalThis.mythacri = {
+      auras,
       award,
       combat,
       crafting: Crafting,

@@ -1,65 +1,11 @@
 import {MODULE} from "../constants.mjs";
 
-export class Auras {
-  /** Initialize module. */
-  static init() {
-    Hooks.on("renderTokenConfig", Auras.onRenderTokenConfig);
-  }
+Hooks.once("setup", _setupAuras);
+Hooks.on("renderTokenConfig", _onRenderTokenConfig);
 
-  /**
-   * Inject new tab and form on Token config.
-   * @param {TokenConfig5e} config      The token config.
-   * @param {HTMLElement} html          The element of the config.
-   */
-  static onRenderTokenConfig(config, [html]) {
-    const aura = config.token.flags[MODULE.ID]?.aura ?? {};
-    const div = document.createElement("DIV");
+/* -------------------------------------------------- */
 
-    // Expand the width
-    config.position.width = 540;
-    config.setPosition(config.position);
-
-    const nav = html.querySelector("nav.sheet-tabs.tabs[data-group=main]");
-    div.innerHTML = `
-    <a class="item" data-tab="auras">
-      <i class="fa-solid fa-dot-circle"></i>
-      ${game.i18n.localize("MYTHACRI.Auras")}
-    </a>`;
-    nav.appendChild(div.firstElementChild);
-
-    const color = new foundry.data.fields.ColorField({
-      label: "MYTHACRI.AuraColor",
-      hint: "MYTHACRI.AuraColorHint"
-    });
-
-    const distance = new foundry.data.fields.NumberField({
-      min: 0,
-      max: 30,
-      initial: 0,
-      step: 1,
-      label: "MYTHACRI.AuraDistance",
-      hint: "MYTHACRI.AuraDistanceHint"
-    });
-
-    const template = `
-    {{formGroup color value=colorValue localize=true name=colorName}}
-    {{formGroup distance value=distanceValue localize=true name=distanceName}}`;
-
-    const data = {
-      color: color,
-      distance: distance,
-      colorValue: aura.color ? aura.color : "",
-      distanceValue: Number.isInteger(aura.distance) ? aura.distance : 0,
-      colorName: "flags.mythacri-scripts.aura.color",
-      distanceName: "flags.mythacri-scripts.aura.distance"
-    };
-
-    div.innerHTML = `<div class="tab" data-tab="auras">${Handlebars.compile(template)(data)}</div>`;
-    html.querySelector("footer").before(div.firstElementChild);
-  }
-}
-
-Hooks.once("setup", () => {
+function _setupAuras() {
   if (!game.modules.get("babonus")?.active) return;
   /**
    * @param {TokenDocument5e} origin
@@ -158,4 +104,60 @@ Hooks.once("setup", () => {
     const flags = data.flags?.[MODULE.ID] ?? {};
     if ("aura" in flags) makeAura(token);
   });
-});
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Inject new tab and form on Token config.
+ * @param {TokenConfig5e} config      The token config.
+ * @param {HTMLElement} html          The element of the config.
+ */
+function _onRenderTokenConfig(config, [html]) {
+  const aura = config.token.flags[MODULE.ID]?.aura ?? {};
+  const div = document.createElement("DIV");
+
+  // Expand the width
+  config.position.width = 540;
+  config.setPosition(config.position);
+
+  const nav = html.querySelector("nav.sheet-tabs.tabs[data-group=main]");
+  div.innerHTML = `
+  <a class="item" data-tab="auras">
+    <i class="fa-solid fa-dot-circle"></i>
+    ${game.i18n.localize("MYTHACRI.Auras")}
+  </a>`;
+  nav.appendChild(div.firstElementChild);
+
+  const color = new foundry.data.fields.ColorField({
+    label: "MYTHACRI.AuraColor",
+    hint: "MYTHACRI.AuraColorHint"
+  });
+
+  const distance = new foundry.data.fields.NumberField({
+    min: 0,
+    max: 30,
+    initial: 0,
+    step: 1,
+    label: "MYTHACRI.AuraDistance",
+    hint: "MYTHACRI.AuraDistanceHint"
+  });
+
+  const template = `
+  {{formGroup color value=colorValue localize=true name=colorName}}
+  {{formGroup distance value=distanceValue localize=true name=distanceName}}`;
+
+  const data = {
+    color: color,
+    distance: distance,
+    colorValue: aura.color ? aura.color : "",
+    distanceValue: Number.isInteger(aura.distance) ? aura.distance : 0,
+    colorName: "flags.mythacri-scripts.aura.color",
+    distanceName: "flags.mythacri-scripts.aura.distance"
+  };
+
+  div.innerHTML = `<div class="tab" data-tab="auras">${Handlebars.compile(template)(data)}</div>`;
+  html.querySelector("footer").before(div.firstElementChild);
+}
+
+export default {};
