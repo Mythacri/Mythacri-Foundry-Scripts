@@ -17,7 +17,7 @@ function _expLevels() {
  */
 function _enableExperience() {
   if (!game.user.isGM) return;
-  game.settings.set("dnd5e", "disableExperienceTracking", false);
+  game.settings.set("dnd5e", "levelingMode", "xpBoons");
 }
 
 /* -------------------------------------------------- */

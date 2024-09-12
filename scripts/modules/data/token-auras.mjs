@@ -60,6 +60,7 @@ export class Auras {
 }
 
 Hooks.once("setup", () => {
+  if (!game.modules.get("babonus")?.active) return;
   /**
    * @param {TokenDocument5e} origin
    */

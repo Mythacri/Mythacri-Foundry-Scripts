@@ -1,6 +1,4 @@
 import {Auras} from "./modules/data/token-auras.mjs";
-import {Award} from "./modules/data/award.mjs";
-import {CombatEnhancement} from "./modules/data/combat.mjs";
 import {Crafting} from "./modules/data/crafting.mjs";
 import {Encounter} from "./modules/data/encounter.mjs";
 import {ItemTransfer} from "./modules/data/item-transfer.mjs";
@@ -15,8 +13,6 @@ import GameConfig from "./modules/game-config.mjs";
 import InitializeBehaviors from "./modules/data/models/behaviors.mjs";
 
 Hooks.once("init", Auras.init);
-Hooks.once("init", Award.init);
-Hooks.once("init", CombatEnhancement.init);
 Hooks.once("init", Crafting.init);
 Hooks.once("init", Encounter.init);
 Hooks.once("init", GameConfig.init);

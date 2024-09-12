@@ -192,7 +192,7 @@ export class SystemConfig {
     };
 
     for (const [k, id] of Object.entries(toolIds)) {
-      CONFIG.DND5E.toolIds[k] = `${SystemConfig.PREFIX}.${id}`;
+      CONFIG.DND5E.tools[k] = `${SystemConfig.PREFIX}.${id}`;
     }
   }
 

@@ -5,6 +5,7 @@ import {RecipeData} from "./data/models/recipe-item.mjs";
 import {ResourcePopulator} from "./applications/resource-populator.mjs";
 import {Soundboard} from "./applications/soundboard.mjs";
 import award from "./data/award.mjs";
+import combat from "./data/combat.mjs";
 
 /**
  * Set up the public API.
@@ -17,6 +18,7 @@ export class PublicInterface {
       crafting: Crafting,
       encounter: Encounter,
       award,
+      combat,
       resource: ResourcePopulator,
       soundboard: Soundboard,
 
