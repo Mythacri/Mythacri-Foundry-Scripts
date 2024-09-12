@@ -209,12 +209,6 @@ async function _displayFullRestMessage(result) {
 function _preCreateActor(actor) {
   if (actor.type !== "character") return;
   const keys = [
-    "abilities.check",
-    "abilities.save",
-    "msak.attack",
-    "mwak.attack",
-    "rsak.attack",
-    "rwak.attack",
     "spell.dc"
   ];
   const string = "@attributes.exhaustion";

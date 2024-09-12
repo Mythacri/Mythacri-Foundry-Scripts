@@ -1,5 +1,5 @@
 Hooks.on("preCreateScene", _preCreateScene);
-_configure();
+Hooks.once("init", _configure);
 
 /* -------------------------------------------------- */
 
@@ -138,7 +138,7 @@ function _conditions() {
   for (const [k, v] of Object.entries(effects)) {
     CONFIG.statusEffects.push({
       id: k,
-      _id: dnd5e.utils.functionID(`dnd5e${k}`),
+      _id: dnd5e.utils.staticID(`dnd5e${k}`),
       name: v.label,
       img: v.icon,
       reference: v.reference
@@ -151,11 +151,17 @@ function _conditions() {
   CONFIG.DND5E.conditionEffects.halfHealth.delete("exhaustion-4");
   CONFIG.DND5E.conditionEffects.halfMovement.delete("exhaustion-2");
   CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
-  CONFIG.DND5E.conditionTypes.exhaustion.levels = 10;
-  CONFIG.DND5E.conditionTypes.exhaustion.icon = "modules/mythacri-scripts/assets/statuses/exhaustion.svg";
-  CONFIG.DND5E.conditionTypes.exhaustion.reference = `${journal}.JournalEntryPage.adMJ3j1HBbTJKCyY`;
-  const exh = CONFIG.statusEffects.find(e => e.id === "exhaustion");
-  foundry.utils.mergeObject(exh, CONFIG.DND5E.conditionTypes.exhaustion, {insertKeys: false});
+
+  const exhaustionData = CONFIG.DND5E.conditionTypes.exhaustion;
+  const exhaustionEffect = CONFIG.statusEffects.find(e => e.id === "exhaustion");
+
+  foundry.utils.mergeObject(exhaustionData, {
+    levels: 10,
+    icon: "modules/mythacri-scripts/assets/statuses/exhaustion.svg",
+    reference: `${journal}.JournalEntryPage.adMJ3j1HBbTJKCyY`,
+    reduction: {rolls: 1, speed: 0}
+  }, {insertKeys: false});
+  foundry.utils.mergeObject(exhaustionEffect, exhaustionData, {insertKeys: false});
 }
 
 /* -------------------------------------------------- */
