@@ -1,7 +1,18 @@
-<div class="form-group runes">
-  <label>{{localize "MYTHACRI.CraftingRunes"}}</label>
+<fieldset>
+  <legend>{{localize "MYTHACRI.CRAFTING.RuneConfiguration"}}</legend>
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.CRAFTING.EnableRunes"}}</label>
+    <div class="form-fields">
+      <dnd5e-checkbox name="flags.mythacri-scripts.runes.enabled" {{checked enabled}}></dnd5e-checkbox>
+    </div>
+  </div>
   {{#if enabled}}
-  <input type="number" name="flags.mythacri-scripts.runes.max" value="{{max}}" placeholder="{{localize 'DND5E.Max'}}">
+  <div class="form-group">
+    <label>{{localize "MYTHACRI.CRAFTING.RunesMaximum"}}</label>
+    <div class="form-fields">
+      <input type="number" name="flags.mythacri-scripts.runes.max" value="{{max}}" placeholder="0">
+    </div>
+    <p class="hint">{{localize "MYTHACRI.CRAFTING.RunesMaximumHint"}}</p>
+  </div>
   {{/if}}
-  <input type="checkbox" name="flags.mythacri-scripts.runes.enabled" {{checked enabled}}>
-</div>
+</fieldset>

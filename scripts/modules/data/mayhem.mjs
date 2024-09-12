@@ -4,9 +4,9 @@ import {MODULE} from "../constants.mjs";
 export class Mayhem extends foundry.abstract.DataModel {
   /** Initialize dnd5e hooks. */
   static init() {
-    Hooks.on("dnd5e.preUseItem", Mayhem.#preUseItem);
+    Hooks.on("dnd5e.preUseActivity", Mayhem.#preUseItem);
     Hooks.on("renderAbilityUseDialog", Mayhem.#renderAbilityUseDialog);
-    Hooks.on("dnd5e.preItemUsageConsumption", Mayhem.#preItemUsageConsumption);
+    Hooks.on("dnd5e.preActivityConsumption", Mayhem.#preItemUsageConsumption);
     Hooks.on("dnd5e.useItem", Mayhem.#useItem);
   }
 

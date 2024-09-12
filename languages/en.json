@@ -24,6 +24,13 @@
   "MYTHACRI.ConsumableRune": "Rune",
   "MYTHACRI.ConsumableSpirit": "Spirit",
   "MYTHACRI.ConsumableTypeOther": "Other Consumables",
+  "MYTHACRI.CRAFTING": {
+    "EnableRunes": "Enabled",
+    "ResourceConfiguration": "Resource Configuration",
+    "RuneConfiguration": "Rune Configuration",
+    "RunesMaximum": "Maximum Runes",
+    "RunesMaximumHint": "The number of runes that can be attached to this item."
+  },
   "MYTHACRI.Crafting": "Crafting",
   "MYTHACRI.CraftingApplyRune": "Apply Rune",
   "MYTHACRI.CraftingAvailable": "Available Recipes",

@@ -1,33 +1,45 @@
-<div class="form-group resource">
-  <label>{{localize "MYTHACRI.ResourceLabelType"}}</label>
-  <select name="flags.mythacri-scripts.resource.type" {{disabled disable}}>
-    {{selectOptions typeOptions selected=type labelAttr="label" localize=true sort=true blank="-"}}
-  </select>
-</div>
+<fieldset {{disabled disable}}>
+  <legend>{{localize "MYTHACRI.CRAFTING.ResourceConfiguration"}}</legend>
 
-{{#if hasSubtype}}
-<div class="form-group resource">
-  <label>{{localize subtypeLabel}}</label>
-  <select name="flags.mythacri-scripts.resource.subtype" {{disabled disable}}>
-    {{selectOptions subtypeOptions selected=subtype labelAttr="label" localize=true sort=true blank="-"}}
-  </select>
-</div>
-{{/if}}
+  <div class="form-group resource">
+    <label>{{localize "MYTHACRI.ResourceLabelType"}}</label>
+    <div class="form-fields">
+      <select name="flags.mythacri-scripts.resource.type">
+        {{selectOptions typeOptions selected=type labelAttr="label" localize=true sort=true blank="-"}}
+      </select>
+    </div>
+  </div>
 
-{{#if isMonster}}
-<div class="form-group resource">
-  <label>{{localize subsubtypeLabel}}</label>
-  <select name="flags.mythacri-scripts.resource.subsubtype" {{disabled disable}}>
-    {{selectOptions monsterPartOptions selected=subsubtype localize=true labelAttr="label" sort=true blank="-"}}
-  </select>
-</div>
-{{/if}}
+  {{#if hasSubtype}}
+  <div class="form-group resource">
+    <label>{{localize subtypeLabel}}</label>
+    <div class="form-fields">
+      <select name="flags.mythacri-scripts.resource.subtype">
+        {{selectOptions subtypeOptions selected=subtype labelAttr="label" localize=true sort=true blank="-"}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
 
-{{#if isEssence}}
-<div class="form-group resource">
-  <label>{{localize "MYTHACRI.ResourceEssenceGrade"}}</label>
-  <select name="flags.mythacri-scripts.resource.grade" data-dtype="Number" {{disabled disable}}>
-    {{selectOptions gradeOptions selected=grade}}
-  </select>
-</div>
-{{/if}}
+  {{#if isMonster}}
+  <div class="form-group resource">
+    <label>{{localize subsubtypeLabel}}</label>
+    <div class="form-fields">
+      <select name="flags.mythacri-scripts.resource.subsubtype">
+        {{selectOptions monsterPartOptions selected=subsubtype localize=true labelAttr="label" sort=true blank="-"}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if isEssence}}
+  <div class="form-group resource">
+    <label>{{localize "MYTHACRI.ResourceEssenceGrade"}}</label>
+    <div class="form-fields">
+      <select name="flags.mythacri-scripts.resource.grade" data-dtype="Number">
+        {{selectOptions gradeOptions selected=grade}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+</fieldset>

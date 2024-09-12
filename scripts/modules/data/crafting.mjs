@@ -19,6 +19,8 @@ export class Crafting {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Monster sub-subtypes. The parts that can be harvested for physical parts.
    * The 'uncommon' array contains a list of creature types from which this part is rarely or never found.
@@ -236,6 +238,8 @@ export class Crafting {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Gem subtypes.
    * @type {object}
@@ -270,6 +274,8 @@ export class Crafting {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Resource config.
    * @type {object}
@@ -299,6 +305,8 @@ export class Crafting {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Valid item types for having runes.
    * @type {Set<string>}
@@ -307,13 +315,15 @@ export class Crafting {
     return new Set(["equipment", "tool", "weapon"]);
   }
 
+  /* -------------------------------------------------- */
+
   /** Initialize crafting. */
   static init() {
-    Hooks.on("renderItemSheet", Crafting._renderItemSheet);
-    Hooks.on("renderActorSheet5eCharacter2", Crafting._renderCharacterSheet);
-    Hooks.on("dnd5e.preUseItem", Crafting._preUseItem);
-    Hooks.on("dnd5e.preRollAttack", Crafting._preRollAttack);
-    Crafting._characterFlags();
+    Hooks.on("renderItemSheet5e2", Crafting.#renderItemSheet);
+    Hooks.on("renderActorSheet5eCharacter2", Crafting.#renderCharacterSheet);
+    Hooks.on("dnd5e.preUseActivity", Crafting.#preUseItem);
+    Hooks.on("dnd5e.preRollAttackV2", Crafting.#preRollAttack);
+    Crafting.#characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
     DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
       types: ["mythacri-scripts.recipe"], makeDefault: true, label: "MYTHACRI.SheetRecipe"
@@ -327,89 +337,100 @@ export class Crafting {
     ]);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Inject module fields into item sheets.
    * @param {ItemSheet} sheet
    * @param {HTMLElement} html
    */
-  static async _renderItemSheet(sheet, [html]) {
+  static #renderItemSheet(sheet, [html]) {
     const type = sheet.document.type;
-    if (type === "loot") await Crafting._renderLootItemDropdowns(sheet, html);
-    else if (Crafting.validRuneItemTypes.has(type)) await Crafting._renderRunesData(sheet, html);
+    if (type === "loot") Crafting.#renderLootItemDropdowns(sheet, html);
+    else if (Crafting.validRuneItemTypes.has(type)) Crafting.#renderRunesData(sheet, html);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Render form group for runes.
    * @param {ItemSheet} sheet
    * @param {HTMLElement} html
    */
-  static async _renderRunesData(sheet, html) {
-    const node = html.querySelector("[name='system.proficient'], [name='system.armor.value']");
+  static async #renderRunesData(sheet, html) {
+    const node = html.querySelector(".tab.details fieldset");
     const data = sheet.document.flags[MODULE.ID]?.runes ?? {};
     const div = document.createElement("DIV");
     div.innerHTML = await renderTemplate("modules/mythacri-scripts/templates/parts/runes-item-property.hbs", data);
     div.querySelector("[type=number]")?.addEventListener("focus", event => event.currentTarget.select());
-    if (node?.name === "system.proficient") node.closest(".form-group").after(div.firstElementChild);
-    else if (node?.name === "system.armor.value") node.closest(".form-group").before(div.firstElementChild);
+    node.after(div.firstElementChild);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Inject dropdowns into loot item sheets for setting the resource type.
    * @param {ItemSheet} sheet
    * @param {HTMLElement} html
    */
-  static async _renderLootItemDropdowns(sheet, html) {
+  static async #renderLootItemDropdowns(sheet, html) {
     const data = sheet.document.getFlag(MODULE.ID, "resource") ?? {};
     const template = "modules/mythacri-scripts/templates/parts/resource-types.hbs";
     const div = document.createElement("DIV");
 
-    const templateData = Crafting.getTemplateData(data);
+    const templateData = Crafting.#getTemplateData(data);
     templateData.disable = !game.user.isGM;
 
     div.innerHTML = await renderTemplate(template, templateData);
-    html.querySelector(".item-properties").append(...div.children);
+    html.querySelector(".tab.details").append(...div.children);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Inject module elements into the character sheet.
    * @param {ActorSheet5eCharacter} sheet
    * @param {HTMLElement} html
    */
-  static async _renderCharacterSheet(sheet, [html]) {
+  static async #renderCharacterSheet(sheet, [html]) {
     // Render crafting buttons.
-    Crafting._renderCraftingTab(sheet, html);
+    Crafting.#renderCraftingTab(sheet, html);
 
     // Render rune configuration menus.
     if (game.modules.get("babonus")?.active) {
       for (const node of html.querySelectorAll(".tab.inventory .inventory-list .item")) {
         const item = sheet.document.items.get(node.closest("[data-item-id]")?.dataset.itemId);
-        if (Crafting.itemCanHaveRunes(item)) Crafting._renderRunesOnItem(item, node);
+        if (Crafting.itemCanHaveRunes(item)) Crafting.#renderRunesOnItem(item, node);
       }
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Inject crafting buttons into the character sheet.
    * @param {ActorSheet5eCharacter} sheet
    * @param {HTMLElement} html
    */
-  static async _renderCraftingTab(sheet, html) {
+  static async #renderCraftingTab(sheet, html) {
     const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
     const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
-    const active = sheet._tabs[0].active === "mythacri" ? "active" : "";
+    const active = (sheet._tabs[0].active === "mythacri") ? "active" : "";
     const div = document.createElement("DIV");
     div.innerHTML = await renderTemplate(template, {...buttons, active: active});
-    div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting._onClickCraft.bind(sheet)));
+    div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", Crafting.#onClickCraft.bind(sheet)));
     const body = html.querySelector(".tab-body");
     if (!body.querySelector(".tab.mythacri")) body.insertAdjacentElement("beforeend", div.firstElementChild);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Inject runes config button on each relevant item.
    * @param {Item5e} item
    * @param {HTMLElement}
    */
-  static async _renderRunesOnItem(item, html) {
+  static async #renderRunesOnItem(item, html) {
     const after = html.querySelector(".item-name");
     const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
     const div = document.createElement("DIV");
@@ -417,9 +438,11 @@ export class Crafting {
       return bonus.enabled && bonus.flags[MODULE.ID]?.isRune;
     }).length;
     div.innerHTML = await renderTemplate(template, {...item.flags[MODULE.ID].runes, value: value});
-    div.querySelector("[data-action]").addEventListener("click", Crafting._onClickRunesConfig.bind(item));
+    div.querySelector("[data-action]").addEventListener("click", Crafting.#onClickRunesConfig.bind(item));
     after.after(div.firstElementChild);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Return whether an item can have runes on it.
@@ -432,11 +455,13 @@ export class Crafting {
     return runes.enabled && Number.isNumeric(runes.max) && (runes.max > 0);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Render runes config for the given item.
    * @returns {null|RunesConfig}
    */
-  static _onClickRunesConfig() {
+  static #onClickRunesConfig() {
     const runes = babonus.getCollection(this).filter(bonus => bonus.flags[MODULE.ID]?.isRune);
     if (!runes.length) {
       ui.notifications.warn("MYTHACRI.CraftingNoRunesOnItem", {localize: true});
@@ -445,15 +470,19 @@ export class Crafting {
     return new RunesConfig(this).render(true);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle clicking a crafting button.
    * @param {PointerEvent} event        The initiating click event.
    * @returns {CraftingApplication}     The rendered crafting application.
    */
-  static _onClickCraft(event) {
+  static #onClickCraft(event) {
     const type = event.currentTarget.dataset.action;
     return new CraftingApplication(this.document, type).render(true);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Utility function for the template data of the triple dropdowns for resource items.
@@ -464,7 +493,7 @@ export class Crafting {
    * @param {number} [data.grade]           A stored spirit grade.
    * @returns {object}
    */
-  static getTemplateData(data = {}) {
+  static #getTemplateData(data = {}) {
     const typeOptions = Crafting.resourceTypes;
     const subtypeOptions = typeOptions[data.type]?.subtypes ?? {};
     const isEssence = (data.type === "essence") && (data.subtype in CONFIG.DND5E.creatureTypes);
@@ -485,6 +514,8 @@ export class Crafting {
     return templateData;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get the resource identifier from a loot-type item, e.g., 'monster.celestial.eye' or 'gem.ruby'.
    * @param {Item} item         The item with the identifier.
@@ -502,6 +533,8 @@ export class Crafting {
 
     return id;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this resource identifier valid?
@@ -523,6 +556,8 @@ export class Crafting {
     const validSubsub = ((subsubtype === "*") && allowWildCard) || (subsubtype in Crafting.subsubtypes);
     return validSubsub && (((subtype === "*") && allowWildCard) || (subtype in CONFIG.DND5E.creatureTypes));
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this item a valid match for this part of the recipe?
@@ -547,6 +582,8 @@ export class Crafting {
     return (type === "monster") ? ((subsubtype === isubsubtype) || (subsubtype === "*")) : true;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get a human-readable label from a resource identifier.
    * @param {string} id
@@ -554,10 +591,19 @@ export class Crafting {
    */
   static getLabel(id) {
     const [type, subtype, subsubtype] = id.split(".");
-    if (["gem", "essence"].includes(type)) return Crafting._getLabel(type, subtype);
-    if (type === "monster") return Crafting._getMonsterLabel(type, subtype, subsubtype);
+
+    switch (type) {
+      case "essence":
+      case "gem":
+        return Crafting.#getLabel(type, subtype);
+      case "monster":
+        return Crafting.#getMonsterLabel(type, subtype, subsubtype);
+    }
   }
-  static _getLabel(type, subtype) {
+
+  /* -------------------------------------------------- */
+
+  static #getLabel(type, subtype) {
     if (subtype === "*") return game.i18n.localize(`MYTHACRI.ResourceTypeLabel${type.capitalize()}Wildcard`);
     const types = Crafting.resourceTypes;
     return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, {
@@ -565,8 +611,11 @@ export class Crafting {
       subtype: game.i18n.localize(types[type].subtypes[subtype]?.label)
     });
   }
-  static _getMonsterLabel(type, subtype, subsubtype) {
-    if ((subtype === "*") && (subsubtype === "*")) return Crafting._getLabel(type, subtype);
+
+  /* -------------------------------------------------- */
+
+  static #getMonsterLabel(type, subtype, subsubtype) {
+    if ((subtype === "*") && (subsubtype === "*")) return Crafting.#getLabel(type, subtype);
 
     if (subtype === "*") {
       return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubtype", {
@@ -588,10 +637,12 @@ export class Crafting {
     return game.i18n.format("MYTHACRI.ResourceTypeLabelMonster", data);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Set up character flags for opting into crafting types.
    */
-  static _characterFlags() {
+  static #characterFlags() {
     for (const key of Object.keys(Crafting.recipeTypes)) {
       const label = key.capitalize();
       CONFIG.DND5E.characterFlags[`crafting.${key}`] = {
@@ -603,54 +654,64 @@ export class Crafting {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Cancel the use of a consumable item if it is a rune or bound spirit, then execute transfer behaviour.
    * @param {Item5e} item     The item being used.
    * @returns {void|boolean}
    */
-  static _preUseItem(item) {
-    const type = item.system.type;
-    if ((item.type !== "consumable") || !["rune", "spirit"].includes(type.value)) return;
+  static #preUseItem(item) {
+    if (item.type !== "consumable") return;
 
-    if (type.value === "rune") {
-      if (!game.modules.get("babonus")?.active) {
-        ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
-        return;
-      }
-      Crafting.promptRuneTransfer(item);
-      return false;
-    } else if (type.value === "spirit") {
-      Crafting.promptSpiritTransfer(item);
-      return false;
+    switch (item.system.type.value) {
+      case "rune":
+        if (!game.modules.get("babonus")?.active) {
+          ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
+          return;
+        }
+        Crafting.#promptRuneTransfer(item);
+        return false;
+      case "spirit":
+        Crafting.#promptSpiritTransfer(item);
+        return false;
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * When an item with a 'grade' is used for an attack roll, if the ability used (strength or dexterity) is
    * lower than the grade, set `@mod` to be equal to the grade.
-   * @param {Item5e} item     The item used for the attack roll.
-   * @param {object} config     The roll config.
+   * @param {object} config       Roll configuration.
+   * @param {object} dialog       Dialog configuration.
+   * @param {object} message      Message configurtation.
    */
-  static _preRollAttack(item, config) {
-    if ((item.type === "feat") && (item.system.type.value === "spiritTech")) {
-      const mod = item.abilityMod;
+  static #preRollAttack(config, dialog, message) {
+    const item = config.subject?.item;
+    if ((item?.type === "feat") && (item.system.type.value === "spiritTech")) {
+      const mod = config.subject.ability;
       const grade = item.flags[MODULE.ID]?.spiritGrade || 1;
-      if ((grade > config.data.mod) && ["str", "dex"].includes(mod)) config.data.mod = grade;
+      if (!["str", "dex"].includes(mod)) return;
+      for (const roll of config.rolls) roll.data.mod = Math.max(grade, roll.data.mod);
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Initiate the dialog to transfer a rune from the consumable to target item.
    * @param {Item5e} item                 The consumable rune's item.
    * @returns {Promise<Item5e|null>}      The targeted item receiving the rune.
    */
-  static async promptRuneTransfer(item) {
+  static async #promptRuneTransfer(item) {
     const targets = item.actor.items.reduce((acc, item) => {
       if (!Crafting.validRuneItemTypes.has(item.type)) return acc;
+      acc[item.type] ??= [];
       const {enabled, max} = item.flags[MODULE.ID]?.runes ?? {};
       if (enabled && (max > 0)) acc[item.type].push(item);
       return acc;
-    }, Object.fromEntries(Array.from(Crafting.validRuneItemTypes).map(type => [type, []])));
+    }, {});
 
     if (!Object.values(targets).some(v => v.length > 0)) {
       ui.notifications.warn("MYTHACRI.CraftingRuneTargetNoneAvailable", {localize: true});
@@ -663,31 +724,35 @@ export class Crafting {
       name: game.i18n.format("MYTHACRI.CraftingRuneBonus", {name: bonus.name})
     });
 
-    const itemId = await Dialog.prompt({
+    const itemId = await foundry.applications.api.DialogV2.prompt({
       content: await renderTemplate("modules/mythacri-scripts/templates/runes-target.hbs", {bonus, targets}),
-      title: game.i18n.localize("MYTHACRI.CraftingApplyRune"),
-      label: game.i18n.localize("MYTHACRI.CraftingApplyRune"),
       rejectClose: false,
-      callback: html => new FormDataExtended(html[0].querySelector("FORM")).object.itemId,
-      options: {id: `apply-rune-${item.uuid.replaceAll(".", "-")}`}
+      window: {title: "MYTHACRI.CraftingApplyRune"},
+      ok: {
+        label: "MYTHACRI.CraftingApplyRune",
+        callback: (event, button) => button.form.elements.itemId.value
+      },
+      position: {width: 400, height: "auto"}
     });
     if (!itemId) return null;
 
     const target = item.actor.items.get(itemId);
-    if (bonus.enabled) bonus.enabled = Crafting._determineSuppression(target);
+    if (bonus.enabled) bonus.enabled = Crafting.#determineSuppression(target);
     const rune = babonus.createBabonus(bonus);
-    await Crafting.reduceOrDestroyConsumable(item);
+    await Crafting.#reduceOrDestroyConsumable(item);
     return babonus.embedBabonus(target, rune);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prompt for using the bound spirit's item and transferring the held technique onto the owner.
    * @param {Item5e} item                 The item being used.
    * @returns {Promise<Item5e|null>}      The created item.
    */
-  static async promptSpiritTransfer(item) {
-    const data = item.flags[MODULE.ID];
-    const grade = data.spiritGrade || 1;
+  static async #promptSpiritTransfer(item) {
+    const data = foundry.utils.deepClone(item.flags[MODULE.ID] ?? {});
+    const grade = data.spiritGrade ||= 1;
     const recipe = data.recipeUuid;
     const existing = item.actor.items.find(item => {
       return (item.type === "feat") && (item.flags[MODULE.ID]?.recipeUuid === recipe);
@@ -707,9 +772,11 @@ export class Crafting {
       grade: grade.ordinalString()
     }) + "</p>";
     if (existing) content += `<p><em>${game.i18n.localize("MYTHACRI.CraftingConsumeSpiritItemHintReplace")}</em></p>`;
-    const confirm = await Dialog.confirm({
-      title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name}),
-      content: content
+    const confirm = await foundry.applications.api.DialogV2.confirm({
+      window: {title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name})},
+      content: content,
+      rejectClose: false,
+      position: {width: 400}
     });
     if (!confirm) return null;
     const itemData = game.items.fromCompendium(target);
@@ -718,41 +785,27 @@ export class Crafting {
       grade: grade.ordinalString()
     });
 
-    if (target.hasDamage) {
-      const parts = [];
-      for (const [formula, type] of target.toObject().system.damage.parts) {
-        const roll = new Roll(formula);
-        roll.dice.forEach(die => die.number += (grade - 1));
-        parts.push([roll.formula, type]);
-      }
-      itemData.system.damage.parts = parts;
-    }
-    if (target.hasSave) {
-      itemData.system.save.dc = dnd5e.utils.simplifyBonus(`10 + @prof + ${grade}`, item.getRollData({deterministic: true}));
-      itemData.system.save.scaling = "flat";
-    }
-    if (target.hasAreaTarget) {
-      itemData.system.target.value += (grade - 1) * 5;
-      if (["wall", "line"].includes(itemData.system.target.type)) {
-        itemData.system.target.width ||= 5;
-        itemData.system.target.width += (grade - 1) * 2.5;
-      }
-    } else if (target.hasIndividualTarget) itemData.system.target.value += grade - 1;
+    ChatMessage.implementation.create({
+      whisper: [game.user.id],
+      content: "Psst, scaling of damage and targeting doesn't work, so if the grade was 2+, you gotta adjust it yourself, sorry!"
+    });
 
     itemData.system.type.value = "spiritTech";
-    itemData.flags[MODULE.ID] = foundry.utils.deepClone(data);
+    itemData.flags[MODULE.ID] = data;
 
-    await Crafting.reduceOrDestroyConsumable(item);
+    await Crafting.#reduceOrDestroyConsumable(item);
     if (existing) await existing.delete();
     return Item.implementation.create(itemData, {parent: item.actor});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Set the enabled state of the rune depending on whether its addition would put the target item over the maximum.
    * @param {Item5e} item     The item receiving a rune.
    * @returns {boolean}       The enabled state.
    */
-  static _determineSuppression(item) {
+  static #determineSuppression(item) {
     const value = babonus.getCollection(item).filter(bonus => {
       return bonus.enabled && bonus.flags[MODULE.ID]?.isRune;
     }).length;
@@ -760,12 +813,14 @@ export class Crafting {
     return value < max;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Reduce the quantity of an item by 1. If that would reduce it to 0, delete it instead.
    * @param {Item5e} item           The item to modify or delete.
    * @returns {Promise<Item5e>}     The updated or deleted item.
    */
-  static async reduceOrDestroyConsumable(item) {
+  static async #reduceOrDestroyConsumable(item) {
     const qty = item.system.quantity;
     if (qty === 1) return item.delete();
     else return item.update({"system.quantity": qty - 1});
