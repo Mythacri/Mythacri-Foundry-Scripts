@@ -7,6 +7,7 @@ import combat from "./data/combat.mjs";
 import Crafting from "./data/crafting.mjs";
 import Encounter from "./data/encounter.mjs";
 import resting from "./data/resting.mjs";
+import settings from "./data/settings.mjs";
 import transfer from "./data/transfer.mjs";
 
 /**
@@ -23,6 +24,7 @@ export class PublicInterface {
       mayhem,
       resource: ResourcePopulator,
       resting,
+      settings,
       soundboard: Soundboard,
       transfer,
 

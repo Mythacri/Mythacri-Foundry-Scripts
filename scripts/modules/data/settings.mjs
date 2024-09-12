@@ -1,5 +1,7 @@
 import {MODULE} from "../constants.mjs";
 
+Hooks.once("init", _registerSettings);
+
 /** Data model for identifiers settings. */
 class IdentifiersSettingsModel extends foundry.abstract.DataModel {
   /** @override */
@@ -14,6 +16,8 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
     };
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Create a data model for nesting within the `SettingsModel`.
@@ -54,111 +58,122 @@ function IdentifiersSettingsModelMixin(properties, model) {
   return new foundry.data.fields.EmbeddedDataField(cls);
 }
 
+/* -------------------------------------------------- */
+
 /** Settings menu form for identifiers. */
-class IdentifiersSettingsMenu extends FormApplication {
+class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.ApplicationV2
+) {
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/mythacri-scripts/templates/settings-identifiers.hbs",
-      width: 500,
-      title: "MYTHACRI.SettingsIdentifiers",
-      id: "mythacri-scripts-settings-identifiers"
-    });
-  }
+  static DEFAULT_OPTIONS = {
+    position: {width: 500, height: "auto"},
+    window: {title: "MYTHACRI.SettingsIdentifiers"},
+    id: "mythacri-scripts-settings-identifiers",
+    tag: "form",
+    form: {
+      handler: IdentifiersSettingsMenu.#onSubmit,
+      closeOnSubmit: true
+    }
+  };
+
+  /* -------------------------------------------------- */
 
   /** @override */
-  async _updateObject(event, formData) {
-    return game.settings.set(MODULE.ID, "identifiers", foundry.utils.expandObject(formData));
-  }
+  static PARTS = {
+    form: {
+      template: "modules/mythacri-scripts/templates/settings-identifiers.hbs"
+    }
+  };
+
+  /* -------------------------------------------------- */
 
   /** @override */
-  async getData() {
-    const packs = this._getPackOptions();
-    const folders = this._getFolderOptions();
+  static async #onSubmit(event, form, formData) {
+    const data = foundry.utils.expandObject(formData.object);
+    game.settings.set(MODULE.ID, "identifiers", data);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareContext(options) {
+    const context = {options: {packs: {}, folders: {}}};
+
+    for (const pack of game.packs) {
+      if (pack.metadata.type !== "Item") continue;
+      context.options.packs[pack.metadata.id] = pack.metadata.label;
+    }
+
+    for (const folder of game.actors.folders) {
+      context.options.folders[folder.id] = folder.name;
+    }
+
     const model = game.settings.get(MODULE.ID, "identifiers");
-    return {
-      model: model,
-      source: model?.toObject() ?? {},
-      options: {packs, folders}
-    };
-  }
+    context.model = model;
+    context.source = model?.toObject?.() ?? {};
 
-  /**
-   * Get options for item compendium packs.
-   * @returns {object}
-   */
-  _getPackOptions() {
-    return game.packs.reduce((acc, pack) => {
-      if (pack.metadata.type !== "Item") return acc;
-      acc[pack.metadata.id] = pack.metadata.label;
-      return acc;
-    }, {});
-  }
-
-  /**
-   * Get options for actor folders.
-   * @returns {object}
-   */
-  _getFolderOptions() {
-    return game.folders.reduce((acc, folder) => {
-      if (folder.type !== "Actor") return acc;
-      acc[folder.id] = folder.name;
-      return acc;
-    }, {});
+    return context;
   }
 }
 
-/** Utility export class for settings. */
-export class Settings {
-  /** Initialize. */
-  static init() {
-    Settings._registerMenus();
-    Settings._register();
-  }
+/* -------------------------------------------------- */
 
-  /** Register settings. */
-  static _register() {
-    game.settings.register(MODULE.ID, "identifiers", {
-      config: false,
-      type: IdentifiersSettingsModel,
-      default: IdentifiersSettingsModel.schema.initial(),
-      scope: "world"
-    });
+/**
+ * Render the identifier settings menu.
+ * @returns {Promise<IdentifiersSettingsMenu>}
+ */
+async function create() {
+  return new IdentifiersSettingsMenu().render(true);
+}
 
-    /** Remember where the soundboard was last dragged. */
-    game.settings.register(MODULE.ID, "soundboard-position", {
-      config: false,
-      type: Object,
-      default: {},
-      scope: "client"
-    });
+/* -------------------------------------------------- */
 
-    /** Remember whether the soundboard was visible. */
-    game.settings.register(MODULE.ID, "soundboard-visibility", {
-      config: false,
-      type: Boolean,
-      default: false,
-      scope: "client"
-    });
+/** Register settings. */
+function _registerSettings() {
+  game.settings.register(MODULE.ID, "identifiers", {
+    config: false,
+    type: IdentifiersSettingsModel,
+    default: IdentifiersSettingsModel.schema.initial(),
+    scope: "world"
+  });
 
-    /** The current number of random encounter dice. */
-    game.settings.register(MODULE.ID, "encounter-dice", {
-      config: false,
-      type: Number,
-      default: 1,
-      scope: "world"
-    });
-  }
+  /** Remember where the soundboard was last dragged. */
+  game.settings.register(MODULE.ID, "soundboard-position", {
+    config: false,
+    type: Object,
+    default: {},
+    scope: "client"
+  });
+
+  /** Remember whether the soundboard was visible. */
+  game.settings.register(MODULE.ID, "soundboard-visibility", {
+    config: false,
+    type: Boolean,
+    default: false,
+    scope: "client"
+  });
+
+  /** The current number of random encounter dice. */
+  game.settings.register(MODULE.ID, "encounter-dice", {
+    config: false,
+    type: Number,
+    default: 1,
+    scope: "world"
+  });
 
   /** Register settings menus. */
-  static _registerMenus() {
-    game.settings.registerMenu(MODULE.ID, "identifiers", {
-      name: "MYTHACRI.SettingsIdentifiers",
-      hint: "MYTHACRI.SettingsIdentifiersHint",
-      label: "MYTHACRI.SettingsIdentifiersLabel",
-      icon: "fa-solid fa-id-card",
-      type: IdentifiersSettingsMenu,
-      restricted: true
-    });
-  }
+  game.settings.registerMenu(MODULE.ID, "identifiers", {
+    name: "MYTHACRI.SettingsIdentifiers",
+    hint: "MYTHACRI.SettingsIdentifiersHint",
+    label: "MYTHACRI.SettingsIdentifiersLabel",
+    icon: "fa-solid fa-id-card",
+    type: IdentifiersSettingsMenu,
+    restricted: true
+  });
 }
+
+/* -------------------------------------------------- */
+
+export default {
+  create
+};

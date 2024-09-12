@@ -1,6 +1,5 @@
 import {Auras} from "./modules/data/token-auras.mjs";
 import {PublicInterface} from "./modules/interface.mjs";
-import {Settings} from "./modules/data/settings.mjs";
 import {Soundboard} from "./modules/applications/soundboard.mjs";
 import {Storage} from "./modules/data/storage.mjs";
 import {SystemConfig} from "./modules/system-config.mjs";
@@ -14,7 +13,6 @@ Hooks.once("init", Crafting.init);
 Hooks.once("init", Encounter.init);
 Hooks.once("init", GameConfig.init);
 Hooks.once("init", PublicInterface.init);
-Hooks.once("init", Settings.init);
 Hooks.once("init", Soundboard.init);
 Hooks.once("init", Storage.init);
 Hooks.once("init", SystemConfig.init);
