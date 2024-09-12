@@ -1,5 +1,4 @@
 import {Auras} from "./modules/data/token-auras.mjs";
-import {Encounter} from "./modules/data/encounter.mjs";
 import {Mayhem} from "./modules/data/mayhem.mjs";
 import {PublicInterface} from "./modules/interface.mjs";
 import {Resting} from "./modules/data/resting.mjs";
@@ -8,6 +7,7 @@ import {Soundboard} from "./modules/applications/soundboard.mjs";
 import {Storage} from "./modules/data/storage.mjs";
 import {SystemConfig} from "./modules/system-config.mjs";
 import Crafting from "./modules/data/crafting.mjs";
+import Encounter from "./modules/data/encounter.mjs";
 import GameConfig from "./modules/game-config.mjs";
 import InitializeBehaviors from "./modules/data/models/behaviors.mjs";
 
