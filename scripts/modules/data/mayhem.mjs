@@ -1,4 +1,4 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 Hooks.on("dnd5e.preUseActivity", _preUseActivity);
 Hooks.on("renderActivityUsageDialog", _renderActivityUsageDialog);

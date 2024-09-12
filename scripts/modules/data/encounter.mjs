@@ -1,4 +1,4 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /** A GM-only application for rolling and prompting for random encounters. */
 export default class Encounter extends foundry.applications.api.HandlebarsApplicationMixin(

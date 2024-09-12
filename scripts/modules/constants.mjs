@@ -1,1 +1,3 @@
-export const MODULE = {ID: "mythacri-scripts"};
+export default {
+  ID: "mythacri-scripts"
+};

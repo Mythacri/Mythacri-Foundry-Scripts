@@ -1,7 +1,7 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /** Soundboard application for previewing and playing sound files. */
-export class Soundboard extends Application {
+export default class Soundboard extends Application {
   /**
    * Initialize the soundboard.
    */
@@ -9,6 +9,8 @@ export class Soundboard extends Application {
     if (!game.settings.get(MODULE.ID, "soundboard-visibility")) return;
     Hooks.once("ready", Soundboard.create);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Factory method for rendering an instance of this application.
@@ -20,6 +22,8 @@ export class Soundboard extends Application {
     return new Soundboard().render(true);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Destroy the current soundboard.
    * @returns {void}
@@ -28,6 +32,8 @@ export class Soundboard extends Application {
     game.settings.set(MODULE.ID, "soundboard-visibility", false);
     super.close();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Destroy the current soundboard, otherwise create and show a new one.
@@ -42,6 +48,8 @@ export class Soundboard extends Application {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * @constructor
    * @param {object} [options={}]     Rendering options.
@@ -50,6 +58,8 @@ export class Soundboard extends Application {
     super(options);
     this.path = game.settings.get(MODULE.ID, "identifiers").paths.soundboard;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static get defaultOptions() {
@@ -61,15 +71,21 @@ export class Soundboard extends Application {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async getData() {
     return {files: await this.getFiles()};
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   close() {
     return; // do not allow this application to be closed.
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   render(force = false, options = {}) {
@@ -79,6 +95,8 @@ export class Soundboard extends Application {
     options.left ??= pos.left;
     return super.render(force, options);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve all audio files from the set file path location.
@@ -95,6 +113,8 @@ export class Soundboard extends Application {
       return [];
     }
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
@@ -117,6 +137,8 @@ export class Soundboard extends Application {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Play the sound locally or globally.
    * @param {PointerEvent} event        The initiating click event.
@@ -127,6 +149,8 @@ export class Soundboard extends Application {
     const src = event.currentTarget.closest("[data-src]").dataset.src;
     return AudioHelper.play({src: src}, push);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Collapse the ui.

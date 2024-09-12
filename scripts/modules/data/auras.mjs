@@ -1,4 +1,4 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 Hooks.once("setup", _setupAuras);
 Hooks.on("renderTokenConfig", _onRenderTokenConfig);
@@ -159,5 +159,7 @@ function _onRenderTokenConfig(config, [html]) {
   div.innerHTML = `<div class="tab" data-tab="auras">${Handlebars.compile(template)(data)}</div>`;
   html.querySelector("footer").before(div.firstElementChild);
 }
+
+/* -------------------------------------------------- */
 
 export default {};

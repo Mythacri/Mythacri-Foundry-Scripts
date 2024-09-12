@@ -1,6 +1,8 @@
-import {MODULE} from "../../constants.mjs";
+import MODULE from "../../constants.mjs";
 
 const {BooleanField, HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
+
+/* -------------------------------------------------- */
 
 /**
  * Initialization function to register data models.
@@ -9,6 +11,8 @@ export default function initializeBehaviors() {
   CONFIG.RegionBehavior.dataModels[`${MODULE.ID}.trap`] = TrapData;
   CONFIG.RegionBehavior.typeIcons[`${MODULE.ID}.trap`] = "fa-solid fa-person-falling-burst";
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Behavior type that configures a trap that prompts a saving throw and deals damage.

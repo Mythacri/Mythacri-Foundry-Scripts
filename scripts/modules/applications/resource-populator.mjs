@@ -1,8 +1,8 @@
-import {MODULE} from "../constants.mjs";
 import Crafting from "../data/crafting.mjs";
-import {ResourcePopulatorModel} from "../data/models/resource-populator.mjs";
+import MODULE from "../constants.mjs";
+import ResourcePopulatorModel from "../data/models/resource-populator.mjs";
 
-export class ResourcePopulator extends FormApplication {
+export default class ResourcePopulator extends FormApplication {
   /** @override */
   static get defaultOptions() {
     const options = super.defaultOptions;
@@ -11,10 +11,14 @@ export class ResourcePopulator extends FormApplication {
     return options;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     return game.i18n.format("MYTHACRI.ResourcePopulatorTitle", {name: this.actor.name});
   }
+
+  /* -------------------------------------------------- */
 
   /** @constructor */
   constructor(actor, options = {}) {
@@ -31,6 +35,8 @@ export class ResourcePopulator extends FormApplication {
     this.model = new ResourcePopulatorModel(data);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Gather an object of uncommon options for this creature type.
    * @returns {object}
@@ -43,6 +49,8 @@ export class ResourcePopulator extends FormApplication {
     }
     return options;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   getData() {
@@ -71,6 +79,8 @@ export class ResourcePopulator extends FormApplication {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
@@ -79,6 +89,8 @@ export class ResourcePopulator extends FormApplication {
     });
     html[0].querySelector("[autofocus]")?.focus();
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _onChangeInput(event) {
@@ -94,11 +106,15 @@ export class ResourcePopulator extends FormApplication {
     this.render();
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   setPosition(pos = {}) {
     pos.height = "auto";
     return super.setPosition(pos);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _updateObject(event, formData) {
@@ -135,6 +151,8 @@ export class ResourcePopulator extends FormApplication {
     return this.actor.setFlag("simple-loot-list", "loot-list", list);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Utility function to split racial values.
    * @param {Actor5e} actor     The actor.
@@ -151,6 +169,8 @@ export class ResourcePopulator extends FormApplication {
     return races;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Utility function to split a string by '/'.
    * @param {string} str      The string to split.
@@ -163,6 +183,8 @@ export class ResourcePopulator extends FormApplication {
       return acc;
     }, []) ?? [];
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Factory method to create an instance of this application for several actors.

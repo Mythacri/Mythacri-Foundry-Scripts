@@ -1,9 +1,9 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /**
  * Application for managing runes on an item.
  */
-export class RunesConfig extends Application {
+export default class RunesConfig extends Application {
   /**
    * @constructor
    * @param {Item5e} item             The item with bonuses.
@@ -14,6 +14,8 @@ export class RunesConfig extends Application {
     this.item = item;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -23,15 +25,21 @@ export class RunesConfig extends Application {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get id() {
     return `runes-config-${this.item.uuid.replaceAll(".", "-")}`;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     return `${game.i18n.localize("MYTHACRI.CraftingRunesConfig")}: ${this.item.name}`;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getData() {
@@ -47,6 +55,8 @@ export class RunesConfig extends Application {
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare a bonus for rendering.
    * @param {Babonus} bonus
@@ -57,11 +67,15 @@ export class RunesConfig extends Application {
     return {bonus: bonus, text: text, enabled: bonus.enabled, name: bonus.name};
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   setPosition(pos = {}) {
     if (!pos.height) pos.height = "auto";
     return super.setPosition(pos);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async render(...args) {
@@ -69,11 +83,15 @@ export class RunesConfig extends Application {
     return super.render(...args);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async close(...args) {
     delete this.item.apps["runes-config"];
     return super.close(...args);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
@@ -83,11 +101,9 @@ export class RunesConfig extends Application {
     });
   }
 
-  /* ------------------------------------ */
-  /*                                      */
-  /*            Event Handlers            */
-  /*                                      */
-  /* ------------------------------------ */
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Handle clicking a 'toggle' button.

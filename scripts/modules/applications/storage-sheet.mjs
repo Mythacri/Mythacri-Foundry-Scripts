@@ -1,9 +1,9 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /**
  * Actor sheet for storage-type actors.
  */
-export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
+export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
   /** @override */
   static get defaultOptions() {
     const options = super.defaultOptions;
@@ -13,10 +13,14 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     return options;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get template() {
     return "modules/mythacri-scripts/templates/storage-sheet.hbs";
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * IDs for items on the sheet that have been expanded.
@@ -25,11 +29,15 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
    */
   _expanded = new Set();
 
+  /* -------------------------------------------------- */
+
   /**
    * A set of item types that should be prevented from being dropped on this type of actor sheet.
    * @type {Set<string>}
    */
   unsupportedItemTypes = new Set(["feat", "race", "class", "subclass", "background", "mythacri-scripts.recipe"]);
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getData(options = {}) {
@@ -65,6 +73,8 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     }
     return data;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prepare the data structure for items which appear on the actor sheet.
@@ -164,15 +174,21 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _onDropActor(event, data) {
     return false;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _onDropActiveEffect(event, data) {
     return false;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _onDropSingleItem(itemData) {
@@ -201,6 +217,8 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     return itemData;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onDropStackConsumables(itemData) {
     const stacked = super._onDropStackConsumables(itemData); // returns a Promise or null.
@@ -216,11 +234,15 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     return item.update({"system.quantity": item.system.quantity + Math.max(itemData.system.quantity, 1)});
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     html[0].querySelector("[data-action=capacity]").addEventListener("click", this._onConfig.bind(this));
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Render configuration menu for modifying attributes.

@@ -1,9 +1,9 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /**
  * Item sheet for recipe-type items.
  */
-export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
+export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -16,10 +16,14 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get template() {
     return "modules/mythacri-scripts/templates/recipe-sheet.hbs";
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getData(options = {}) {
@@ -48,11 +52,15 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return data;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   setPosition(pos = {}) {
     if (!pos.height && (this._tabs[0].active !== "description")) pos.height = "auto";
     return super.setPosition(pos);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Return an enriched content link if a target item is valid, otherwise null.
@@ -63,6 +71,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return target ? TextEditor.enrichHTML(target.link, {async: true}) : null;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _onDrop(event) {
     const target = event.currentTarget.dataset.action;
@@ -71,6 +81,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     if (target === "drop-target") return this._onDropTarget(data);
     else if (target === "drop-component") return this._onDropComponent(data);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle dropping an item onto the component item area.
@@ -86,6 +98,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return this.document.update({"system.crafting.components": components});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle dropping an item onto the target item area.
    * @param {object} data                 The drop data.
@@ -96,6 +110,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     if (!this.document.system.allowedTargetTypes.includes(item.type)) return;
     return this.document.update({"system.crafting.target.uuid": item.uuid});
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
@@ -115,6 +131,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle deleting a component.
    * @param {PointerEvent} event
@@ -127,6 +145,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return this.document.update({"system.crafting.components": components});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle adding a component.
    * @param {PointerEvent} event
@@ -138,6 +158,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return this.document.update({"system.crafting.components": components});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle clearing the target.
    * @param {PointerEvent} event
@@ -146,6 +168,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
   async _onClearTarget(event) {
     return this.document.update({"system.crafting.target": {uuid: "", quantity: null}});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle learning a recipe.
@@ -162,6 +186,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return actor;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle unlearning a recipe.
    * @param {PointerEvent} event      The initiating click event.
@@ -177,6 +203,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     return actor;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Render an actor's sheet when clicked.
    * @param {PointerEvent} event      The initiating click event.
@@ -186,6 +214,8 @@ export class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     const id = event.currentTarget.closest("[data-actor-id]").dataset.actorId;
     return game.actors.get(id).sheet.render(true);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Find what actors know this recipe, can learn this recipe, and cannot learn this recipe.

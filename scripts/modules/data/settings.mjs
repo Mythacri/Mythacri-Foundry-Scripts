@@ -1,6 +1,8 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 Hooks.once("init", _registerSettings);
+
+/* -------------------------------------------------- */
 
 /** Data model for identifiers settings. */
 class IdentifiersSettingsModel extends foundry.abstract.DataModel {

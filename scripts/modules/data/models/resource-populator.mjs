@@ -1,7 +1,9 @@
 const {SchemaField, BooleanField, StringField} = foundry.data.fields;
 
+/* -------------------------------------------------- */
+
 /** Utility model for holding and refreshing data when creating loot on an actor. */
-export class ResourcePopulatorModel extends foundry.abstract.DataModel {
+export default class ResourcePopulatorModel extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {

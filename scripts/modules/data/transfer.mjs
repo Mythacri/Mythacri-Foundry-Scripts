@@ -1,4 +1,4 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 Hooks.on("dnd5e.getItemContextOptions", _onGetItemContextOptions);
 Hooks.on("renderChatMessage", _onRenderChatMessage);

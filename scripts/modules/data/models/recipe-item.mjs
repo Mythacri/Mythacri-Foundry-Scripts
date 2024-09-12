@@ -1,6 +1,8 @@
-import {MODULE} from "../../constants.mjs";
+import MODULE from "../../constants.mjs";
 
 const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundry.data.fields;
+
+/* -------------------------------------------------- */
 
 /**
  * Data model for `recipe` items.

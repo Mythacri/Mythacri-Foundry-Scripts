@@ -1,5 +1,5 @@
-import {StorageSheet} from "../applications/storage-sheet.mjs";
-import {StorageData} from "./models/storage-actor.mjs";
+import StorageSheet from "../applications/storage-sheet.mjs";
+import StorageData from "./models/storage-actor.mjs";
 
 Hooks.once("init", _assign);
 Hooks.on("preCreateActiveEffect", _cancelEffectCreation);

@@ -1,8 +1,8 @@
-import {CraftingApplication} from "../applications/crafting-application.mjs";
-import {MODULE} from "../constants.mjs";
-import {RecipeSheet} from "../applications/recipe-sheet.mjs";
-import {RunesConfig} from "../applications/runes-config.mjs";
+import MODULE from "../constants.mjs";
+import CraftingApplication from "../applications/crafting-application.mjs";
 import RecipeData from "./models/recipe-item.mjs";
+import RecipeSheet from "../applications/recipe-sheet.mjs";
+import RunesConfig from "../applications/runes-config.mjs";
 
 /** Utility export class. */
 export default class Crafting {

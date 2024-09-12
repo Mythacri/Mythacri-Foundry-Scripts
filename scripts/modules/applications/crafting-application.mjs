@@ -1,9 +1,9 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /**
  * Main crafting application class to handle all types of crafting.
  */
-export class CraftingApplication extends Application {
+export default class CraftingApplication extends Application {
   /**
    * @constructor
    * @param {Actor5e} actor           The crafting actor.
@@ -15,6 +15,8 @@ export class CraftingApplication extends Application {
     this.actor = actor;
     this.type = type;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static get defaultOptions() {
@@ -28,15 +30,21 @@ export class CraftingApplication extends Application {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get id() {
     return `${this.type}-crafting-${this.actor.uuid.replaceAll(".", "-")}`;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     return game.i18n.localize(`MYTHACRI.CraftingSection${this.type.capitalize()}`) + ` (${this.actor.name})`;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Get the icon specific to this type of crafting.
@@ -50,6 +58,8 @@ export class CraftingApplication extends Application {
       spirit: "fire-flame-simple"
     }[this.type];
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getData() {
@@ -105,6 +115,8 @@ export class CraftingApplication extends Application {
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get the labels to display for the required components.
    * @param {Item5e} item     A recipe item.
@@ -122,6 +134,8 @@ export class CraftingApplication extends Application {
     }, "");
     return labels;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Get the details of a recipe and provide it in the selected area.
@@ -145,6 +159,8 @@ export class CraftingApplication extends Application {
     this._recipe = item;
     area.querySelector(".create").addEventListener("click", this._onCreate.bind(this));
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve all recipes that are of this type and that this actor has learned (or are basic).
@@ -179,6 +195,8 @@ export class CraftingApplication extends Application {
     }).sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does the actor have the needed components for this recipe?
    * @param {object} idx     The recipe retrieved from compendium index.
@@ -199,6 +217,8 @@ export class CraftingApplication extends Application {
     return true;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get a list of resource items that can be used as a component.
    * @param {Actor5e} actor         The actor holding the resources.
@@ -212,6 +232,8 @@ export class CraftingApplication extends Application {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get a list of resource items that can be used as a component.
    * @param {string} id             The resource identifier.
@@ -222,17 +244,23 @@ export class CraftingApplication extends Application {
     return this.constructor.getPossibleResources(this.actor, id, value);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   render(...args) {
     this.actor.apps[`crafting-${this.type}`] = this;
     return super.render(...args);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   close(...args) {
     delete this.actor.apps[`crafting-${this.type}`];
     return super.close(...args);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
@@ -248,11 +276,9 @@ export class CraftingApplication extends Application {
     });
   }
 
-  /* ------------------------------------ */
-  /*                                      */
-  /*            Event Handlers            */
-  /*                                      */
-  /* ------------------------------------ */
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Handle clicking a 'create' button.
@@ -269,6 +295,8 @@ export class CraftingApplication extends Application {
     return new CraftingHandler(this.actor, this.type, recipe).render(true);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Slide a description up or down.
    * @param {PointerEvent} event
@@ -277,6 +305,8 @@ export class CraftingApplication extends Application {
     event.currentTarget.closest(".recipe").classList.toggle("expanded");
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Subapplication to handle crafting of a single recipe.
@@ -296,6 +326,8 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     this.recipe = recipe;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -305,15 +337,21 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     return game.i18n.format("MYTHACRI.CraftingHandlerTitle", {name: this.recipe.name});
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get id() {
     return `crafting-handler-${this.recipe.id}-${this.actor.uuid.replaceAll(".", "-")}`;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getData() {
@@ -353,11 +391,15 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   setPosition(pos = {}) {
     if (!pos.height) pos.height = "auto";
     return super.setPosition(pos);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
@@ -371,11 +413,9 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     html[0].querySelectorAll(".craft").forEach(n => n.addEventListener("click", this._onClickCraft.bind(this)));
   }
 
-  /* ------------------------------------ */
-  /*                                      */
-  /*            Event Handlers            */
-  /*                                      */
-  /* ------------------------------------ */
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Set an item to be the assigned resource for this component.
@@ -387,6 +427,8 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     this.assigned[identifier] = (this.assigned[identifier] === item) ? null : item;
     this.render();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Finalize the crafting process using assigned resources.
@@ -430,6 +472,8 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     if (toCreate.length) await this.actor.createEmbeddedDocuments("Item", toCreate);
     if (updates.length) await this.actor.updateEmbeddedDocuments("Item", updates);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Generate item data. Handles the edge case for spiritbinding, which creates an intermediary item.
@@ -475,6 +519,8 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     });
     return data;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Get the highest grade from all essences used in the creation of this item.
