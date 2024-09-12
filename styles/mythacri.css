@@ -668,43 +668,25 @@
 /*                                */
 /* ------------------------------ */
 .mythacri-scripts.runes-config {
-  .content {
-    & header {
+  & h1 {
+    text-align: center;
+    font-size: 40px;
+  }
+
+  [data-bonus-id] {
+    & label {
       font-weight: bold;
-      font-size: 24px;
-      border-bottom: 2px groove black;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
     }
 
-    .bonus {
-      position: relative;
-      padding: 1em;
+    & a:has(.fa-toggle-off) {
+      opacity: 0.5;
+    }
 
-      &:last-child {
-        padding-bottom: 0;
-      }
-
-      & label {
-        font-weight: bold;
-        color: rgb(73, 73, 73);
-      }
-
-      & a {
-        position: absolute;
-        right: 1em;
-        top: 1em;
-
-        &:not([data-action]) {
-          color: gray;
-          pointer-events: none;
-        }
-      }
-
-      .notes {
-        font-style: italic;
-        padding: 0 1em;
-        margin: 1em 0;
-      }
+    & a:not([data-action]) {
+      pointer-events: none;
+      opacity: 0.2;
     }
   }
 }

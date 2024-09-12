@@ -28,7 +28,10 @@
     "ResourceConfiguration": "Resource Configuration",
     "RuneConfiguration": "Rune Configuration",
     "RunesMaximum": "Maximum Runes",
-    "RunesMaximumHint": "The number of runes that can be attached to this item."
+    "RunesMaximumHint": "The number of runes that can be attached to this item.",
+    "Warning": {
+      "NoRecipeUuid": "This item did somehow not originate from a recipe."
+    }
   },
   "MYTHACRI.MAYHEM": {
     "Action": "Mayhem Action",

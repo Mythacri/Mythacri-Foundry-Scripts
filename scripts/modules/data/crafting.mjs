@@ -321,7 +321,7 @@ export default class Crafting {
   static init() {
     Hooks.on("renderItemSheet5e2", Crafting.#renderItemSheet);
     Hooks.on("renderActorSheet5eCharacter2", Crafting.#renderCharacterSheet);
-    Hooks.on("dnd5e.preUseActivity", Crafting.#preUseItem);
+    Hooks.on("dnd5e.preDisplayCardV2", Crafting.#preUseItem);
     Hooks.on("dnd5e.preRollAttackV2", Crafting.#preRollAttack);
     Crafting.#characterFlags();
     Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
@@ -459,6 +459,7 @@ export default class Crafting {
 
   /**
    * Render runes config for the given item.
+   * @this {Item5e}
    * @returns {null|RunesConfig}
    */
   static #onClickRunesConfig() {
@@ -467,7 +468,7 @@ export default class Crafting {
       ui.notifications.warn("MYTHACRI.CraftingNoRunesOnItem", {localize: true});
       return null;
     }
-    return new RunesConfig(this).render(true);
+    return new RunesConfig({document: this}).render({force: true});
   }
 
   /* -------------------------------------------------- */
@@ -657,12 +658,12 @@ export default class Crafting {
   /* -------------------------------------------------- */
 
   /**
-   * Cancel the use of a consumable item if it is a rune or bound spirit, then execute transfer behaviour.
+   * Cancel the display of a consumable item if it is a rune or bound spirit, then execute transfer behaviour.
    * @param {Item5e} item     The item being used.
    * @returns {void|boolean}
    */
   static #preUseItem(item) {
-    if (item.type !== "consumable") return;
+    if ((item.type !== "consumable") || item.system.activities.size) return;
 
     switch (item.system.type.value) {
       case "rune":
@@ -754,9 +755,15 @@ export default class Crafting {
     const data = foundry.utils.deepClone(item.flags[MODULE.ID] ?? {});
     const grade = data.spiritGrade ||= 1;
     const recipe = data.recipeUuid;
-    const existing = item.actor.items.find(item => {
+
+    if (!recipe) {
+      ui.notifications.warn("MYTHACRI.CRAFTING.Warning.NoRecipeUuid", {localize: true});
+      return null;
+    }
+
+    const existing = recipe ? item.actor.items.find(item => {
       return (item.type === "feat") && (item.flags[MODULE.ID]?.recipeUuid === recipe);
-    });
+    }) : null;
 
     if (existing) {
       const eg = existing.flags[MODULE.ID].spiritGrade;
@@ -785,6 +792,7 @@ export default class Crafting {
       grade: grade.ordinalString()
     });
 
+    // TODO: tell mythacri to update all items to use `@item.flags.mythacri-scripts.spiritGrade`.
     ChatMessage.implementation.create({
       whisper: [game.user.id],
       content: "Psst, scaling of damage and targeting doesn't work, so if the grade was 2+, you gotta adjust it yourself, sorry!"

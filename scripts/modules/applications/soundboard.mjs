@@ -147,7 +147,7 @@ export default class Soundboard extends Application {
   _play(event) {
     const push = event.currentTarget.dataset.action === "play";
     const src = event.currentTarget.closest("[data-src]").dataset.src;
-    return AudioHelper.play({src: src}, push);
+    return foundry.audio.AudioHelper.play({src: src}, push);
   }
 
   /* -------------------------------------------------- */

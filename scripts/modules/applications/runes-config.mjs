@@ -3,102 +3,58 @@ import MODULE from "../constants.mjs";
 /**
  * Application for managing runes on an item.
  */
-export default class RunesConfig extends Application {
-  /**
-   * @constructor
-   * @param {Item5e} item             The item with bonuses.
-   * @param {object} [options={}]     Rendering options.
-   */
-  constructor(item, options = {}) {
-    super(options);
-    this.item = item;
-  }
+export default class RunesConfig extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.DocumentSheetV2
+) {
+  /** @override */
+  static DEFAULT_OPTIONS = {
+    classes: [MODULE.ID, "runes-config"],
+    position: {width: 400, height: "auto"},
+    id: "runes-config-{id}",
+    sheetConfig: false,
+    actions: {
+      toggle: RunesConfig.#toggle
+    }
+  };
 
   /* -------------------------------------------------- */
 
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/mythacri-scripts/templates/runes-config.hbs",
-      classes: [MODULE.ID, "runes-config"],
-      width: 400
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  get id() {
-    return `runes-config-${this.item.uuid.replaceAll(".", "-")}`;
-  }
+  static PARTS = {
+    form: {
+      template: "modules/mythacri-scripts/templates/runes-config.hbs"
+    }
+  };
 
   /* -------------------------------------------------- */
 
   /** @override */
   get title() {
-    return `${game.i18n.localize("MYTHACRI.CraftingRunesConfig")}: ${this.item.name}`;
+    return `${game.i18n.localize("MYTHACRI.CraftingRunesConfig")}: ${this.document.name}`;
   }
 
   /* -------------------------------------------------- */
 
   /** @override */
-  async getData() {
+  async _prepareContext(options) {
     const context = {};
-    context.bonuses = await Promise.all(babonus.getCollection(this.item).reduce((acc, bonus) => {
+
+    const prepareBonus = async(bonus) => {
+      const text = await TextEditor.enrichHTML(bonus.description, {async: true});
+      return {bonus: bonus, text: text, enabled: bonus.enabled, name: bonus.name};
+    };
+
+    context.bonuses = await Promise.all(babonus.getCollection(this.document).reduce((acc, bonus) => {
       const isRune = bonus.flags[MODULE.ID]?.isRune;
-      if (isRune) acc.push(this._prepareBonus(bonus));
+      if (isRune) acc.push(prepareBonus(bonus));
       return acc;
     }, []));
+
     context.value = context.bonuses.filter(bonus => bonus.enabled).length;
-    context.max = this.item.flags[MODULE.ID].runes.max;
-    this.atMax = context.atMax = context.value >= context.max;
+    context.max = this.document.flags[MODULE.ID].runes.max;
+    context.atMax = context.value >= context.max;
+
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare a bonus for rendering.
-   * @param {Babonus} bonus
-   * @returns {Promise<object>}
-   */
-  async _prepareBonus(bonus) {
-    const text = await TextEditor.enrichHTML(bonus.description, {async: true});
-    return {bonus: bonus, text: text, enabled: bonus.enabled, name: bonus.name};
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height) pos.height = "auto";
-    return super.setPosition(pos);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async render(...args) {
-    this.item.apps["runes-config"] = this;
-    return super.render(...args);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async close(...args) {
-    delete this.item.apps["runes-config"];
-    return super.close(...args);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html[0].querySelectorAll("[data-action=toggle]").forEach(n => {
-      n.addEventListener("click", this._onClickToggle.bind(this));
-    });
   }
 
   /* -------------------------------------------------- */
@@ -107,11 +63,12 @@ export default class RunesConfig extends Application {
 
   /**
    * Handle clicking a 'toggle' button.
-   * @param {PointerEvent} event
+   * @param {PointerEvent} event      Triggering click event.
+   * @param {HTMLElement} target      The element that defined the [data-action].
    */
-  async _onClickToggle(event) {
-    const id = event.currentTarget.closest("[data-bonus-id]").dataset.bonusId;
-    const bonus = babonus.getCollection(this.item).get(id);
+  static #toggle(event, target) {
+    const id = target.closest("[data-bonus-id]").dataset.bonusId;
+    const bonus = babonus.getCollection(this.document).get(id);
     bonus.toggle();
   }
 }

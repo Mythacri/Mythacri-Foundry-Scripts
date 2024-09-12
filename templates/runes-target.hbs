@@ -1,7 +1,7 @@
-<form class="dnd5e">
-  <p class="notes">{{localize "MYTHACRI.CraftingRuneTargetPick"}}</p>
+<fieldset>
   <p><strong>{{bonus.name}}</strong></p>
-  <p class="notification">{{{bonus.description}}}</p>
+  <div class="notification">{{{bonus.description}}}</div>
+  <hr>
   <div class="form-group">
     <label>{{localize "MYTHACRI.CraftingRuneTarget"}}</label>
     <div class="form-fields">
@@ -16,5 +16,6 @@
         {{/each}}
       </select>
     </div>
+    <p class="hint">{{localize "MYTHACRI.CraftingRuneTargetPick"}}</p>
   </div>
-</form>
+</fieldset>
