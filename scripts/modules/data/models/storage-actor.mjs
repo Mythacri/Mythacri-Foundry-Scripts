@@ -22,6 +22,8 @@ export class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     const cap = this.attributes.capacity;
@@ -31,9 +33,11 @@ export class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
       return acc + (item.system.weight || 0) * (item.system.quantity || 0);
     }, 0);
     this.attributes.capacity.value = Math.round(total);
-    this.attributes.capacity.pct = Math.round(Math.clamped(total / this.attributes.capacity.max, 0, 1) * 100);
+    this.attributes.capacity.pct = Math.round(Math.clamp(total / this.attributes.capacity.max, 0, 1) * 100);
     this.attributes.capacity.overflow = total > this.attributes.capacity.max;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preCreate(data, options, user) {
