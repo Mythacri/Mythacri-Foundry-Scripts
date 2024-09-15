@@ -826,3 +826,36 @@
     display: flex;
   }
 }
+
+/* ------------------------------ */
+/*                                */
+/*       RESOURCE POPULATOR       */
+/*                                */
+/* ------------------------------ */
+.mythacri-scripts.resource-populator {
+  & multi-checkbox {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  & fieldset:first-child {
+    flex: 1;
+  }
+
+  & fieldset:last-child {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    overflow: hidden auto;
+    row-gap: 0;
+    max-height: 300px;
+
+    .form-group {
+      flex-direction: column;
+      gap: 0;
+
+      & label {
+        font-size: 12px;
+        height: 14px;
+      }
+    }
+  }
+}

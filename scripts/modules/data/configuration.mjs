@@ -283,7 +283,7 @@ function _toolProficiencies() {
   };
 
   for (const [k, id] of Object.entries(toolIds)) {
-    CONFIG.DND5E.tools[k] = `${PREFIX}.${id}`;
+    CONFIG.DND5E.tools[k] = {ability: "dex", id: `${PREFIX}.${id}`};
   }
 }
 
