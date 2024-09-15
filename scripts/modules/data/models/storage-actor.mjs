@@ -30,15 +30,18 @@ export default class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
   prepareDerivedData() {
     const cap = this.attributes.capacity;
     const isQty = cap.type === "quantity";
-    const total = this.parent.items.reduce((acc, item) => {
-      if (isQty) return acc + (item.system.quantity || 0);
-      return acc + (item.system.weight || 0) * (item.system.quantity || 0);
-    }, 0);
+
+    let total = 0;
+
+    for (const item of this.parent.items) {
+      item.prepareFinalAttributes();
+      if (isQty) total += (item.system.quantity || 0);
+      else total += (item.system.weight?.value) * (item.system.quantity || 0);
+    }
+
     this.attributes.capacity.value = Math.round(total);
     this.attributes.capacity.pct = Math.round(Math.clamp(total / this.attributes.capacity.max, 0, 1) * 100);
     this.attributes.capacity.overflow = total > this.attributes.capacity.max;
-
-    this.parent.items.forEach(item => item.prepareFinalAttributes());
   }
 
   /* -------------------------------------------------- */
