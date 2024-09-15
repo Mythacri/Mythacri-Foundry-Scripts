@@ -23,7 +23,7 @@ async function populate(actor) {
   const content = () => {
     const types = model.schema.getField("types");
     const formulas = model.schema.getField("formulas");
-    const subsubtypes = mythacri.crafting.subsubtypes;
+    const subsubtypes = mythacri.crafting.TYPES.subsubtypes;
 
     let html = "<fieldset>";
 

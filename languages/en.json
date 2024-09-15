@@ -25,6 +25,15 @@
   "MYTHACRI.ConsumableTypeOther": "Other Consumables",
   "MYTHACRI.CRAFTING": {
     "EnableRunes": "Enabled",
+    "RECIPE": {
+      "Alchemy": "Alchemical Recipe",
+      "Cooking": "Cooking Recipe",
+      "Monster": "Monster Crafting Recipe",
+      "Rune": "Rune Carving Recipe",
+      "Spirit": "Spirit Binding Recipe",
+      "SHEET": "Mythacri Recipe Sheet",
+      "TAB": "Crafting"
+    },
     "ResourceConfiguration": "Resource Configuration",
     "RuneConfiguration": "Rune Configuration",
     "RunesMaximum": "Maximum Runes",
@@ -78,10 +87,6 @@
   "MYTHACRI.CraftingHandlerTitle": "Recipe: {name}",
   "MYTHACRI.CraftingMissingComponents": "You do not have all the needed components to create this item.",
   "MYTHACRI.CraftingNoRunesOnItem": "This item has no runes applied.",
-  "MYTHACRI.CraftingRecipeCooking": "Cooking Recipe",
-  "MYTHACRI.CraftingRecipeMonster": "Monster Crafting Recipe",
-  "MYTHACRI.CraftingRecipeRune": "Rune Carving Recipe",
-  "MYTHACRI.CraftingRecipeSpirit": "Spirit Binding Recipe",
   "MYTHACRI.CraftingRuneBonus": "Rune: {name}",
   "MYTHACRI.CraftingRunes": "Runes",
   "MYTHACRI.CraftingRunesConfig": "Rune Configuration",

@@ -165,7 +165,7 @@ export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e 
     context.gear = [items.weapons, items.armors, items.equipment, items.containers, items.tools];
     context.consumables = Object.keys(CONFIG.DND5E.consumableTypes).map(k => items[k]).concat([items["consumable-other"]]);
     context.loot = Object.keys(CONFIG.DND5E.lootTypes).map(k => items[k]).concat([items["loot-other"]]);
-    context.resources = Object.keys(mythacri.crafting.resourceTypes).map(k => items[`resource-${k}`]);
+    context.resources = Object.keys(mythacri.crafting.TYPES.resourceTypes).map(k => items[`resource-${k}`]);
     ["gear", "consumables", "loot", "resources"].forEach(k => context[k] = context[k].filter(u => u));
     for (const k in items) items[k].items.sort((a, b) => {
       const diff = a.sort - b.sort;

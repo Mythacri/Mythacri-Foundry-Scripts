@@ -6,7 +6,7 @@ const {SchemaField, SetField, StringField} = foundry.data.fields;
 export default class ResourcePopulatorModel extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
-    const types = mythacri.crafting.subsubtypes;
+    const types = mythacri.crafting.TYPES.subsubtypes;
     return {
       types: new SetField(new StringField()),
       formulas: new SchemaField(Object.keys(types).reduce((acc, key) => {

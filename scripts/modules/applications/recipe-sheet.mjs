@@ -28,7 +28,7 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
   /** @override */
   async getData(options = {}) {
     const data = await super.getData(options);
-    data.recipeTypes = mythacri.crafting.recipeTypes;
+    data.recipeTypes = mythacri.crafting.TYPES.recipeTypes;
     data.recipeTarget = await this._validTargetItemLink();
     data.invalidTarget = !!this.document.system.crafting.target.uuid && !data.recipeTarget;
     data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";

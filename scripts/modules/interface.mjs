@@ -2,7 +2,7 @@ import auras from "./data/auras.mjs";
 import award from "./data/award.mjs";
 import combat from "./data/combat.mjs";
 import configuration from "./data/configuration.mjs";
-import Crafting from "./data/crafting.mjs";
+import crafting from "./data/crafting.mjs";
 import Encounter from "./data/encounter.mjs";
 import mayhem from "./data/mayhem.mjs";
 import RecipeData from "./data/models/recipe-item.mjs";
@@ -24,7 +24,7 @@ export default class PublicInterface {
       award,
       combat,
       configuration,
-      crafting: Crafting,
+      crafting: crafting,
       encounter: Encounter,
       mayhem,
       resource,
