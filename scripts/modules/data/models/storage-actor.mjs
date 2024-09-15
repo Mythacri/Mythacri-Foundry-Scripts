@@ -37,6 +37,8 @@ export default class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
     this.attributes.capacity.value = Math.round(total);
     this.attributes.capacity.pct = Math.round(Math.clamp(total / this.attributes.capacity.max, 0, 1) * 100);
     this.attributes.capacity.overflow = total > this.attributes.capacity.max;
+
+    this.parent.items.forEach(item => item.prepareFinalAttributes());
   }
 
   /* -------------------------------------------------- */
