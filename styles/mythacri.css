@@ -374,8 +374,8 @@
             }
 
             .image {
-              width: calc(var(--recipe-height) + 45x);
-              height: calc(var(--recipe-height) + 45px);
+              width: var(--recipe-height);
+              height: var(--recipe-height);
               border-radius: 10px;
               border: 2px inset gray;
             }

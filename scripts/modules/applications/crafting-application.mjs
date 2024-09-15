@@ -104,12 +104,18 @@ export default class CraftingApplication extends Application {
     context.type = this.type;
 
     if (this._recipe) {
+      const uuid = this._recipe.system.crafting.target.uuid;
       context.recipe = {
         text: await TextEditor.enrichHTML(this._recipe.system.description.value, {async: true}),
         labels: this._getRecipeLabels(this._recipe),
         icon: this.icon,
         uuid: this._recipe.uuid,
-        item: fromUuidSync(this._recipe.system.crafting.target.uuid)
+        item: fromUuidSync(uuid),
+        tooltip: `
+        <section class='loading' data-uuid='${uuid}'>
+          <i class='fas fa-spinner fa-spin-pulse'></i>
+        </section>`,
+        tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip"
       };
     }
     return context;
@@ -151,8 +157,14 @@ export default class CraftingApplication extends Application {
       uuid: uuid,
       icon: this.icon,
       text: await TextEditor.enrichHTML(item.system.description.value, {async: true}),
-      item: await fromUuid(item.system.crafting.target.uuid)
+      item: await fromUuid(item.system.crafting.target.uuid),
+      tooltip: `
+      <section class='loading' data-uuid='${item.system.crafting.target.uuid}'>
+        <i class='fas fa-spinner fa-spin-pulse'></i>
+      </section>`,
+      tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip"
     };
+
     const template = "modules/mythacri-scripts/templates/parts/crafting-selected.hbs";
     area.childNodes.forEach(n => n.remove());
     area.innerHTML = await renderTemplate(template, {recipe: templateData});
