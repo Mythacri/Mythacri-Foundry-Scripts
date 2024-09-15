@@ -1,16 +1,40 @@
 import MODULE from "../constants.mjs";
 
+Hooks.on("renderChatMessage", _renderChatMessage);
+
+/* -------------------------------------------------- */
+
+/**
+ * Hook onto chat message rendering to add event listener to the prompt button.
+ * @param {ChatMessage} message     The rendered chat message.
+ * @param {HTMLElement} html        The element of the chat message.
+ */
+function _renderChatMessage(message, [html]) {
+  html.querySelectorAll("[data-action='roll-encounter']").forEach(n => {
+    n.addEventListener("click", _roll);
+  });
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Create the d12 roll from the prompt.
+ * @param {PointerEvent} event      The initiating click event.
+ */
+async function _roll(event) {
+  event.currentTarget.disabled = true;
+  Roll.create("1d12").toMessage({
+    flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`,
+    "flags.mythacri-scripts.encounter": true
+  });
+}
+
+/* -------------------------------------------------- */
+
 /** A GM-only application for rolling and prompting for random encounters. */
 export default class Encounter extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
 ) {
-  /** Initialize module. */
-  static init() {
-    Hooks.on("renderChatMessage", Encounter.renderChatMessage);
-  }
-
-  /* -------------------------------------------------- */
-
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: [MODULE.ID, "encounter"],
@@ -108,35 +132,6 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
       content: await renderTemplate("modules/mythacri-scripts/templates/encounter-prompt.hbs", {
         amount: game.settings.get(MODULE.ID, "encounter-dice")
       })
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Hook onto chat message rendering to add event listener to the prompt button.
-   * @param {ChatMessage} message     The rendered chat message.
-   * @param {HTMLElement} html        The element of the chat message.
-   */
-  static renderChatMessage(message, [html]) {
-    html.querySelectorAll("[data-action='roll-encounter']").forEach(n => {
-      n.addEventListener("click", Encounter.#roll.bind(Encounter));
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create the d12 roll from the prompt.
-   * @this {Encounter}
-   * @param {PointerEvent} event          The initiating click event.
-   * @returns {Promise<ChatMessage>}      The created chat message.
-   */
-  static async #roll(event) {
-    event.currentTarget.disabled = true;
-    Roll.create("1d12").toMessage({
-      flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`,
-      "flags.mythacri-scripts.encounter": true
     });
   }
 

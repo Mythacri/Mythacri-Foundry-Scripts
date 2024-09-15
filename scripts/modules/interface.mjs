@@ -24,7 +24,7 @@ export default class PublicInterface {
       award,
       combat,
       configuration,
-      crafting: crafting,
+      crafting,
       encounter: Encounter,
       mayhem,
       resource,
