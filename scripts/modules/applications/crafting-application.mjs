@@ -66,7 +66,7 @@ export default class CraftingApplication extends Application {
     const context = {};
     context.recipes = await this.getAvailableRecipes();
     context.recipes = context.recipes.map(idx => {
-      const components = mythacri.dataModels.RecipeData.getComponents(idx.system.crafting.components);
+      const components = mythacri.dataModels.item.RecipeData.getComponents(idx.system.crafting.components);
       const labels = Object.entries(components).map(([id, qty]) => {
         const items = this.getPossibleResources(id);
         const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
@@ -193,17 +193,17 @@ export default class CraftingApplication extends Application {
     })).filter(idx => {
       const isType = (idx.type === "mythacri-scripts.recipe") && (idx.system.type.value === this.type);
       if (!isType) return false;
-      const hasT = mythacri.dataModels.RecipeData.hasTarget(idx.system.crafting.target.uuid);
+      const hasT = mythacri.dataModels.item.RecipeData.hasTarget(idx.system.crafting.target.uuid);
       if (!hasT) {
         console.warn(`Recipe item '${idx.name}' has no valid target.`);
         return false;
       }
-      const hasC = mythacri.dataModels.RecipeData.hasComponents(idx.system.crafting.components);
+      const hasC = mythacri.dataModels.item.RecipeData.hasComponents(idx.system.crafting.components);
       if (!hasC) {
         console.warn(`Recipe item '${idx.name}' has no valid components.`);
         return false;
       }
-      return mythacri.dataModels.RecipeData.knowsRecipe(this.actor, idx._id, idx.system.type.value, idx.system.crafting.basic);
+      return mythacri.dataModels.item.RecipeData.knowsRecipe(this.actor, idx._id, idx.system.type.value, idx.system.crafting.basic);
     }).sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -215,7 +215,7 @@ export default class CraftingApplication extends Application {
    * @returns {boolean}
    */
   canCreateRecipe(idx) {
-    const components = mythacri.dataModels.RecipeData.getComponents(idx.system.crafting.components);
+    const components = mythacri.dataModels.item.RecipeData.getComponents(idx.system.crafting.components);
     const resources = this.actor.items.reduce((acc, item) => {
       const validFor = Object.keys(components).find(id => mythacri.crafting.validResourceForComponent(item, id));
       if (validFor) acc[validFor] = Math.max(acc[validFor] ?? 0, item.system.quantity);

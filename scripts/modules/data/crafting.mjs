@@ -327,7 +327,7 @@ Hooks.once("init", () => {
   DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
     types: ["mythacri-scripts.recipe"],
     makeDefault: true,
-    label: "MYTHACRI.CRAFTING.RECIPE.SHEET"
+    label: "MYTHACRI.CRAFTING.SHEET"
   });
   dnd5e.applications.actor.ActorSheet5eCharacter2.TABS.push({
     label: "MYTHACRI.CRAFTING.TAB",
@@ -840,7 +840,7 @@ async function _reduceOrDestroyConsumable(item) {
 /* -------------------------------------------------- */
 
 export default {
-  types: TYPES,
+  TYPES: TYPES,
   getIdentifier,
   getLabel,
   itemCanHaveRunes,

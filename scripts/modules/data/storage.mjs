@@ -29,4 +29,6 @@ function _cancelEffectCreation(effect) {
 
 /* -------------------------------------------------- */
 
-export default {};
+export default {
+  StorageData
+};

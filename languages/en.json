@@ -30,10 +30,10 @@
       "Cooking": "Cooking Recipe",
       "Monster": "Monster Crafting Recipe",
       "Rune": "Rune Carving Recipe",
-      "Spirit": "Spirit Binding Recipe",
-      "SHEET": "Mythacri Recipe Sheet",
-      "TAB": "Crafting"
+      "Spirit": "Spirit Binding Recipe"
     },
+    "SHEET": "Mythacri Recipe Sheet",
+    "TAB": "Crafting",
     "ResourceConfiguration": "Resource Configuration",
     "RuneConfiguration": "Rune Configuration",
     "RunesMaximum": "Maximum Runes",

@@ -5,7 +5,7 @@ import configuration from "./data/configuration.mjs";
 import crafting from "./data/crafting.mjs";
 import Encounter from "./data/encounter.mjs";
 import mayhem from "./data/mayhem.mjs";
-import RecipeData from "./data/models/recipe-item.mjs";
+import models from "./data/models/_module.mjs";
 import resource from "./applications/resource-populator.mjs";
 import resting from "./data/resting.mjs";
 import settings from "./data/settings.mjs";
@@ -34,9 +34,7 @@ export default class PublicInterface {
       storage,
       transfer,
 
-      dataModels: {
-        RecipeData: RecipeData
-      }
+      dataModels: models
     };
   }
 }
