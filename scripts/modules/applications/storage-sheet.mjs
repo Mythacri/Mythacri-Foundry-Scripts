@@ -130,7 +130,7 @@ export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e 
           label = CONFIG.DND5E.consumableTypes[ct].label;
         } else {
           category = "consumable-other";
-          label = "MYTHACRI.ConsumableTypeOther";
+          label = "MYTHACRI.STORAGE.ConsumableTypeOther";
         }
       } else if (item.type === "loot") {
         const id = mythacri.crafting.getIdentifier(item);
@@ -145,7 +145,7 @@ export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e 
             label = CONFIG.DND5E.lootTypes[lt].label;
           } else {
             category = "loot-other";
-            label = "MYTHACRI.LootTypeOther";
+            label = "MYTHACRI.STORAGE.LootTypeOther";
           }
         }
       }

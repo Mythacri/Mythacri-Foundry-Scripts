@@ -12,7 +12,7 @@ Hooks.on("preCreateActiveEffect", _cancelEffectCreation);
 function _assign() {
   Object.assign(CONFIG.Actor.dataModels, {"mythacri-scripts.storage": StorageData});
   DocumentSheetConfig.registerSheet(Actor, "mythacri-scripts", StorageSheet, {
-    types: ["mythacri-scripts.storage"], makeDefault: true, label: "MYTHACRI.SheetStorage"
+    types: ["mythacri-scripts.storage"], makeDefault: true, label: "MYTHACRI.STORAGE.SheetLabel"
   });
 }
 

@@ -2,20 +2,5 @@
   <p><strong>{{bonus.name}}</strong></p>
   <div class="notification">{{{bonus.description}}}</div>
   <hr>
-  <div class="form-group">
-    <label>{{localize "MYTHACRI.CraftingRuneTarget"}}</label>
-    <div class="form-fields">
-      <select name="itemId">
-        <option>&mdash;</option>
-        {{#each targets as |items key|}}
-        {{#if items.length}}
-        <optgroup label="{{localize (concat 'TYPES.Item.' key 'Pl')}}">
-          {{selectOptions items labelAttr="name" nameAttr="id" sort=true}}
-        </optgroup>
-        {{/if}}
-        {{/each}}
-      </select>
-    </div>
-    <p class="hint">{{localize "MYTHACRI.CraftingRuneTargetPick"}}</p>
-  </div>
+  {{formGroup field localize=true name="itemId"}}
 </fieldset>

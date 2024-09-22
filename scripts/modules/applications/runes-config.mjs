@@ -30,7 +30,7 @@ export default class RunesConfig extends foundry.applications.api.HandlebarsAppl
 
   /** @override */
   get title() {
-    return `${game.i18n.localize("MYTHACRI.CraftingRunesConfig")}: ${this.document.name}`;
+    return `${game.i18n.localize("MYTHACRI.CRAFTING.RUNE.Configure")}: ${this.document.name}`;
   }
 
   /* -------------------------------------------------- */

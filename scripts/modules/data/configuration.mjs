@@ -168,8 +168,8 @@ function _conditions() {
 
 /** Merge in new consumable types. */
 function _consumableTypes() {
-  CONFIG.DND5E.consumableTypes.rune = {label: "MYTHACRI.ConsumableRune"};
-  CONFIG.DND5E.consumableTypes.spirit = {label: "MYTHACRI.ConsumableSpirit"};
+  CONFIG.DND5E.consumableTypes.rune = {label: "MYTHACRI.CRAFTING.ConsumableType.Rune"};
+  CONFIG.DND5E.consumableTypes.spirit = {label: "MYTHACRI.CRAFTING.ConsumableType.Spirit"};
 }
 
 /* -------------------------------------------------- */

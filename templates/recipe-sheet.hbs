@@ -17,9 +17,9 @@
       <ul class="summary flexrow">
         <li>
           {{#if system.crafting.basic}}
-          {{localize "MYTHACRI.ItemRecipeBasic"}}
+          {{localize "MYTHACRI.CRAFTING.SHEET.Basic"}}
           {{else}}
-          {{localize "MYTHACRI.ItemRecipeAdvanced"}}
+          {{localize "MYTHACRI.CRAFTING.SHEET.Advanced"}}
           {{/if}}
         </li>
         <li>
@@ -38,7 +38,7 @@
   <nav class="sheet-navigation tabs" data-group="primary">
     <a class="item active" data-tab="description">{{localize "DND5E.Description"}}</a>
     <a class="item" data-tab="details">{{localize "DND5E.Details"}}</a>
-    <a class="item" data-tab="learning">{{localize "MYTHACRI.ItemRecipeLearning"}}</a>
+    <a class="item" data-tab="learning">{{localize "MYTHACRI.CRAFTING.SHEET.Learning"}}</a>
   </nav>
 
   {{!-- Item Sheet Body --}}
@@ -64,18 +64,18 @@
     <div class="tab details" data-group="primary" data-tab="details">
       {{!-- Recipe Status --}}
       <div class="form-group stacked">
-        <label>{{localize "MYTHACRI.ItemRecipeStatus"}}</label>
+        <label>{{localize "MYTHACRI.CRAFTING.SHEET.RecipeStatus"}}</label>
         <div class="form-fields recipe-status">
           <label class="checkbox">
             <input type="checkbox" name="system.crafting.basic" {{checked system.crafting.basic}}>
-            {{localize "MYTHACRI.ItemRecipeBasic"}}
+            {{localize "MYTHACRI.CRAFTING.SHEET.Basic"}}
           </label>
         </div>
       </div>
 
       {{!-- Recipe Type --}}
       <div class="form-group">
-        <label>{{ localize "MYTHACRI.ItemRecipeType" }}</label>
+        <label>{{ localize "MYTHACRI.CRAFTING.SHEET.RecipeType" }}</label>
         <select name="system.type.value">
           {{selectOptions recipeTypes selected=system.type.value localize=true blank=""}}
         </select>
@@ -83,7 +83,7 @@
 
       {{!-- Target --}}
       <h4 class="target-header" data-action="drop-target">
-        {{localize "MYTHACRI.ItemRecipeTarget"}}
+        {{localize "MYTHACRI.CRAFTING.SHEET.CreatedItem"}}
       </h4>
       <ol class="recipe-targets form-group" data-action="drop-target">
         <li class="recipe-target flexrow">
@@ -93,7 +93,7 @@
           {{else}}
           <input type="text" name="system.crafting.target.uuid" value="{{system.crafting.target.uuid}}">
           {{#if invalidTarget}}
-          <span class="component-warn" data-tooltip="MYTHACRI.ItemRecipeTargetWarn">
+          <span class="component-warn" data-tooltip="MYTHACRI.CRAFTING.SHEET.Warning.InvalidTarget">
             <i class="fa-solid fa-triangle-exclamation"></i>
           </span>
           {{/if}}
@@ -104,7 +104,7 @@
 
       {{!-- Components --}}
       <h4 class="components-header" data-action="drop-component">
-        {{localize "MYTHACRI.ItemRecipeComponents"}}
+        {{localize "MYTHACRI.CRAFTING.SHEET.Components"}}
         <a data-action="add-component"><i class="fa-solid fa-plus"></i></a>
       </h4>
       <ol class="recipe-components form-group" data-action="drop-component">
@@ -113,7 +113,7 @@
           <input type="number" name="system.crafting.components.{{idx}}.quantity" value="{{qty}}" min="1" placeholder="1">
           <input type="text" name="system.crafting.components.{{idx}}.identifier" value="{{value}}">
           {{#unless valid}}
-          <span class="component-warn" data-tooltip="MYTHACRI.ItemRecipeComponentWarn">
+          <span class="component-warn" data-tooltip="MYTHACRI.CRAFTING.SHEET.Warning.InvalidComponent">
             <i class="fa-solid fa-triangle-exclamation"></i>
           </span>
           {{/unless}}
@@ -126,13 +126,13 @@
     {{!-- Learning Tab --}}
     <div class="tab learning" data-group="primary" data-tab="learning">
       {{#if system.crafting.basic}}
-      <p class="notification">{{localize "MYTHACRI.ItemRecipeLearningBasic"}}</p>
+      <p class="notification">{{localize "MYTHACRI.CRAFTING.SHEET.BasicHint"}}</p>
       {{else}}
       <ol class="items-list">
         <li class="items-header flexrow">
           <h3 class="item-name flexrow">
-            {{localize "MYTHACRI.ItemRecipeLearned"}}
-            <a data-action="refresh" data-tooltip="MYTHACRI.Refresh"><i class="fa-solid fa-rotate-right"></i></a>
+            {{localize "MYTHACRI.CRAFTING.SHEET.Learned"}}
+            <a data-action="refresh" data-tooltip="MYTHACRI.CRAFTING.SHEET.Refresh"><i class="fa-solid fa-rotate-right"></i></a>
           </h3>
         </li>
         <ol class="item-list">
@@ -149,7 +149,7 @@
           {{/each}}
         </ol>
         <li class="items-header flexrow">
-          <h3 class="item-name flexrow">{{localize "MYTHACRI.ItemRecipeLearners"}}</h3>
+          <h3 class="item-name flexrow">{{localize "MYTHACRI.CRAFTING.SHEET.CanLearn"}}</h3>
         </li>
         <ol class="item-list">
           {{#each learners}}
@@ -165,7 +165,7 @@
           {{/each}}
         </ol>
         <li class="items-header flexrow">
-          <h3 class="item-name flexrow">{{localize "MYTHACRI.ItemRecipeUnlearned"}}</h3>
+          <h3 class="item-name flexrow">{{localize "MYTHACRI.CRAFTING.SHEET.CannotLearn"}}</h3>
         </li>
         <ol class="item-list">
           {{#each unlearned}}

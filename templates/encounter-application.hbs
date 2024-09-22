@@ -1,6 +1,6 @@
 <div class="standard-form">
   <fieldset class="rolls">
-    <legend>{{localize "MYTHACRI.EncounterGMRolls"}}</legend>
+    <legend>{{localize "MYTHACRI.ENCOUNTER.GMRolls"}}</legend>
     {{#if rolls.length}}
     {{#each rolls}}
     <span class="roll {{#if match}}match{{/if}}">{{value}}</span>
@@ -8,12 +8,12 @@
     {{/if}}
   </fieldset>
   <button data-action="prompt">
-    <i class="fa-solid fa-rss"></i> {{localize "MYTHACRI.EncounterPromptUsers"}}
+    <i class="fa-solid fa-rss"></i> {{localize "MYTHACRI.ENCOUNTER.PromptPlayers"}}
   </button>
   <div class="roll">
     <button data-action="adjust" data-diff="-1"><i class="fa-solid fa-arrow-left"></i></button>
     <button data-action="roll">
-      <i class="fa-solid fa-dice-d20"></i> {{localize "MYTHACRI.EncounterRollDice" amount=amount}}
+      <i class="fa-solid fa-dice-d20"></i> {{localize "MYTHACRI.ENCOUNTER.RollDice" amount=amount}}
     </button>
     <button data-action="adjust" data-diff="1"><i class="fa-solid fa-arrow-right"></i></button>
   </div>

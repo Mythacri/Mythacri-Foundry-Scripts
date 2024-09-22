@@ -88,7 +88,7 @@ function _freeLongRestHeal(dice) {
  */
 function _renderCharacterSheet(sheet, [html]) {
   const div = document.createElement("DIV");
-  const tip = "MYTHACRI.FullRest";
+  const tip = "MYTHACRI.REST.FULL.Label";
   div.innerHTML = `
   <button type="button" class="full-rest gold-button" data-tooltip="${tip}" aria-label="${game.i18n.localize(tip)}">
     <i class="fa-solid fa-house-chimney">
@@ -101,25 +101,30 @@ function _renderCharacterSheet(sheet, [html]) {
 
 /**
  * Render a prompt to recover all expended resources. Added to actor prototype.
+ * @this {Actor5e}
  * @returns {Promise<object>}     A promise that resolves to the result of the full rest.
  */
 async function fullRestDialog() {
-  return Dialog.wait({
-    title: `${game.i18n.localize("MYTHACRI.FullRest")}: ${this.name}`,
-    content: `<p>${game.i18n.localize("MYTHACRI.FullRestHint")}</p>`,
-    buttons: {
-      rest: {
-        icon: "<i class='fa-solid fa-bed'></i>",
-        label: game.i18n.localize("DND5E.Rest"),
-        callback: fullRest.bind(this)
-      },
-      cancel: {
-        icon: "<i class='fa-solid fa-times'></i>",
-        label: game.i18n.localize("Cancel"),
-        callback: null
-      }
+  const actor = this;
+
+  return foundry.applications.api.DialogV2.confirm({
+    content: `<p>${game.i18n.localize("MYTHACRI.REST.FULL.Hint")}</p>`,
+    window: {
+      icon: "fa-solid fa-house-chimney",
+      title: `${game.i18n.localize("MYTHACRI.REST.FULL.Label")}: ${this.name}`
     },
-    close: () => null
+    position: {width: 400},
+    yes: {
+      icon: "fa-solid fa-bed",
+      label: "DND5E.Rest",
+      callback: () => fullRest.call(actor)
+    },
+    no: {
+      icon: "fa-solid fa-times",
+      label: "Cancel",
+      callback: () => null
+    },
+    rejectClose: false
   });
 }
 
@@ -184,16 +189,16 @@ async function _displayFullRestMessage(result) {
 
   // Determine the chat message to display
   let message;
-  if (diceRestored && healthRestored) message = "MYTHACRI.FullRestResult";
-  else if (!diceRestored && healthRestored) message = "MYTHACRI.FullRestResultHitPoints";
-  else if (diceRestored && !healthRestored) message = "MYTHACRI.FullRestResultHitDice";
-  else message = "MYTHACRI.FullRestResultShort";
+  if (diceRestored && healthRestored) message = "MYTHACRI.REST.RESULT.All";
+  else if (!diceRestored && healthRestored) message = "MYTHACRI.REST.RESULT.HitPoints";
+  else if (diceRestored && !healthRestored) message = "MYTHACRI.REST.RESULT.HitDice";
+  else message = "MYTHACRI.REST.RESULT.None";
 
   // Create a chat message
   const chatData = {
     user: game.user.id,
     speaker: ChatMessage.implementation.getSpeaker({actor: this}),
-    flavor: game.i18n.localize("MYTHACRI.FullRestFlavor"),
+    flavor: game.i18n.localize("MYTHACRI.REST.FULL.Flavor"),
     content: game.i18n.format(message, {name: this.name, dice: result.deltas.hitDice, health: result.deltas.hitPoints})
   };
   ChatMessage.implementation.applyRollMode(chatData, game.settings.get("core", "rollMode"));

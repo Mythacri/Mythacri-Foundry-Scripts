@@ -41,7 +41,7 @@ export default class CraftingApplication extends Application {
 
   /** @override */
   get title() {
-    return game.i18n.localize(`MYTHACRI.CraftingSection${this.type.capitalize()}`) + ` (${this.actor.name})`;
+    return game.i18n.localize(`MYTHACRI.CRAFTING.${this.type.toUpperCase()}.Title`) + ` (${this.actor.name})`;
   }
 
   /* -------------------------------------------------- */
@@ -99,7 +99,7 @@ export default class CraftingApplication extends Application {
       };
     });
 
-    context.title = `MYTHACRI.CraftingSection${this.type.capitalize()}`;
+    context.title = `MYTHACRI.CRAFTING.${this.type.toUpperCase()}.Title`;
     context.availableOnly = !!this._availableOnly;
     context.type = this.type;
 
@@ -301,7 +301,7 @@ export default class CraftingApplication extends Application {
     const recipe = await fromUuid(event.currentTarget.dataset.uuid);
     const canCreate = this.canCreateRecipe(recipe);
     if (!canCreate) {
-      ui.notifications.warn("MYTHACRI.CraftingMissingComponents", {localize: true});
+      ui.notifications.warn("MYTHACRI.CRAFTING.Warning.MissingComponents", {localize: true});
       return null;
     }
     return new CraftingHandler(this.actor, this.type, recipe).render(true);
@@ -353,7 +353,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
 
   /** @override */
   get title() {
-    return game.i18n.format("MYTHACRI.CraftingHandlerTitle", {name: this.recipe.name});
+    return game.i18n.format("MYTHACRI.CRAFTING.HANDLER.Title", {name: this.recipe.name});
   }
 
   /* -------------------------------------------------- */
@@ -496,7 +496,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
    */
   _createItemData(type, target, grade) {
     const data = (type !== "spirit") ? game.items.fromCompendium(target) : {
-      name: game.i18n.format("MYTHACRI.CraftingSpiritBinding", {name: target.name, grade: grade.ordinalString()}),
+      name: game.i18n.format("MYTHACRI.CRAFTING.SPIRIT.Name", {name: target.name, grade: grade.ordinalString()}),
       type: "consumable",
       img: target.img,
       flags: {},

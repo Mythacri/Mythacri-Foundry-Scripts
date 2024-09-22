@@ -1,334 +1,385 @@
 {
-  "DND5E.ExperiencePointsAbbr": "pip(s)",
-  "DND5E.LongRestHint": "Take a long rest? You can roll hit dice beforehand to restore health, and receive one round of free healing equal to your largest hit die plus your Constitution modifier. You will recover half your maximum hit dice, your class resources, your limited use item charges, and all your spell slots. Your levels of exhaustion will be reduced by one.",
-  "DND5E.RestL": "Long",
-  "DND5E.RestS": "Short",
-  "MYTHACRI.ArmorClassFeral": "Witch's Curse: Feral",
-  "MYTHACRI.ArmorClassHybrid": "Grand Hex: Hybrid",
-  "MYTHACRI.ArmorClassIronChin": "Iron Chin",
-  "MYTHACRI.ArmorClassMalevolence": "Hex: Malevolence",
-  "MYTHACRI.AuraColor": "Color",
-  "MYTHACRI.AuraColorHint": "The color of the aura's bounds.",
-  "MYTHACRI.AuraDistance": "Distance",
-  "MYTHACRI.AuraDistanceHint": "The radius of the aura measured in grid units.",
-  "MYTHACRI.Auras": "Auras",
-  "MYTHACRI.Bewitcher": "Bewitcher",
-  "MYTHACRI.Capacity": "Capacity",
-  "MYTHACRI.CapacityConfig": "Modify Attributes",
-  "MYTHACRI.CapacityMax": "Max Capacity",
-  "MYTHACRI.CapacityType": "Capacity Type",
-  "MYTHACRI.ConDazed": "Dazed",
-  "MYTHACRI.Confirm": "Confirm",
-  "MYTHACRI.ConImpaired": "Impaired",
-  "MYTHACRI.ConsumableRune": "Rune",
-  "MYTHACRI.ConsumableSpirit": "Spirit",
-  "MYTHACRI.ConsumableTypeOther": "Other Consumables",
-  "MYTHACRI.CRAFTING": {
-    "EnableRunes": "Enabled",
-    "RECIPE": {
-      "Alchemy": "Alchemical Recipe",
-      "Cooking": "Cooking Recipe",
-      "Monster": "Monster Crafting Recipe",
-      "Rune": "Rune Carving Recipe",
-      "Spirit": "Spirit Binding Recipe"
-    },
-    "SHEET": "Mythacri Recipe Sheet",
-    "TAB": "Crafting",
-    "ResourceConfiguration": "Resource Configuration",
-    "RuneConfiguration": "Rune Configuration",
-    "RunesMaximum": "Maximum Runes",
-    "RunesMaximumHint": "The number of runes that can be attached to this item.",
-    "Warning": {
-      "NoRecipeUuid": "This item did somehow not originate from a recipe."
-    }
+  "DND5E": {
+    "ExperiencePointsAbbr": "pip(s)",
+    "LongRestHint": "Take a long rest? You can roll hit dice beforehand to restore health, and receive one round of free healing equal to your largest hit die plus your Constitution modifier. You will recover half your maximum hit dice, your class resources, your limited use item charges, and all your spell slots. Your levels of exhaustion will be reduced by one.",
+    "RestL": "Long",
+    "RestS": "Short"
   },
-  "MYTHACRI.MAYHEM": {
-    "Action": "Mayhem Action",
-    "Consume": "Consume Mayhem Points",
-    "Decrease": "Decrease",
-    "Increase": "Increase",
-    "Title": "Mayhem: {name}",
-    "Warning": {
-      "Deduct": "You do not have enough Mayhem Points available!"
-    }
-  },
-  "MYTHACRI.TRANSFER": {
-    "Prompt": {
-      "Button": "Transfer",
-      "Label": "Target",
-      "Hint": "The target that should receive the item.",
-      "Title": "Transfer Item: {name}"
-    },
-    "Message": {
-      "Accept": "Accept",
-      "Cancel": "Cancel",
-      "Completed": "Transfer Completed",
-      "Content": "{source} wants to transfer {item} to {target}."
-    },
-    "ContextOption": "Transfer Item",
-    "Warning": {
-      "Invalid": "The item is not a valid item for transferring.",
-      "Party": "There is no Group Actor assigned as the main party.",
-      "Unavailable": "No user is available to finalize the transfer."
-    }
-  },
-  "MYTHACRI.Crafting": "Crafting",
-  "MYTHACRI.CraftingApplyRune": "Apply Rune",
-  "MYTHACRI.CraftingAvailable": "Available Recipes",
-  "MYTHACRI.CraftingConfigureRunes": "Configure Runes",
-  "MYTHACRI.CraftingConfirm": "Confirm",
-  "MYTHACRI.CraftingConsumeSpiritItemHint": "Destroy this item and learn the {grade} grade '{name}' technique?",
-  "MYTHACRI.CraftingConsumeSpiritItemHintReplace": "This will replace an existing technique with this higher grade!",
-  "MYTHACRI.CraftingConsumeSpiritItemName": "{name} ({grade} grade)",
-  "MYTHACRI.CraftingConsumeSpiritItemTitle": "Spiritbinding: {name}",
-  "MYTHACRI.CraftingConsumeSpiritItemWarn": "You have already learned this technique at an equal or higher grade.",
-  "MYTHACRI.CraftingCreate": "Create",
-  "MYTHACRI.CraftingHandlerHint": "The required components are displayed here. Your items that can be used to fill in for each component are displayed below.",
-  "MYTHACRI.CraftingHandlerTitle": "Recipe: {name}",
-  "MYTHACRI.CraftingMissingComponents": "You do not have all the needed components to create this item.",
-  "MYTHACRI.CraftingNoRunesOnItem": "This item has no runes applied.",
-  "MYTHACRI.CraftingRuneBonus": "Rune: {name}",
-  "MYTHACRI.CraftingRunes": "Runes",
-  "MYTHACRI.CraftingRunesConfig": "Rune Configuration",
-  "MYTHACRI.CraftingRuneTarget": "Apply to:",
-  "MYTHACRI.CraftingRuneTargetNoneAvailable": "You have no items available for applying the rune.",
-  "MYTHACRI.CraftingRuneTargetPick": "Select the target item of this rune.",
-  "MYTHACRI.CraftingSection": "Crafting",
-  "MYTHACRI.CraftingSectionCooking": "Cooking",
-  "MYTHACRI.CraftingSectionCookingHint": "Enable 'Cooking' for this actor.",
-  "MYTHACRI.CraftingSectionMonster": "Monster Crafting",
-  "MYTHACRI.CraftingSectionMonsterHint": "Enable 'Monster Crafting' for this actor.",
-  "MYTHACRI.CraftingSectionRune": "Rune Carving",
-  "MYTHACRI.CraftingSectionRuneHint": "Enable 'Rune Carving' for this actor.",
-  "MYTHACRI.CraftingSectionSpirit": "Spirit Binding",
-  "MYTHACRI.CraftingSectionSpiritHint": "Enable 'Spirit Binding' for this actor.",
-  "MYTHACRI.CraftingShowAvailableOnly": "Show Available Only",
-  "MYTHACRI.CraftingSpiritBinding": "Spirit Binding: {name} ({grade} grade)",
-  "MYTHACRI.CraftingUnavailable": "Unavailable Recipes",
-  "MYTHACRI.CurrencyAbbrMarbles": "Mrb",
-  "MYTHACRI.CurrencyMarbles": "Marbles",
-  "MYTHACRI.EncounterContent": "Roll a d12 to help determine a random encounter. The GM will be rolling {amount}d12.",
-  "MYTHACRI.EncounterGMRolls": "Game Master Rolls",
-  "MYTHACRI.EncounterPromptUsers": "Prompt Players",
-  "MYTHACRI.EncounterRoll": "Encounter Roll",
-  "MYTHACRI.EncounterRollDice": "Roll {amount}d12",
-  "MYTHACRI.EncounterRollDie": "Roll d12",
-  "MYTHACRI.EncounterTitle": "Random Encounter",
-  "MYTHACRI.FeatureBewitcherCurse": "Bewitcher Curse",
-  "MYTHACRI.FeatureBewitcherGrandEnchantment": "Grand Enchantment",
-  "MYTHACRI.FeatureCompanion": "Companion Feature",
-  "MYTHACRI.FeatureDevilFruit": "Devil Fruit Feature",
-  "MYTHACRI.FeatureDevilFruitLogia": "Logia",
-  "MYTHACRI.FeatureDevilFruitParamecia": "Paramecia",
-  "MYTHACRI.FeatureDevilFruitZoan": "Zoan",
-  "MYTHACRI.FeatureInvestigatorTrinket": "Investigator Trinket",
-  "MYTHACRI.FeatureMoxie": "Moxie Feature",
-  "MYTHACRI.FeatureRangerAspect": "Ranger Aspect",
-  "MYTHACRI.FeatureSpiritTech": "Spiritbinding Technique",
-  "MYTHACRI.FeatureWardenManeuver": "Warden Maneuver",
-  "MYTHACRI.FeatureWardenSentinelSoul": "Sentinel's Soul",
-  "MYTHACRI.FeatureWardenSentinelStand": "Sentinel's Stand",
-  "MYTHACRI.FeatureWardenSentinelStep": "Sentinel's Step",
-  "MYTHACRI.FeatureWitchCurse": "Witch's Curse",
-  "MYTHACRI.FeatureWitchGrandHex": "Grand Hex",
-  "MYTHACRI.FeatureWitchHex": "Hex",
-  "MYTHACRI.FlagsFeralRegression": "Feral Regression",
-  "MYTHACRI.FlagsFeralRegressionHint": "Whether this actor make use of Feral Regression, implementing a bar underneath hit dice on their sheet to keep track of the value.",
-  "MYTHACRI.FlagsPeakPhysical": "Peak Physical Condition",
-  "MYTHACRI.FlagsPeakPhysicalHint": "Remove an additional level of exhaustion on a long rest, and recover all hit dice.",
-  "MYTHACRI.FreeLongRestHeal": "Free Heal",
-  "MYTHACRI.FullRest": "Full Rest",
-  "MYTHACRI.FullRestFlavor": "Full Rest (24 hours)",
-  "MYTHACRI.FullRestHint": "Take a full rest? You will recover all your hit dice and resources, and your levels of exhaustion wil be reduced by up to three.",
-  "MYTHACRI.FullRestResult": "{name} takes a full rest and recovers {health} Hit Points and {dice} Hit Dice.",
-  "MYTHACRI.FullRestResultHitDice": "{name} takes a full rest and recovers {dice} Hit Dice.",
-  "MYTHACRI.FullRestResultHitPoints": "{name} takes a full rest and recovers {health} Hit Points.",
-  "MYTHACRI.FullRestResultShort": "{name} takes a full rest.",
-  "MYTHACRI.Heal": "Heal",
-  "MYTHACRI.ItemRecipeAdvanced": "Advanced",
-  "MYTHACRI.ItemRecipeBasic": "Basic",
-  "MYTHACRI.ItemRecipeComponents": "Components",
-  "MYTHACRI.ItemRecipeComponentWarn": "This identifier is invalid and will be ignored.",
-  "MYTHACRI.ItemRecipeLearned": "Learned",
-  "MYTHACRI.ItemRecipeLearners": "Can Learn",
-  "MYTHACRI.ItemRecipeLearning": "Learning",
-  "MYTHACRI.ItemRecipeLearningBasic": "This is a basic recipe and is automatically learned by anyone able to engage in this type of crafting.",
-  "MYTHACRI.ItemRecipeStatus": "Recipe Status",
-  "MYTHACRI.ItemRecipeTarget": "Created Item",
-  "MYTHACRI.ItemRecipeTargetWarn": "The item to be created could not be found.",
-  "MYTHACRI.ItemRecipeType": "Recipe Type",
-  "MYTHACRI.ItemRecipeUnlearned": "Cannot Learn",
-  "MYTHACRI.LootTypeOther": "Other Loot",
-  "MYTHACRI.Pips": "Pips",
-  "MYTHACRI.Refresh": "Refresh",
-  "MYTHACRI.REGION": {
-    "TRAP": {
-      "FIELDS": {
-        "config": {
-          "toggle": {
-            "label": "Toggle",
-            "hint": "Disable this behavior once it has been triggered."
-          },
-          "message": {
-            "label": "Message",
-            "hint": "An optional piece of text that will be displayed alongside the saving throw."
-          }
+  "MYTHACRI": {
+    "ArmorClassFeral": "Witch's Curse: Feral",
+    "ArmorClassHybrid": "Grand Hex: Hybrid",
+    "ArmorClassIronChin": "Iron Chin",
+    "ArmorClassMalevolence": "Hex: Malevolence",
+    "AuraColor": "Color",
+    "AuraColorHint": "The color of the aura's bounds.",
+    "AuraDistance": "Distance",
+    "AuraDistanceHint": "The radius of the aura measured in grid units.",
+    "Auras": "Auras",
+    "Bewitcher": "Bewitcher",
+    "Capacity": "Capacity",
+    "CapacityConfig": "Modify Attributes",
+    "CapacityMax": "Max Capacity",
+    "CapacityType": "Capacity Type",
+    "ConDazed": "Dazed",
+    "ConImpaired": "Impaired",
+    "CRAFTING": {
+      "ALCHEMY": {
+        "FlagHint": "Enable 'Alchemy' for this actor.",
+        "Title": "Alchemy"
+      },
+      "ConsumableType": {
+        "Rune": "Rune",
+        "Spirit": "Spirit"
+      },
+      "COOKING": {
+        "FlagHint": "Enable 'Cooking' for this actor.",
+        "Title": "Cooking"
+      },
+      "Create": "Create",
+      "HANDLER": {
+        "Hint": "The required components are displayed here. Your items that can be used to fill in for each component are displayed below.",
+        "Title": "Recipe: {name}"
+      },
+      "MONSTER": {
+        "FlagHint": "Enable 'Monster Crafting' for this actor.",
+        "Title": "Monster Crafting"
+      },
+      "RECIPE": {
+        "Alchemy": "Alchemical Recipe",
+        "Cooking": "Cooking Recipe",
+        "Monster": "Monster Crafting Recipe",
+        "Rune": "Rune Carving Recipe",
+        "Spirit": "Spirit Binding Recipe",
+        "UnavailableRecipes": "Unavailable Recipes"
+      },
+      "ResourceConfiguration": "Resource Configuration",
+      "RUNE": {
+        "Apply": "Apply Rune",
+        "ApplyTarget": {
+          "hint": "Select the target item of this rune.",
+          "label": "Target"
         },
-        "damage": {
-          "label": "Damage Roll",
-          "formula": {
-            "label": "Formula",
-            "hint": "The damage formula that will be rolled. This will make use of the roll data of the triggering token's actor."
-          },
-          "type": {
-            "label": "Damage Type"
-          }
+        "Configuration": "Configuration",
+        "Configure": "Configure Runes",
+        "Enabled": "Enabled",
+        "FlagHint": "Enable 'Rune Carving' for this actor.",
+        "Maximum": {
+          "hint": "The number of runes that can be attached to this item.",
+          "label": "Maximum Runes"
         },
-        "save": {
-          "label": "Saving Throw",
-          "targetValue": {
-            "label": "Difficulty Class"
-          },
-          "type": {
-            "label": "Save Type"
-          }
+        "Name": "Rune: {name}",
+        "Runes": "Runes",
+        "Title": "Rune Carving",
+        "Warning": {
+          "NoItemsAvailable": "You have no items available for applying the rune.",
+          "NoRunesOnItem": "This item has no runes applied."
         }
       },
-      "WARNINGS": {
-        "ActorMissing": "The token that triggered the trap has no actor associated with it!",
-        "FormulaMissing": "The trap region behavior does not have a damage formula configured!"
+      "Section": "Crafting",
+      "SHEET": {
+        "Advanced": "Advanced",
+        "Basic": "Basic",
+        "BasicHint": "This is a basic recipe and is automatically learned by anyone able to engage in this type of crafting.",
+        "CanLearn": "Can Learn",
+        "CannotLearn": "Cannot Learn",
+        "Components": "Components",
+        "CreatedItem": "Created Item",
+        "Learned": "Learned",
+        "Learning": "Learning",
+        "RecipeStatus": "Recipe Status",
+        "RecipeType": "Recipe Type",
+        "Refresh": "Refresh",
+        "SheetLabel": "Mythacri Recipe Sheet",
+        "Warning": {
+          "InvalidComponent": "This identifier is invalid and will be ignored.",
+          "InvalidTarget": "The item to be created could not be found."
+        }
+      },
+      "ShowAvailable": {
+        "hint": "Show Available Only"
+      },
+      "SPIRIT": {
+        "Consume": {
+          "hint": "Destroy this item and learn the {grade} grade '{name}' technique?",
+          "hintReplace": "This will replace an existing technique with this higher grade!",
+          "Title": "Spiritbinding: {name}",
+          "Warning": "You have already learned this technique at an equal or higher grade."
+        },
+        "FlagHint": "Enable 'Spirit Binding' for this actor.",
+        "Name": "{name} ({grade} grade)",
+        "Title": "Spirit Binding"
+      },
+      "TAB": "Crafting",
+      "Warning": {
+        "NoRecipeUuid": "This item did somehow not originate from a recipe."
+      }
+    },
+    "CurrencyAbbrMarbles": "Mrb",
+    "CurrencyMarbles": "Marbles",
+    "ENCOUNTER": {
+      "Content": "Roll a d12 to help determine a random encounter. The GM will be rolling {amount}d12.",
+      "EncounterRoll": "Encounter Roll",
+      "GMRolls": "Game Master Rolls",
+      "PromptPlayers": "Prompt Players",
+      "RollDice": "Roll {amount}d12",
+      "RollDie": "Roll d12",
+      "Title": "Random Encounter"
+    },
+    "FeatureBewitcherCurse": "Bewitcher Curse",
+    "FeatureBewitcherGrandEnchantment": "Grand Enchantment",
+    "FeatureCompanion": "Companion Feature",
+    "FeatureDevilFruit": "Devil Fruit Feature",
+    "FeatureDevilFruitLogia": "Logia",
+    "FeatureDevilFruitParamecia": "Paramecia",
+    "FeatureDevilFruitZoan": "Zoan",
+    "FeatureInvestigatorTrinket": "Investigator Trinket",
+    "FeatureMoxie": "Moxie Feature",
+    "FeatureRangerAspect": "Ranger Aspect",
+    "FeatureSpiritTech": "Spiritbinding Technique",
+    "FeatureWardenManeuver": "Warden Maneuver",
+    "FeatureWardenSentinelSoul": "Sentinel's Soul",
+    "FeatureWardenSentinelStand": "Sentinel's Stand",
+    "FeatureWardenSentinelStep": "Sentinel's Step",
+    "FeatureWitchCurse": "Witch's Curse",
+    "FeatureWitchGrandHex": "Grand Hex",
+    "FeatureWitchHex": "Hex",
+    "FlagsFeralRegression": "Feral Regression",
+    "FlagsFeralRegressionHint": "Whether this actor make use of Feral Regression, implementing a bar underneath hit dice on their sheet to keep track of the value.",
+    "FlagsPeakPhysical": "Peak Physical Condition",
+    "FlagsPeakPhysicalHint": "Remove an additional level of exhaustion on a long rest, and recover all hit dice.",
+    "MAYHEM": {
+      "Action": "Mayhem Action",
+      "Consume": "Consume Mayhem Points",
+      "Decrease": "Decrease",
+      "Increase": "Increase",
+      "Title": "Mayhem: {name}",
+      "Warning": {
+        "Deduct": "You do not have enough Mayhem Points available!"
+      }
+    },
+    "Pips": "Pips",
+    "REGION": {
+      "TRAP": {
+        "FIELDS": {
+          "config": {
+            "message": {
+              "hint": "An optional piece of text that will be displayed alongside the saving throw.",
+              "label": "Message"
+            },
+            "toggle": {
+              "hint": "Disable this behavior once it has been triggered.",
+              "label": "Toggle"
+            }
+          },
+          "damage": {
+            "formula": {
+              "hint": "The damage formula that will be rolled. This will make use of the roll data of the triggering token's actor.",
+              "label": "Formula"
+            },
+            "label": "Damage Roll",
+            "type": {
+              "label": "Damage Type"
+            }
+          },
+          "save": {
+            "label": "Saving Throw",
+            "targetValue": {
+              "label": "Difficulty Class"
+            },
+            "type": {
+              "label": "Save Type"
+            }
+          }
+        },
+        "WARNINGS": {
+          "ActorMissing": "The token that triggered the trap has no actor associated with it!",
+          "FormulaMissing": "The trap region behavior does not have a damage formula configured!"
+        }
+      }
+    },
+    "ResourceEssenceGrade": "Spirit Grade",
+    "ResourceGemAmber": "Amber",
+    "ResourceGemAmethyst": "Amethyst",
+    "ResourceGemAquamarine": "Aquamarine",
+    "ResourceGemCitrine": "Citrine",
+    "ResourceGemDiamond": "Diamond",
+    "ResourceGemEmerald": "Emerald",
+    "ResourceGemGarnet": "Garnet",
+    "ResourceGemJade": "Jade",
+    "ResourceGemJasper": "Jasper",
+    "ResourceGemJet": "Jet",
+    "ResourceGemLapisLazuli": "Lapis Lazuli",
+    "ResourceGemMoonstone": "Moonstone",
+    "ResourceGemMossAgate": "Moss Agate",
+    "ResourceGemObsidian": "Obsidian",
+    "ResourceGemOnyx": "Onyx",
+    "ResourceGemOpal": "Opal",
+    "ResourceGemPearl": "Pearl",
+    "ResourceGemPeridot": "Peridot",
+    "ResourceGemQuartz": "Quartz",
+    "ResourceGemRuby": "Ruby",
+    "ResourceGemSapphire": "Sapphire",
+    "ResourceGemSpinel": "Spinel",
+    "ResourceGemTopaz": "Topaz",
+    "ResourceGemTurquoise": "Turquoise",
+    "ResourceGemZircon": "Zircon",
+    "ResourceLabelSubsubtypeMonster": "Part",
+    "ResourceLabelSubtypeEssence": "Type",
+    "ResourceLabelSubtypeGem": "Gem",
+    "ResourceLabelSubtypeMonster": "Type",
+    "ResourceLabelType": "Resource",
+    "ResourceMonsterAcid": "Acid",
+    "ResourceMonsterAntenna": "Antenna",
+    "ResourceMonsterAntler": "Antler",
+    "ResourceMonsterBlood": "Blood",
+    "ResourceMonsterBone": "Bone",
+    "ResourceMonsterBrain": "Brain",
+    "ResourceMonsterBreathSac": "Breath Sac",
+    "ResourceMonsterCarapace": "Carapace",
+    "ResourceMonsterClaws": "Claws",
+    "ResourceMonsterDust": "Dust",
+    "ResourceMonsterEgg": "Egg",
+    "ResourceMonsterEtherealIchor": "Ethereal Ichor",
+    "ResourceMonsterEye": "Eye",
+    "ResourceMonsterFat": "Fat",
+    "ResourceMonsterFeathers": "Feathers",
+    "ResourceMonsterFin": "Fin",
+    "ResourceMonsterFlesh": "Flesh",
+    "ResourceMonsterHeart": "Heart",
+    "ResourceMonsterHide": "Hide",
+    "ResourceMonsterHorn": "Horn",
+    "ResourceMonsterInstructions": "Instructions",
+    "ResourceMonsterLiver": "Liver",
+    "ResourceMonsterMainEye": "Main Eye",
+    "ResourceMonsterMote": "Mote",
+    "ResourceMonsterMucus": "Mucus",
+    "ResourceMonsterOil": "Oil",
+    "ResourceMonsterPincer": "Pincer",
+    "ResourceMonsterPlating": "Plating",
+    "ResourceMonsterPoisonGland": "Poison Gland",
+    "ResourceMonsterSap": "Sap",
+    "ResourceMonsterScales": "Scales",
+    "ResourceMonsterSkin": "Skin",
+    "ResourceMonsterStinger": "Stinger",
+    "ResourceMonsterTalon": "Talon",
+    "ResourceMonsterTeeth": "Teeth",
+    "ResourceMonsterTentacle": "Tentacle",
+    "ResourceMonsterTusk": "Tusk",
+    "ResourcePopulatorActive": "Active",
+    "ResourcePopulatorNoActors": "You must provide at least one valid actor.",
+    "ResourcePopulatorSave": "Save",
+    "ResourcePopulatorTitle": "Populate Loot List: {name}",
+    "ResourceTypeEssence": "Essence",
+    "ResourceTypeGem": "Gem",
+    "ResourceTypeLabelEssence": "{subtype} {type}",
+    "ResourceTypeLabelEssenceWildcard": "Any essence",
+    "ResourceTypeLabelGem": "{subtype} {type}",
+    "ResourceTypeLabelGemWildcard": "Any gem",
+    "ResourceTypeLabelMonster": "{subtype} {subsubtype}",
+    "ResourceTypeLabelMonsterWildcard": "Any monster part",
+    "ResourceTypeLabelMonsterWildcardSubsubtype": "Any {subtype} part",
+    "ResourceTypeLabelMonsterWildcardSubtype": "Any monster {subsubtype}",
+    "ResourceTypeMonster": "Part",
+    "ResourceWildcard": "Wildcard",
+    "REST": {
+      "FULL": {
+        "Flavor": "Full Rest (24 hours)",
+        "Hint": "Take a full rest? You will recover all your hit dice and resources, and your levels of exhaustion wil be reduced by up to three.",
+        "Label": "Full Rest"
+      },
+      "LONG": {
+        "FreeHeal": "Free Heal",
+        "Heal": "Heal"
+      },
+      "RESULT": {
+        "All": "{name} takes a full rest and recovers {health} Hit Points and {dice} Hit Dice.",
+        "HitDice": "{name} takes a full rest and recovers {dice} Hit Dice.",
+        "HitPoints": "{name} takes a full rest and recovers {health} Hit Points.",
+        "None": "{name} takes a full rest."
+      }
+    },
+    "SettingsFoldersPartyActors": "Party Actors Folder",
+    "SettingsFoldersPartyActorsHint": "The Actor folder that contains all of the party's assigned actors.",
+    "SettingsIdentifiers": "Identifiers Menu",
+    "SettingsIdentifiersHint": "Change various ids and identifiers.",
+    "SettingsIdentifiersLabel": "Identifiers",
+    "SettingsPacksCraftingRecipes": "Crafting Recipes Pack",
+    "SettingsPacksCraftingRecipesHint": "The compendium pack that contains all crafting recipes.",
+    "SettingsPacksCraftingResources": "Crafting Resources Pack",
+    "SettingsPacksCraftingResourcesHint": "The compendium pack that contains all crafting resources.",
+    "SettingsParty": "Party Actor",
+    "SettingsPartyHint": "The id of the Group actor that contains the party.",
+    "SettingsPathsSoundboard": "Soundboard File Path",
+    "SettingsPathsSoundboardHint": "The data path to the folder that contains sound files for the soundboard application.",
+    "Soundboard": "Soundboard",
+    "SoundboardBroadcast": "Broadcast",
+    "SoundboardError": "Soundboard | No sound files were found at the specified location.",
+    "SoundboardPreview": "Preview",
+    "STORAGE": {
+      "ConsumableTypeOther": "Other Consumables",
+      "LootTypeOther": "Other Loot",
+      "SheetLabel": "Mythacri Storage Sheet",
+      "TabConsumables": "Consumables",
+      "TabGear": "Gear",
+      "TabLoot": "Loot",
+      "TabResources": "Resources"
+    },
+    "TRANSFER": {
+      "ContextOption": "Transfer Item",
+      "Message": {
+        "Accept": "Accept",
+        "Cancel": "Cancel",
+        "Completed": "Transfer Completed",
+        "Content": "{source} wants to transfer {item} to {target}."
+      },
+      "Prompt": {
+        "Button": "Transfer",
+        "Hint": "The target that should receive the item.",
+        "Label": "Target",
+        "Title": "Transfer Item: {name}"
+      },
+      "Warning": {
+        "Invalid": "The item is not a valid item for transferring.",
+        "Party": "There is no Group Actor assigned as the main party.",
+        "Unavailable": "No user is available to finalize the transfer."
+      }
+    },
+    "WeaponProficiencyExotic": "Exotic",
+    "WeaponProficiencyExoticPl": "Exotic",
+    "WeaponProficiencyFirearmInd": "Industrial Firearm",
+    "WeaponProficiencyFirearmIndPl": "Industrial Firearms",
+    "WeaponProficiencyFirearmRen": "Renaissance Firearm",
+    "WeaponProficiencyFirearmRenPl": "Renaissance Firearms",
+    "WeaponPropertyAerodynamic": "Aerodynamic",
+    "WeaponPropertyColdIron": "Cold Iron",
+    "WeaponPropertyConcealable": "Concealable",
+    "WeaponPropertyExplosive": "Explosive",
+    "WeaponPropertyHeat": "Heat",
+    "WeaponPropertyMassive": "Massive",
+    "WeaponPropertyMounted": "Mounted",
+    "WeaponPropertyParry": "Parrying",
+    "WeaponPropertyRocket": "Rocket",
+    "WeaponPropertyScatter": "Scatter",
+    "WeaponPropertySighted": "Sighted",
+    "WeaponPropertySuperheavy": "Superheavy",
+    "WeaponPropertyTension": "Tension",
+    "WeaponPropertyTwinshot": "Twinshot"
+  },
+  "TYPES": {
+    "Actor": {
+      "mythacri-scripts": {
+        "storage": "Storage"
+      }
+    },
+    "Item": {
+      "mythacri-scripts": {
+        "recipe": "Recipe"
+      }
+    },
+    "RegionBehavior": {
+      "mythacri-scripts": {
+        "trap": "Trap"
       }
     }
-  },
-  "MYTHACRI.ResourceEssenceGrade": "Spirit Grade",
-  "MYTHACRI.ResourceGemAmber": "Amber",
-  "MYTHACRI.ResourceGemAmethyst": "Amethyst",
-  "MYTHACRI.ResourceGemAquamarine": "Aquamarine",
-  "MYTHACRI.ResourceGemCitrine": "Citrine",
-  "MYTHACRI.ResourceGemDiamond": "Diamond",
-  "MYTHACRI.ResourceGemEmerald": "Emerald",
-  "MYTHACRI.ResourceGemGarnet": "Garnet",
-  "MYTHACRI.ResourceGemJade": "Jade",
-  "MYTHACRI.ResourceGemJasper": "Jasper",
-  "MYTHACRI.ResourceGemJet": "Jet",
-  "MYTHACRI.ResourceGemLapisLazuli": "Lapis Lazuli",
-  "MYTHACRI.ResourceGemMoonstone": "Moonstone",
-  "MYTHACRI.ResourceGemMossAgate": "Moss Agate",
-  "MYTHACRI.ResourceGemObsidian": "Obsidian",
-  "MYTHACRI.ResourceGemOnyx": "Onyx",
-  "MYTHACRI.ResourceGemOpal": "Opal",
-  "MYTHACRI.ResourceGemPearl": "Pearl",
-  "MYTHACRI.ResourceGemPeridot": "Peridot",
-  "MYTHACRI.ResourceGemQuartz": "Quartz",
-  "MYTHACRI.ResourceGemRuby": "Ruby",
-  "MYTHACRI.ResourceGemSapphire": "Sapphire",
-  "MYTHACRI.ResourceGemSpinel": "Spinel",
-  "MYTHACRI.ResourceGemTopaz": "Topaz",
-  "MYTHACRI.ResourceGemTurquoise": "Turquoise",
-  "MYTHACRI.ResourceGemZircon": "Zircon",
-  "MYTHACRI.ResourceLabelSubsubtypeMonster": "Part",
-  "MYTHACRI.ResourceLabelSubtypeEssence": "Type",
-  "MYTHACRI.ResourceLabelSubtypeGem": "Gem",
-  "MYTHACRI.ResourceLabelSubtypeMonster": "Type",
-  "MYTHACRI.ResourceLabelType": "Resource",
-  "MYTHACRI.ResourceMonsterAcid": "Acid",
-  "MYTHACRI.ResourceMonsterAntenna": "Antenna",
-  "MYTHACRI.ResourceMonsterAntler": "Antler",
-  "MYTHACRI.ResourceMonsterBlood": "Blood",
-  "MYTHACRI.ResourceMonsterBone": "Bone",
-  "MYTHACRI.ResourceMonsterBrain": "Brain",
-  "MYTHACRI.ResourceMonsterBreathSac": "Breath Sac",
-  "MYTHACRI.ResourceMonsterCarapace": "Carapace",
-  "MYTHACRI.ResourceMonsterClaws": "Claws",
-  "MYTHACRI.ResourceMonsterDust": "Dust",
-  "MYTHACRI.ResourceMonsterEgg": "Egg",
-  "MYTHACRI.ResourceMonsterEtherealIchor": "Ethereal Ichor",
-  "MYTHACRI.ResourceMonsterEye": "Eye",
-  "MYTHACRI.ResourceMonsterFat": "Fat",
-  "MYTHACRI.ResourceMonsterFeathers": "Feathers",
-  "MYTHACRI.ResourceMonsterFin": "Fin",
-  "MYTHACRI.ResourceMonsterFlesh": "Flesh",
-  "MYTHACRI.ResourceMonsterHeart": "Heart",
-  "MYTHACRI.ResourceMonsterHide": "Hide",
-  "MYTHACRI.ResourceMonsterHorn": "Horn",
-  "MYTHACRI.ResourceMonsterInstructions": "Instructions",
-  "MYTHACRI.ResourceMonsterLiver": "Liver",
-  "MYTHACRI.ResourceMonsterMainEye": "Main Eye",
-  "MYTHACRI.ResourceMonsterMote": "Mote",
-  "MYTHACRI.ResourceMonsterMucus": "Mucus",
-  "MYTHACRI.ResourceMonsterOil": "Oil",
-  "MYTHACRI.ResourceMonsterPincer": "Pincer",
-  "MYTHACRI.ResourceMonsterPlating": "Plating",
-  "MYTHACRI.ResourceMonsterPoisonGland": "Poison Gland",
-  "MYTHACRI.ResourceMonsterSap": "Sap",
-  "MYTHACRI.ResourceMonsterScales": "Scales",
-  "MYTHACRI.ResourceMonsterSkin": "Skin",
-  "MYTHACRI.ResourceMonsterStinger": "Stinger",
-  "MYTHACRI.ResourceMonsterTalon": "Talon",
-  "MYTHACRI.ResourceMonsterTeeth": "Teeth",
-  "MYTHACRI.ResourceMonsterTentacle": "Tentacle",
-  "MYTHACRI.ResourceMonsterTusk": "Tusk",
-  "MYTHACRI.ResourcePopulatorActive": "Active",
-  "MYTHACRI.ResourcePopulatorNoActors": "You must provide at least one valid actor.",
-  "MYTHACRI.ResourcePopulatorSave": "Save",
-  "MYTHACRI.ResourcePopulatorTitle": "Populate Loot List: {name}",
-  "MYTHACRI.ResourceTypeEssence": "Essence",
-  "MYTHACRI.ResourceTypeGem": "Gem",
-  "MYTHACRI.ResourceTypeLabelEssence": "{subtype} {type}",
-  "MYTHACRI.ResourceTypeLabelEssenceWildcard": "Any essence",
-  "MYTHACRI.ResourceTypeLabelGem": "{subtype} {type}",
-  "MYTHACRI.ResourceTypeLabelGemWildcard": "Any gem",
-  "MYTHACRI.ResourceTypeLabelMonster": "{subtype} {subsubtype}",
-  "MYTHACRI.ResourceTypeLabelMonsterWildcard": "Any monster part",
-  "MYTHACRI.ResourceTypeLabelMonsterWildcardSubsubtype": "Any {subtype} part",
-  "MYTHACRI.ResourceTypeLabelMonsterWildcardSubtype": "Any monster {subsubtype}",
-  "MYTHACRI.ResourceTypeMonster": "Part",
-  "MYTHACRI.ResourceWildcard": "Wildcard",
-  "MYTHACRI.RestF": "Full",
-  "MYTHACRI.SettingsFoldersPartyActors": "Party Actors Folder",
-  "MYTHACRI.SettingsFoldersPartyActorsHint": "The Actor folder that contains all of the party's assigned actors.",
-  "MYTHACRI.SettingsIdentifiers": "Identifiers Menu",
-  "MYTHACRI.SettingsIdentifiersHint": "Change various ids and identifiers.",
-  "MYTHACRI.SettingsIdentifiersLabel": "Identifiers",
-  "MYTHACRI.SettingsPacksCraftingRecipes": "Crafting Recipes Pack",
-  "MYTHACRI.SettingsPacksCraftingRecipesHint": "The compendium pack that contains all crafting recipes.",
-  "MYTHACRI.SettingsPacksCraftingResources": "Crafting Resources Pack",
-  "MYTHACRI.SettingsPacksCraftingResourcesHint": "The compendium pack that contains all crafting resources.",
-  "MYTHACRI.SettingsParty": "Party Actor",
-  "MYTHACRI.SettingsPartyHint": "The id of the Group actor that contains the party.",
-  "MYTHACRI.SettingsPathsSoundboard": "Soundboard File Path",
-  "MYTHACRI.SettingsPathsSoundboardHint": "The data path to the folder that contains sound files for the soundboard application.",
-  "MYTHACRI.SheetRecipe": "Mythacri Recipe Sheet",
-  "MYTHACRI.SheetStorage": "Mythacri Storage Sheet",
-  "MYTHACRI.Soundboard": "Soundboard",
-  "MYTHACRI.SoundboardBroadcast": "Broadcast",
-  "MYTHACRI.SoundboardError": "Soundboard | No sound files were found at the specified location.",
-  "MYTHACRI.SoundboardPreview": "Preview",
-  "MYTHACRI.StorageTabConsumables": "Consumables",
-  "MYTHACRI.StorageTabGear": "Gear",
-  "MYTHACRI.StorageTabLoot": "Loot",
-  "MYTHACRI.StorageTabResources": "Resources",
-  "MYTHACRI.WeaponProficiencyExotic": "Exotic",
-  "MYTHACRI.WeaponProficiencyExoticPl": "Exotic",
-  "MYTHACRI.WeaponProficiencyFirearmInd": "Industrial Firearm",
-  "MYTHACRI.WeaponProficiencyFirearmIndPl": "Industrial Firearms",
-  "MYTHACRI.WeaponProficiencyFirearmRen": "Renaissance Firearm",
-  "MYTHACRI.WeaponProficiencyFirearmRenPl": "Renaissance Firearms",
-  "MYTHACRI.WeaponPropertyAerodynamic": "Aerodynamic",
-  "MYTHACRI.WeaponPropertyColdIron": "Cold Iron",
-  "MYTHACRI.WeaponPropertyConcealable": "Concealable",
-  "MYTHACRI.WeaponPropertyExplosive": "Explosive",
-  "MYTHACRI.WeaponPropertyHeat": "Heat",
-  "MYTHACRI.WeaponPropertyMassive": "Massive",
-  "MYTHACRI.WeaponPropertyMounted": "Mounted",
-  "MYTHACRI.WeaponPropertyParry": "Parrying",
-  "MYTHACRI.WeaponPropertyRocket": "Rocket",
-  "MYTHACRI.WeaponPropertyScatter": "Scatter",
-  "MYTHACRI.WeaponPropertySighted": "Sighted",
-  "MYTHACRI.WeaponPropertySuperheavy": "Superheavy",
-  "MYTHACRI.WeaponPropertyTension": "Tension",
-  "MYTHACRI.WeaponPropertyTwinshot": "Twinshot",
-  "TYPES.Actor.mythacri-scripts.storage": "Storage",
-  "TYPES.Item.mythacri-scripts.recipe": "Recipe",
-  "TYPES.RegionBehavior.mythacri-scripts.trap": "Trap"
+  }
 }

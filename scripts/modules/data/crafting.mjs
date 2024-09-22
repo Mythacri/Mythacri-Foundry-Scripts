@@ -327,7 +327,7 @@ Hooks.once("init", () => {
   DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
     types: ["mythacri-scripts.recipe"],
     makeDefault: true,
-    label: "MYTHACRI.CRAFTING.SHEET"
+    label: "MYTHACRI.CRAFTING.SHEET.SheetLabel"
   });
   dnd5e.applications.actor.ActorSheet5eCharacter2.TABS.push({
     label: "MYTHACRI.CRAFTING.TAB",
@@ -487,7 +487,7 @@ async function _renderRunesOnItem(item, html) {
 function _onClickRunesConfig() {
   const runes = babonus.getCollection(this).filter(bonus => bonus.flags[MODULE.ID]?.isRune);
   if (!runes.length) {
-    ui.notifications.warn("MYTHACRI.CraftingNoRunesOnItem", {localize: true});
+    ui.notifications.warn("MYTHACRI.CRAFTING.RUNE.Warning.NoRunesOnItem", {localize: true});
     return null;
   }
   return new RunesConfig({document: this}).render({force: true});
@@ -648,11 +648,11 @@ function _getMonsterLabel(type, subtype, subsubtype) {
  */
 function _characterFlags() {
   for (const key of Object.keys(TYPES.recipeTypes)) {
-    const label = key.capitalize();
+    const label = key.toUpperCase();
     CONFIG.DND5E.characterFlags[`crafting.${key}`] = {
-      name: `MYTHACRI.CraftingSection${label}`,
-      hint: `MYTHACRI.CraftingSection${label}Hint`,
-      section: "MYTHACRI.CraftingSection",
+      name: `MYTHACRI.CRAFTING.${label}.Title`,
+      hint: `MYTHACRI.CRAFTING.${label}.FlagHint`,
+      section: "MYTHACRI.CRAFTING.Section",
       type: Boolean
     };
   }
@@ -711,29 +711,38 @@ function _preRollAttack(config, dialog, message) {
 async function _promptRuneTransfer(item) {
   const targets = item.actor.items.reduce((acc, item) => {
     if (!TYPES.validRuneItemTypes.has(item.type)) return acc;
-    acc[item.type] ??= [];
     const {enabled, max} = item.flags[MODULE.ID]?.runes ?? {};
-    if (enabled && (max > 0)) acc[item.type].push(item);
+    if (enabled && (max > 0)) acc.push({
+      value: item.id,
+      label: item.name,
+      group: CONFIG.Item.typeLabels[item.type]
+    });
     return acc;
-  }, {});
+  }, []);
 
-  if (!Object.values(targets).some(v => v.length > 0)) {
-    ui.notifications.warn("MYTHACRI.CraftingRuneTargetNoneAvailable", {localize: true});
+  if (!targets.length) {
+    ui.notifications.warn("MYTHACRI.CRAFTING.RUNE.Warning.NoItemsAvailable", {localize: true});
     return null;
   }
 
   const bonus = babonus.getCollection(item).contents[0].toObject();
   foundry.utils.mergeObject(bonus, {
     [`flags.${MODULE.ID}.isRune`]: true,
-    name: game.i18n.format("MYTHACRI.CraftingRuneBonus", {name: bonus.name})
+    name: game.i18n.format("MYTHACRI.CRAFTING.RUNE.Name", {name: bonus.name})
+  });
+
+  const field = new foundry.data.fields.StringField({
+    label: "MYTHACRI.CRAFTING.RUNE.ApplyTarget.label",
+    hint: "MYTHACRI.CRAFTING.RUNE.ApplyTarget.hint",
+    required: true
   });
 
   const itemId = await foundry.applications.api.DialogV2.prompt({
-    content: await renderTemplate("modules/mythacri-scripts/templates/runes-target.hbs", {bonus, targets}),
+    content: await renderTemplate("modules/mythacri-scripts/templates/runes-target.hbs", {bonus, field: field}),
     rejectClose: false,
-    window: {title: "MYTHACRI.CraftingApplyRune"},
+    window: {title: "MYTHACRI.CRAFTING.RUNE.Apply"},
     ok: {
-      label: "MYTHACRI.CraftingApplyRune",
+      label: "Confirm",
       callback: (event, button) => button.form.elements.itemId.value
     },
     position: {width: 400, height: "auto"}
@@ -771,26 +780,26 @@ async function _promptSpiritTransfer(item) {
   if (existing) {
     const eg = existing.flags[MODULE.ID].spiritGrade;
     if (eg >= grade) {
-      ui.notifications.warn("MYTHACRI.CraftingConsumeSpiritItemWarn", {localize: true});
+      ui.notifications.warn("MYTHACRI.CRAFTING.SPIRIT.Consume.Warning", {localize: true});
       return null;
     }
   }
 
   const target = await fromUuid(data.sourceId);
-  let content = "<p>" + game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemHint", {
+  let content = "<p>" + game.i18n.format("MYTHACRI.CRAFTING.SPIRIT.Consume.hint", {
     name: target.name,
     grade: grade.ordinalString()
   }) + "</p>";
-  if (existing) content += `<p><em>${game.i18n.localize("MYTHACRI.CraftingConsumeSpiritItemHintReplace")}</em></p>`;
+  if (existing) content += `<p><em>${game.i18n.localize("MYTHACRI.CRAFTING.SPIRIT.Consume.hintReplace")}</em></p>`;
   const confirm = await foundry.applications.api.DialogV2.confirm({
-    window: {title: game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemTitle", {name: target.name})},
+    window: {title: game.i18n.format("MYTHACRI.CRAFTING.SPIRIT.Consume.Title", {name: target.name})},
     content: content,
     rejectClose: false,
     position: {width: 400}
   });
   if (!confirm) return null;
   const itemData = game.items.fromCompendium(target);
-  itemData.name = game.i18n.format("MYTHACRI.CraftingConsumeSpiritItemName", {
+  itemData.name = game.i18n.format("MYTHACRI.CRAFTING.SPIRIT.Name", {
     name: itemData.name,
     grade: grade.ordinalString()
   });

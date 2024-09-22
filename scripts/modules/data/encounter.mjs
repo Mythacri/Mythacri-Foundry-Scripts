@@ -24,7 +24,7 @@ function _renderChatMessage(message, [html]) {
 async function _roll(event) {
   event.currentTarget.disabled = true;
   Roll.create("1d12").toMessage({
-    flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`,
+    flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.ENCOUNTER.EncounterRoll")}`,
     "flags.mythacri-scripts.encounter": true
   });
 }
@@ -39,7 +39,7 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
   static DEFAULT_OPTIONS = {
     classes: [MODULE.ID, "encounter"],
     position: {width: 400, height: "auto"},
-    window: {title: "MYTHACRI.EncounterTitle"},
+    window: {title: "MYTHACRI.ENCOUNTER.Title"},
     id: "encounter",
     actions: {
       roll: Encounter.#gmRoll,
@@ -160,7 +160,7 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
     const amount = game.settings.get(MODULE.ID, "encounter-dice") ?? 1;
     const roll = await Roll.create(`${amount}d12`).evaluate();
     roll.toMessage({
-      flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.EncounterRoll")}`
+      flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.ENCOUNTER.EncounterRoll")}`
     }, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
     this.rolls = roll.dice[0].results.map(r => ({value: r.result}));
     this.render();
