@@ -1,19 +1,33 @@
-import {MODULE} from "../../constants.mjs";
+import MODULE from "../../constants.mjs";
 
 const {BooleanField, HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
-/**
- * Initialization function to register data models.
- */
-export default function initializeBehaviors() {
-  CONFIG.RegionBehavior.dataModels[`${MODULE.ID}.trap`] = TrapData;
-  CONFIG.RegionBehavior.typeIcons[`${MODULE.ID}.trap`] = "fa-solid fa-person-falling-burst";
-}
+/* -------------------------------------------------- */
+
+Hooks.once("init", function() {
+  for (const behavior of Object.values(behaviors)) {
+    Object.assign(CONFIG.RegionBehavior.dataModels, {[`${MODULE.ID}.${behavior.metadata.type}`]: behavior});
+    Object.assign(CONFIG.RegionBehavior.typeIcons, {[`${MODULE.ID}.${behavior.metadata.type}`]: behavior.metadata.icon});
+  }
+});
+
+/* -------------------------------------------------- */
 
 /**
  * Behavior type that configures a trap that prompts a saving throw and deals damage.
  */
 class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
+  /**
+   * Region behavior metadata.
+   * @type {object}
+   */
+  static metadata = {
+    type: "trap",
+    icon: "fa-solid fa-person-falling-burst"
+  };
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static events = {
     [CONST.REGION_EVENTS.TOKEN_ENTER]: foundry.utils.debounce(TrapData.#onTokenMoveIn, 150)
@@ -117,3 +131,13 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
     }
   }
 }
+
+/* -------------------------------------------------- */
+
+const behaviors = {
+  TrapData
+};
+
+/* -------------------------------------------------- */
+
+export default behaviors;

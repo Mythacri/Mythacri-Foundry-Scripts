@@ -10,7 +10,7 @@ Accessed through `mythacri.mayhem`.
  * Render an instance of the mayhem ui for manually changing the points.
  * @returns {MayhemUI}      A rendered MayhemUI application.
  */
-async render()
+async create()
 
 /**
  * Add mayhem points to yourself.
@@ -110,11 +110,10 @@ async fullRestDialog()
 Accessed through `mythacri.resource`.
 ```js
 /**
- * Factory method to create an instance of this application for several actors.
- * @param {Actor5e|Actor5e[]} [actors]      An actor or array of actors.
- * @returns {void}
+ * Prompt for populating an actor with lootable resources.
+ * @param {Actor5e} actor     The actor to populate.
  */
-create(actors = [])
+async populate(actor)
 ```
 
 ### Soundboard

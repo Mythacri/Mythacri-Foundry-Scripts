@@ -1,6 +1,8 @@
-import {MODULE} from "../../constants.mjs";
+import MODULE from "../../constants.mjs";
 
 const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundry.data.fields;
+
+/* -------------------------------------------------- */
 
 /**
  * Data model for `recipe` items.
@@ -19,7 +21,7 @@ const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundr
  * @property {number} price.value                           The value of this recipe.
  * @property {string} price.denomination                    The denomination of the value, as defined in `DND5E.currencies`.
  */
-export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
+export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   dnd5e.dataModels.item.ItemDescriptionTemplate,
   dnd5e.dataModels.item.ItemTypeTemplate
 ) {
@@ -50,6 +52,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     });
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The list of item types that are valid creations from a recipe.
    * @type {string[]}
@@ -61,6 +65,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     return ["feat", "container", "consumable", "weapon", "equipment", "tool"];
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get the target item of this recipe.
    * @returns {Promise<Item|null>}      The item that will be created, if valid.
@@ -70,6 +76,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     return fromUuid(this.crafting.target.uuid) || null;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this item have a valid target?
    * @type {boolean}
@@ -77,6 +85,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   get hasTarget() {
     return this.constructor.hasTarget(this.crafting.target.uuid);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Does this item have a valid target?
@@ -89,6 +99,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     return this.allowedTargetTypes.includes(entry?.type);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get the crafting object reduced to only those that are valid identifiers.
    * @returns {object}      An object mapping `identifier` to `quantity`.
@@ -96,6 +108,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   getComponents() {
     return this.constructor.getComponents(this.crafting.components);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Get the crafting object reduced to only those that are valid identifiers.
@@ -113,6 +127,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     }, {});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this item have valid components?
    * @type {boolean}
@@ -120,6 +136,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   get hasComponents() {
     return this.constructor.hasComponents(this.crafting.components);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Does this item have valid components?
@@ -130,6 +148,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     return components.some(c => mythacri.crafting.validIdentifier(c.identifier, {allowWildcard: true}));
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Return whether an actor knows a recipe.
    * @param {Actor5e} actor     The actor to test.
@@ -138,6 +158,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   knowsRecipe(actor) {
     return this.constructor.knowsRecipe(actor, this.parent.id, this.type.value, this.crafting.basic);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Return whether an actor knows a recipe.
@@ -153,6 +175,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
     return isEnabled && (basic || isLearned);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Return whether an actor can learn a recipe.
    * @param {Actor5e} actor     The actor to test.
@@ -161,6 +185,8 @@ export class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   canLearnRecipe(actor) {
     return this.constructor.canLearnRecipe(actor, this.parent.id, this.type.value, this.crafting.basic);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Return whether an actor can learn a recipe.

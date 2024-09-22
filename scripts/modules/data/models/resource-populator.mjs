@@ -1,15 +1,16 @@
-const {SchemaField, BooleanField, StringField} = foundry.data.fields;
+const {SchemaField, SetField, StringField} = foundry.data.fields;
+
+/* -------------------------------------------------- */
 
 /** Utility model for holding and refreshing data when creating loot on an actor. */
-export class ResourcePopulatorModel extends foundry.abstract.DataModel {
+export default class ResourcePopulatorModel extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
+    const types = mythacri.crafting.TYPES.subsubtypes;
     return {
-      types: new SchemaField(Object.entries(mythacri.crafting.subsubtypes).reduce((acc, [key, {label}]) => {
-        acc[key] = new SchemaField({
-          active: new BooleanField({initial: true}),
-          formula: new StringField({initial: "1d2", required: true})
-        }, {label: label});
+      types: new SetField(new StringField()),
+      formulas: new SchemaField(Object.keys(types).reduce((acc, key) => {
+        acc[key] = new StringField({initial: "1d2", required: true});
         return acc;
       }, {}))
     };

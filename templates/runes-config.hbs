@@ -1,14 +1,15 @@
-<div class="content">
-  <header>
-    {{localize "MYTHACRI.CraftingRunes"}}: {{value}} / {{max}}
-  </header>
+<div class="standard-form">
+  <h1>{{localize "MYTHACRI.CRAFTING.RUNE.Runes"}}: {{value}} / {{max}}</h1>
+
   {{#each bonuses}}
-  <div class="bonus" data-bonus-id="{{bonus.id}}">
-    <label>{{name}}</label>
-    <a {{#unless (and ../atMax (not enabled))}} data-action="toggle" {{/unless}}>
-      <i class="fa-solid fa-toggle-{{ifThen enabled 'on' 'off'}}"></i>
-    </a>
-    <div class="notes notification">{{{text}}}</div>
-  </div>
+  <fieldset data-bonus-id="{{bonus.id}}">
+    <label>
+      {{name}}
+      <a {{#unless (and ../atMax (not enabled))}} data-action="toggle" {{/unless}}>
+        <i class="fa-solid fa-toggle-{{ifThen enabled 'on' 'off'}}"></i>
+      </a>
+    </label>
+    <div class="notification">{{{text}}}</div>
+  </fieldset>
   {{/each}}
 </div>

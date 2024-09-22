@@ -8,9 +8,6 @@
 /*          ACTOR SHEETS          */
 /*                                */
 /* ------------------------------ */
-.dnd5e.sheet.actor.npc .legendary {
-  display: none;
-}
 :is(.dnd5e2, .dnd5e2-journal) :is(i, span).currency.mrb {
   /* Setting the marbles icon with a placeholder same way the system sets its other currencies. */
   background-image: url(../assets/icons/marble.webp);
@@ -52,10 +49,6 @@
     }
   }
 
-  .sheet-body .pills-group .pill > i.coldIron::before {
-    content: "\f6fc";
-  }
-
   /* Feral Regression */
   .feral-regression {
     .meters {
@@ -95,30 +88,6 @@
       }
     }
   }
-}
-
-/* ------------------------------ */
-/*                                */
-/*         LOOT ITEM SHEET        */
-/*                                */
-/* ------------------------------ */
-.dnd5e.sheet.item .item-properties .form-group.resource select {
-  border: none;
-  margin-left: 3px;
-  flex: 1;
-}
-.dnd5e.sheet.item .item-properties .form-group.resource label {
-  white-space: nowrap;
-}
-
-/* ------------------------------ */
-/*                                */
-/*  EQUIPMENT/WEAPON ITEM SHEET   */
-/*                                */
-/* ------------------------------ */
-.dnd5e.sheet.item .form-group.runes input[type="number"] {
-  flex: 0 0 50px;
-  text-align: center;
 }
 
 /* ------------------------------ */
@@ -203,49 +172,10 @@
 /*        MAYHEM INTERFACE        */
 /*                                */
 /* ------------------------------ */
-.mythacri-scripts.mayhem-ui {
-  width: 400px;
-
-  .content {
-    display: flex;
-    flex-direction: column;
-
-    .note {
-      font-style: italic;
-      margin: 1em 1em 2em 1em;
-      align-self: center;
-    }
-
-    .controls {
-      display: flex;
-      flex: 1;
-      gap: 1em;
-
-      [data-action] {
-        font-size: 40px;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 0.5em 0;
-        text-align: center;
-        align-items: center;
-      }
-    }
-
-    .diff {
-      width: 100%;
-      text-align: center;
-      font-style: italic;
-      padding: 0.5em 0;
-      color: gray;
-      font-size: 25px;
-      margin-bottom: 0.5em;
-    }
-
-    [data-action="submit"] {
-      font-size: 20px;
-      padding: 5px 0;
-    }
+.mythacri-scripts.mayhem {
+  .total {
+    margin: 0 auto;
+    font-size: 20px;
   }
 }
 
@@ -444,8 +374,8 @@
             }
 
             .image {
-              width: calc(var(--recipe-height) + 45x);
-              height: calc(var(--recipe-height) + 45px);
+              width: var(--recipe-height);
+              height: var(--recipe-height);
               border-radius: 10px;
               border: 2px inset gray;
             }
@@ -688,13 +618,6 @@
 /*                                */
 /* ------------------------------ */
 .mythacri-scripts.encounter {
-  width: auto !important;
-  min-width: 400px;
-
-  & button {
-    margin: 5px 2px;
-  }
-
   .roll {
     display: flex;
 
@@ -707,44 +630,34 @@
     }
   }
 
-  .player {
-    border: 2px inset;
-    padding: 3px;
+  .players {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
-    &.match {
-      color: green;
-    }
-    &.mismatch {
-      color: red;
+    .player {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
     }
   }
 
-  .gm .rolls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
+  .rolls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
 
     .roll {
       min-width: 40px;
       line-height: 40px;
       justify-content: center;
-      margin-right: 5px;
       background-image: url(../../../icons/svg/d12-grey.svg);
       background-repeat: no-repeat;
       background-size: 40px 40px;
       font-size: var(--font-size-16);
       font-weight: bold;
-      color: gray;
-
-      &:first-child {
-        margin-left: 1em;
-      }
-
-      &.match {
-        color: black;
-        filter: drop-shadow(0 0 3px green);
-      }
+      color: black;
+      opacity: 0.5;
+      &.match { opacity: 1; }
     }
   }
 }
@@ -755,43 +668,25 @@
 /*                                */
 /* ------------------------------ */
 .mythacri-scripts.runes-config {
-  .content {
-    & header {
+  & h1 {
+    text-align: center;
+    font-size: 40px;
+  }
+
+  [data-bonus-id] {
+    & label {
       font-weight: bold;
-      font-size: 24px;
-      border-bottom: 2px groove black;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
     }
 
-    .bonus {
-      position: relative;
-      padding: 1em;
+    & a:has(.fa-toggle-off) {
+      opacity: 0.5;
+    }
 
-      &:last-child {
-        padding-bottom: 0;
-      }
-
-      & label {
-        font-weight: bold;
-        color: rgb(73, 73, 73);
-      }
-
-      & a {
-        position: absolute;
-        right: 1em;
-        top: 1em;
-
-        &:not([data-action]) {
-          color: gray;
-          pointer-events: none;
-        }
-      }
-
-      .notes {
-        font-style: italic;
-        padding: 0 1em;
-        margin: 1em 0;
-      }
+    & a:not([data-action]) {
+      pointer-events: none;
+      opacity: 0.2;
     }
   }
 }
@@ -929,5 +824,38 @@
 .mythacri-scripts.item-transfer {
   .buttons {
     display: flex;
+  }
+}
+
+/* ------------------------------ */
+/*                                */
+/*       RESOURCE POPULATOR       */
+/*                                */
+/* ------------------------------ */
+.mythacri-scripts.resource-populator {
+  & multi-checkbox {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  & fieldset:first-child {
+    flex: 1;
+  }
+
+  & fieldset:last-child {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    overflow: hidden auto;
+    row-gap: 0;
+    max-height: 300px;
+
+    .form-group {
+      flex-direction: column;
+      gap: 0;
+
+      & label {
+        font-size: 12px;
+        height: 14px;
+      }
+    }
   }
 }

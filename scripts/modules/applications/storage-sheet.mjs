@@ -1,9 +1,9 @@
-import {MODULE} from "../constants.mjs";
+import MODULE from "../constants.mjs";
 
 /**
  * Actor sheet for storage-type actors.
  */
-export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
+export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
   /** @override */
   static get defaultOptions() {
     const options = super.defaultOptions;
@@ -13,10 +13,14 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     return options;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get template() {
     return "modules/mythacri-scripts/templates/storage-sheet.hbs";
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * IDs for items on the sheet that have been expanded.
@@ -25,11 +29,15 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
    */
   _expanded = new Set();
 
+  /* -------------------------------------------------- */
+
   /**
    * A set of item types that should be prevented from being dropped on this type of actor sheet.
    * @type {Set<string>}
    */
   unsupportedItemTypes = new Set(["feat", "race", "class", "subclass", "background", "mythacri-scripts.recipe"]);
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getData(options = {}) {
@@ -65,6 +73,8 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     }
     return data;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prepare the data structure for items which appear on the actor sheet.
@@ -120,14 +130,14 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
           label = CONFIG.DND5E.consumableTypes[ct].label;
         } else {
           category = "consumable-other";
-          label = "MYTHACRI.ConsumableTypeOther";
+          label = "MYTHACRI.STORAGE.ConsumableTypeOther";
         }
       } else if (item.type === "loot") {
         const id = mythacri.crafting.getIdentifier(item);
         if (id && mythacri.crafting.validIdentifier(id)) {
           const rtype = item.flags[MODULE.ID].resource.type;
           category = "resource-" + rtype;
-          label = `MYTHACRI.ResourceType${rtype.capitalize()}`;
+          label = `MYTHACRI.RESOURCE.typeOption${rtype.capitalize()}`;
         } else {
           const lt = item.system.type.value;
           if (lt in CONFIG.DND5E.lootTypes) {
@@ -135,7 +145,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
             label = CONFIG.DND5E.lootTypes[lt].label;
           } else {
             category = "loot-other";
-            label = "MYTHACRI.LootTypeOther";
+            label = "MYTHACRI.STORAGE.LootTypeOther";
           }
         }
       }
@@ -155,7 +165,7 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     context.gear = [items.weapons, items.armors, items.equipment, items.containers, items.tools];
     context.consumables = Object.keys(CONFIG.DND5E.consumableTypes).map(k => items[k]).concat([items["consumable-other"]]);
     context.loot = Object.keys(CONFIG.DND5E.lootTypes).map(k => items[k]).concat([items["loot-other"]]);
-    context.resources = Object.keys(mythacri.crafting.resourceTypes).map(k => items[`resource-${k}`]);
+    context.resources = Object.keys(mythacri.crafting.TYPES.resourceTypes).map(k => items[`resource-${k}`]);
     ["gear", "consumables", "loot", "resources"].forEach(k => context[k] = context[k].filter(u => u));
     for (const k in items) items[k].items.sort((a, b) => {
       const diff = a.sort - b.sort;
@@ -164,15 +174,21 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _onDropActor(event, data) {
     return false;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _onDropActiveEffect(event, data) {
     return false;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _onDropSingleItem(itemData) {
@@ -201,6 +217,8 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     return itemData;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onDropStackConsumables(itemData) {
     const stacked = super._onDropStackConsumables(itemData); // returns a Promise or null.
@@ -216,51 +234,47 @@ export class StorageSheet extends dnd5e.applications.actor.ActorSheet5e {
     return item.update({"system.quantity": item.system.quantity + Math.max(itemData.system.quantity, 1)});
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     html[0].querySelector("[data-action=capacity]").addEventListener("click", this._onConfig.bind(this));
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Render configuration menu for modifying attributes.
    * @returns {Promise<Actor5e>}      The updated storage actor.
    */
   _onConfig() {
-    const cap = this.document.system.attributes.capacity;
-    const options = {
-      quantity: "DND5E.Quantity",
-      weight: "DND5E.Weight"
+    const makeField = path => {
+      const field = this.document.system.schema.getField(path);
+      const value = foundry.utils.getProperty(this.document.system, path);
+      return field.toFormGroup({}, {localize: true, value: value});
     };
-    const selectOptions = HandlebarsHelpers.selectOptions(options, {
-      hash: {selected: cap.type, localize: true, sort: true}
-    });
 
-    return Dialog.prompt({
-      title: `${game.i18n.localize("MYTHACRI.CapacityConfig")}: ${this.document.name}`,
-      label: game.i18n.localize("Save"),
-      rejectClose: false,
-      content: `
-      <form class="dnd5e">
-        <div class="form-group">
-          <label>${game.i18n.localize("MYTHACRI.CapacityMax")}</label>
-          <div class="form-fields">
-            <input type="number" name="system.attributes.capacity.max" value="${cap.max}" autofocus>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>${game.i18n.localize("MYTHACRI.CapacityType")}</label>
-          <div class="form-fields">
-            <select name="system.attributes.capacity.type">${selectOptions}</select>
-          </div>
-        </div>
-      </form>`,
-      callback: ([html]) => {
-        const update = new FormDataExtended(html.querySelector("FORM")).object;
-        return this.document.update(update);
+    const legend = this.document.system.schema.getField("attributes.capacity").label;
+
+    const content = `
+    <fieldset><legend>${legend}</legend>
+      ${["attributes.capacity.max", "attributes.capacity.type"].map(path => makeField(path).outerHTML).join("")}
+    </fieldset>`;
+
+    return foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: `${game.i18n.localize("MYTHACRI.STORAGE.ModifyAttributes")}: ${this.document.name}`
       },
-      options: {
-        id: `storage-config-${this.document.uuid.replaceAll(".", "-")}`
+      position: {width: 400},
+      rejectClose: false,
+      content: content,
+      ok: {
+        label: "Save",
+        callback: (event, button) => {
+          const update = new FormDataExtended(button.form).object;
+          this.document.update(update);
+        }
       }
     });
   }

@@ -3,10 +3,10 @@
   <div class="components">
     {{{recipe.labels}}}
   </div>
-  <img class="image" src="{{recipe.item.img}}">
+  <img class="image" src="{{recipe.item.img}}" data-tooltip="{{recipe.tooltip}}" data-tooltip-class="{{recipe.tooltipClass}}">
 </div>
 <button type="button" class="create" data-uuid="{{recipe.uuid}}">
   <i class="fa-solid fa-{{recipe.icon}}"></i>
-  {{localize "MYTHACRI.CraftingCreate"}}
+  {{localize "MYTHACRI.CRAFTING.Create"}}
 </button>
 <div class="description">{{{recipe.text}}}</div>

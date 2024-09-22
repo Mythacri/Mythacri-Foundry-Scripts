@@ -6,7 +6,7 @@
     <section class="header-details flexrow">
       <h1 class="charname">
         <input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'DND5E.Name' }}">
-        <a class="config-button" data-action="capacity" data-tooltip="MYTHACRI.CapacityConfig">
+        <a class="config-button" data-action="capacity" data-tooltip="MYTHACRI.STORAGE.ModifyAttributes">
           <i class="fas fa-cog"></i>
         </a>
       </h1>
@@ -15,10 +15,10 @@
 
   {{!-- Sheet Navigation --}}
   <nav class="sheet-navigation tabs" data-group="primary">
-    <a class="item" data-tab="gear">{{ localize "MYTHACRI.StorageTabGear" }}</a>
-    <a class="item" data-tab="consumables">{{ localize "MYTHACRI.StorageTabConsumables" }}</a>
-    <a class="item" data-tab="loot">{{ localize "MYTHACRI.StorageTabLoot" }}</a>
-    <a class="item" data-tab="resources">{{ localize "MYTHACRI.StorageTabResources" }}</a>
+    <a class="item" data-tab="gear">{{ localize "MYTHACRI.STORAGE.TabGear" }}</a>
+    <a class="item" data-tab="consumables">{{ localize "MYTHACRI.STORAGE.TabConsumables" }}</a>
+    <a class="item" data-tab="loot">{{ localize "MYTHACRI.STORAGE.TabLoot" }}</a>
+    <a class="item" data-tab="resources">{{ localize "MYTHACRI.STORAGE.TabResources" }}</a>
   </nav>
 
   {{!-- Sheet Body --}}

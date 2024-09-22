@@ -1,0 +1,13 @@
+<fieldset>
+  <button type="button" data-action="add">
+    <i class="fa-fw fa-solid fa-arrow-up"></i>
+    <span>{{localize "MYTHACRI.MAYHEM.Increase"}}</span>
+  </button>
+
+  <span class="total">{{mayhem.points}}</span>
+
+  <button type="button" data-action="deduct" {{disabled disableDown}}>
+    <i class="fa-fw fa-solid fa-arrow-down"></i>
+    <span>{{localize "MYTHACRI.MAYHEM.Decrease"}}</span>
+  </button>
+</fieldset>

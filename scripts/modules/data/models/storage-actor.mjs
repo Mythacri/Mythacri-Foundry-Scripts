@@ -1,5 +1,7 @@
 const {SchemaField, NumberField, StringField} = foundry.data.fields;
 
+/* -------------------------------------------------- */
+
 /**
  * Data model for `storage` actors.
  * @property {object} attributes
@@ -7,7 +9,7 @@ const {SchemaField, NumberField, StringField} = foundry.data.fields;
  * @property {number} attributes.capacity.max
  * @property {string} attributes.capacity.type
  */
-export class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
+export default class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
   dnd5e.dataModels.shared.CurrencyTemplate
 ) {
   /** @override */
@@ -16,24 +18,47 @@ export class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
       attributes: new SchemaField({
         capacity: new SchemaField({
           max: new NumberField({positive: true, integer: true, initial: 100}),
-          type: new StringField({required: true, initial: "quantity"})
+          type: new StringField({
+            required: true,
+            initial: "quantity",
+            choices: {
+              quantity: "DND5E.Quantity",
+              weight: "DND5E.Weight"
+            }
+          })
         })
       })
     });
   }
 
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "MYTHACRI.STORAGE"
+  ];
+
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     const cap = this.attributes.capacity;
     const isQty = cap.type === "quantity";
-    const total = this.parent.items.reduce((acc, item) => {
-      if (isQty) return acc + (item.system.quantity || 0);
-      return acc + (item.system.weight || 0) * (item.system.quantity || 0);
-    }, 0);
+
+    let total = 0;
+
+    for (const item of this.parent.items) {
+      item.prepareFinalAttributes();
+      if (isQty) total += (item.system.quantity || 0);
+      else total += (item.system.weight?.value) * (item.system.quantity || 0);
+    }
+
     this.attributes.capacity.value = Math.round(total);
-    this.attributes.capacity.pct = Math.round(Math.clamped(total / this.attributes.capacity.max, 0, 1) * 100);
+    this.attributes.capacity.pct = Math.round(Math.clamp(total / this.attributes.capacity.max, 0, 1) * 100);
     this.attributes.capacity.overflow = total > this.attributes.capacity.max;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preCreate(data, options, user) {
