@@ -277,6 +277,14 @@ const TYPES = {
   /* -------------------------------------------------- */
 
   /**
+   * Alchemical subtypes.
+   * @type {object}
+   */
+  alchemySubtypes: {},
+
+  /* -------------------------------------------------- */
+
+  /**
    * Valid item types for having runes.
    * @type {Set<string>}
    */

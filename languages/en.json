@@ -10,11 +10,17 @@
     "ArmorClassHybrid": "Grand Hex: Hybrid",
     "ArmorClassIronChin": "Iron Chin",
     "ArmorClassMalevolence": "Hex: Malevolence",
-    "AuraColor": "Color",
-    "AuraColorHint": "The color of the aura's bounds.",
-    "AuraDistance": "Distance",
-    "AuraDistanceHint": "The radius of the aura measured in grid units.",
-    "Auras": "Auras",
+    "AURA": {
+      "Auras": "Auras",
+      "color": {
+        "label": "Color",
+        "hint": "The color of the aura's bounds."
+      },
+      "distance": {
+        "label": "Distance",
+        "hint": "The radius of the aura measured in grid units."
+      }
+    },
     "Bewitcher": "Bewitcher",
     "Capacity": "Capacity",
     "CapacityConfig": "Modify Attributes",

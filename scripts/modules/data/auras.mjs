@@ -5,6 +5,9 @@ Hooks.on("renderTokenConfig", _onRenderTokenConfig);
 
 /* -------------------------------------------------- */
 
+/**
+ * General aura setup.
+ */
 function _setupAuras() {
   if (!game.modules.get("babonus")?.active) return;
   /**
@@ -16,6 +19,8 @@ function _setupAuras() {
     new MythacriAura(token, aura).initialize();
   };
 
+  /* -------------------------------------------------- */
+
   class MythacriAura extends babonus.abstract.applications.TokenAura {
     constructor(token, auraData) {
       const data = {
@@ -25,8 +30,12 @@ function _setupAuras() {
       super(token, data);
     }
 
+    /* -------------------------------------------------- */
+
     /** @override */
     static auras = {};
+
+    /* -------------------------------------------------- */
 
     /**
      * Helper to retrieve 'bonus' data under different name.
@@ -35,6 +44,8 @@ function _setupAuras() {
     get data() {
       return this.bonus;
     }
+
+    /* -------------------------------------------------- */
 
     /** @override */
     get auras() {
@@ -46,39 +57,52 @@ function _setupAuras() {
       return `mythacri-aura-${this.token.uuid}`;
     }
 
+    /* -------------------------------------------------- */
+
     /** @override */
     get showAuras() {
       return true;
     }
     set showAuras(bool) {}
 
+    /* -------------------------------------------------- */
+
     /** @override */
     get restrictions() {
       return new Set(["move"]);
     }
+
+    /* -------------------------------------------------- */
 
     /** @override */
     get radius() {
       return this.token.flags[MODULE.ID]?.aura?.distance || 0;
     }
 
+    /* -------------------------------------------------- */
+
     /** @override */
     get isDrawable() {
       return this.radius > 0;
     }
+
+    /* -------------------------------------------------- */
 
     /** @override */
     get white() {
       return Color.from(this.token.flags[MODULE.ID].aura.color);
     }
 
+    /* -------------------------------------------------- */
+
     /** @override */
     refresh(...T) {
       super.refresh(...T);
-
       if (!this.isDrawable) this.destroy();
     }
   }
+
+  /* -------------------------------------------------- */
 
   Hooks.on("refreshToken", function(token) {
     for (const aura of Object.values(MythacriAura.auras)) {
@@ -86,19 +110,27 @@ function _setupAuras() {
     }
   });
 
+  /* -------------------------------------------------- */
+
   Hooks.on("deleteToken", function(tokenDoc) {
     for (const aura of Object.values(MythacriAura.auras)) {
       if (aura.token === tokenDoc) aura.destroy({fadeOut: false});
     }
   });
 
+  /* -------------------------------------------------- */
+
   Hooks.on("canvasTearDown", (canvas) => MythacriAura.auras = {});
+
+  /* -------------------------------------------------- */
 
   Hooks.on("canvasReady", canvas => {
     for (const token of canvas.tokens.placeables) {
       if (token.document) makeAura(token.document);
     }
   });
+
+  /* -------------------------------------------------- */
 
   Hooks.on("updateToken", (token, data) => {
     const flags = data.flags?.[MODULE.ID] ?? {};
@@ -114,24 +146,16 @@ function _setupAuras() {
  * @param {HTMLElement} html          The element of the config.
  */
 function _onRenderTokenConfig(config, [html]) {
-  const aura = config.token.flags[MODULE.ID]?.aura ?? {};
-  const div = document.createElement("DIV");
-
-  // Expand the width
-  config.position.width = 540;
-  config.setPosition(config.position);
-
-  const nav = html.querySelector("nav.sheet-tabs.tabs[data-group=main]");
-  div.innerHTML = `
+  html.querySelector("nav.sheet-tabs.tabs[data-group=main]").insertAdjacentHTML("beforeend", `
   <a class="item" data-tab="auras">
     <i class="fa-solid fa-dot-circle"></i>
-    ${game.i18n.localize("MYTHACRI.Auras")}
-  </a>`;
-  nav.appendChild(div.firstElementChild);
+    ${game.i18n.localize("MYTHACRI.AURA.Auras")}
+  </a>`);
 
   const color = new foundry.data.fields.ColorField({
-    label: "MYTHACRI.AuraColor",
-    hint: "MYTHACRI.AuraColorHint"
+    label: "MYTHACRI.AURA.color.label",
+    hint: "MYTHACRI.AURA.color.hint",
+    name: "flags.mythacri-scripts.aura.color"
   });
 
   const distance = new foundry.data.fields.NumberField({
@@ -139,25 +163,20 @@ function _onRenderTokenConfig(config, [html]) {
     max: 30,
     initial: 0,
     step: 1,
-    label: "MYTHACRI.AuraDistance",
-    hint: "MYTHACRI.AuraDistanceHint"
+    label: "MYTHACRI.AURA.distance.label",
+    hint: "MYTHACRI.AURA.distance.hint",
+    name: "flags.mythacri-scripts.aura.distance"
   });
 
-  const template = `
-  {{formGroup color value=colorValue localize=true name=colorName}}
-  {{formGroup distance value=distanceValue localize=true name=distanceName}}`;
+  const form = [color, distance].map(field => field.toFormGroup({localize: true}, {
+    name: field.options.name,
+    value: foundry.utils.getProperty(config.token, field.options.name)
+  }).outerHTML).join("");
 
-  const data = {
-    color: color,
-    distance: distance,
-    colorValue: aura.color ? aura.color : "",
-    distanceValue: Number.isInteger(aura.distance) ? aura.distance : 0,
-    colorName: "flags.mythacri-scripts.aura.color",
-    distanceName: "flags.mythacri-scripts.aura.distance"
-  };
+  const content = `<div class="tab" data-tab="auras">${form}</div>`;
+  html.querySelector("footer").insertAdjacentHTML("beforebegin", content);
 
-  div.innerHTML = `<div class="tab" data-tab="auras">${Handlebars.compile(template)(data)}</div>`;
-  html.querySelector("footer").before(div.firstElementChild);
+  config.setPosition({width: 580, height: "auto"});
 }
 
 /* -------------------------------------------------- */
