@@ -875,12 +875,6 @@ async function _promptSpiritTransfer(item) {
     grade: grade.ordinalString()
   });
 
-  // TODO: tell mythacri to update all items to use `@item.flags.mythacri-scripts.spiritGrade`.
-  ChatMessage.implementation.create({
-    whisper: [game.user.id],
-    content: "Psst, scaling of damage and targeting doesn't work, so if the grade was 2+, you gotta adjust it yourself, sorry!"
-  });
-
   itemData.system.type.value = "spiritTech";
   itemData.flags[MODULE.ID] = data;
 
