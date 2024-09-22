@@ -44,6 +44,12 @@
         "FlagHint": "Enable 'Monster Crafting' for this actor.",
         "Title": "Monster Crafting"
       },
+      "POPULATOR": {
+        "Active": "Active",
+        "label": "Types",
+        "hint": "Select the resources that should be available. You will be able to set the formula that determines the quantity below.",
+        "Title": "Populate Loot List: {name}"
+      },
       "RECIPE": {
         "Alchemy": "Alchemical Recipe",
         "Cooking": "Cooking Recipe",
@@ -265,10 +271,6 @@
     "ResourceMonsterTeeth": "Teeth",
     "ResourceMonsterTentacle": "Tentacle",
     "ResourceMonsterTusk": "Tusk",
-    "ResourcePopulatorActive": "Active",
-    "ResourcePopulatorNoActors": "You must provide at least one valid actor.",
-    "ResourcePopulatorSave": "Save",
-    "ResourcePopulatorTitle": "Populate Loot List: {name}",
     "ResourceTypeEssence": "Essence",
     "ResourceTypeGem": "Gem",
     "ResourceTypeLabelEssence": "{subtype} {type}",

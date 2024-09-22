@@ -14,7 +14,7 @@ async function populate(actor) {
 
   const options = {
     window: {
-      title: game.i18n.format("MYTHACRI.ResourcePopulatorTitle", {name: actor.name})
+      title: game.i18n.format("MYTHACRI.CRAFTING.POPULATOR.Title", {name: actor.name})
     },
     position: {width: 600, height: "auto"},
     classes: ["resource-populator", "mythacri-scripts"]
@@ -29,8 +29,8 @@ async function populate(actor) {
 
     html += types.toFormGroup({
       classes: ["stacked"],
-      label: "Types",
-      hint: "Select the resources that should be available. You will be able to set the formula that determines the quantity below."
+      label: "MYTHACRI.CRAFTING.POPULATOR.label",
+      hint: "MYTHACRI.CRAFTING.POPULATOR.hint"
     }, {
       name: "types",
       type: "checkboxes",
