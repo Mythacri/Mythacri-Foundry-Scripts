@@ -270,8 +270,8 @@ function _restTypes() {
 
 /** Merge in new shield progression types. */
 function _spellProgression() {
-  CONFIG.DND5E.spellcastingTypes.leveled.progression.bewitcher = {label: "MYTHACRI.Bewitcher", divisor: 100};
-  CONFIG.DND5E.spellProgression.bewitcher = "MYTHACRI.Bewitcher";
+  CONFIG.DND5E.spellcastingTypes.leveled.progression.bewitcher = {label: "MYTHACRI.SPELLCASTING.Bewitcher", divisor: 100};
+  CONFIG.DND5E.spellProgression.bewitcher = "MYTHACRI.SPELLCASTING.Bewitcher";
 }
 
 /* -------------------------------------------------- */

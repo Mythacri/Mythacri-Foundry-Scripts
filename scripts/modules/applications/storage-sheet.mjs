@@ -249,40 +249,32 @@ export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e 
    * @returns {Promise<Actor5e>}      The updated storage actor.
    */
   _onConfig() {
-    const cap = this.document.system.attributes.capacity;
-    const options = {
-      quantity: "DND5E.Quantity",
-      weight: "DND5E.Weight"
+    const makeField = path => {
+      const field = this.document.system.schema.getField(path);
+      const value = foundry.utils.getProperty(this.document.system, path);
+      return field.toFormGroup({}, {localize: true, value: value});
     };
-    const selectOptions = HandlebarsHelpers.selectOptions(options, {
-      hash: {selected: cap.type, localize: true, sort: true}
-    });
 
-    return Dialog.prompt({
-      title: `${game.i18n.localize("MYTHACRI.CapacityConfig")}: ${this.document.name}`,
-      label: game.i18n.localize("Save"),
-      rejectClose: false,
-      content: `
-      <form class="dnd5e">
-        <div class="form-group">
-          <label>${game.i18n.localize("MYTHACRI.CapacityMax")}</label>
-          <div class="form-fields">
-            <input type="number" name="system.attributes.capacity.max" value="${cap.max}" autofocus>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>${game.i18n.localize("MYTHACRI.CapacityType")}</label>
-          <div class="form-fields">
-            <select name="system.attributes.capacity.type">${selectOptions}</select>
-          </div>
-        </div>
-      </form>`,
-      callback: ([html]) => {
-        const update = new FormDataExtended(html.querySelector("FORM")).object;
-        return this.document.update(update);
+    const legend = this.document.system.schema.getField("attributes.capacity").label;
+
+    const content = `
+    <fieldset><legend>${legend}</legend>
+      ${["attributes.capacity.max", "attributes.capacity.type"].map(path => makeField(path).outerHTML).join("")}
+    </fieldset>`;
+
+    return foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: `${game.i18n.localize("MYTHACRI.STORAGE.ModifyAttributes")}: ${this.document.name}`
       },
-      options: {
-        id: `storage-config-${this.document.uuid.replaceAll(".", "-")}`
+      position: {width: 400},
+      rejectClose: false,
+      content: content,
+      ok: {
+        label: "Save",
+        callback: (event, button) => {
+          const update = new FormDataExtended(button.form).object;
+          this.document.update(update);
+        }
       }
     });
   }

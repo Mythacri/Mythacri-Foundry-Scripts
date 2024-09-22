@@ -21,11 +21,6 @@
         "label": "Distance"
       }
     },
-    "Bewitcher": "Bewitcher",
-    "Capacity": "Capacity",
-    "CapacityConfig": "Modify Attributes",
-    "CapacityMax": "Max Capacity",
-    "CapacityType": "Capacity Type",
     "ConDazed": "Dazed",
     "ConImpaired": "Impaired",
     "CRAFTING": {
@@ -340,14 +335,31 @@
     "SoundboardBroadcast": "Broadcast",
     "SoundboardError": "Soundboard | No sound files were found at the specified location.",
     "SoundboardPreview": "Preview",
+    "SPELLCASTING": {
+      "Bewitcher": "Bewitcher"
+    },
     "STORAGE": {
       "ConsumableTypeOther": "Other Consumables",
       "LootTypeOther": "Other Loot",
+      "ModifyAttributes": "Modify Attributes",
       "SheetLabel": "Mythacri Storage Sheet",
       "TabConsumables": "Consumables",
       "TabGear": "Gear",
       "TabLoot": "Loot",
-      "TabResources": "Resources"
+      "TabResources": "Resources",
+      "FIELDS": {
+        "attributes": {
+          "capacity": {
+            "label": "Capacity",
+            "max": {
+              "label": "Max Capacity"
+            },
+            "type": {
+              "label": "Capacity Type"
+            }
+          }
+        }
+      }
     },
     "TRANSFER": {
       "ContextOption": "Transfer Item",

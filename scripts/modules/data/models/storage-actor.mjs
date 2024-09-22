@@ -18,11 +18,25 @@ export default class StorageData extends dnd5e.dataModels.SystemDataModel.mixin(
       attributes: new SchemaField({
         capacity: new SchemaField({
           max: new NumberField({positive: true, integer: true, initial: 100}),
-          type: new StringField({required: true, initial: "quantity"})
+          type: new StringField({
+            required: true,
+            initial: "quantity",
+            choices: {
+              quantity: "DND5E.Quantity",
+              weight: "DND5E.Weight"
+            }
+          })
         })
       })
     });
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "MYTHACRI.STORAGE"
+  ];
 
   /* -------------------------------------------------- */
 
