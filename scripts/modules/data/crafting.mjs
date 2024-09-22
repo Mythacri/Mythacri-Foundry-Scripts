@@ -26,213 +26,225 @@ const TYPES = {
   /* -------------------------------------------------- */
 
   /**
+   * Main resource types.
+   * @type {Record<string, string>}
+   */
+  typeOptions: {
+    gem: "MYTHACRI.RESOURCE.typeOptionGem",
+    essence: "MYTHACRI.RESOURCE.typeOptionEssence",
+    monster: "MYTHACRI.RESOURCE.typeOptionMonster"
+  },
+
+  /* -------------------------------------------------- */
+
+  /**
    * Monster sub-subtypes. The parts that can be harvested for physical parts.
    * The 'uncommon' array contains a list of creature types from which this part is rarely or never found.
    * @type {object}
    */
   subsubtypes: {
     acid: {
-      label: "MYTHACRI.ResourceMonsterAcid",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.acid",
       uncommon: [
         "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "plant", "undead"
       ]
     },
     antenna: {
-      label: "MYTHACRI.ResourceMonsterAntenna",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.antenna",
       uncommon: [
         "celestial", "construct", "dragon", "elemental", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
       ]
     },
     antler: {
-      label: "MYTHACRI.ResourceMonsterAntler",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.antler",
       uncommon: [
         "aberration", "celestial", "construct", "dragon", "elemental", "fiend", "giant",
         "humanoid", "ooze", "plant", "undead"
       ]
     },
     blood: {
-      label: "MYTHACRI.ResourceMonsterBlood",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.blood",
       uncommon: ["celestial", "dragon", "elemental", "ooze", "plant"]
     },
     bone: {
-      label: "MYTHACRI.ResourceMonsterBone",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.bone",
       uncommon: ["humanoid", "ooze", "plant"]
     },
     brain: {
-      label: "MYTHACRI.ResourceMonsterBrain",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.brain",
       uncommon: ["dragon", "elemental", "fey", "humanoid", "monstrosity", "ooze", "plant"]
     },
     breathSac: {
-      label: "MYTHACRI.ResourceMonsterBreathSac",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.breathSac",
       uncommon: [
         "aberration", "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid",
         "monstrosity", "ooze", "plant", "undead"
       ]
     },
     carapace: {
-      label: "MYTHACRI.ResourceMonsterCarapace",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.carapace",
       uncommon: [
         "celestial", "construct", "dragon", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
       ]
     },
     claws: {
-      label: "MYTHACRI.ResourceMonsterClaws",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.claws",
       uncommon: ["construct", "elemental", "giant", "humanoid", "ooze", "plant", "undead"]
     },
     dust: {
-      label: "MYTHACRI.ResourceMonsterDust",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.dust",
       uncommon: [
         "beast", "construct", "dragon", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"
       ]
     },
     egg: {
-      label: "MYTHACRI.ResourceMonsterEgg",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.egg",
       uncommon: [
         "celestial", "construct", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"
       ]
     },
     etherealIchor: {
-      label: "MYTHACRI.ResourceMonsterEtherealIchor",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.etherealIchor",
       uncommon: [
         "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
         "humanoid", "monstrosity", "ooze", "plant"
       ]
     },
     eye: {
-      label: "MYTHACRI.ResourceMonsterEye",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.eye",
       uncommon: ["construct", "humanoid", "ooze", "plant"]
     },
     fat: {
-      label: "MYTHACRI.ResourceMonsterFat",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.fat",
       uncommon: ["construct", "elemental", "humanoid", "ooze", "plant", "undead"]
     },
     feathers: {
-      label: "MYTHACRI.ResourceMonsterFeathers",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.feathers",
       uncommon: ["aberration", "construct", "elemental", "giant", "humanoid", "ooze", "plant", "undead"]
     },
     fin: {
-      label: "MYTHACRI.ResourceMonsterFin",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.fin",
       uncommon: ["construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "ooze", "plant", "undead"]
     },
     flesh: {
-      label: "MYTHACRI.ResourceMonsterFlesh",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.flesh",
       uncommon: ["elemental", "humanoid", "ooze", "plant"]
     },
     heart: {
-      label: "MYTHACRI.ResourceMonsterHeart",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.heart",
       uncommon: ["construct", "elemental", "humanoid", "ooze", "plant", "undead"]
     },
     hide: {
-      label: "MYTHACRI.ResourceMonsterHide",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.hide",
       uncommon: [
         "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
         "ooze", "plant", "undead"
       ]
     },
     horn: {
-      label: "MYTHACRI.ResourceMonsterHorn",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.horn",
       uncommon: ["construct", "giant", "humanoid", "ooze", "plant", "undead"]
     },
     instructions: {
-      label: "MYTHACRI.ResourceMonsterInstructions",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.instructions",
       uncommon: [
         "aberration", "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
         "monstrosity", "ooze", "plant", "undead"
       ]
     },
     liver: {
-      label: "MYTHACRI.ResourceMonsterLiver",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.liver",
       uncommon: ["construct", "elemental", "humanoid", "ooze", "plant", "undead"]
     },
     mainEye: {
-      label: "MYTHACRI.ResourceMonsterMainEye",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.mainEye",
       uncommon: [
         "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
         "humanoid", "monstrosity", "ooze", "plant", "undead"
       ]
     },
     mote: {
-      label: "MYTHACRI.ResourceMonsterMote",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.mote",
       uncommon: [
         "aberration", "beast", "celestial", "construct", "dragon", "fey", "fiend", "giant",
         "humanoid", "monstrosity", "ooze", "plant", "undead"
       ]
     },
     mucus: {
-      label: "MYTHACRI.ResourceMonsterMucus",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.mucus",
       uncommon: [
         "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
         "monstrosity", "plant", "undead"
       ]
     },
     oil: {
-      label: "MYTHACRI.ResourceMonsterOil",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.oil",
       uncommon: [
         "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
         "monstrosity", "ooze", "plant", "undead"
       ]
     },
     pincer: {
-      label: "MYTHACRI.ResourceMonsterPincer",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.pincer",
       uncommon: [
         "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"
       ]
     },
     plating: {
-      label: "MYTHACRI.ResourceMonsterPlating",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.plating",
       uncommon: [
         "beast", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "humanoid",
         "monstrosity", "ooze", "plant", "undead"
       ]
     },
     poisonGland: {
-      label: "MYTHACRI.ResourceMonsterPoisonGland",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.poisonGland",
       uncommon: [
         "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid",
         "ooze", "plant", "undead"
       ]
     },
     sap: {
-      label: "MYTHACRI.ResourceMonsterSap",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.sap",
       uncommon: [
         "aberration", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
         "humanoid", "monstrosity", "ooze", "undead"
       ]
     },
     scales: {
-      label: "MYTHACRI.ResourceMonsterScales",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.scales",
       uncommon: ["beast", "construct", "elemental", "fey", "giant", "humanoid", "ooze", "plant", "undead"]
     },
     skin: {
-      label: "MYTHACRI.ResourceMonsterSkin",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.skin",
       uncommon: ["beast", "construct", "dragon", "elemental", "humanoid", "ooze", "undead"]
     },
     stinger: {
-      label: "MYTHACRI.ResourceMonsterStinger",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.stinger",
       uncommon: [
         "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "ooze", "undead"
       ]
     },
     talon: {
-      label: "MYTHACRI.ResourceMonsterTalon",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.talon",
       uncommon: [
         "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant",
         "humanoid", "ooze", "plant", "undead"
       ]
     },
     teeth: {
-      label: "MYTHACRI.ResourceMonsterTeeth",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.teeth",
       uncommon: ["beast", "construct", "elemental", "humanoid", "ooze", "plant"]
     },
     tentacle: {
-      label: "MYTHACRI.ResourceMonsterTentacle",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.tentacle",
       uncommon: [
         "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant",
         "humanoid", "ooze", "plant", "undead"
       ]
     },
     tusk: {
-      label: "MYTHACRI.ResourceMonsterTusk",
+      label: "MYTHACRI.RESOURCE.subsubtypeOption.tusk",
       uncommon: [
         "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend",
         "giant", "humanoid", "ooze", "plant", "undead"
@@ -247,31 +259,31 @@ const TYPES = {
    * @type {object}
    */
   gemSubtypes: {
-    amber: {label: "MYTHACRI.ResourceGemAmber"},
-    amethyst: {label: "MYTHACRI.ResourceGemAmethyst"},
-    aquamarine: {label: "MYTHACRI.ResourceGemAquamarine"},
-    citrine: {label: "MYTHACRI.ResourceGemCitrine"},
-    diamond: {label: "MYTHACRI.ResourceGemDiamond"},
-    emerald: {label: "MYTHACRI.ResourceGemEmerald"},
-    garnet: {label: "MYTHACRI.ResourceGemGarnet"},
-    jade: {label: "MYTHACRI.ResourceGemJade"},
-    jasper: {label: "MYTHACRI.ResourceGemJasper"},
-    jet: {label: "MYTHACRI.ResourceGemJet"},
-    lapisLazuli: {label: "MYTHACRI.ResourceGemLapisLazuli"},
-    moonstone: {label: "MYTHACRI.ResourceGemMoonstone"},
-    mossAgate: {label: "MYTHACRI.ResourceGemMossAgate"},
-    obsidian: {label: "MYTHACRI.ResourceGemObsidian"},
-    onyx: {label: "MYTHACRI.ResourceGemOnyx"},
-    opal: {label: "MYTHACRI.ResourceGemOpal"},
-    pearl: {label: "MYTHACRI.ResourceGemPearl"},
-    peridot: {label: "MYTHACRI.ResourceGemPeridot"},
-    quartz: {label: "MYTHACRI.ResourceGemQuartz"},
-    ruby: {label: "MYTHACRI.ResourceGemRuby"},
-    sapphire: {label: "MYTHACRI.ResourceGemSapphire"},
-    spinel: {label: "MYTHACRI.ResourceGemSpinel"},
-    topaz: {label: "MYTHACRI.ResourceGemTopaz"},
-    turquoise: {label: "MYTHACRI.ResourceGemTurquoise"},
-    zircon: {label: "MYTHACRI.ResourceGemZircon"}
+    amber: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.amber"},
+    amethyst: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.amethyst"},
+    aquamarine: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.aquamarine"},
+    citrine: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.citrine"},
+    diamond: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.diamond"},
+    emerald: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.emerald"},
+    garnet: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.garnet"},
+    jade: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.jade"},
+    jasper: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.jasper"},
+    jet: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.jet"},
+    lapisLazuli: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.lapisLazuli"},
+    moonstone: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.moonstone"},
+    mossAgate: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.mossAgate"},
+    obsidian: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.obsidian"},
+    onyx: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.onyx"},
+    opal: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.opal"},
+    pearl: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.pearl"},
+    peridot: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.peridot"},
+    quartz: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.quartz"},
+    ruby: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.ruby"},
+    sapphire: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.sapphire"},
+    spinel: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.spinel"},
+    topaz: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.topaz"},
+    turquoise: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.turquoise"},
+    zircon: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.zircon"}
   },
 
   /* -------------------------------------------------- */
@@ -299,18 +311,18 @@ const TYPES = {
  */
 Object.defineProperty(TYPES, "resourceTypes", {
   get: function() {
-    const {subsubtypes, gemSubtypes} = TYPES;
+    const {typeOptions, subsubtypes, gemSubtypes} = TYPES;
     return {
       gem: {
-        label: "MYTHACRI.ResourceTypeGem",
+        label: typeOptions.gem,
         subtypes: gemSubtypes
       },
       essence: {
-        label: "MYTHACRI.ResourceTypeEssence",
+        label: typeOptions.essence,
         subtypes: {...CONFIG.DND5E.creatureTypes}
       },
       monster: {
-        label: "MYTHACRI.ResourceTypeMonster",
+        label: typeOptions.monster,
         subtypes: Object.entries(CONFIG.DND5E.creatureTypes).reduce((acc, [key, {label}]) => {
           acc[key] = {
             label: label,
@@ -346,6 +358,24 @@ Hooks.once("init", () => {
     "modules/mythacri-scripts/templates/parts/crafting-recipe.hbs",
     "modules/mythacri-scripts/templates/parts/crafting-selected.hbs"
   ]);
+});
+Hooks.once("i18nInit", () => {
+  const localize = object => {
+    for (const [k, v] of Object.entries(object)) {
+      switch (foundry.utils.getType(v)) {
+        case "string":
+          object[k] = game.i18n.localize(v);
+          break;
+        case "Object":
+          localize(v);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  localize(TYPES);
 });
 
 /* -------------------------------------------------- */
@@ -386,14 +416,19 @@ async function _renderRunesData(sheet, html) {
  */
 async function _renderLootItemDropdowns(sheet, html) {
   const data = sheet.document.getFlag(MODULE.ID, "resource") ?? {};
-  const template = "modules/mythacri-scripts/templates/parts/resource-types.hbs";
-  const div = document.createElement("DIV");
 
-  const templateData = _getTemplateData(data);
-  templateData.disable = !game.user.isGM;
+  const element = document.createElement("FIELDSET");
+  element.insertAdjacentHTML("beforeend", `<legend>${game.i18n.localize("MYTHACRI.RESOURCE.Configuration")}</legend>`);
 
-  div.innerHTML = await renderTemplate(template, templateData);
-  html.querySelector(".tab.details").append(...div.children);
+  const fields = _constructResourceFields(data);
+  for (const {field, value, name} of fields) {
+    element.insertAdjacentElement("beforeend", field.toFormGroup({localize: true}, {
+      name: name, blank: "-", value: value, localize: true
+    }));
+  }
+
+  if (!sheet.isEditable || !game.user.isGM) element.disabled = true;
+  html.querySelector(".tab.details").insertAdjacentElement("beforeend", element);
 }
 
 /* -------------------------------------------------- */
@@ -407,25 +442,54 @@ async function _renderLootItemDropdowns(sheet, html) {
  * @param {number} [data.grade]           A stored spirit grade.
  * @returns {object}
  */
-function _getTemplateData(data = {}) {
+function _constructResourceFields(data = {}) {
   const typeOptions = TYPES.resourceTypes;
-  const subtypeOptions = typeOptions[data.type]?.subtypes ?? {};
-  const isEssence = (data.type === "essence") && (data.subtype in CONFIG.DND5E.creatureTypes);
-  const isMonster = (data.type === "monster") && (data.subtype in CONFIG.DND5E.creatureTypes);
-  const templateData = {
-    ...data,
-    typeOptions: typeOptions,
-    subtypeOptions: subtypeOptions,
-    hasSubtype: data.type in typeOptions,
-    isMonster: isMonster,
-    monsterPartOptions: TYPES.subsubtypes,
-    subtypeLabel: `MYTHACRI.ResourceLabelSubtype${(data.type ?? "").capitalize()}`,
-    subsubtypeLabel: `MYTHACRI.ResourceLabelSubsubtype${(data.type ?? "").capitalize()}`,
-    isEssence: isEssence,
-    gradeOptions: Object.fromEntries(Array.fromRange(6, 1).map(n => [n, n.ordinalString()]))
-  };
+  const {NumberField, StringField} = foundry.data.fields;
+  const fields = [];
 
-  return templateData;
+  fields.push({
+    field: new StringField({
+      label: "MYTHACRI.RESOURCE.type.label",
+      choices: typeOptions
+    }),
+    value: data.type,
+    name: "flags.mythacri-scripts.resource.type"
+  });
+
+  if (data.type in typeOptions) {
+    fields.push({
+      field: new StringField({
+        label: `MYTHACRI.RESOURCE.subtype.label${data.type.capitalize()}`,
+        choices: typeOptions[data.type].subtypes
+      }),
+      value: data.subtype,
+      name: "flags.mythacri-scripts.resource.subtype"
+    });
+  }
+
+  if ((data.type === "monster") && (data.subtype in CONFIG.DND5E.creatureTypes)) {
+    fields.push({
+      field: new StringField({
+        label: `MYTHACRI.RESOURCE.subsubtype.label${data.type.capitalize()}`,
+        choices: TYPES.subsubtypes
+      }),
+      value: data.subsubtype,
+      name: "flags.mythacri-scripts.resource.subsubtype"
+    });
+  }
+
+  if ((data.type === "essence") && (data.subtype in CONFIG.DND5E.creatureTypes)) {
+    fields.push({
+      field: new NumberField({
+        label: "MYTHACRI.RESOURCE.grade.label",
+        choices: Object.fromEntries(Array.fromRange(6, 1).map(n => [n, n.ordinalString()]))
+      }),
+      value: data.grade,
+      name: "flags.mythacri-scripts.resource.grade"
+    });
+  }
+
+  return fields;
 }
 
 /* -------------------------------------------------- */
@@ -616,11 +680,11 @@ function getLabel(id) {
 /* -------------------------------------------------- */
 
 function _getLabel(type, subtype) {
-  if (subtype === "*") return game.i18n.localize(`MYTHACRI.ResourceTypeLabel${type.capitalize()}Wildcard`);
+  if (subtype === "*") return game.i18n.localize(`MYTHACRI.RESOURCE.LABEL.${type.toUpperCase()}_WILDCARD`);
   const types = TYPES.resourceTypes;
-  return game.i18n.format(`MYTHACRI.ResourceTypeLabel${type.capitalize()}`, {
-    type: game.i18n.localize(types[type].label),
-    subtype: game.i18n.localize(types[type].subtypes[subtype]?.label)
+  return game.i18n.format(`MYTHACRI.RESOURCE.LABEL.${type.toUpperCase()}`, {
+    type: types[type]?.label,
+    subtype: types[type].subtypes[subtype]?.label
   });
 }
 
@@ -630,23 +694,22 @@ function _getMonsterLabel(type, subtype, subsubtype) {
   if ((subtype === "*") && (subsubtype === "*")) return _getLabel(type, subtype);
 
   if (subtype === "*") {
-    return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubtype", {
-      subsubtype: game.i18n.localize(TYPES.subsubtypes[subsubtype].label)
+    return game.i18n.format("MYTHACRI.RESOURCE.LABEL.MONSTER_WILDCARD_SUBTYPE", {
+      subsubtype: TYPES.subsubtypes[subsubtype]?.label
     });
   }
 
   if (subsubtype === "*") {
-    return game.i18n.format("MYTHACRI.ResourceTypeLabelMonsterWildcardSubsubtype", {
-      subtype: CONFIG.DND5E.creatureTypes[subtype].label
+    return game.i18n.format("MYTHACRI.RESOURCE.LABEL.MONSTER_WILDCARD_SUBSUBTYPE", {
+      subtype: CONFIG.DND5E.creatureTypes[subtype]?.label
     });
   }
 
   const data = {
-    type: game.i18n.localize("MYTHACRI.ResourceTypeMonster"),
-    subtype: CONFIG.DND5E.creatureTypes[subtype].label,
-    subsubtype: game.i18n.localize(TYPES.subsubtypes[subsubtype].label)
+    subtype: CONFIG.DND5E.creatureTypes[subtype]?.label,
+    subsubtype: TYPES.subsubtypes[subsubtype]?.label
   };
-  return game.i18n.format("MYTHACRI.ResourceTypeLabelMonster", data);
+  return game.i18n.format("MYTHACRI.RESOURCE.LABEL.MONSTER", data);
 }
 
 /* -------------------------------------------------- */

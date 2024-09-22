@@ -137,7 +137,7 @@ export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e 
         if (id && mythacri.crafting.validIdentifier(id)) {
           const rtype = item.flags[MODULE.ID].resource.type;
           category = "resource-" + rtype;
-          label = `MYTHACRI.ResourceType${rtype.capitalize()}`;
+          label = `MYTHACRI.RESOURCE.typeOption${rtype.capitalize()}`;
         } else {
           const lt = item.system.type.value;
           if (lt in CONFIG.DND5E.lootTypes) {
