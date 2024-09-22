@@ -72,6 +72,8 @@ function _preActivityConsumption(activity, config, dialog) {
   }
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Deduct the mayhem points from the user.
  * @param {Activity} activity     The activity being used.
@@ -84,6 +86,8 @@ function _postActivityConsumption(activity, config, dialog, updates) {
   const cost = activity.activation.cost || 1;
   deduct(cost);
 }
+
+/* -------------------------------------------------- */
 
 /** Data model for the internal mayhem data. */
 class Mayhem extends foundry.abstract.DataModel {
