@@ -266,6 +266,12 @@
         "labelMonster": "Creature Type"
       },
       "subtypeOption": {
+        "alchemy": {
+          "crystal": "Crystal",
+          "flower": "Flower",
+          "herb": "Herb",
+          "mushroom": "Mushroom"
+        },
         "gem": {
           "amber": "Amber",
           "amethyst": "Amethyst",

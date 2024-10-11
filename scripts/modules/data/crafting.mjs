@@ -292,7 +292,28 @@ const TYPES = {
    * Alchemical subtypes.
    * @type {object}
    */
-  alchemySubtypes: {},
+  alchemySubtypes: {
+    crystal: {
+      label: "MYTHACRI.RESOURCE.subtypeOption.alchemy.crystal"
+    },
+    flower: {
+      label: "MYTHACRI.RESOURCE.subtypeOption.alchemy.flower"
+    },
+    herb: {
+      label: "MYTHACRI.RESOURCE.subtypeOption.alchemy.herb"
+    },
+    mushroom: {
+      label: "MYTHACRI.RESOURCE.subtypeOption.alchemy.mushroom"
+    }
+  },
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Alchemical sub-subtypes.
+   * @type {object}
+   */
+  alchemySubsubtypes: {},
 
   /* -------------------------------------------------- */
 
