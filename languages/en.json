@@ -205,10 +205,13 @@
     },
     "RESOURCE": {
       "Configuration": "Resource Configuration",
+      "Hint": "{label} ({identifier})",
       "grade": {
         "label": "Spirit Grade"
       },
       "LABEL": {
+        "ALCHEMY": "{subsubtype} {subtype}",
+        "ALCHEMY_WILDCARD": "Any {subtype}",
         "ESSENCE": "{subtype} {type}",
         "ESSENCE_WILDCARD": "Any Essence",
         "GEM": "{subtype} {type}",

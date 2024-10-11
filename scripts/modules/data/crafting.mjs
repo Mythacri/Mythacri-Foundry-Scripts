@@ -516,6 +516,15 @@ async function _renderLootItemDropdowns(sheet, html) {
     }));
   }
 
+  const id = getIdentifier(sheet.document);
+  if (id) {
+    const label = getLabel(id);
+    element.insertAdjacentHTML("beforeend", `<p class="hint">${game.i18n.format("MYTHACRI.RESOURCE.Hint", {
+      identifier: id,
+      label: label
+    })}</p>`);
+  }
+
   if (!sheet.isEditable || !game.user.isGM) element.disabled = true;
   html.querySelector(".tab.details").insertAdjacentElement("beforeend", element);
 }
@@ -725,7 +734,8 @@ function validIdentifier(id, {allowWildCard = true} = {}) {
 
   switch (type) {
     case "alchemy":
-      return foundry.utils.hasProperty(types, `${path}.subsubtypes`);
+      if (allowWildCard) return foundry.utils.hasProperty(types, `${path}.subsubtypes`);
+      return foundry.utils.hasProperty(types, `${path}.subsubtypes.${subsubtype}.label`);
     case "gem":
     case "essence":
       if (subtype === "*") return allowWildCard && (type in types);
@@ -748,7 +758,7 @@ function validIdentifier(id, {allowWildCard = true} = {}) {
  */
 function validResourceForComponent(item, id) {
   const [type, subtype, subsubtype] = id.split(".");
-  const hasWildcard = (subtype === "*") || ((type === "monster") && (subsubtype === "*"));
+  const hasWildcard = (subtype === "*") || (((type === "monster") || (type === "alchemy")) && (subsubtype === "*"));
 
   const identifier = getIdentifier(item);
   if (!identifier) return false;
@@ -760,7 +770,9 @@ function validResourceForComponent(item, id) {
   const validSub = (subtype === isubtype) || (subtype === "*");
   if (!validSub) return false;
 
-  return (type === "monster") ? ((subsubtype === isubsubtype) || (subsubtype === "*")) : true;
+  if (["alchemy", "monster"].includes(type)) return (subsubtype === isubsubtype) || (subsubtype === "*");
+
+  return true;
 }
 
 /* -------------------------------------------------- */
@@ -774,12 +786,28 @@ function getLabel(id) {
   const [type, subtype, subsubtype] = id.split(".");
 
   switch (type) {
+    case "alchemy":
+      return _getAlchemyLabel(type, subtype, subsubtype);
     case "essence":
     case "gem":
       return _getLabel(type, subtype);
     case "monster":
       return _getMonsterLabel(type, subtype, subsubtype);
   }
+}
+
+/* -------------------------------------------------- */
+
+function _getAlchemyLabel(type, subtype, subsubtype) {
+  let string = "MYTHACRI.RESOURCE.LABEL.ALCHEMY";
+  if (subsubtype === "*") string += "_WILDCARD";
+
+  const alch = TYPES.resourceTypes.alchemy.subtypes;
+
+  subsubtype = alch[subtype].subsubtypes[subsubtype]?.label;
+  subtype = alch[subtype].label;
+
+  return game.i18n.format(string, {subtype, subsubtype});
 }
 
 /* -------------------------------------------------- */
