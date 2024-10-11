@@ -52,10 +52,53 @@ function _onGetItemContextOptions(item, items) {
   items.push({
     name: "MYTHACRI.TRANSFER.ContextOption",
     icon: "<i class='fa-fw fa-arrow-right-arrow-left fa-solid fa-rotate-90'></i>",
-    condition: () => item.system.schema.has("quantity"),
+    condition: () => item.isOwner && item.system.schema.has("quantity"),
     callback: () => promptTransfer(item),
     group: "action"
+  }, {
+    name: "MYTHACRI.SPLIT.ContextOption",
+    icon: "<i class='fa-fw fa-boxes-stacked fa-solid'></i>",
+    condition: () => item.isOwner && item.system.schema.has("quantity") && (item.system.quantity > 1),
+    callback: () => promptSplit(item),
+    group: "action"
   });
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Prompt the user to split a stack of items into multiple.
+ * @param {Item5e} item     The item to split.
+ */
+async function promptSplit(item) {
+  const field = new foundry.data.fields.NumberField({
+    max: item.system.quantity - 1,
+    min: 1,
+    integer: true,
+    nullable: false,
+    label: "MYTHACRI.SPLIT.label",
+    hint: "MYTHACRI.SPLIT.hint"
+  });
+  const html = field.toFormGroup({localize: true}, {value: 1, name: "size"}).outerHTML;
+
+  const prompt = await foundry.applications.api.DialogV2.prompt({
+    content: `<fieldset>${html}</fieldset>`,
+    rejectClose: false,
+    position: {width: 400},
+    window: {
+      icon: "fa-solid fa-boxes-stacked",
+      title: game.i18n.format("MYTHACRI.SPLIT.title", {name: item.name})
+    },
+    ok: {callback: (event, button) => button.form.elements.size.valueAsNumber}
+  });
+  if (!prompt) return;
+
+  const itemData = item.toObject();
+  foundry.utils.setProperty(itemData, "system.quantity", prompt);
+  Promise.all([
+    item.actor.createEmbeddedDocuments("Item", [itemData]),
+    item.update({"system.quantity": item.system.quantity - prompt})
+  ]);
 }
 
 /* -------------------------------------------------- */

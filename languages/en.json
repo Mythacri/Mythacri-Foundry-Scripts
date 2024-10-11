@@ -361,6 +361,12 @@
         }
       }
     },
+    "SPLIT": {
+      "ContextOption": "Split Stack",
+      "hint": "Decide the size of the second stack as this stack of items is split into two.",
+      "label": "Stack Size",
+      "title": "Split Item: {name}"
+    },
     "TRANSFER": {
       "ContextOption": "Transfer Item",
       "Message": {
