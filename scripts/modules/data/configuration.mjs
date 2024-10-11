@@ -19,9 +19,20 @@ const PREFIX = "Compendium.mythacri-shared-compendium.equipment-myth.Item";
  * @param {string} userId         The id of the user creating the scene.
  */
 function _preCreateScene(scene, sceneData, options, userId) {
-  const globalLight = sceneData.environment?.globalLight ?? {};
+  // Defaults to use unless other properties are explicitly provided.
+  const defaults = {
+    backgroundColor: "#000000",
+    "environment.globalLight.enabled": true,
+    "grid.type": CONST.GRID_TYPES.HEXODDR
+  };
+
   const update = {};
-  if (!("enabled" in globalLight)) update["environment.globalLight.enabled"] = true;
+  for (const [path, value] of Object.entries(defaults)) {
+    if (!foundry.utils.hasProperty(sceneData, path)) {
+      update[path] = value;
+    }
+  }
+
   scene.updateSource(update);
 }
 
