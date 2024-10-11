@@ -162,7 +162,8 @@ function _onRenderTokenConfig(config, [html]) {
     min: 0,
     max: 30,
     initial: 0,
-    step: 1,
+    integer: true,
+    nullable: false,
     label: "MYTHACRI.AURA.distance.label",
     hint: "MYTHACRI.AURA.distance.hint",
     name: "flags.mythacri-scripts.aura.distance"
