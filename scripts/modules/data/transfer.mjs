@@ -120,18 +120,21 @@ async function promptTransfer(item) {
     return;
   }
 
-  const choices = party.system.members.reduce((acc, {actor}) => {
-    if (actor !== item.actor) acc[actor.uuid] = actor.name;
-    return acc;
-  }, {});
+  const choices = {};
+  const test = actor => actor && (actor.id !== item.actor.id);
+
+  if (test(party)) choices[party.uuid] = party.name;
+  for (const {actor} of party.system.members) {
+    if (test(actor)) choices[actor.uuid] = actor.name;
+  }
 
   const field = new foundry.data.fields.StringField({
     choices: choices,
-    label: game.i18n.localize("MYTHACRI.TRANSFER.Prompt.Label"),
-    hint: game.i18n.localize("MYTHACRI.TRANSFER.Prompt.Hint"),
+    label: "MYTHACRI.TRANSFER.Prompt.Label",
+    hint: "MYTHACRI.TRANSFER.Prompt.Hint",
     required: true
   });
-  const content = `<fieldset>${field.toFormGroup({}, {name: "target"}).outerHTML}</fieldset>`;
+  const content = `<fieldset>${field.toFormGroup({localize: true}, {name: "target"}).outerHTML}</fieldset>`;
 
   const uuid = await foundry.applications.api.DialogV2.prompt({
     content: content,
