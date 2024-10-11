@@ -23,7 +23,7 @@ async function populate(actor) {
   const content = () => {
     const types = model.schema.getField("types");
     const formulas = model.schema.getField("formulas");
-    const subsubtypes = mythacri.crafting.TYPES.subsubtypes;
+    const monsterSubsubtypes = mythacri.crafting.TYPES.monsterSubsubtypes;
 
     let html = "<fieldset>";
 
@@ -36,7 +36,7 @@ async function populate(actor) {
       type: "checkboxes",
       localize: true,
       value: model.types,
-      options: Object.entries(subsubtypes).map(([type, {label}]) => {
+      options: Object.entries(monsterSubsubtypes).map(([type, {label}]) => {
         return {label: label, value: type};
       })
     }).outerHTML;
@@ -45,7 +45,7 @@ async function populate(actor) {
 
     for (const field of formulas) {
       html += field.toFormGroup({
-        label: game.i18n.localize(subsubtypes[field.name].label),
+        label: game.i18n.localize(monsterSubsubtypes[field.name].label),
         classes: model.types.has(field.name) ? [] : ["hidden"]
       }, {
         value: model.formulas[field.name],
