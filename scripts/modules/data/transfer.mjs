@@ -114,7 +114,7 @@ async function promptTransfer(item) {
     return;
   }
 
-  const party = game.settings.get(MODULE.ID, "identifiers").party;
+  const party = game.settings.get("dnd5e", "primaryParty").actor;
   if (party?.type !== "group") {
     ui.notifications.error("MYTHACRI.TRANSFER.Warning.Party", {localize: true});
     return;

@@ -1,50 +1,8 @@
 <div class="standard-form">
   <fieldset>
-    <div class="form-group">
-      <label>{{localize "MYTHACRI.SettingsPacksCraftingResources"}}</label>
-      <div class="form-fields">
-        <select name="packs.craftingResources">
-          {{selectOptions options.packs selected=source.packs.craftingResources sort=true blank="-"}}
-        </select>
-      </div>
-      <p class="hint">{{localize "MYTHACRI.SettingsPacksCraftingResourcesHint"}}</p>
-    </div>
-
-    <div class="form-group">
-      <label>{{localize "MYTHACRI.SettingsPacksCraftingRecipes"}}</label>
-      <div class="form-fields">
-        <select name="packs.craftingRecipes">
-          {{selectOptions options.packs selected=source.packs.craftingRecipes sort=true blank="-"}}
-        </select>
-      </div>
-      <p class="hint">{{localize "MYTHACRI.SettingsPacksCraftingRecipesHint"}}</p>
-    </div>
-
-    <div class="form-group">
-      <label>{{localize "MYTHACRI.SettingsFoldersPartyActors"}}</label>
-      <div class="form-fields">
-        <select name="folders.partyActors">
-          {{selectOptions options.folders selected=source.folders.partyActors sort=true blank="-"}}
-        </select>
-      </div>
-      <p class="hint">{{localize "MYTHACRI.SettingsFoldersPartyActorsHint"}}</p>
-    </div>
-
-    <div class="form-group">
-      <label>{{localize "MYTHACRI.SettingsPathsSoundboard"}}</label>
-      <div class="form-fields">
-        <input type="text" name="paths.soundboard" value="{{source.paths.soundboard}}">
-      </div>
-      <p class="hint">{{localize "MYTHACRI.SettingsPathsSoundboardHint"}}</p>
-    </div>
-
-    <div class="form-group">
-      <label>{{localize "MYTHACRI.SettingsParty"}}</label>
-      <div class="form-fields">
-        <input type="text" name="party" value="{{source.party}}">
-      </div>
-      <p class="hint">{{localize "MYTHACRI.SettingsPartyHint"}}</p>
-    </div>
+    {{#each fields}}
+    {{formGroup field value=value localize=true choices=choices}}
+    {{/each}}
   </fieldset>
 
   <button type="submit">

@@ -80,7 +80,8 @@ async function populate(actor) {
       if (!formula || !Roll.validate(formula)) model.updateSource({[`formulas.${k}`]: "1d2"});
     }
 
-    const pack = game.settings.get(MODULE.ID, "identifiers").packs.craftingResources;
+    const pack = game.packs.get(game.settings.get(MODULE.ID, "identifiers").packs.craftingResources);
+    if (!pack) throw new Error("There is no valid Crafting Resources compendium configured in the settings.");
     const items = await pack.getDocuments({
       type: "loot",
       flags: {
