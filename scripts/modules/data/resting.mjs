@@ -7,7 +7,7 @@ Hooks.once("init", () => dnd5e.documents.Actor5e.prototype.fullRest = fullRestDi
 
 /* -------------------------------------------------- */
 
-/** Change the hit die fractio on long rests. */
+/** Change the hit die fraction on long rests. */
 function _preLongRest(actor, config) {
   config.fraction = actor.flags.dnd5e?.peakPhysical ? 1 : 0.5;
 }
@@ -15,7 +15,7 @@ function _preLongRest(actor, config) {
 /* -------------------------------------------------- */
 
 /**
- * Do not recover full amount of hp on a long rest, and reduce exhaustion by 1.
+ * On a long rest, reduce exhaustion by 1 point.
  * @param {Actor} actor       The actor taking a rest.
  * @param {object} result     Rest data. **will be mutated**
  */
@@ -23,7 +23,7 @@ function _preRestCompleted(actor, result) {
   if (result.longRest) {
     const isPeak = actor.flags.dnd5e?.peakPhysical ?? false;
     const exh = Math.max(actor.system.attributes.exhaustion - (isPeak ? 2 : 1), 0);
-    foundry.utils.setProperty(result.updateData, "system.attributes.exhaustion", exh);
+    result.updateData["system.attributes.exhaustion"] = exh;
   }
 }
 
