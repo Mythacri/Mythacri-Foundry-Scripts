@@ -9,55 +9,24 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
-      packs: IdentifiersSettingsModelMixin(["craftingResources", "craftingRecipes"], "packs"),
-      folders: IdentifiersSettingsModelMixin(["partyActors"], Folder),
-      party: new foundry.data.fields.ForeignDocumentField(Actor),
+      packs: new foundry.data.fields.SchemaField({
+        craftingRecipes: new foundry.data.fields.StringField({
+          label: "MYTHACRI.SettingsPacksCraftingRecipes",
+          hint: "MYTHACRI.SettingsPacksCraftingRecipesHint"
+        }),
+        craftingResources: new foundry.data.fields.StringField({
+          label: "MYTHACRI.SettingsPacksCraftingResources",
+          hint: "MYTHACRI.SettingsPacksCraftingResourcesHint"
+        })
+      }),
       paths: new foundry.data.fields.SchemaField({
-        soundboard: new foundry.data.fields.StringField()
+        soundboard: new foundry.data.fields.StringField({
+          label: "MYTHACRI.SettingsPathsSoundboard",
+          hint: "MYTHACRI.SettingsPathsSoundboardHint"
+        })
       })
     };
   }
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Create a data model for nesting within the `SettingsModel`.
- * @param {string[]} properties         The data properties, each becoming `ForeignDocumentField` or `StringField`.
- * @param {DataModel|string} model      A subclass of `DataModel`, or a 'directory string' such as "packs".
- * @returns {EmbeddedDataField}
- */
-function IdentifiersSettingsModelMixin(properties, model) {
-  const isSub = foundry.utils.isSubclass(model, foundry.abstract.DataModel);
-  const cls = class IdentifiersSettingsModelNested extends foundry.abstract.DataModel {
-    /** @override */
-    _initialize(...args) {
-      super._initialize(...args);
-      this.prepareDerivedData();
-    }
-
-    /** @override */
-    static defineSchema() {
-      const schema = {};
-      if (isSub) for (const key of properties) schema[key] = new foundry.data.fields.ForeignDocumentField(model);
-      else for (const key of properties) schema[key] = new foundry.data.fields.StringField();
-      return schema;
-    }
-
-    /** @override */
-    prepareDerivedData() {
-      // Only prepare data if `model` is not a subclass of `DataModel`.
-      if (isSub) return;
-      for (const key of properties) {
-        Object.defineProperty(this, key, {
-          get() {
-            return game[model].get(this._source[key]) || null;
-          }, configurable: true
-        });
-      }
-    }
-  };
-  return new foundry.data.fields.EmbeddedDataField(cls);
 }
 
 /* -------------------------------------------------- */
@@ -99,20 +68,27 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
 
   /** @override */
   async _prepareContext(options) {
-    const context = {options: {packs: {}, folders: {}}};
+    const model = game.settings.get(MODULE.ID, "identifiers") ?? new IdentifiersSettingsModel();
 
+    const makeField = path => {
+      const value = foundry.utils.getProperty(model._source, path);
+      const field = model.schema.getField(path);
+      return {value, field};
+    };
+
+    const context = {};
+
+    const choices = {};
     for (const pack of game.packs) {
       if (pack.metadata.type !== "Item") continue;
-      context.options.packs[pack.metadata.id] = pack.metadata.label;
+      choices[pack.metadata.id] = pack.metadata.label;
     }
 
-    for (const folder of game.actors.folders) {
-      context.options.folders[folder.id] = folder.name;
-    }
-
-    const model = game.settings.get(MODULE.ID, "identifiers");
-    context.model = model;
-    context.source = model?.toObject?.() ?? {};
+    context.fields = [
+      {...makeField("packs.craftingRecipes"), choices},
+      {...makeField("packs.craftingResources"), choices},
+      makeField("paths.soundboard")
+    ];
 
     return context;
   }
@@ -125,7 +101,7 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
  * @returns {Promise<IdentifiersSettingsMenu>}
  */
 async function create() {
-  return new IdentifiersSettingsMenu().render(true);
+  return new IdentifiersSettingsMenu().render({force: true});
 }
 
 /* -------------------------------------------------- */
@@ -135,7 +111,7 @@ function _registerSettings() {
   game.settings.register(MODULE.ID, "identifiers", {
     config: false,
     type: IdentifiersSettingsModel,
-    default: IdentifiersSettingsModel.schema.initial(),
+    default: null,
     scope: "world"
   });
 

@@ -353,8 +353,6 @@
         "None": "{name} takes a full rest."
       }
     },
-    "SettingsFoldersPartyActors": "Party Actors Folder",
-    "SettingsFoldersPartyActorsHint": "The Actor folder that contains all of the party's assigned actors.",
     "SettingsIdentifiers": "Identifiers Menu",
     "SettingsIdentifiersHint": "Change various ids and identifiers.",
     "SettingsIdentifiersLabel": "Identifiers",
@@ -362,8 +360,6 @@
     "SettingsPacksCraftingRecipesHint": "The compendium pack that contains all crafting recipes.",
     "SettingsPacksCraftingResources": "Crafting Resources Pack",
     "SettingsPacksCraftingResourcesHint": "The compendium pack that contains all crafting resources.",
-    "SettingsParty": "Party Actor",
-    "SettingsPartyHint": "The id of the Group actor that contains the party.",
     "SettingsPathsSoundboard": "Soundboard File Path",
     "SettingsPathsSoundboardHint": "The data path to the folder that contains sound files for the soundboard application.",
     "Soundboard": "Soundboard",
