@@ -43,5 +43,5 @@
     "source.fixAll.eslint": "always"
   },
   "eslint.enable": true,
-  "eslint.validate": ["javascript", "handlebars", "html"]
+  "eslint.validate": ["javascript"]
 }

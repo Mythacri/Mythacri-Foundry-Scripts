@@ -222,16 +222,14 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    * @returns {Actor5e[][]}     Array of arrays of learned, learners, and unavailable.
    */
   getLearners() {
-    const folder = game.settings.get(MODULE.ID, "identifiers").folders.partyActors;
+    const members = game.settings.get("dnd5e", "primaryParty").actor?.system.members.map(m => m.actor) ?? [];
     const parts = [[], [], []];
-    if (!folder) return parts;
-
-    for (const actor of folder.contents) {
+    for (const actor of members) {
+      if (!actor) continue;
       if (this.document.system.knowsRecipe(actor)) parts[0].push(actor);
       else if (this.document.system.canLearnRecipe(actor)) parts[1].push(actor);
       else parts[2].push(actor);
     }
-
     return parts;
   }
 }
