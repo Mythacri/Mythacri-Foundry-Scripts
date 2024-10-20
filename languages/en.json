@@ -117,6 +117,7 @@
       },
       "TAB": "Crafting",
       "Warning": {
+        "MissingComponents": "You do not have all the required components for this recipe.",
         "NoRecipeUuid": "This item did somehow not originate from a recipe."
       }
     },
