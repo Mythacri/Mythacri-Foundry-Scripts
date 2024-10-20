@@ -52,7 +52,7 @@ function _onGetItemContextOptions(item, items) {
   items.push({
     name: "MYTHACRI.TRANSFER.ContextOption",
     icon: "<i class='fa-fw fa-arrow-right-arrow-left fa-solid fa-rotate-90'></i>",
-    condition: () => item.isOwner && item.system.schema.has("quantity"),
+    condition: () => item.isOwner && item.system.schema.has("quantity") && (item.type !== "container"),
     callback: () => promptTransfer(item),
     group: "action"
   }, {
