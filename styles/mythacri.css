@@ -383,6 +383,12 @@
         }
       }
 
+      &.alchemy .sections {
+        background-color: rgb(6 12 8);
+        .recipes .recipe:hover {
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 36, 3, 0.5));
+        }
+      }
       &.spirit .sections {
         background-color: rgb(12 6 12);
         .recipes .recipe:hover {
