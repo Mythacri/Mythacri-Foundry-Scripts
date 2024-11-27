@@ -1,141 +1,285 @@
 import MODULE from "../constants.mjs";
 
-Hooks.once("setup", _setupAuras);
-Hooks.on("renderTokenConfig", _onRenderTokenConfig);
+/**
+ * @typedef {object} AuraData
+ * @property {boolean} enabled
+ * @property {number} radius
+ * @property {string} color
+ */
 
 /* -------------------------------------------------- */
 
-/**
- * General aura setup.
- */
-function _setupAuras() {
-  if (!game.modules.get("babonus")?.active) return;
+class MythacriAura {
   /**
-   * @param {TokenDocument5e} origin
+   * @constructor
+   * @param {TokenDocument5e} token
+   * @param {AuraData} data
    */
-  const makeAura = (token) => {
-    const aura = token.flags[MODULE.ID]?.aura ?? {};
-    if (!aura.distance || !(aura.distance > 0)) return;
-    new MythacriAura(token, aura).initialize();
-  };
+  constructor(token, data) {
+    this.#token = token;
+    this.#data = data;
 
-  /* -------------------------------------------------- */
-
-  class MythacriAura extends babonus.abstract.applications.TokenAura {
-    constructor(token, auraData) {
-      const data = {
-        aura: {range: auraData.distance},
-        uuid: `${token.uuid}-aura`
-      };
-      super(token, data);
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    static auras = {};
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Helper to retrieve 'bonus' data under different name.
-     * @type {object}
-     */
-    get data() {
-      return this.bonus;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    get auras() {
-      return MythacriAura.auras;
-    }
-
-    /** @override */
-    get name() {
-      return `mythacri-aura-${this.token.uuid}`;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    get showAuras() {
-      return true;
-    }
-    set showAuras(bool) {}
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    get restrictions() {
-      return new Set(["move"]);
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    get radius() {
-      return this.token.flags[MODULE.ID]?.aura?.distance || 0;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    get isDrawable() {
-      return this.radius > 0;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    get white() {
-      return Color.from(this.token.flags[MODULE.ID].aura.color);
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @override */
-    refresh(...T) {
-      super.refresh(...T);
-      if (!this.isDrawable) this.destroy();
-    }
+    const auras = MythacriAura.auras;
+    const old = auras.get(this.name);
+    if (old) old.destroy();
+    auras.set(this.name, this);
   }
 
   /* -------------------------------------------------- */
 
-  Hooks.on("refreshToken", function(token) {
-    for (const aura of Object.values(MythacriAura.auras)) {
-      if ((aura.token === token.document)) aura.refresh();
+  /**
+   * Token aura data.
+   * @type {AuraData}
+   */
+  #data;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The collection of auras being kept track of.
+   * @type {Map<string, MythacriAura>}
+   */
+  static auras = new Map();
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The name of this aura.
+   * @type {string}
+   */
+  get name() {
+    return this.#token.uuid;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The origin of the aura.
+   * @type {TokenDocument5e}
+   */
+  #token = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The origin of the aura.
+   * @type {TokenDocument5e}
+   */
+  get token() {
+    return this.#token;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The drawn pixi graphics.
+   * @type {PIXI.Graphics|null}
+   */
+  #element = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The container element for the aura.
+   * @type {PIXI.Container}
+   */
+  #container = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The type of wall restrictions that apply to this bonus.
+   * @type {Set<string>}
+   */
+  get restrictions() {
+    return new Set(["move"]);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The radius of this aura, in grid measurement units.
+   * @type {number}
+   */
+  get radius() {
+    return Math.max(0, this.#data.radius || 0);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * This aura's color.
+   * @type {Color}
+   */
+  get color() {
+    return Color.from(this.#data.color || "#FFFFFF");
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Can this aura be drawn?
+   * @type {boolean}
+   */
+  get isDrawable() {
+    return this.isTokenVisible && this.#data.enabled && (this.radius > 0);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this token visible?
+   * @type {boolean}
+   */
+  get isTokenVisible() {
+    return this.#token.object.visible && !this.#token.isSecret;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Refresh the drawn state of the container and the contained aura.
+   */
+  refresh() {
+    // Create element.
+    this.create();
+
+    // Create container if missing.
+    this.draw();
+
+    // Color the element.
+    this.#element.tint = this.color;
+    this.#element.alpha = this.isDrawable ? (this.#token.hidden ? 0.25 : 1) : 0;
+
+    // Add element to container.
+    this.#container.addChild(this.#element);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create the inner pixi element and assign it.
+   * @returns {PIXI.Graphics|null}
+   */
+  create() {
+    let radius = this.radius;
+    radius += canvas.grid.distance * Math.max(this.#token.width, this.#token.height) * 0.5;
+
+    const center = this.#token.object.center;
+    const points = canvas.grid.getCircle(center, radius);
+
+    let sweep = new PIXI.Polygon(points);
+    for (const type of this.restrictions) {
+      sweep = ClockwiseSweepPolygon.create(center, {
+        includeDarkness: type === "sight",
+        type: type,
+        debug: false,
+        useThreshold: type !== "move",
+        boundaryShapes: [sweep]
+      });
     }
-  });
+
+    if (this.#element) this.#element.destroy();
+
+    const g = new PIXI.Graphics();
+    g.lineStyle({width: 3, color: this.color, alpha: 0.75});
+    g.beginFill(0xFFFFFF, 0.03).drawPolygon(sweep).endFill();
+
+    this.#element = g;
+
+    return g;
+  }
 
   /* -------------------------------------------------- */
 
-  Hooks.on("deleteToken", function(tokenDoc) {
-    for (const aura of Object.values(MythacriAura.auras)) {
-      if (aura.token === tokenDoc) aura.destroy({fadeOut: false});
-    }
-  });
+  /**
+   * Create and assign a container if one is missing,
+   * add the aura element to it, and add the container to the grid.
+   */
+  draw() {
+    if (this.#container) return;
+    const container = new PIXI.Container();
+    canvas.interface.grid.addChild(container);
+    this.#container = container;
+  }
 
   /* -------------------------------------------------- */
 
-  Hooks.on("canvasTearDown", (canvas) => MythacriAura.auras = {});
+  /**
+   * Destroy the aura and its container.
+   */
+  destroy() {
+    this.#container?.destroy();
+    MythacriAura.auras.delete(this.name);
+  }
+}
 
-  /* -------------------------------------------------- */
+/* -------------------------------------------------- */
 
-  Hooks.on("canvasReady", canvas => {
-    for (const token of canvas.tokens.placeables) {
-      if (token.document) makeAura(token.document);
-    }
-  });
+Hooks.on("renderTokenConfig", _onRenderTokenConfig);
+Hooks.on("refreshToken", refreshAuraOnTokenRefresh);
+Hooks.on("deleteToken", deleteAuraOnTokenDelete);
+Hooks.on("canvasTearDown", (canvas) => MythacriAura.auras.clear());
+Hooks.on("canvasReady", createAurasOnCanvasReady);
+Hooks.on("updateToken", createAurasOnTokenUpdate);
+Hooks.on("createToken", makeAura);
 
-  /* -------------------------------------------------- */
+/* -------------------------------------------------- */
 
-  Hooks.on("updateToken", (token, data) => {
-    const flags = data.flags?.[MODULE.ID] ?? {};
-    if ("aura" in flags) makeAura(token);
-  });
+/**
+ * Create or refresh an aura.
+ * @param {TokenDocument5e} token
+ */
+function makeAura(token) {
+  const aura = token.flags[MODULE.ID]?.aura ?? {};
+  if (!aura.radius || !(aura.radius > 0)) return;
+  new MythacriAura(token, aura).refresh();
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Refresh an aura when a token is refreshed.
+ * @param {Token5e} token
+ */
+function refreshAuraOnTokenRefresh(token) {
+  const aura = MythacriAura.auras.get(token.document.uuid);
+  if (aura) aura.refresh();
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Delete an aura when a token is deleted.
+ * @param {TokenDocument5e} token
+ */
+function deleteAuraOnTokenDelete(token) {
+  const aura = MythacriAura.auras.get(token.uuid);
+  if (aura) aura.destroy();
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Create auras when the canvas is ready.
+ * @param {Canvas} canvas
+ */
+function createAurasOnCanvasReady(canvas) {
+  for (const token of canvas.tokens.placeables) {
+    if (token.document) makeAura(token.document);
+  }
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Create or update aura when a token is updated.
+ * @param {TokenDocument5e} token
+ * @param {object} data
+ */
+function createAurasOnTokenUpdate(token, data) {
+  const flags = data.flags?.[MODULE.ID] ?? {};
+  if ("aura" in flags) makeAura(token);
 }
 
 /* -------------------------------------------------- */
@@ -152,24 +296,30 @@ function _onRenderTokenConfig(config, [html]) {
     ${game.i18n.localize("MYTHACRI.AURA.Auras")}
   </a>`);
 
+  const enabled = new foundry.data.fields.BooleanField({
+    label: "MYTHACRI.AURA.enabled.label",
+    hint: "MYTHACRI.AURA.enabled.hint",
+    name: "flags.mythacri-scripts.aura.enabled"
+  });
+
   const color = new foundry.data.fields.ColorField({
     label: "MYTHACRI.AURA.color.label",
     hint: "MYTHACRI.AURA.color.hint",
     name: "flags.mythacri-scripts.aura.color"
   });
 
-  const distance = new foundry.data.fields.NumberField({
+  const radius = new foundry.data.fields.NumberField({
     min: 0,
     max: 30,
     initial: 0,
     integer: true,
     nullable: false,
-    label: "MYTHACRI.AURA.distance.label",
-    hint: "MYTHACRI.AURA.distance.hint",
-    name: "flags.mythacri-scripts.aura.distance"
+    label: "MYTHACRI.AURA.radius.label",
+    hint: "MYTHACRI.AURA.radius.hint",
+    name: "flags.mythacri-scripts.aura.radius"
   });
 
-  const form = [color, distance].map(field => field.toFormGroup({localize: true}, {
+  const form = [enabled, color, radius].map(field => field.toFormGroup({localize: true}, {
     name: field.options.name,
     value: foundry.utils.getProperty(config.token, field.options.name)
   }).outerHTML).join("");

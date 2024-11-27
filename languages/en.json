@@ -16,9 +16,13 @@
         "hint": "The color of the aura's bounds.",
         "label": "Color"
       },
-      "distance": {
+      "radius": {
         "hint": "The radius of the aura measured in grid units.",
-        "label": "Distance"
+        "label": "Radius"
+      },
+      "enabled": {
+        "hint": "Enable auras for this token.",
+        "label": "Enabled"
       }
     },
     "ConDazed": "Dazed",
