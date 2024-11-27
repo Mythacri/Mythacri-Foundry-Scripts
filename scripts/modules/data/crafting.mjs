@@ -7,6 +7,14 @@ import RunesConfig from "../applications/runes-config.mjs";
 /* -------------------------------------------------- */
 
 /**
+ * @typedef {object} CraftingType
+ * @property {string} icon      Font-Awesome icon.
+ * @property {string} label     Human-readable label.
+ */
+
+/* -------------------------------------------------- */
+
+/**
  * Configuration for crafting, with types, subtypes, and subsubtypes.
  * @type {object}
  */
@@ -21,6 +29,35 @@ const TYPES = {
     monster: "MYTHACRI.CRAFTING.RECIPE.Monster",
     rune: "MYTHACRI.CRAFTING.RECIPE.Rune",
     spirit: "MYTHACRI.CRAFTING.RECIPE.Spirit"
+  },
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Crafting types.
+   * @type {Record<string, CraftingType>}
+   */
+  craftingTypes: {
+    alchemy: {
+      label: "MYTHACRI.CRAFTING.ALCHEMY.Title",
+      icon: "fa-solid fa-flask"
+    },
+    cooking: {
+      label: "MYTHACRI.CRAFTING.COOKING.Title",
+      icon: "fa-solid fa-drumstick-bite"
+    },
+    monster: {
+      label: "MYTHACRI.CRAFTING.MONSTER.Title",
+      icon: "fa-solid fa-hand-fist"
+    },
+    rune: {
+      label: "MYTHACRI.CRAFTING.RUNE.Title",
+      icon: "fa-solid fa-gem"
+    },
+    spirit: {
+      label: "MYTHACRI.CRAFTING.SPIRIT.Title",
+      icon: "fa-solid fa-fire-flame-simple"
+    }
   },
 
   /* -------------------------------------------------- */
@@ -628,15 +665,41 @@ async function _renderCharacterSheet(sheet, [html]) {
  * @param {ActorSheet5eCharacter2} sheet
  * @param {HTMLElement} html
  */
-async function _renderCraftingTab(sheet, html) {
-  const template = "modules/mythacri-scripts/templates/parts/crafting-buttons.hbs";
-  const buttons = sheet.document.flags.dnd5e?.crafting ?? {};
-  const active = (sheet._tabs[0].active === "mythacri") ? "active" : "";
+function _renderCraftingTab(sheet, html) {
+  // Button data.
+  const buttons = [];
+  for (const [k, v] of Object.entries(TYPES.craftingTypes)) {
+    buttons.push({
+      disabled: !sheet.document.flags.dnd5e?.crafting?.[k],
+      key: k,
+      label: game.i18n.localize(v.label),
+      icon: v.icon
+    });
+  }
+  buttons.sort((a, b) => a.label.localeCompare(b.label)).sort((a, b) => {
+    return (a.disabled === b.disabled) ? 0 : a.disabled ? 1 : -1;
+  });
+
+  // Tab wrapper.
   const div = document.createElement("DIV");
-  div.innerHTML = await renderTemplate(template, {...buttons, active: active});
+  div.classList.add("tab", "mythacri");
+  if (sheet._tabs[0].active === "mythacri") div.classList.add("active");
+  div.dataset.group = "primary";
+  div.dataset.tab = "mythacri";
+
+  for (const button of buttons) {
+    const element = document.createElement("BUTTON");
+    element.classList.add(button.key, "gold-button");
+    element.dataset.action = button.key;
+    element.disabled = button.disabled;
+    element.type = "button";
+    element.innerHTML = `<i class="${button.icon}"></i><span class="label">${button.label}</span>`;
+    div.insertAdjacentElement("beforeend", element);
+  }
+
   div.querySelectorAll("[data-action]").forEach(n => n.addEventListener("click", _onClickCraft.bind(sheet)));
   const body = html.querySelector(".tab-body");
-  if (!body.querySelector(".tab.mythacri")) body.insertAdjacentElement("beforeend", div.firstElementChild);
+  if (!body.querySelector(".tab.mythacri")) body.insertAdjacentElement("beforeend", div);
 }
 
 /* -------------------------------------------------- */
