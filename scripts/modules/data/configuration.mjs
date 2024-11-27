@@ -49,6 +49,7 @@ function _configure() {
   _conditions();
   _consumableTypes();
   _currencies();
+  _dieSteps();
   _featureTypes();
   _languages();
   _restTypes();
@@ -204,6 +205,14 @@ function _currencies() {
   // Change currency weight (marbles weigh half as much as a coin).
   CONFIG.DND5E.encumbrance.currencyPerWeight.imperial *= 2;
   CONFIG.DND5E.encumbrance.currencyPerWeight.metric *= 2;
+}
+
+/* -------------------------------------------------- */
+
+/** Add additional die sizes for rolls. */
+function _dieSteps() {
+  CONFIG.DND5E.dieSteps.push(5);
+  CONFIG.DND5E.dieSteps.sort((a, b) => a - b);
 }
 
 /* -------------------------------------------------- */
