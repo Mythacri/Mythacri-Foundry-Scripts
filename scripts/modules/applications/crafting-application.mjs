@@ -179,7 +179,7 @@ export default class CraftingApplication extends Application {
    * @returns {Promise<object[]>}     Compendium index entries.
    */
   async getAvailableRecipes() {
-    const pack = game.packs.get(game.settings.get(MODULE.ID, "identifiers").packs.craftingRecipes);
+    const pack = game.packs.get(game.settings.get(MODULE.ID, "identifiers")?.packs.craftingRecipes);
     if (!pack) throw new Error("There is no valid crafting recipes compendium in the settings.");
 
     return (await pack.getIndex({

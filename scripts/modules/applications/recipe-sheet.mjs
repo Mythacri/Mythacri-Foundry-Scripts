@@ -222,7 +222,9 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    * @returns {Actor5e[][]}     Array of arrays of learned, learners, and unavailable.
    */
   getLearners() {
-    const members = game.settings.get("dnd5e", "primaryParty").actor?.system.members.map(m => m.actor) ?? [];
+    const party = game.settings.get("dnd5e", "primaryParty")?.actor;
+    if (!party) throw new Error("No primary party has been configured!");
+    const members = party.system.members.map(m => m.actor) ?? [];
     const parts = [[], [], []];
     for (const actor of members) {
       if (!actor) continue;
