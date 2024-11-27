@@ -61,15 +61,20 @@ function _configure() {
 
 /* -------------------------------------------------- */
 
-/** Merge in new and remove some old activation types. */
+/** Merge in new activation types. */
 function _activationTypes() {
-  foundry.utils.mergeObject(CONFIG.DND5E.activityActivationTypes, {
+  const activations = {
     mayhem: {
       group: "DND5E.ACTIVATION.Category.Monster",
       label: "MYTHACRI.MAYHEM.Action",
       scalar: true
     }
-  });
+  };
+
+  foundry.utils.mergeObject(CONFIG.DND5E.activityActivationTypes, activations);
+  for (const [k, v] of Object.entries(activations)) {
+    CONFIG.DND5E.abilityActivationTypes[k] = v.label;
+  }
 }
 
 /* -------------------------------------------------- */
