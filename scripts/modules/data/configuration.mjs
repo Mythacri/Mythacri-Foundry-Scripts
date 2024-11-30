@@ -195,16 +195,15 @@ function _consumableTypes() {
 function _currencies() {
   // Remove all currencies, replacing them with 'marbles'.
   foundry.utils.mergeObject(CONFIG.DND5E.currencies, {
-    "-=cp": null,
-    "-=sp": null,
-    "-=ep": null,
-    "-=gp": null,
-    "-=pp": null,
-    mrb: {
-      abbreviation: "MYTHACRI.CurrencyAbbrMarbles",
-      conversion: 1,
-      label: "MYTHACRI.CurrencyMarbles"
-    }
+    "cp.abbreviation": "MYTHACRI.CURRENCY.CP.ABBR",
+    "cp.label": "MYTHACRI.CURRENCY.CP.LABEL",
+    "sp.abbreviation": "MYTHACRI.CURRENCY.SP.ABBR",
+    "sp.label": "MYTHACRI.CURRENCY.SP.LABEL",
+    "gp.abbreviaton": "MYTHACRI.CURRENCY.GP.ABBR",
+    "gp.label": "MYTHACRI.CURRENCY.GP.LABEL",
+    "pp.abbreviation": "MYTHACRI.CURRENCY.PP.ABBR",
+    "pp.label": "MYTHACRI.CURRENCY.PP.LABEL",
+    "-=ep": null
   }, {performDeletions: true});
 
   // Change currency weight (marbles weigh half as much as a coin).

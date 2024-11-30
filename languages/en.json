@@ -125,8 +125,24 @@
         "NoRecipeUuid": "This item did somehow not originate from a recipe."
       }
     },
-    "CurrencyAbbrMarbles": "Mrb",
-    "CurrencyMarbles": "Marbles",
+    "CURRENCY": {
+      "CP": {
+        "ABBR": "pw",
+        "LABEL": "Peewee"
+      },
+      "SP": {
+        "ABBR": "jm",
+        "LABEL": "Jumbo"
+      },
+      "GP": {
+        "ABBR": "mrb",
+        "LABEL": "Marble"
+      },
+      "PP": {
+        "ABBR": "tr",
+        "LABEL": "Tronk"
+      }
+    },
     "ENCOUNTER": {
       "Content": "Roll a d12 to help determine a random encounter. The GM will be rolling {amount}d12.",
       "EncounterRoll": "Encounter Roll",
