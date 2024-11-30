@@ -39,6 +39,8 @@ export default class RunesConfig extends foundry.applications.api.HandlebarsAppl
   async _prepareContext(options) {
     const context = {};
 
+    throw new Error("TODO: update runes config without needing babonus.");
+
     const prepareBonus = async(bonus) => {
       const text = await TextEditor.enrichHTML(bonus.description, {async: true});
       return {bonus: bonus, text: text, enabled: bonus.enabled, name: bonus.name};
@@ -68,7 +70,7 @@ export default class RunesConfig extends foundry.applications.api.HandlebarsAppl
    */
   static #toggle(event, target) {
     const id = target.closest("[data-bonus-id]").dataset.bonusId;
-    const bonus = babonus.getCollection(this.document).get(id);
-    bonus.toggle();
+    const bonus = this.document.effects.get(id);
+    bonus.update({disabled: !bonus.disabled});
   }
 }

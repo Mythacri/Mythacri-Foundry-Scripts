@@ -14,11 +14,6 @@
         "compatibility": {}
       },
       {
-        "id": "babonus",
-        "type": "module",
-        "compatibility": {}
-      },
-      {
         "id": "simple-loot-list",
         "type": "module"
       }

@@ -650,11 +650,9 @@ async function _renderCharacterSheet(sheet, [html]) {
   _renderCraftingTab(sheet, html);
 
   // Render rune configuration menus.
-  if (game.modules.get("babonus")?.active) {
-    for (const node of html.querySelectorAll(".tab.inventory .inventory-list .item")) {
-      const item = sheet.document.items.get(node.closest("[data-item-id]")?.dataset.itemId);
-      if (itemCanHaveRunes(item)) _renderRunesOnItem(item, node);
-    }
+  for (const node of html.querySelectorAll(".tab.inventory .inventory-list .item")) {
+    const item = sheet.document.items.get(node.closest("[data-item-id]")?.dataset.itemId);
+    if (itemCanHaveRunes(item)) _renderRunesOnItem(item, node);
   }
 }
 
@@ -713,10 +711,7 @@ async function _renderRunesOnItem(item, html) {
   const after = html.querySelector(".item-name");
   const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
   const div = document.createElement("DIV");
-  const value = babonus.getCollection(item).filter(bonus => {
-    return bonus.enabled && bonus.flags[MODULE.ID]?.isRune;
-  }).length;
-  div.innerHTML = await renderTemplate(template, {...item.flags[MODULE.ID].runes, value: value});
+  div.innerHTML = await renderTemplate(template, {...item.flags[MODULE.ID].runes});
   div.querySelector("[data-action]").addEventListener("click", _onClickRunesConfig.bind(item));
   after.after(div.firstElementChild);
 }
@@ -729,7 +724,10 @@ async function _renderRunesOnItem(item, html) {
  * @returns {null|RunesConfig}
  */
 function _onClickRunesConfig() {
-  const runes = babonus.getCollection(this).filter(bonus => bonus.flags[MODULE.ID]?.isRune);
+  const runes = item.effects.filter(effect => {
+    if (effect.type === "enchantment") return false;
+    return effect.changes.some(c => c.key === `flags.${MODULE.ID}.runes.value`);
+  });
   if (!runes.length) {
     ui.notifications.warn("MYTHACRI.CRAFTING.RUNE.Warning.NoRunesOnItem", {localize: true});
     return null;
@@ -936,13 +934,6 @@ function _preUseItem(item) {
   if ((item.type !== "consumable") || item.system.activities.size) return;
 
   switch (item.system.type.value) {
-    case "rune":
-      if (!game.modules.get("babonus")?.active) {
-        ui.notifications.error("Build-a-Bonus is not enabled to allow for rune transfer.");
-        return;
-      }
-      _promptRuneTransfer(item);
-      return false;
     case "spirit":
       _promptSpiritTransfer(item);
       return false;
@@ -966,61 +957,6 @@ function _preRollAttack(config, dialog, message) {
     if (!["str", "dex"].includes(mod)) return;
     for (const roll of config.rolls) roll.data.mod = Math.max(grade, roll.data.mod);
   }
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Initiate the dialog to transfer a rune from the consumable to target item.
- * @param {Item5e} item                 The consumable rune's item.
- * @returns {Promise<Item5e|null>}      The targeted item receiving the rune.
- */
-async function _promptRuneTransfer(item) {
-  const targets = item.actor.items.reduce((acc, item) => {
-    if (!TYPES.validRuneItemTypes.has(item.type)) return acc;
-    const {enabled, max} = item.flags[MODULE.ID]?.runes ?? {};
-    if (enabled && (max > 0)) acc.push({
-      value: item.id,
-      label: item.name,
-      group: CONFIG.Item.typeLabels[item.type]
-    });
-    return acc;
-  }, []);
-
-  if (!targets.length) {
-    ui.notifications.warn("MYTHACRI.CRAFTING.RUNE.Warning.NoItemsAvailable", {localize: true});
-    return null;
-  }
-
-  const bonus = babonus.getCollection(item).contents[0].toObject();
-  foundry.utils.mergeObject(bonus, {
-    [`flags.${MODULE.ID}.isRune`]: true,
-    name: game.i18n.format("MYTHACRI.CRAFTING.RUNE.Name", {name: bonus.name})
-  });
-
-  const field = new foundry.data.fields.StringField({
-    label: "MYTHACRI.CRAFTING.RUNE.ApplyTarget.label",
-    hint: "MYTHACRI.CRAFTING.RUNE.ApplyTarget.hint",
-    required: true
-  });
-
-  const itemId = await foundry.applications.api.DialogV2.prompt({
-    content: await renderTemplate("modules/mythacri-scripts/templates/runes-target.hbs", {bonus, field: field}),
-    rejectClose: false,
-    window: {title: "MYTHACRI.CRAFTING.RUNE.Apply"},
-    ok: {
-      label: "Confirm",
-      callback: (event, button) => button.form.elements.itemId.value
-    },
-    position: {width: 400, height: "auto"}
-  });
-  if (!itemId) return null;
-
-  const target = item.actor.items.get(itemId);
-  if (bonus.enabled) bonus.enabled = _determineSuppression(target);
-  const rune = babonus.createBabonus(bonus);
-  await _reduceOrDestroyConsumable(item);
-  return babonus.embedBabonus(target, rune);
 }
 
 /* -------------------------------------------------- */
@@ -1077,21 +1013,6 @@ async function _promptSpiritTransfer(item) {
   await _reduceOrDestroyConsumable(item);
   if (existing) await existing.delete();
   return Item.implementation.create(itemData, {parent: item.actor});
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Set the enabled state of the rune depending on whether its addition would put the target item over the maximum.
- * @param {Item5e} item     The item receiving a rune.
- * @returns {boolean}       The enabled state.
- */
-function _determineSuppression(item) {
-  const value = babonus.getCollection(item).filter(bonus => {
-    return bonus.enabled && bonus.flags[MODULE.ID]?.isRune;
-  }).length;
-  const max = item.flags[MODULE.ID]?.runes?.max ?? 0;
-  return value < max;
 }
 
 /* -------------------------------------------------- */
