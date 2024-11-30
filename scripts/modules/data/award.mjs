@@ -50,11 +50,11 @@ async function grantPip({assigned = false, amount = null, each = true} = {}) {
  * @returns {Promise}
  */
 async function grantMarbles({assigned = false, amount = null, each = false} = {}) {
-  amount ??= await _promptAmount("mrb");
+  amount ??= await _promptAmount("gp");
   if (!amount) return;
   const destinations = _getDestinations(assigned);
   const results = new Map();
-  await dnd5e.applications.Award.awardCurrency({mrb: amount}, destinations, {each, results});
+  await dnd5e.applications.Award.awardCurrency({gp: amount}, destinations, {each, results});
   return dnd5e.applications.Award.displayAwardMessages(results);
 }
 
@@ -78,7 +78,7 @@ function _getDestinations(assigned = false) {
 
 /**
  * Helper method to prompt for an amount of pips or marbles.
- * @param {string} [type]               The type to prompt for, either 'pip' or 'mrb'.
+ * @param {string} [type]               The type to prompt for, either 'pip' or 'gp'.
  * @returns {Promise<number|null>}      The input amount, or null if cancelled.
  */
 async function _promptAmount(type = "pip") {

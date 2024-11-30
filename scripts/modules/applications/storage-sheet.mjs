@@ -103,7 +103,7 @@ export default class StorageSheet extends dnd5e.applications.actor.ActorSheet5e 
       ctx.hasUses = item.hasLimitedUses;
 
       // Item price
-      ctx.price = `${item.system.price.value * quantity} ${CONFIG.DND5E.currencies.mrb.abbreviation}`;
+      ctx.price = `${item.system.price.value * quantity} ${CONFIG.DND5E.currencies.gp.abbreviation}`;
 
       // Classify items into types
       let category;
