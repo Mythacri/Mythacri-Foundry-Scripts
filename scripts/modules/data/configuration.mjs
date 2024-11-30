@@ -139,30 +139,6 @@ function _characterFlags() {
 function _conditions() {
   // Add two new conditions to the token HUD.
   const journal = "Compendium.mythacri-shared-compendium.journals-myth.JournalEntry.nD9KF9ezmvqmlN61";
-  const effects = {
-    dazed: {
-      label: "MYTHACRI.ConDazed",
-      icon: "modules/mythacri-scripts/assets/statuses/dazed.svg",
-      reference: `${journal}.JournalEntryPage.1LYVeWFiNIvBOl0M`
-    },
-    impaired: {
-      label: "MYTHACRI.ConImpaired",
-      icon: "modules/mythacri-scripts/assets/statuses/impaired.svg",
-      reference: `${journal}.JournalEntryPage.Rx3igCPbfykAj95u`
-    }
-  };
-
-  for (const [k, v] of Object.entries(effects)) {
-    CONFIG.statusEffects.push({
-      id: k,
-      _id: dnd5e.utils.staticID(`dnd5e${k}`),
-      name: v.label,
-      img: v.icon,
-      reference: v.reference
-    });
-    CONFIG.DND5E.conditionTypes[k] = {...v, pseudo: false};
-    CONFIG.DND5E.statusEffects[k] = {name: v.label, icon: v.icon};
-  }
 
   // Modify exhaustion.
   CONFIG.DND5E.conditionEffects.halfHealth.delete("exhaustion-4");
