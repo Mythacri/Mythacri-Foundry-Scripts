@@ -673,24 +673,19 @@
 /*          RUNES CONFIG          */
 /*                                */
 /* ------------------------------ */
-.mythacri-scripts.runes-config {
-  & h1 {
-    text-align: center;
-    font-size: 40px;
+.mythacri-scripts.runes-config .window-content {
+  .notification::after {
+    display: none;
   }
 
-  [data-bonus-id] {
-    & label {
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-    }
+  .hint {
+    margin: 1em;
+  }
 
-    & a:has(.fa-toggle-off) {
-      opacity: 0.5;
-    }
+  .card {
+    margin: 0.5em 0;
 
-    & a:not([data-action]) {
+    &:not(:has([data-action])) {
       pointer-events: none;
       opacity: 0.2;
     }

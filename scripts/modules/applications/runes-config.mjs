@@ -3,12 +3,12 @@ import MODULE from "../constants.mjs";
 /**
  * Application for managing runes on an item.
  */
-export default class RunesConfig extends foundry.applications.api.HandlebarsApplicationMixin(
+export default class RunesConfig extends dnd5e.applications.api.ApplicationV2Mixin(
   foundry.applications.api.DocumentSheetV2
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: [MODULE.ID, "runes-config"],
+    classes: [MODULE.ID, "runes-config", "dnd5e2"],
     position: {width: 400, height: "auto"},
     id: "runes-config-{id}",
     sheetConfig: false,
@@ -30,7 +30,14 @@ export default class RunesConfig extends foundry.applications.api.HandlebarsAppl
 
   /** @override */
   get title() {
-    return `${game.i18n.localize("MYTHACRI.CRAFTING.RUNE.Configure")}: ${this.document.name}`;
+    return game.i18n.localize("MYTHACRI.CRAFTING.RUNE.Configure");
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  get subtitle() {
+    return this.document.name;
   }
 
   /* -------------------------------------------------- */
@@ -39,22 +46,30 @@ export default class RunesConfig extends foundry.applications.api.HandlebarsAppl
   async _prepareContext(options) {
     const context = {};
 
-    throw new Error("TODO: update runes config without needing babonus.");
-
-    const prepareBonus = async(bonus) => {
-      const text = await TextEditor.enrichHTML(bonus.description, {async: true});
-      return {bonus: bonus, text: text, enabled: bonus.enabled, name: bonus.name};
+    const prepareBonus = async (bonus) => {
+      const text = await TextEditor.enrichHTML(bonus.description);
+      return {bonus: bonus, text: text};
     };
 
-    context.bonuses = await Promise.all(babonus.getCollection(this.document).reduce((acc, bonus) => {
-      const isRune = bonus.flags[MODULE.ID]?.isRune;
-      if (isRune) acc.push(prepareBonus(bonus));
-      return acc;
-    }, []));
+    const isRune = effect => {
+      if (effect.type !== "enchantment") return false;
+      return effect.changes.some(c => c.key === `flags.${MODULE.ID}.runes.value`);
+    };
 
-    context.value = context.bonuses.filter(bonus => bonus.enabled).length;
-    context.max = this.document.flags[MODULE.ID].runes.max;
-    context.atMax = context.value >= context.max;
+    context.bonuses = [];
+    for (const effect of this.document.effects) {
+      if (!isRune(effect)) continue;
+      context.bonuses.push(await prepareBonus(effect));
+    }
+
+    const runes = {...this.document.flags[MODULE.ID].runes};
+    runes.value ??= 0;
+
+    context.runes = runes;
+    context.item = this.document;
+    context.atMax = runes.value >= runes.max;
+    context.overCapacity = runes.value > runes.max;
+    context.belowCapacity = (context.bonuses.length >= runes.max) && !context.atMax;
 
     return context;
   }
