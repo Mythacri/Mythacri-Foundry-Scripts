@@ -67,7 +67,8 @@
           "hint": "Select the target item of this rune.",
           "label": "Target"
         },
-        "Configuration": "Configuration",
+        "Configuration": "Runes Configuration",
+        "ConfigurationHint": "The item can have up to <strong>{max}</strong> runes enabled. Current: <strong>{value}</strong>.",
         "Configure": "Configure Runes",
         "Enabled": "Enabled",
         "FlagHint": "Enable 'Rune Carving' for this actor.",
@@ -80,7 +81,8 @@
         "Title": "Rune Carving",
         "Warning": {
           "NoItemsAvailable": "You have no items available for applying the rune.",
-          "NoRunesOnItem": "This item has no runes applied."
+          "NoRunesOnItem": "This item has no runes applied.",
+          "OverCapacity": "This item has too many runes applied!"
         }
       },
       "Section": "Crafting",
