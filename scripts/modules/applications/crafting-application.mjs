@@ -1,5 +1,32 @@
 import MODULE from "../constants.mjs";
 
+const targets = new Map();
+
+/**
+ * Prepare relevant data from items in the compendium for faster processing.
+ */
+Hooks.once("ready", async function() {
+  const key = game.settings.get(MODULE.ID, "identifiers")?.packs.craftingRecipes;
+  const pack = game.packs.get(key);
+
+  if (!pack) return;
+
+  const index = await pack.getIndex({fields: [
+    "system.crafting.basic",
+    "system.crafting.components",
+    "system.crafting.target",
+    "system.description.value",
+    "system.type.value"
+  ]});
+
+  for (const idx of index) {
+    const uuid = idx.system?.crafting?.target?.uuid;
+    if (!uuid) continue;
+    const target = fromUuidSync(uuid);
+    targets.set(target.uuid, target);
+  }
+});
+
 /**
  * Main crafting application class to handle all types of crafting.
  */
@@ -64,8 +91,8 @@ export default class CraftingApplication extends Application {
   /** @override */
   async getData() {
     const context = {};
-    context.recipes = await this.getAvailableRecipes();
-    context.recipes = context.recipes.map(idx => {
+    const recipes = this.getAvailableRecipes();
+    context.recipes = recipes.map(idx => {
       const components = mythacri.dataModels.item.RecipeData.getComponents(idx.system.crafting.components);
       const labels = Object.entries(components).map(([id, qty]) => {
         const items = this.getPossibleResources(id);
@@ -77,7 +104,7 @@ export default class CraftingApplication extends Application {
       });
 
       const qty = idx.system.crafting.target.quantity || 1;
-      const trg = fromUuidSync(idx.system.crafting.target.uuid);
+      const trg = targets.get(idx.system.crafting.target.uuid);
       const css = ["recipe"];
       if (this.canCreateRecipe(idx)) css.push("available");
       else css.push("unavailable");
@@ -106,11 +133,11 @@ export default class CraftingApplication extends Application {
     if (this._recipe) {
       const uuid = this._recipe.system.crafting.target.uuid;
       context.recipe = {
-        text: await TextEditor.enrichHTML(this._recipe.system.description.value, {async: true}),
+        text: await TextEditor.enrichHTML(this._recipe.system.description.value),
         labels: this._getRecipeLabels(this._recipe),
         icon: this.icon,
         uuid: this._recipe.uuid,
-        item: fromUuidSync(uuid),
+        item: targets.get(uuid),
         tooltip: `
         <section class='loading' data-uuid='${uuid}'>
           <i class='fas fa-spinner fa-spin-pulse'></i>
@@ -156,8 +183,8 @@ export default class CraftingApplication extends Application {
       labels: this._getRecipeLabels(item),
       uuid: uuid,
       icon: this.icon,
-      text: await TextEditor.enrichHTML(item.system.description.value, {async: true}),
-      item: await fromUuid(item.system.crafting.target.uuid),
+      text: await TextEditor.enrichHTML(item.system.description.value),
+      item: targets.get(item.system.crafting.target.uuid),
       tooltip: `
       <section class='loading' data-uuid='${item.system.crafting.target.uuid}'>
         <i class='fas fa-spinner fa-spin-pulse'></i>
@@ -176,35 +203,39 @@ export default class CraftingApplication extends Application {
 
   /**
    * Retrieve all recipes that are of this type and that this actor has learned (or are basic).
-   * @returns {Promise<object[]>}     Compendium index entries.
+   * @returns {object[]}      Compendium index entries.
    */
-  async getAvailableRecipes() {
+  getAvailableRecipes() {
     const pack = game.packs.get(game.settings.get(MODULE.ID, "identifiers")?.packs.craftingRecipes);
     if (!pack) throw new Error("There is no valid crafting recipes compendium in the settings.");
 
-    return (await pack.getIndex({
-      fields: [
-        "system.type.value",
-        "system.crafting.basic",
-        "system.crafting.target",
-        "system.crafting.components",
-        "system.description.value"
-      ]
-    })).filter(idx => {
-      const isType = (idx.type === "mythacri-scripts.recipe") && (idx.system.type.value === this.type);
-      if (!isType) return false;
-      const hasT = mythacri.dataModels.item.RecipeData.hasTarget(idx.system.crafting.target.uuid);
-      if (!hasT) {
+    const rd = mythacri.dataModels.item.RecipeData;
+    const index = [];
+
+    for (const idx of pack.index) {
+      if (idx.type !== "mythacri-scripts.recipe") continue;
+      if (idx.system.type.value !== this.type) continue;
+
+      const isc = idx.system.crafting;
+      const ist = idx.system.type;
+
+      if (!rd.hasTarget(isc.target.uuid)) {
         console.warn(`Recipe item '${idx.name}' has no valid target.`);
-        return false;
+        continue;
       }
-      const hasC = mythacri.dataModels.item.RecipeData.hasComponents(idx.system.crafting.components);
-      if (!hasC) {
+
+      if (!rd.hasComponents(isc.components)) {
         console.warn(`Recipe item '${idx.name}' has no valid components.`);
-        return false;
+        continue;
       }
-      return mythacri.dataModels.item.RecipeData.knowsRecipe(this.actor, idx._id, idx.system.type.value, idx.system.crafting.basic);
-    }).sort((a, b) => a.name.localeCompare(b.name));
+
+      if (rd.knowsRecipe(this.actor, idx._id, ist.value, isc.basic)) {
+        index.push(idx);
+      }
+    }
+
+    index.sort((a, b) => a.name.localeCompare(b.name));
+    return index;
   }
 
   /* -------------------------------------------------- */
