@@ -711,7 +711,8 @@ async function _renderRunesOnItem(item, html) {
   const after = html.querySelector(".item-name");
   const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
   const div = document.createElement("DIV");
-  div.innerHTML = await renderTemplate(template, {...item.flags[MODULE.ID].runes});
+  const {value = 0, max} = item.flags[MODULE.ID].runes;
+  div.innerHTML = await renderTemplate(template, {value, max});
   div.querySelector("[data-action]").addEventListener("click", _onClickRunesConfig.bind(item));
   after.after(div.firstElementChild);
 }
@@ -724,8 +725,8 @@ async function _renderRunesOnItem(item, html) {
  * @returns {null|RunesConfig}
  */
 function _onClickRunesConfig() {
-  const runes = item.effects.filter(effect => {
-    if (effect.type === "enchantment") return false;
+  const runes = this.effects.filter(effect => {
+    if (effect.type !== "enchantment") return false;
     return effect.changes.some(c => c.key === `flags.${MODULE.ID}.runes.value`);
   });
   if (!runes.length) {

@@ -1,14 +1,19 @@
 <div class="standard-form">
-  <h1>{{localize "MYTHACRI.CRAFTING.RUNE.Runes"}}: {{value}} / {{max}}</h1>
+
+  <p class="hint">{{{localize "MYTHACRI.CRAFTING.RUNE.ConfigurationHint" value=runes.value max=runes.max}}}</p>
+
+  {{#if overCapacity}}
+  <p class="notification error">{{localize "MYTHACRI.CRAFTING.RUNE.Warning.OverCapacity"}}</p>
+  {{/if}}
 
   {{#each bonuses}}
-  <fieldset data-bonus-id="{{bonus.id}}">
-    <label>
-      {{name}}
-      <a {{#unless (and ../atMax (not enabled))}} data-action="toggle" {{/unless}}>
-        <i class="fa-solid fa-toggle-{{ifThen enabled 'on' 'off'}}"></i>
+  <fieldset class="card" data-bonus-id="{{bonus.id}}">
+    <legend>
+      {{bonus.name}}
+      <a {{#unless (and ../atMax bonus.disabled)}} data-action="toggle" {{/unless}}>
+        <i class="fa-solid fa-toggle-{{ifThen bonus.disabled 'off' 'on'}}"></i>
       </a>
-    </label>
+    </legend>
     <div class="notification">{{{text}}}</div>
   </fieldset>
   {{/each}}
