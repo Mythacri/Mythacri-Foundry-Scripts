@@ -1,0 +1,19 @@
+<section class="recipes">
+
+  <label class="checkbox">
+    <input type="checkbox" id="available" {{checked this._availableOnly}}>
+    {{localize "MYTHACRI.CRAFTING.ShowAvailable.hint"}}
+  </label>
+
+  {{#each recipes}}
+
+  <fieldset class="card {{cssClass}}" data-uuid="{{recipe.uuid}}" data-action="show" data-name="{{target.name}}">
+    <legend>{{target.name}}</legend>
+    <span class="basic">{{#if isBasic}}{{localize "MYTHACRI.CRAFTING.SHEET.Basic"}}{{/if}}</span>
+    <span class="target">
+      <img src="{{target.img}}" data-tooltip="{{tooltip}}" data-tooltip-class="{{tooltipClass}}">
+    </span>
+  </fieldset>
+
+  {{/each}}
+</section>

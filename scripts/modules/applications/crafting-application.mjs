@@ -1,5 +1,7 @@
 import MODULE from "../constants.mjs";
 
+const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+
 const targets = new Map();
 
 /**
@@ -11,13 +13,15 @@ Hooks.once("ready", async function() {
 
   if (!pack) return;
 
-  const index = await pack.getIndex({fields: [
-    "system.crafting.basic",
-    "system.crafting.components",
-    "system.crafting.target",
-    "system.description.value",
-    "system.type.value"
-  ]});
+  const index = await pack.getIndex({
+    fields: [
+      "system.crafting.basic",
+      "system.crafting.components",
+      "system.crafting.target",
+      "system.description.value",
+      "system.type.value",
+    ],
+  });
 
   for (const idx of index) {
     const uuid = idx.system?.crafting?.target?.uuid;
@@ -30,66 +34,62 @@ Hooks.once("ready", async function() {
 /**
  * Main crafting application class to handle all types of crafting.
  */
-export default class CraftingApplication extends Application {
-  /**
-   * @constructor
-   * @param {Actor5e} actor           The crafting actor.
-   * @param {string} type             The type of crafting (monster, spirit, rune, cooking).
-   * @param {object} [options={}]     Rendering options.
-   */
-  constructor(actor, type, options = {}) {
-    super(options);
-    this.actor = actor;
-    this.type = type;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/mythacri-scripts/templates/crafting-application.hbs",
-      classes: [MODULE.ID, "crafting"],
+export default class CraftingApplication extends HandlebarsApplicationMixin(ApplicationV2) {
+  /** @inheritdoc */
+  static DEFAULT_OPTIONS = {
+    classes: [MODULE.ID, "crafting", "dnd5e2"],
+    position: {
       width: 800,
-      scrollY: [".recipes"],
+      height: 700,
+    },
+    window: {
       resizable: true,
-      height: 700
-    });
+      icon: "",
+    },
+    actions: {
+      create: CraftingApplication.#onCreate,
+      show: CraftingApplication.#onShow,
+    },
+    type: null, // Crafting type.
+    actor: null, // Crafting actor.
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static PARTS = {
+    recipes: {
+      template: "modules/mythacri-scripts/templates/parts/crafting-app-recipes.hbs",
+      scrollable: [""],
+    },
+    selected: {
+      template: "modules/mythacri-scripts/templates/parts/crafting-app-selected.hbs",
+      scrollable: [""],
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _initializeApplicationOptions(options) {
+    const appOptions = super._initializeApplicationOptions(options);
+    appOptions.uniqueId = `${options.type}-crafting-${options.actor.uuid.replaceAll(".", "-")}`;
+    appOptions.classes.push(options.type);
+    return appOptions;
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  get id() {
-    return `${this.type}-crafting-${this.actor.uuid.replaceAll(".", "-")}`;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
+  /** @inheritdoc */
   get title() {
-    return game.i18n.localize(`MYTHACRI.CRAFTING.${this.type.toUpperCase()}.Title`) + ` (${this.actor.name})`;
+    const title = game.i18n.localize(`MYTHACRI.CRAFTING.${this.options.type.toUpperCase()}.Title`);
+    return `${title}: ${this.options.actor.name}`;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Get the icon specific to this type of crafting.
-   * @type {string}
-   */
-  get icon() {
-    return {
-      cooking: "drumstick-bite",
-      rune: "gem",
-      monster: "hand-fist",
-      spirit: "fire-flame-simple"
-    }[this.type];
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async getData() {
+  /** @inheritdoc */
+  async _prepareContext(options) {
     const context = {};
     const recipes = this.getAvailableRecipes();
     context.recipes = recipes.map(idx => {
@@ -99,7 +99,7 @@ export default class CraftingApplication extends Application {
         const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
         return {
           cssClass: (max < qty) ? "missing" : "",
-          label: `${mythacri.crafting.getLabel(id)} (${max}/${qty})`
+          label: `${mythacri.crafting.getLabel(id)} (${max}/${qty})`,
         };
       });
 
@@ -122,27 +122,28 @@ export default class CraftingApplication extends Application {
         <section class='loading' data-uuid='${trg.uuid}'>
           <i class='fas fa-spinner fa-spin-pulse'></i>
         </section>`,
-        tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip"
+        tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip",
       };
     });
 
-    context.title = `MYTHACRI.CRAFTING.${this.type.toUpperCase()}.Title`;
+    context.title = `MYTHACRI.CRAFTING.${this.options.type.toUpperCase()}.Title`;
     context.availableOnly = !!this._availableOnly;
-    context.type = this.type;
+    context.type = this.options.type;
 
     if (this._recipe) {
       const uuid = this._recipe.system.crafting.target.uuid;
+      const item = targets.get(uuid);
       context.recipe = {
-        text: await TextEditor.enrichHTML(this._recipe.system.description.value),
+        text: (await item.toEmbed({inline: true})).outerHTML,
         labels: this._getRecipeLabels(this._recipe),
-        icon: this.icon,
+        icon: this.options.window.icon,
         uuid: this._recipe.uuid,
-        item: targets.get(uuid),
+        item: item,
         tooltip: `
         <section class='loading' data-uuid='${uuid}'>
           <i class='fas fa-spinner fa-spin-pulse'></i>
         </section>`,
-        tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip"
+        tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip",
       };
     }
     return context;
@@ -157,46 +158,14 @@ export default class CraftingApplication extends Application {
    */
   _getRecipeLabels(item) {
     const components = item.system.getComponents();
-    const labels = Object.entries(components).reduce((acc, [id, qty]) => {
+    const labels = Object.entries(components).map(([id, qty]) => {
       const items = this.getPossibleResources(id);
       const max = items.length ? Math.max(...items.map(item => item.system.quantity)) : 0;
-      return acc + `
-      <div class="component ${(max < qty) ? "missing" : ""}">
-        ${mythacri.crafting.getLabel(id)} (${max}/${qty})
-      </div>`;
-    }, "");
+      const label = `${mythacri.crafting.getLabel(id)} (${max}/${qty})`;
+      const cssClass = max < qty ? "missing" : "";
+      return {label, cssClass};
+    });
     return labels;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Get the details of a recipe and provide it in the selected area.
-   * @param {Event} event     The initiating click event.
-   * @returns {Promise<void>}
-   */
-  async _showDetails(event) {
-    const uuid = event.currentTarget.closest("[data-uuid]").dataset.uuid;
-    const item = await fromUuid(uuid);
-    const area = this.element[0].querySelector(".selected");
-    const templateData = {
-      labels: this._getRecipeLabels(item),
-      uuid: uuid,
-      icon: this.icon,
-      text: await TextEditor.enrichHTML(item.system.description.value),
-      item: targets.get(item.system.crafting.target.uuid),
-      tooltip: `
-      <section class='loading' data-uuid='${item.system.crafting.target.uuid}'>
-        <i class='fas fa-spinner fa-spin-pulse'></i>
-      </section>`,
-      tooltipClass: "dnd5e2 dnd5e-tooltip item-tooltip"
-    };
-
-    const template = "modules/mythacri-scripts/templates/parts/crafting-selected.hbs";
-    area.childNodes.forEach(n => n.remove());
-    area.innerHTML = await renderTemplate(template, {recipe: templateData});
-    this._recipe = item;
-    area.querySelector(".create").addEventListener("click", this._onCreate.bind(this));
   }
 
   /* -------------------------------------------------- */
@@ -214,7 +183,7 @@ export default class CraftingApplication extends Application {
 
     for (const idx of pack.index) {
       if (idx.type !== "mythacri-scripts.recipe") continue;
-      if (idx.system.type.value !== this.type) continue;
+      if (idx.system.type.value !== this.options.type) continue;
 
       const isc = idx.system.crafting;
       const ist = idx.system.type;
@@ -229,7 +198,7 @@ export default class CraftingApplication extends Application {
         continue;
       }
 
-      if (rd.knowsRecipe(this.actor, idx._id, ist.value, isc.basic)) {
+      if (rd.knowsRecipe(this.options.actor, idx._id, ist.value, isc.basic)) {
         index.push(idx);
       }
     }
@@ -247,15 +216,15 @@ export default class CraftingApplication extends Application {
    */
   canCreateRecipe(idx) {
     const components = mythacri.dataModels.item.RecipeData.getComponents(idx.system.crafting.components);
-    const resources = this.actor.items.reduce((acc, item) => {
+    const resources = this.options.actor.items.reduce((acc, item) => {
       const validFor = Object.keys(components).find(id => mythacri.crafting.validResourceForComponent(item, id));
       if (validFor) acc[validFor] = Math.max(acc[validFor] ?? 0, item.system.quantity);
       return acc;
     }, {});
-    for (const key in components) {
-      const needed = components[key];
-      const has = resources[key] ?? 0;
-      if (needed > has) return false;
+
+    for (const [k, v] of Object.entries(components)) {
+      const has = resources[k] ?? 0;
+      if (v > has) return false;
     }
     return true;
   }
@@ -284,39 +253,23 @@ export default class CraftingApplication extends Application {
    * @returns {Item5e[]}            The items that can be used for this.
    */
   getPossibleResources(id, value = 1) {
-    return this.constructor.getPossibleResources(this.actor, id, value);
+    return this.constructor.getPossibleResources(this.options.actor, id, value);
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   render(...args) {
-    this.actor.apps[`crafting-${this.type}`] = this;
+    this.options.actor.apps[this.id] = this;
     return super.render(...args);
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   close(...args) {
-    delete this.actor.apps[`crafting-${this.type}`];
+    delete this.options.actor.apps[this.id];
     return super.close(...args);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html[0].querySelectorAll(".create").forEach(n => {
-      n.addEventListener("click", this._onCreate.bind(this));
-    });
-    html[0].querySelectorAll("[data-action=show]").forEach(n => {
-      n.addEventListener("click", this._showDetails.bind(this));
-    });
-    html[0].querySelector("#available").addEventListener("change", (event) => {
-      this._availableOnly = event.currentTarget.checked;
-    });
   }
 
   /* -------------------------------------------------- */
@@ -325,27 +278,31 @@ export default class CraftingApplication extends Application {
 
   /**
    * Handle clicking a 'create' button.
-   * @param {PointerEvent} event
-   * @returns {Promise<CraftingHandler|null>}
+   * @this {CraftingApplication}
+   * @param {PointerEvent} event      Initiating click event.
+   * @param {HTMLElement} target      The element that defined the [data-action].
    */
-  async _onCreate(event) {
-    const recipe = await fromUuid(event.currentTarget.dataset.uuid);
+  static async #onCreate(event, target) {
+    const recipe = await fromUuid(target.dataset.uuid);
     const canCreate = this.canCreateRecipe(recipe);
     if (!canCreate) {
       ui.notifications.warn("MYTHACRI.CRAFTING.Warning.MissingComponents", {localize: true});
       return null;
     }
-    return new CraftingHandler(this.actor, this.type, recipe).render(true);
+    new CraftingHandler(this.options.actor, this.options.type, recipe).render(true);
   }
 
-  /* -------------------------------------------------- */
-
   /**
-   * Slide a description up or down.
-   * @param {PointerEvent} event
+   * Get the details of a recipe and provide it in the selected area.
+   * @this {CraftingApplication}
+   * @param {PointerEvent} event      The initiating click event.
+   * @param {HTMLElement} target      The element that defined the [data-action].
    */
-  _toggleDescription(event) {
-    event.currentTarget.closest(".recipe").classList.toggle("expanded");
+  static async #onShow(event, target) {
+    const uuid = target.dataset.uuid;
+    const item = await fromUuid(uuid);
+    this._recipe = item;
+    this.render({parts: ["selected"]});
   }
 }
 
@@ -376,7 +333,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/mythacri-scripts/templates/crafting-handler.hbs",
       classes: [MODULE.ID, "crafting-handler", "dnd5e2", "dialog"],
-      width: "auto"
+      width: "auto",
     });
   }
 
@@ -422,10 +379,10 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
           tooltipHint: `
           <section class='loading' data-uuid='${r.uuid}'>
             <i class='fas fa-spinner fa-spin-pulse'></i>
-          </section>`
+          </section>`,
         })),
         assigned: this.assigned[key] ?? null,
-        label: mythacri.crafting.getLabel(key)
+        label: mythacri.crafting.getLabel(key),
       };
     });
 
@@ -438,7 +395,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
       targetCss: "dnd5e2 dnd5e-tooltip item-tooltip",
       context: context,
       assigned: this.assigned,
-      noCreate: !Object.keys(components).every(key => this.assigned[key] instanceof Item)
+      noCreate: !Object.keys(components).every(key => this.assigned[key] instanceof Item),
     };
   }
 
@@ -558,7 +515,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
         description: {
           value: `
           <p><strong>${game.i18n.localize("MYTHACRI.ResourceEssenceGrade")}:</strong> ${grade}</p>
-          <fieldset><legend>${target.name}</legend>${target.system.description.value}</fieldset>`
+          <fieldset><legend>${target.name}</legend>${target.system.description.value}</fieldset>`,
         },
         quantity: 1,
         weight: {value: 0},
@@ -568,20 +525,20 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
           3: "rare",
           4: "veryRare",
           5: "legendary",
-          6: "artifact"
+          6: "artifact",
         }[grade] ?? "",
         activation: {type: "none"},
         duration: {units: "perm"},
         target: {value: 1, type: "willing"},
         range: {units: "touch"},
         uses: {value: 1, max: "1", per: "charges", autoDestroy: true},
-        type: {value: "spirit"}
-      }
+        type: {value: "spirit"},
+      },
     };
     foundry.utils.mergeObject(data.flags, {
       [`${MODULE.ID}.recipeUuid`]: this.recipe.uuid,
       [`${MODULE.ID}.sourceId`]: target.uuid,
-      [`${MODULE.ID}.spiritGrade`]: grade
+      [`${MODULE.ID}.spiritGrade`]: grade,
     });
     return data;
   }
