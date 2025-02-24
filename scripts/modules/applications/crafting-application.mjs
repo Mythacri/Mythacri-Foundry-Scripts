@@ -396,6 +396,14 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
 
   /* -------------------------------------------------- */
 
+  /**
+   * The assigned components, a record of component identifiers and items.
+   * @type {Record<string, Item5e>}
+   */
+  assigned = null;
+
+  /* -------------------------------------------------- */
+
   /** @override */
   async getData() {
     this.assigned ??= {};
@@ -467,8 +475,23 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
   _onClickComponent(event) {
     const {identifier, itemId} = event.currentTarget.dataset;
     const item = this.actor.items.get(itemId);
-    this.assigned[identifier] = (this.assigned[identifier] === item) ? null : item;
-    this.render();
+
+    // Unassigning a component.
+    if (this.assigned[identifier] === item) {
+      this.assigned[identifier] = null;
+      this.render();
+    }
+
+    // Assigning a component that is assigned elsewhere.
+    else if (Object.values(this.assigned).includes(item)) {
+      ui.notifications.warn("You cannot assign the same component twice!");
+    }
+
+    // Assigning an unassigned component.
+    else {
+      this.assigned[identifier] = item;
+      this.render();
+    }
   }
 
   /* -------------------------------------------------- */
