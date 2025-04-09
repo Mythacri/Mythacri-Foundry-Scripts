@@ -1,0 +1,21 @@
+<section class="selected">
+  {{#if recipe}}
+
+  <h2 class="name">{{recipe.item.name}}</h2>
+
+  <div class="config">
+    <ul class="components">
+      {{#each recipe.labels}}
+      <li class="{{cssClass}}">{{label}}</li>
+      {{/each}}
+    </ul>
+
+    <button type="button" class="gold-button" data-action="create" data-uuid="{{recipe.uuid}}" data-tooltip="MYTHACRI.CRAFTING.Create">
+      <img src="{{recipe.item.img}}" alt="{{recipe.item.name}}">
+    </button>
+  </div>
+
+  <div class="description">{{{recipe.text}}}</div>
+
+  {{/if}}
+</section>
