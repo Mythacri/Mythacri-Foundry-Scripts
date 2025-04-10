@@ -1,6 +1,6 @@
 import MODULE from "../constants.mjs";
 import CraftingApplication from "../applications/crafting-application.mjs";
-import RecipeData from "./models/recipe-item.mjs";
+import RecipeData from "../../data/recipe-item.mjs";
 import RecipeSheet from "../applications/recipe-sheet.mjs";
 import RunesConfig from "../applications/runes-config.mjs";
 
@@ -297,31 +297,31 @@ const TYPES = {
    * @type {object}
    */
   gemSubtypes: {
-    amber: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.amber"},
-    amethyst: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.amethyst"},
-    aquamarine: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.aquamarine"},
-    citrine: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.citrine"},
-    diamond: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.diamond"},
-    emerald: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.emerald"},
-    garnet: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.garnet"},
-    jade: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.jade"},
-    jasper: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.jasper"},
-    jet: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.jet"},
-    lapisLazuli: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.lapisLazuli"},
-    moonstone: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.moonstone"},
-    mossAgate: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.mossAgate"},
-    obsidian: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.obsidian"},
-    onyx: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.onyx"},
-    opal: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.opal"},
-    pearl: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.pearl"},
-    peridot: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.peridot"},
-    quartz: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.quartz"},
-    ruby: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.ruby"},
-    sapphire: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.sapphire"},
-    spinel: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.spinel"},
-    topaz: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.topaz"},
-    turquoise: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.turquoise"},
-    zircon: {label: "MYTHACRI.RESOURCE.subtypeOption.gem.zircon"},
+    amber: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.amber" },
+    amethyst: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.amethyst" },
+    aquamarine: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.aquamarine" },
+    citrine: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.citrine" },
+    diamond: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.diamond" },
+    emerald: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.emerald" },
+    garnet: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.garnet" },
+    jade: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.jade" },
+    jasper: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.jasper" },
+    jet: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.jet" },
+    lapisLazuli: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.lapisLazuli" },
+    moonstone: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.moonstone" },
+    mossAgate: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.mossAgate" },
+    obsidian: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.obsidian" },
+    onyx: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.onyx" },
+    opal: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.opal" },
+    pearl: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.pearl" },
+    peridot: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.peridot" },
+    quartz: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.quartz" },
+    ruby: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.ruby" },
+    sapphire: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.sapphire" },
+    spinel: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.spinel" },
+    topaz: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.topaz" },
+    turquoise: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.turquoise" },
+    zircon: { label: "MYTHACRI.RESOURCE.subtypeOption.gem.zircon" },
   },
 
   /* -------------------------------------------------- */
@@ -427,7 +427,7 @@ const TYPES = {
  */
 Object.defineProperty(TYPES, "resourceTypes", {
   get: function() {
-    const {typeOptions, monsterSubsubtypes, gemSubtypes, alchemySubtypes} = TYPES;
+    const { typeOptions, monsterSubsubtypes, gemSubtypes, alchemySubtypes } = TYPES;
     return {
       alchemy: {
         label: typeOptions.alchemy,
@@ -445,11 +445,11 @@ Object.defineProperty(TYPES, "resourceTypes", {
       },
       essence: {
         label: typeOptions.essence,
-        subtypes: {...CONFIG.DND5E.creatureTypes},
+        subtypes: { ...CONFIG.DND5E.creatureTypes },
       },
       monster: {
         label: typeOptions.monster,
-        subtypes: Object.entries(CONFIG.DND5E.creatureTypes).reduce((acc, [key, {label}]) => {
+        subtypes: Object.entries(CONFIG.DND5E.creatureTypes).reduce((acc, [key, { label }]) => {
           acc[key] = {
             label: label,
             subsubtypes: monsterSubsubtypes,
@@ -469,7 +469,7 @@ Hooks.on("dnd5e.preDisplayCardV2", _preUseItem);
 Hooks.on("dnd5e.preRollAttackV2", _preRollAttack);
 Hooks.once("init", () => {
   _characterFlags();
-  Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
+  Object.assign(CONFIG.Item.dataModels, { "mythacri-scripts.recipe": RecipeData });
   DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
     types: ["mythacri-scripts.recipe"],
     makeDefault: true,
@@ -543,8 +543,8 @@ async function _renderLootItemDropdowns(sheet, html) {
   element.insertAdjacentHTML("beforeend", `<legend>${game.i18n.localize("MYTHACRI.RESOURCE.Configuration")}</legend>`);
 
   const fields = _constructResourceFields(data);
-  for (const {field, value, name} of fields) {
-    element.insertAdjacentElement("beforeend", field.toFormGroup({localize: true}, {
+  for (const { field, value, name } of fields) {
+    element.insertAdjacentElement("beforeend", field.toFormGroup({ localize: true }, {
       name: name, blank: "-", value: value, localize: true,
     }));
   }
@@ -575,7 +575,7 @@ async function _renderLootItemDropdowns(sheet, html) {
  */
 function _constructResourceFields(data = {}) {
   const typeOptions = TYPES.resourceTypes;
-  const {NumberField, StringField} = foundry.data.fields;
+  const { NumberField, StringField } = foundry.data.fields;
   const fields = [];
 
   fields.push({
@@ -707,8 +707,8 @@ async function _renderRunesOnItem(item, html) {
   const after = html.querySelector(".item-name");
   const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
   const div = document.createElement("DIV");
-  const {value = 0, max} = item.flags[MODULE.ID].runes;
-  div.innerHTML = await renderTemplate(template, {value, max});
+  const { value = 0, max } = item.flags[MODULE.ID].runes;
+  div.innerHTML = await renderTemplate(template, { value, max });
   div.querySelector("[data-action]").addEventListener("click", _onClickRunesConfig.bind(item));
   after.after(div.firstElementChild);
 }
@@ -726,10 +726,10 @@ function _onClickRunesConfig() {
     return effect.changes.some(c => c.key === `flags.${MODULE.ID}.runes.value`);
   });
   if (!runes.length) {
-    ui.notifications.warn("MYTHACRI.CRAFTING.RUNE.Warning.NoRunesOnItem", {localize: true});
+    ui.notifications.warn("MYTHACRI.CRAFTING.RUNE.Warning.NoRunesOnItem", { localize: true });
     return null;
   }
-  return new RunesConfig({document: this}).render({force: true});
+  return new RunesConfig({ document: this }).render({ force: true });
 }
 
 /* -------------------------------------------------- */
@@ -741,12 +741,12 @@ function _onClickRunesConfig() {
  */
 function _onClickCraft(event) {
   const type = event.currentTarget.dataset.action;
-  const {icon} = TYPES.craftingTypes[type];
+  const { icon } = TYPES.craftingTypes[type];
   new CraftingApplication({
     type: type,
-    window: {icon: icon},
+    window: { icon: icon },
     actor: this.document,
-  }).render({force: true});
+  }).render({ force: true });
 }
 
 /* -------------------------------------------------- */
@@ -776,7 +776,7 @@ function getIdentifier(item) {
   let id = `${data.type}.${data.subtype}`;
   if ((data.type === "monster") || (data.type === "alchemy")) id += `.${data.subsubtype}`;
 
-  const valid = validIdentifier(id, {allowWildCard: false});
+  const valid = validIdentifier(id, { allowWildCard: false });
   if (!valid) return null;
 
   return id;
@@ -790,7 +790,7 @@ function getIdentifier(item) {
  * @param {boolean} [allowWildCard]     Is the wildcard token `*` allowed?
  * @returns {boolean}
  */
-function validIdentifier(id, {allowWildCard = true} = {}) {
+function validIdentifier(id, { allowWildCard = true } = {}) {
   const [type, subtype, subsubtype] = id?.split(".") ?? [];
   const types = TYPES.resourceTypes;
   let path = `${type}.subtypes.${subtype}`;
@@ -870,7 +870,7 @@ function _getAlchemyLabel(type, subtype, subsubtype) {
   subsubtype = alch[subtype].subsubtypes[subsubtype]?.label;
   subtype = alch[subtype].label;
 
-  return game.i18n.format(string, {subtype, subsubtype});
+  return game.i18n.format(string, { subtype, subsubtype });
 }
 
 /* -------------------------------------------------- */
@@ -974,7 +974,7 @@ async function _promptSpiritTransfer(item) {
   const recipe = data.recipeUuid;
 
   if (!recipe) {
-    ui.notifications.warn("MYTHACRI.CRAFTING.Warning.NoRecipeUuid", {localize: true});
+    ui.notifications.warn("MYTHACRI.CRAFTING.Warning.NoRecipeUuid", { localize: true });
     return null;
   }
 
@@ -985,7 +985,7 @@ async function _promptSpiritTransfer(item) {
   if (existing) {
     const eg = existing.flags[MODULE.ID].spiritGrade;
     if (eg >= grade) {
-      ui.notifications.warn("MYTHACRI.CRAFTING.SPIRIT.Consume.Warning", {localize: true});
+      ui.notifications.warn("MYTHACRI.CRAFTING.SPIRIT.Consume.Warning", { localize: true });
       return null;
     }
   }
@@ -997,10 +997,10 @@ async function _promptSpiritTransfer(item) {
   }) + "</p>";
   if (existing) content += `<p><em>${game.i18n.localize("MYTHACRI.CRAFTING.SPIRIT.Consume.hintReplace")}</em></p>`;
   const confirm = await foundry.applications.api.DialogV2.confirm({
-    window: {title: game.i18n.format("MYTHACRI.CRAFTING.SPIRIT.Consume.Title", {name: target.name})},
+    window: { title: game.i18n.format("MYTHACRI.CRAFTING.SPIRIT.Consume.Title", { name: target.name }) },
     content: content,
     rejectClose: false,
-    position: {width: 400},
+    position: { width: 400 },
   });
   if (!confirm) return null;
   const itemData = game.items.fromCompendium(target);
@@ -1014,7 +1014,7 @@ async function _promptSpiritTransfer(item) {
 
   await _reduceOrDestroyConsumable(item);
   if (existing) await existing.delete();
-  return Item.implementation.create(itemData, {parent: item.actor});
+  return Item.implementation.create(itemData, { parent: item.actor });
 }
 
 /* -------------------------------------------------- */
@@ -1027,7 +1027,7 @@ async function _promptSpiritTransfer(item) {
 async function _reduceOrDestroyConsumable(item) {
   const qty = item.system.quantity;
   if (qty === 1) return item.delete();
-  else return item.update({"system.quantity": qty - 1});
+  else return item.update({ "system.quantity": qty - 1 });
 }
 
 /* -------------------------------------------------- */

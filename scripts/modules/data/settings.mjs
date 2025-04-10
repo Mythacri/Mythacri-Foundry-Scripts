@@ -12,19 +12,19 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
       packs: new foundry.data.fields.SchemaField({
         craftingRecipes: new foundry.data.fields.StringField({
           label: "MYTHACRI.SettingsPacksCraftingRecipes",
-          hint: "MYTHACRI.SettingsPacksCraftingRecipesHint"
+          hint: "MYTHACRI.SettingsPacksCraftingRecipesHint",
         }),
         craftingResources: new foundry.data.fields.StringField({
           label: "MYTHACRI.SettingsPacksCraftingResources",
-          hint: "MYTHACRI.SettingsPacksCraftingResourcesHint"
-        })
+          hint: "MYTHACRI.SettingsPacksCraftingResourcesHint",
+        }),
       }),
       paths: new foundry.data.fields.SchemaField({
         soundboard: new foundry.data.fields.StringField({
           label: "MYTHACRI.SettingsPathsSoundboard",
-          hint: "MYTHACRI.SettingsPathsSoundboardHint"
-        })
-      })
+          hint: "MYTHACRI.SettingsPathsSoundboardHint",
+        }),
+      }),
     };
   }
 }
@@ -33,18 +33,18 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
 
 /** Settings menu form for identifiers. */
 class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    position: {width: 500, height: "auto"},
-    window: {title: "MYTHACRI.SettingsIdentifiers"},
+    position: { width: 500, height: "auto" },
+    window: { title: "MYTHACRI.SettingsIdentifiers" },
     id: "mythacri-scripts-settings-identifiers",
     tag: "form",
     form: {
       handler: IdentifiersSettingsMenu.#onSubmit,
-      closeOnSubmit: true
-    }
+      closeOnSubmit: true,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -52,8 +52,8 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
   /** @override */
   static PARTS = {
     form: {
-      template: "modules/mythacri-scripts/templates/settings-identifiers.hbs"
-    }
+      template: "modules/mythacri-scripts/templates/settings-identifiers.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -73,7 +73,7 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
     const makeField = path => {
       const value = foundry.utils.getProperty(model._source, path);
       const field = model.schema.getField(path);
-      return {value, field};
+      return { value, field };
     };
 
     const context = {};
@@ -85,9 +85,9 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
     }
 
     context.fields = [
-      {...makeField("packs.craftingRecipes"), choices},
-      {...makeField("packs.craftingResources"), choices},
-      makeField("paths.soundboard")
+      { ...makeField("packs.craftingRecipes"), choices },
+      { ...makeField("packs.craftingResources"), choices },
+      makeField("paths.soundboard"),
     ];
 
     return context;
@@ -101,7 +101,7 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
  * @returns {Promise<IdentifiersSettingsMenu>}
  */
 async function create() {
-  return new IdentifiersSettingsMenu().render({force: true});
+  return new IdentifiersSettingsMenu().render({ force: true });
 }
 
 /* -------------------------------------------------- */
@@ -112,7 +112,7 @@ function _registerSettings() {
     config: false,
     type: IdentifiersSettingsModel,
     default: null,
-    scope: "world"
+    scope: "world",
   });
 
   /** Remember where the soundboard was last dragged. */
@@ -120,7 +120,7 @@ function _registerSettings() {
     config: false,
     type: Object,
     default: {},
-    scope: "client"
+    scope: "client",
   });
 
   /** Remember whether the soundboard was visible. */
@@ -128,7 +128,7 @@ function _registerSettings() {
     config: false,
     type: Boolean,
     default: false,
-    scope: "client"
+    scope: "client",
   });
 
   /** The current number of random encounter dice. */
@@ -136,7 +136,7 @@ function _registerSettings() {
     config: false,
     type: Number,
     default: 1,
-    scope: "world"
+    scope: "world",
   });
 
   /** Register settings menus. */
@@ -146,12 +146,12 @@ function _registerSettings() {
     label: "MYTHACRI.SettingsIdentifiersLabel",
     icon: "fa-solid fa-id-card",
     type: IdentifiersSettingsMenu,
-    restricted: true
+    restricted: true,
   });
 }
 
 /* -------------------------------------------------- */
 
 export default {
-  create
+  create,
 };

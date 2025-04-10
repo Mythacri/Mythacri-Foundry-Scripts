@@ -18,7 +18,7 @@ function _preUseActivity(activity, config, dialog) {
   if (activity.activation.type === "mayhem") {
     foundry.utils.mergeObject(config, {
       "consume.mayhem": true,
-      hasConsumption: true
+      hasConsumption: true,
     });
     dialog.configure = true;
   }
@@ -67,7 +67,7 @@ function _preActivityConsumption(activity, config, dialog) {
   const cost = activity.activation.cost || 1;
   const mayhem = Mayhem.create();
   if (!mayhem.canDeduct(cost)) {
-    ui.notifications.warn("MYTHACRI.MAYHEM.Warning.Deduct", {localize: true});
+    ui.notifications.warn("MYTHACRI.MAYHEM.Warning.Deduct", { localize: true });
     return false;
   }
 }
@@ -94,7 +94,7 @@ class Mayhem extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
-      points: new foundry.data.fields.NumberField({integer: true, min: 0, initial: 0})
+      points: new foundry.data.fields.NumberField({ integer: true, min: 0, initial: 0 }),
     };
   }
 
@@ -105,12 +105,12 @@ class Mayhem extends foundry.abstract.DataModel {
    */
   static create(user = null) {
     if (!game.user.isGM) {
-      ui.notifications.warn("MYTHACRI.MayhemUserNotAllowed", {localize: true});
+      ui.notifications.warn("MYTHACRI.MayhemUserNotAllowed", { localize: true });
       return null;
     }
     user = user ?? game.user;
     const data = user.flags[MODULE.ID]?.mayhem ?? {};
-    return new Mayhem(data, {parent: user});
+    return new Mayhem(data, { parent: user });
   }
 
   /**
@@ -147,10 +147,10 @@ async function add(value = 1) {
   const mayhem = Mayhem.create();
   const canAdd = mayhem.canAdd(value);
   if (!canAdd) {
-    ui.notifications.warn("MYTHACRI.MayhemCannotAdd", {localize: true});
+    ui.notifications.warn("MYTHACRI.MayhemCannotAdd", { localize: true });
     return null;
   }
-  mayhem.updateSource({points: mayhem.points + value});
+  mayhem.updateSource({ points: mayhem.points + value });
   return mayhem.parent.setFlag(MODULE.ID, "mayhem", mayhem.toObject());
 }
 
@@ -165,10 +165,10 @@ async function deduct(value = 1) {
   const mayhem = Mayhem.create();
   const canDeduct = mayhem.canDeduct(value);
   if (!canDeduct) {
-    ui.notifications.warn("MYTHACRI.MayhemCannotDeduct", {localize: true});
+    ui.notifications.warn("MYTHACRI.MayhemCannotDeduct", { localize: true });
     return null;
   }
-  mayhem.updateSource({points: mayhem.points - value});
+  mayhem.updateSource({ points: mayhem.points - value });
   return mayhem.parent.setFlag(MODULE.ID, "mayhem", mayhem.toObject());
 }
 
@@ -180,23 +180,23 @@ async function deduct(value = 1) {
  */
 async function create() {
   const mayhem = Mayhem.create();
-  return new MayhemUI(mayhem).render({force: true});
+  return new MayhemUI(mayhem).render({ force: true });
 }
 
 /* -------------------------------------------------- */
 
 /** Utility application for displaying and managing mayhem points manually. */
 class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: [MODULE.ID, "mayhem", "standard-form"],
-    position: {width: 400, height: "auto"},
+    position: { width: 400, height: "auto" },
     actions: {
       add: MayhemUI.#add,
-      deduct: MayhemUI.#deduct
-    }
+      deduct: MayhemUI.#deduct,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -204,15 +204,15 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
   /** @override */
   static PARTS = {
     form: {
-      template: "modules/mythacri-scripts/templates/mayhem.hbs"
-    }
+      template: "modules/mythacri-scripts/templates/mayhem.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   get title() {
-    return game.i18n.format("MYTHACRI.MAYHEM.Title", {name: game.user.name});
+    return game.i18n.format("MYTHACRI.MAYHEM.Title", { name: game.user.name });
   }
 
   /* -------------------------------------------------- */
@@ -223,7 +223,7 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
     return {
       mayhem: mayhem,
       user: game.user,
-      disableDown: !mayhem.points
+      disableDown: !mayhem.points,
     };
   }
 
@@ -259,5 +259,5 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
 export default {
   add,
   create,
-  deduct
+  deduct,
 };

@@ -1,5 +1,5 @@
 import MODULE from "../constants.mjs";
-import ResourcePopulatorModel from "../data/models/resource-populator.mjs";
+import ResourcePopulatorModel from "../../data/resource-populator.mjs";
 
 /**
  * Prompt for populating an actor with lootable resources.
@@ -14,10 +14,10 @@ async function populate(actor) {
 
   const options = {
     window: {
-      title: game.i18n.format("MYTHACRI.CRAFTING.POPULATOR.Title", {name: actor.name})
+      title: game.i18n.format("MYTHACRI.CRAFTING.POPULATOR.Title", { name: actor.name }),
     },
-    position: {width: 600, height: "auto"},
-    classes: ["resource-populator", "mythacri-scripts"]
+    position: { width: 600, height: "auto" },
+    classes: ["resource-populator", "mythacri-scripts"],
   };
 
   const content = () => {
@@ -30,15 +30,15 @@ async function populate(actor) {
     html += types.toFormGroup({
       classes: ["stacked"],
       label: "MYTHACRI.CRAFTING.POPULATOR.label",
-      hint: "MYTHACRI.CRAFTING.POPULATOR.hint"
+      hint: "MYTHACRI.CRAFTING.POPULATOR.hint",
     }, {
       name: "types",
       type: "checkboxes",
       localize: true,
       value: model.types,
-      options: Object.entries(monsterSubsubtypes).map(([type, {label}]) => {
-        return {label: label, value: type};
-      })
+      options: Object.entries(monsterSubsubtypes).map(([type, { label }]) => {
+        return { label: label, value: type };
+      }),
     }).outerHTML;
 
     html += "</fieldset><fieldset>";
@@ -46,10 +46,10 @@ async function populate(actor) {
     for (const field of formulas) {
       html += field.toFormGroup({
         label: game.i18n.localize(monsterSubsubtypes[field.name].label),
-        classes: model.types.has(field.name) ? [] : ["hidden"]
+        classes: model.types.has(field.name) ? [] : ["hidden"],
       }, {
         value: model.formulas[field.name],
-        name: field.fieldPath
+        name: field.fieldPath,
       }).outerHTML;
     }
 
@@ -77,7 +77,7 @@ async function populate(actor) {
   const callback = async () => {
     for (const k of model.types) {
       const formula = model.formulas[k];
-      if (!formula || !Roll.validate(formula)) model.updateSource({[`formulas.${k}`]: "1d2"});
+      if (!formula || !Roll.validate(formula)) model.updateSource({ [`formulas.${k}`]: "1d2" });
     }
 
     const pack = game.packs.get(game.settings.get(MODULE.ID, "identifiers").packs.craftingResources);
@@ -88,10 +88,10 @@ async function populate(actor) {
         [MODULE.ID]: {
           resource: {
             type: "monster",
-            subsubtype__in: Array.from(model.types)
-          }
-        }
-      }
+            subsubtype__in: Array.from(model.types),
+          },
+        },
+      },
     });
 
     const list = foundry.utils.deepClone(actor.getFlag("simple-loot-list", "loot-list") ?? []);
@@ -102,13 +102,13 @@ async function populate(actor) {
 
       const existing = list.find(entry => entry.uuid === item.uuid);
       if (existing) existing.quantity = dnd5e.dice.simplifyRollFormula(`${existing.quantity} + ${formula}`);
-      else list.push({uuid: item.uuid, quantity: formula});
+      else list.push({ uuid: item.uuid, quantity: formula });
     }
 
     actor.setFlag("simple-loot-list", "loot-list", list);
   };
 
-  options.ok = {callback: callback};
+  options.ok = { callback: callback };
 
   foundry.applications.api.DialogV2.prompt(options);
 }
@@ -116,5 +116,5 @@ async function populate(actor) {
 /* -------------------------------------------------- */
 
 export default {
-  populate
+  populate,
 };
