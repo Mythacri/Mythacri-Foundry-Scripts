@@ -412,67 +412,6 @@
 
 /* ------------------------------ */
 /*                                */
-/*           SOUNDBOARD           */
-/*                                */
-/* ------------------------------ */
-.mythacri-scripts.soundboard {
-  border: 1px solid var(--color-border-dark);
-  height: auto !important;
-
-  .window-header {
-    display: none;
-  }
-
-  .window-content {
-    background: unset;
-    color: unset;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px groove var(--color-border-dark-secondary);
-    padding-bottom: 0.5em;
-
-    .toggle:before {
-      content: "\f078";
-    }
-
-    &.collapsed .toggle:before {
-      content: "\f077";
-    }
-  }
-
-  .sound-list {
-    overflow: hidden;
-  }
-
-  .collapsed + .sound-list {
-    height: 0;
-  }
-
-  .sound {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-
-    .sound-name {
-      overflow: hidden;
-      flex: 1;
-    }
-
-    .actions {
-      margin-left: 5px;
-
-      & a {
-        margin: 0 5px;
-      }
-    }
-  }
-}
-
-/* ------------------------------ */
-/*                                */
 /*       ENCOUNTER SUSPENSE       */
 /*                                */
 /* ------------------------------ */
@@ -542,58 +481,6 @@
       pointer-events: none;
       opacity: 0.2;
     }
-  }
-}
-
-/* ------------------------------ */
-/*                                */
-/*         STORAGE SHEET          */
-/*                                */
-/* ------------------------------ */
-.sheet.actor.dnd5e.storage {
-  min-width: 600px;
-  min-height: 600px;
-
-  .header-details {
-    height: calc(100% - 10px);
-    padding: 5px;
-    margin: 0;
-  }
-
-  .sheet-header {
-    .charname {
-      position: relative;
-      height: 100%;
-
-      & input {
-        height: 100%;
-        margin: 0;
-        width: calc(100% - 50px);
-      }
-
-      .config-button {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 4px;
-        font-size: 16px;
-        display: none;
-      }
-
-      &:hover .config-button {
-        display: block;
-      }
-    }
-
-    .profile {
-      flex: 0 0 100px;
-      max-width: 100px;
-      height: 100px;
-    }
-  }
-
-  [data-action=create] {
-    display: none;
   }
 }
 

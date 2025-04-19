@@ -115,13 +115,3 @@ Accessed through `mythacri.resource`.
  */
 async populate(actor)
 ```
-
-### Soundboard
-Accessed through `mythacri.soundboard`.
-```js
-/**
- * Destroy the current soundboard, otherwise create and show a new one.
- * @returns {void}
- */
-toggle()
-```

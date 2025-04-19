@@ -12,7 +12,7 @@ Hooks.once("init", () => game.socket.on("module.mythacri-scripts", _onSocket));
  * @param {string} eventData.action     The action to perform.
  * @param {object} eventData.data       The socket data.
  */
-function _onSocket({action, ...data}) {
+function _onSocket({ action, ...data }) {
   if (action === "transferComplete") _onMarkTransferComplete(data);
 }
 
@@ -24,7 +24,7 @@ function _onSocket({action, ...data}) {
  * @param {string} data.userId        The id of the user asked to update the message.
  * @param {string} data.messageId     The id of the message to be updated.
  */
-async function _onMarkTransferComplete({messageId, userId}) {
+async function _onMarkTransferComplete({ messageId, userId }) {
   if (game.user.id !== userId) return;
   const message = game.messages.get(messageId);
 
@@ -36,7 +36,7 @@ async function _onMarkTransferComplete({messageId, userId}) {
   div.querySelector(".buttons").replaceWith(note);
   const update = {
     content: div.innerHTML,
-    "flags.mythacri-scripts.transfer.completed": true
+    "flags.mythacri-scripts.transfer.completed": true,
   };
   message.update(update);
 }
@@ -54,13 +54,13 @@ function _onGetItemContextOptions(item, items) {
     icon: "<i class='fa-fw fa-arrow-right-arrow-left fa-solid fa-rotate-90'></i>",
     condition: () => item.isOwner && item.system.schema.has("quantity") && (item.type !== "container"),
     callback: () => promptTransfer(item),
-    group: "action"
+    group: "action",
   }, {
     name: "MYTHACRI.SPLIT.ContextOption",
     icon: "<i class='fa-fw fa-boxes-stacked fa-solid'></i>",
     condition: () => item.isOwner && item.system.schema.has("quantity") && (item.system.quantity > 1),
     callback: () => promptSplit(item),
-    group: "action"
+    group: "action",
   });
 }
 
@@ -77,19 +77,19 @@ async function promptSplit(item) {
     integer: true,
     nullable: false,
     label: "MYTHACRI.SPLIT.label",
-    hint: "MYTHACRI.SPLIT.hint"
+    hint: "MYTHACRI.SPLIT.hint",
   });
-  const html = field.toFormGroup({localize: true}, {value: 1, name: "size"}).outerHTML;
+  const html = field.toFormGroup({ localize: true }, { value: 1, name: "size" }).outerHTML;
 
   const prompt = await foundry.applications.api.DialogV2.prompt({
     content: `<fieldset>${html}</fieldset>`,
     rejectClose: false,
-    position: {width: 400},
+    position: { width: 400 },
     window: {
       icon: "fa-solid fa-boxes-stacked",
-      title: game.i18n.format("MYTHACRI.SPLIT.title", {name: item.name})
+      title: game.i18n.format("MYTHACRI.SPLIT.title", { name: item.name }),
     },
-    ok: {callback: (event, button) => button.form.elements.size.valueAsNumber}
+    ok: { callback: (event, button) => button.form.elements.size.valueAsNumber },
   });
   if (!prompt) return;
 
@@ -97,7 +97,7 @@ async function promptSplit(item) {
   foundry.utils.setProperty(itemData, "system.quantity", prompt);
   Promise.all([
     item.actor.createEmbeddedDocuments("Item", [itemData]),
-    item.update({"system.quantity": item.system.quantity - prompt})
+    item.update({ "system.quantity": item.system.quantity - prompt }),
   ]);
 }
 
@@ -110,13 +110,13 @@ async function promptSplit(item) {
  */
 async function promptTransfer(item) {
   if (!item.system.schema.has("quantity")) {
-    ui.notifications.error("MYTHACRI.TRANSFER.Warning.Invalid", {localize: true});
+    ui.notifications.error("MYTHACRI.TRANSFER.Warning.Invalid", { localize: true });
     return;
   }
 
   const party = game.settings.get("dnd5e", "primaryParty").actor;
   if (party?.type !== "group") {
-    ui.notifications.error("MYTHACRI.TRANSFER.Warning.Party", {localize: true});
+    ui.notifications.error("MYTHACRI.TRANSFER.Warning.Party", { localize: true });
     return;
   }
 
@@ -124,7 +124,7 @@ async function promptTransfer(item) {
   const test = actor => actor && (actor.id !== item.actor.id);
 
   if (test(party)) choices[party.uuid] = party.name;
-  for (const {actor} of party.system.members) {
+  for (const { actor } of party.system.members) {
     if (test(actor)) choices[actor.uuid] = actor.name;
   }
 
@@ -132,22 +132,22 @@ async function promptTransfer(item) {
     choices: choices,
     label: "MYTHACRI.TRANSFER.Prompt.Label",
     hint: "MYTHACRI.TRANSFER.Prompt.Hint",
-    required: true
+    required: true,
   });
-  const content = `<fieldset>${field.toFormGroup({localize: true}, {name: "target"}).outerHTML}</fieldset>`;
+  const content = `<fieldset>${field.toFormGroup({ localize: true }, { name: "target" }).outerHTML}</fieldset>`;
 
   const uuid = await foundry.applications.api.DialogV2.prompt({
     content: content,
     rejectClose: false,
-    window: {title: game.i18n.format("MYTHACRI.TRANSFER.Prompt.Title", {name: item.name})},
-    position: {width: 400, height: "auto"},
+    window: { title: game.i18n.format("MYTHACRI.TRANSFER.Prompt.Title", { name: item.name }) },
+    position: { width: 400, height: "auto" },
     ok: {
       label: "MYTHACRI.TRANSFER.Prompt.Button",
-      callback: (event, button) => button.form.elements.target.value
-    }
+      callback: (event, button) => button.form.elements.target.value,
+    },
   });
   if (!uuid) return;
-  return transfer(item, {target: uuid});
+  return transfer(item, { target: uuid });
 }
 
 /* -------------------------------------------------- */
@@ -159,7 +159,7 @@ async function promptTransfer(item) {
  * @param {string} options.target         The uuid of the actor that will receive the item.
  * @returns {Promise<ChatMessage5e>}      A promise that resolves to the created chat message.
  */
-async function transfer(item, {target}) {
+async function transfer(item, { target }) {
   const actor = await fromUuid(target);
   const whisperTargets = game.users.reduce((acc, user) => {
     const owner = actor.testUserPermission(user, "OWNER") || item.actor.testUserPermission(user, "OWNER");
@@ -167,17 +167,17 @@ async function transfer(item, {target}) {
     return acc;
   }, []);
   const messageData = {
-    speaker: ChatMessage.implementation.getSpeaker({actor: item.actor}),
+    speaker: ChatMessage.implementation.getSpeaker({ actor: item.actor }),
     whisper: whisperTargets,
     content: await renderTemplate("modules/mythacri-scripts/templates/item-transfer.hbs", {
-      item: item, source: item.actor, target: actor
+      item: item, source: item.actor, target: actor,
     }),
     "flags.mythacri-scripts.transfer": {
       itemData: JSON.stringify(item.toObject()),
       completed: false,
       target: target,
-      source: item.actor.uuid
-    }
+      source: item.actor.uuid,
+    },
   };
   const message = await ChatMessage.implementation.create(messageData);
   await item.delete();
@@ -238,14 +238,14 @@ async function _onClickTransfer(event, message, target, transferData) {
 
   const userId = game.users.find(u => u.active && message.canUserModify(u, "update"))?.id;
   if (!userId) {
-    ui.notifications.warn("MYTHACRI.TRANSFER.Warning.Unavailable", {localize: true});
+    ui.notifications.warn("MYTHACRI.TRANSFER.Warning.Unavailable", { localize: true });
     return;
   }
 
   // Create the item.
   await target.createEmbeddedDocuments("Item", [itemData]);
 
-  const options = {messageId: message.id, userId: userId, action: "transferComplete"};
+  const options = { messageId: message.id, userId: userId, action: "transferComplete" };
   if (game.user.id !== userId) {
     game.socket.emit("module.mythacri-scripts", options);
   } else {
@@ -267,7 +267,7 @@ async function _onClickCancel(event, message, source, transferData) {
   if (!source.isOwner) return;
   const itemData = JSON.parse(transferData.itemData);
   const keepId = !source.items.has(itemData._id);
-  const [item] = await source.createEmbeddedDocuments("Item", [itemData], {keepId: keepId});
+  const [item] = await source.createEmbeddedDocuments("Item", [itemData], { keepId: keepId });
   if (!item) return;
   message.delete();
 }
@@ -276,5 +276,5 @@ async function _onClickCancel(event, message, source, transferData) {
 
 export default {
   promptTransfer,
-  transfer
+  transfer,
 };

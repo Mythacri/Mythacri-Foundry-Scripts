@@ -381,37 +381,8 @@
     "SettingsPacksCraftingRecipesHint": "The compendium pack that contains all crafting recipes.",
     "SettingsPacksCraftingResources": "Crafting Resources Pack",
     "SettingsPacksCraftingResourcesHint": "The compendium pack that contains all crafting resources.",
-    "SettingsPathsSoundboard": "Soundboard File Path",
-    "SettingsPathsSoundboardHint": "The data path to the folder that contains sound files for the soundboard application.",
-    "Soundboard": "Soundboard",
-    "SoundboardBroadcast": "Broadcast",
-    "SoundboardError": "Soundboard | No sound files were found at the specified location.",
-    "SoundboardPreview": "Preview",
     "SPELLCASTING": {
       "Bewitcher": "Bewitcher"
-    },
-    "STORAGE": {
-      "ConsumableTypeOther": "Other Consumables",
-      "LootTypeOther": "Other Loot",
-      "ModifyAttributes": "Modify Attributes",
-      "SheetLabel": "Mythacri Storage Sheet",
-      "TabConsumables": "Consumables",
-      "TabGear": "Gear",
-      "TabLoot": "Loot",
-      "TabResources": "Resources",
-      "FIELDS": {
-        "attributes": {
-          "capacity": {
-            "label": "Capacity",
-            "max": {
-              "label": "Max Capacity"
-            },
-            "type": {
-              "label": "Capacity Type"
-            }
-          }
-        }
-      }
     },
     "SPLIT": {
       "ContextOption": "Split Stack",
@@ -461,11 +432,6 @@
     "WeaponPropertyTwinshot": "Twinshot"
   },
   "TYPES": {
-    "Actor": {
-      "mythacri-scripts": {
-        "storage": "Storage"
-      }
-    },
     "Item": {
       "mythacri-scripts": {
         "recipe": "Recipe"

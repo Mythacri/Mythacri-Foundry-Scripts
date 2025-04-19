@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "ES2022",
+    "target": "ES2024",
+    "paths": {
+      "@client/*": ["./foundry/client/*"],
+      "@common/*": ["./foundry/common/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"],
+  "include": ["module.mjs", "foundry/client/client.mjs", "global.d.ts",
+    "../../systems/dnd5e/dnd5e-compiled.mjs"
+  ],
+  "typeAcquisition": {
+    "include": ["jquery"]
+  }
+}

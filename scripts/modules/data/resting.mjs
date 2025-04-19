@@ -37,7 +37,7 @@ function _preRestCompleted(actor, result) {
 async function _renderLongRestDialog(dialog, [html]) {
   const availableHD = dialog.actor.items.reduce((hd, item) => {
     if (item.type === "class") {
-      const {levels, hitDice, hitDiceUsed} = item.system;
+      const { levels, hitDice, hitDiceUsed } = item.system;
       const denom = hitDice ?? "d6";
       const available = levels - hitDiceUsed;
       hd[denom] = (denom in hd) ? (hd[denom] + available) : available;
@@ -49,7 +49,7 @@ async function _renderLongRestDialog(dialog, [html]) {
     haveHealed: dialog.healed,
     availableHD,
     canRoll: dialog.actor.system.attributes.hd > 0,
-    denomination: (availableHD[dialog._denom] > 0) ? dialog._denom : Object.keys(availableHD).find(k => availableHD[k] > 0)
+    denomination: (availableHD[dialog._denom] > 0) ? dialog._denom : Object.keys(availableHD).find(k => availableHD[k] > 0),
   });
 
   // Add event listeners.
@@ -59,7 +59,7 @@ async function _renderLongRestDialog(dialog, [html]) {
 
   // Inject.
   html.querySelector(".form-group").before(...div.childNodes);
-  dialog.setPosition({height: "auto"});
+  dialog.setPosition({ height: "auto" });
 }
 
 /* -------------------------------------------------- */
@@ -75,7 +75,7 @@ function _freeLongRestHeal(dice) {
   const total = max + this.actor.system.abilities[CONFIG.DND5E.defaultAbilities.hitPoints].mod;
   const hp = this.actor.system.attributes.hp;
   const value = Math.min(hp.value + total, hp.effectiveMax);
-  this.actor.update({"system.attributes.hp.value": value}, {isRest: true});
+  this.actor.update({ "system.attributes.hp.value": value }, { isRest: true });
   this.render();
 }
 
@@ -111,20 +111,20 @@ async function fullRestDialog() {
     content: `<p>${game.i18n.localize("MYTHACRI.REST.FULL.Hint")}</p>`,
     window: {
       icon: "fa-solid fa-house-chimney",
-      title: `${game.i18n.localize("MYTHACRI.REST.FULL.Label")}: ${this.name}`
+      title: `${game.i18n.localize("MYTHACRI.REST.FULL.Label")}: ${this.name}`,
     },
-    position: {width: 400},
+    position: { width: 400 },
     yes: {
       icon: "fa-solid fa-bed",
       label: "DND5E.Rest",
-      callback: () => fullRest.call(actor)
+      callback: () => fullRest.call(actor),
     },
     no: {
       icon: "fa-solid fa-times",
       label: "Cancel",
-      callback: () => null
+      callback: () => null,
     },
-    rejectClose: false
+    rejectClose: false,
   });
 }
 
@@ -138,7 +138,7 @@ async function fullRestDialog() {
 async function fullRest() {
   const config = {
     type: "full",
-    deltas: {hitPoints: 0, hitDice: 0},
+    deltas: { hitPoints: 0, hitDice: 0 },
     updateData: {},
     updateItems: [],
     newDay: true,
@@ -152,7 +152,7 @@ async function fullRest() {
     recoverLong: true,
     recoverShortRestUses: true, // item uses
     recoverLongRestUses: true,
-    recoverDailyUses: true
+    recoverDailyUses: true,
   };
   const result = {};
 
@@ -169,7 +169,7 @@ async function fullRest() {
   // Perform updates.
   await Promise.all([
     this.update(result.updateData),
-    this.updateEmbeddedDocuments("Item", result.updateItems)
+    this.updateEmbeddedDocuments("Item", result.updateItems),
   ]);
   await _displayFullRestMessage.call(this, result);
   return result;
@@ -197,9 +197,9 @@ async function _displayFullRestMessage(result) {
   // Create a chat message
   const chatData = {
     user: game.user.id,
-    speaker: ChatMessage.implementation.getSpeaker({actor: this}),
+    speaker: ChatMessage.implementation.getSpeaker({ actor: this }),
     flavor: game.i18n.localize("MYTHACRI.REST.FULL.Flavor"),
-    content: game.i18n.format(message, {name: this.name, dice: result.deltas.hitDice, health: result.deltas.hitPoints})
+    content: game.i18n.format(message, { name: this.name, dice: result.deltas.hitDice, health: result.deltas.hitPoints }),
   };
   ChatMessage.implementation.applyRollMode(chatData, game.settings.get("core", "rollMode"));
   return ChatMessage.implementation.create(chatData);
@@ -214,7 +214,7 @@ async function _displayFullRestMessage(result) {
 function _preCreateActor(actor) {
   if (actor.type !== "character") return;
   const keys = [
-    "spell.dc"
+    "spell.dc",
   ];
   const string = "@attributes.exhaustion";
   const update = {};

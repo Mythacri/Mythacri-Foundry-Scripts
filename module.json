@@ -3,8 +3,8 @@
   "title": "Mythacri Scripts",
   "version": "AUTOMATIC",
   "compatibility": {
-    "minimum": 12,
-    "verified": 12
+    "minimum": 13,
+    "verified": 13
   },
   "relationships": {
     "recommends": [
@@ -27,7 +27,7 @@
     }
   ],
   "esmodules": [
-    "scripts/setup.mjs"
+    "module.mjs"
   ],
   "styles": [
     "styles/mythacri.css"
@@ -42,19 +42,16 @@
   "flags": {
     "hotReload": {
       "extensions": [
-        "css"
+        "css", "json", "hbs"
       ],
       "paths": [
-        "styles/mythacri.css"
+        "styles", "templates", "languages"
       ]
     }
   },
   "documentTypes": {
     "Item": {
       "recipe": {}
-    },
-    "Actor": {
-      "storage": {}
     },
     "RegionBehavior": {
       "trap": {}
