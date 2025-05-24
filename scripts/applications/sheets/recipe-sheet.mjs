@@ -1,18 +1,26 @@
+const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
+
 /**
  * Item sheet for recipe-type items.
  */
-export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dnd5e", "sheet", "item", "recipe"],
-      width: 400,
-      dragDrop: [
-        { dropSelector: "[data-action='drop-target']" },
-        { dropSelector: "[data-action='drop-component']" },
-      ],
-    });
-  }
+export default class RecipeSheet extends HandlebarsApplicationMixin(Application) {
+  /** @inheritdoc */
+  static DEFAULT_OPTIONS = {
+    classes: ["mythacri", "recipe"],
+    position: {
+      width: 600,
+      height: "auto",
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static PARTS = {
+    details: {
+      template: "modules/mythacri-scripts/templates/sheets/item/recipe/details.hbs",
+    },
+  };
 
   /* -------------------------------------------------- */
 
