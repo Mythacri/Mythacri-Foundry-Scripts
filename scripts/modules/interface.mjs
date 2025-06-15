@@ -9,7 +9,6 @@ import models from "./data/models/_module.mjs";
 import resource from "./applications/resource-populator.mjs";
 import resting from "./data/resting.mjs";
 import settings from "./data/settings.mjs";
-import Soundboard from "./applications/soundboard.mjs";
 import transfer from "./data/transfer.mjs";
 
 /**
@@ -29,7 +28,6 @@ export default class PublicInterface {
       resource,
       resting,
       settings,
-      soundboard: Soundboard,
       transfer,
 
       dataModels: models,

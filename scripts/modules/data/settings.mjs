@@ -19,12 +19,6 @@ class IdentifiersSettingsModel extends foundry.abstract.DataModel {
           hint: "MYTHACRI.SettingsPacksCraftingResourcesHint",
         }),
       }),
-      paths: new foundry.data.fields.SchemaField({
-        soundboard: new foundry.data.fields.StringField({
-          label: "MYTHACRI.SettingsPathsSoundboard",
-          hint: "MYTHACRI.SettingsPathsSoundboardHint",
-        }),
-      }),
     };
   }
 }
@@ -87,7 +81,6 @@ class IdentifiersSettingsMenu extends foundry.applications.api.HandlebarsApplica
     context.fields = [
       {...makeField("packs.craftingRecipes"), choices},
       {...makeField("packs.craftingResources"), choices},
-      makeField("paths.soundboard"),
     ];
 
     return context;
@@ -113,22 +106,6 @@ function _registerSettings() {
     type: IdentifiersSettingsModel,
     default: null,
     scope: "world",
-  });
-
-  /** Remember where the soundboard was last dragged. */
-  game.settings.register(MODULE.ID, "soundboard-position", {
-    config: false,
-    type: Object,
-    default: {},
-    scope: "client",
-  });
-
-  /** Remember whether the soundboard was visible. */
-  game.settings.register(MODULE.ID, "soundboard-visibility", {
-    config: false,
-    type: Boolean,
-    default: false,
-    scope: "client",
   });
 
   /** The current number of random encounter dice. */

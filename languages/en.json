@@ -357,23 +357,6 @@
       "typeOptionGem": "Gem",
       "typeOptionMonster": "Monster Part"
     },
-    "REST": {
-      "FULL": {
-        "Flavor": "Full Rest (24 hours)",
-        "Hint": "Take a full rest? You will recover all your hit dice and resources, and your levels of exhaustion wil be reduced by up to three.",
-        "Label": "Full Rest"
-      },
-      "LONG": {
-        "FreeHeal": "Free Heal",
-        "Heal": "Heal"
-      },
-      "RESULT": {
-        "All": "{name} takes a full rest and recovers {health} Hit Points and {dice} Hit Dice.",
-        "HitDice": "{name} takes a full rest and recovers {dice} Hit Dice.",
-        "HitPoints": "{name} takes a full rest and recovers {health} Hit Points.",
-        "None": "{name} takes a full rest."
-      }
-    },
     "SettingsIdentifiers": "Identifiers Menu",
     "SettingsIdentifiersHint": "Change various ids and identifiers.",
     "SettingsIdentifiersLabel": "Identifiers",
@@ -381,37 +364,8 @@
     "SettingsPacksCraftingRecipesHint": "The compendium pack that contains all crafting recipes.",
     "SettingsPacksCraftingResources": "Crafting Resources Pack",
     "SettingsPacksCraftingResourcesHint": "The compendium pack that contains all crafting resources.",
-    "SettingsPathsSoundboard": "Soundboard File Path",
-    "SettingsPathsSoundboardHint": "The data path to the folder that contains sound files for the soundboard application.",
-    "Soundboard": "Soundboard",
-    "SoundboardBroadcast": "Broadcast",
-    "SoundboardError": "Soundboard | No sound files were found at the specified location.",
-    "SoundboardPreview": "Preview",
     "SPELLCASTING": {
       "Bewitcher": "Bewitcher"
-    },
-    "STORAGE": {
-      "ConsumableTypeOther": "Other Consumables",
-      "LootTypeOther": "Other Loot",
-      "ModifyAttributes": "Modify Attributes",
-      "SheetLabel": "Mythacri Storage Sheet",
-      "TabConsumables": "Consumables",
-      "TabGear": "Gear",
-      "TabLoot": "Loot",
-      "TabResources": "Resources",
-      "FIELDS": {
-        "attributes": {
-          "capacity": {
-            "label": "Capacity",
-            "max": {
-              "label": "Max Capacity"
-            },
-            "type": {
-              "label": "Capacity Type"
-            }
-          }
-        }
-      }
     },
     "SPLIT": {
       "ContextOption": "Split Stack",
@@ -461,11 +415,6 @@
     "WeaponPropertyTwinshot": "Twinshot"
   },
   "TYPES": {
-    "Actor": {
-      "mythacri-scripts": {
-        "storage": "Storage"
-      }
-    },
     "Item": {
       "mythacri-scripts": {
         "recipe": "Recipe"
