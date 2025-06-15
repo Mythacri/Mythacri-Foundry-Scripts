@@ -123,7 +123,7 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
       }
 
       await roll.toMessage({
-        flavor: await TextEditor.enrichHTML(html, {rollData: rollData, relativeTo: actor}),
+        flavor: await foundry.applications.ux.TextEditor.enrichHTML(html, {rollData: rollData, relativeTo: actor}),
         speaker: gm ? {alias: gm.name} : undefined,
         "flags.dnd5e.targets": targets,
         "flags.dnd5e.roll.type": "damage",

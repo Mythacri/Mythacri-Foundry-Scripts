@@ -47,7 +47,7 @@ export default class RunesConfig extends dnd5e.applications.api.ApplicationV2Mix
     const context = {};
 
     const prepareBonus = async (bonus) => {
-      const text = await TextEditor.enrichHTML(bonus.description);
+      const text = await foundry.applications.ux.TextEditor.enrichHTML(bonus.description);
       return {bonus: bonus, text: text};
     };
 
