@@ -11,8 +11,8 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
       width: 400,
       dragDrop: [
         {dropSelector: "[data-action='drop-target']"},
-        {dropSelector: "[data-action='drop-component']"}
-      ]
+        {dropSelector: "[data-action='drop-component']"},
+      ],
     });
   }
 
@@ -38,7 +38,7 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
         idx: idx,
         qty: c.quantity,
         value: c.identifier,
-        valid: !c.identifier || mythacri.crafting.validIdentifier(c.identifier)
+        valid: !c.identifier || mythacri.crafting.validIdentifier(c.identifier),
       };
     });
 
