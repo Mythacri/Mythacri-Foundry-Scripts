@@ -63,6 +63,7 @@ function _activationTypes() {
   const activations = {
     mayhem: {
       group: "DND5E.ACTIVATION.Category.Monster",
+      header: "MYTHACRI.MAYHEM.Action",
       label: "MYTHACRI.MAYHEM.Action",
       scalar: true,
     },
@@ -151,32 +152,8 @@ function _dieSteps() {
 /** Merge in new feature types. */
 function _featureTypes() {
   foundry.utils.mergeObject(CONFIG.DND5E.featureTypes, {
-    devilFruit: {
-      label: "MYTHACRI.FeatureDevilFruit",
-      subtypes: {
-        logia: "MYTHACRI.FeatureDevilFruitLogia",
-        zoan: "MYTHACRI.FeatureDevilFruitZoan",
-        paramecia: "MYTHACRI.FeatureDevilFruitParamecia",
-      },
-    },
     companion: {
       label: "MYTHACRI.FeatureCompanion",
-    },
-    class: {
-      subtypes: {
-        investigatorTrinket: "MYTHACRI.FeatureInvestigatorTrinket",
-        moxie: "MYTHACRI.FeatureMoxie",
-        rangerAspect: "MYTHACRI.FeatureRangerAspect",
-        wardenManeuver: "MYTHACRI.FeatureWardenManeuver",
-        wardenSentinelSoul: "MYTHACRI.FeatureWardenSentinelSoul",
-        wardenSentinelStand: "MYTHACRI.FeatureWardenSentinelStand",
-        wardenSentinelStep: "MYTHACRI.FeatureWardenSentinelStep",
-        witchCurse: "MYTHACRI.FeatureWitchCurse",
-        witchGrandHex: "MYTHACRI.FeatureWitchGrandHex",
-        witchHex: "MYTHACRI.FeatureWitchHex",
-        bewitcherCurse: "MYTHACRI.FeatureBewitcherCurse",
-        bewitcherGrandEnchantment: "MYTHACRI.FeatureBewitcherGrandEnchantment",
-      },
     },
     spiritTech: {
       label: "MYTHACRI.FeatureSpiritTech",
@@ -204,14 +181,6 @@ function _languages() {
 
 /* -------------------------------------------------- */
 
-/** Merge in new shield progression types. */
-function _spellProgression() {
-  CONFIG.DND5E.spellcastingTypes.leveled.progression.bewitcher = {label: "MYTHACRI.SPELLCASTING.Bewitcher", divisor: 100};
-  CONFIG.DND5E.spellProgression.bewitcher = "MYTHACRI.SPELLCASTING.Bewitcher";
-}
-
-/* -------------------------------------------------- */
-
 /** Merge in new tool proficiencies. */
 function _toolProficiencies() {
   const toolIds = {
@@ -231,7 +200,6 @@ function _weaponProficiencies() {
   foundry.utils.mergeObject(CONFIG.DND5E.weaponProficiencies, {
     firearmRen: "MYTHACRI.WeaponProficiencyFirearmRenPl",
     firearmInd: "MYTHACRI.WeaponProficiencyFirearmIndPl",
-    exotic: "MYTHACRI.WeaponProficiencyExoticPl",
   });
 
   // Which section each entry belongs under (like 'simple melee' belongs under 'simple').
@@ -245,7 +213,6 @@ function _weaponProficiencies() {
   foundry.utils.mergeObject(CONFIG.DND5E.weaponTypes, {
     firearmRen: "MYTHACRI.WeaponProficiencyFirearmRen",
     firearmInd: "MYTHACRI.WeaponProficiencyFirearmInd",
-    exotic: "MYTHACRI.WeaponProficiencyExotic",
   });
 
   // Weapon ids.
