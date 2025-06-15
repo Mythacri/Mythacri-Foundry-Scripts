@@ -1,4 +1,4 @@
-Hooks.on("renderPause", _animatePause);
+Hooks.on("renderGamePause", _animatePause);
 
 /* -------------------------------------------------- */
 
@@ -9,7 +9,7 @@ Hooks.on("renderPause", _animatePause);
  * @param {object} options              Options object.
  * @param {boolean} options.paused      Whether the game is paused.
  */
-function _animatePause(pause, [html], {paused}) {
+function _animatePause(pause, html, {paused}) {
   if (!paused) return;
   const frames = [
     {transform: "translateY(-200px) scale(1.5)"},
