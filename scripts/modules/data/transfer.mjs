@@ -36,7 +36,7 @@ async function _onMarkTransferComplete({messageId, userId}) {
   div.querySelector(".buttons").replaceWith(note);
   const update = {
     content: div.innerHTML,
-    "flags.mythacri-scripts.transfer.completed": true
+    "flags.mythacri-scripts.transfer.completed": true,
   };
   message.update(update);
 }
@@ -54,13 +54,13 @@ function _onGetItemContextOptions(item, items) {
     icon: "<i class='fa-fw fa-arrow-right-arrow-left fa-solid fa-rotate-90'></i>",
     condition: () => item.isOwner && item.system.schema.has("quantity") && (item.type !== "container"),
     callback: () => promptTransfer(item),
-    group: "action"
+    group: "action",
   }, {
     name: "MYTHACRI.SPLIT.ContextOption",
     icon: "<i class='fa-fw fa-boxes-stacked fa-solid'></i>",
     condition: () => item.isOwner && item.system.schema.has("quantity") && (item.system.quantity > 1),
     callback: () => promptSplit(item),
-    group: "action"
+    group: "action",
   });
 }
 
@@ -77,7 +77,7 @@ async function promptSplit(item) {
     integer: true,
     nullable: false,
     label: "MYTHACRI.SPLIT.label",
-    hint: "MYTHACRI.SPLIT.hint"
+    hint: "MYTHACRI.SPLIT.hint",
   });
   const html = field.toFormGroup({localize: true}, {value: 1, name: "size"}).outerHTML;
 
@@ -87,9 +87,9 @@ async function promptSplit(item) {
     position: {width: 400},
     window: {
       icon: "fa-solid fa-boxes-stacked",
-      title: game.i18n.format("MYTHACRI.SPLIT.title", {name: item.name})
+      title: game.i18n.format("MYTHACRI.SPLIT.title", {name: item.name}),
     },
-    ok: {callback: (event, button) => button.form.elements.size.valueAsNumber}
+    ok: {callback: (event, button) => button.form.elements.size.valueAsNumber},
   });
   if (!prompt) return;
 
@@ -97,7 +97,7 @@ async function promptSplit(item) {
   foundry.utils.setProperty(itemData, "system.quantity", prompt);
   Promise.all([
     item.actor.createEmbeddedDocuments("Item", [itemData]),
-    item.update({"system.quantity": item.system.quantity - prompt})
+    item.update({"system.quantity": item.system.quantity - prompt}),
   ]);
 }
 
@@ -132,7 +132,7 @@ async function promptTransfer(item) {
     choices: choices,
     label: "MYTHACRI.TRANSFER.Prompt.Label",
     hint: "MYTHACRI.TRANSFER.Prompt.Hint",
-    required: true
+    required: true,
   });
   const content = `<fieldset>${field.toFormGroup({localize: true}, {name: "target"}).outerHTML}</fieldset>`;
 
@@ -143,8 +143,8 @@ async function promptTransfer(item) {
     position: {width: 400, height: "auto"},
     ok: {
       label: "MYTHACRI.TRANSFER.Prompt.Button",
-      callback: (event, button) => button.form.elements.target.value
-    }
+      callback: (event, button) => button.form.elements.target.value,
+    },
   });
   if (!uuid) return;
   return transfer(item, {target: uuid});
@@ -169,15 +169,15 @@ async function transfer(item, {target}) {
   const messageData = {
     speaker: ChatMessage.implementation.getSpeaker({actor: item.actor}),
     whisper: whisperTargets,
-    content: await renderTemplate("modules/mythacri-scripts/templates/item-transfer.hbs", {
-      item: item, source: item.actor, target: actor
+    content: await foundry.applications.handlebars.renderTemplate("modules/mythacri-scripts/templates/item-transfer.hbs", {
+      item: item, source: item.actor, target: actor,
     }),
     "flags.mythacri-scripts.transfer": {
       itemData: JSON.stringify(item.toObject()),
       completed: false,
       target: target,
-      source: item.actor.uuid
-    }
+      source: item.actor.uuid,
+    },
   };
   const message = await ChatMessage.implementation.create(messageData);
   await item.delete();
@@ -276,5 +276,5 @@ async function _onClickCancel(event, message, source, transferData) {
 
 export default {
   promptTransfer,
-  transfer
+  transfer,
 };

@@ -96,16 +96,6 @@ async grantPip({assigned = false, amount = null, each = true} = {})
 async grantMarbles({assigned = false, amount = null, each = false} = {})
 ```
 
-### Resting
-Accessed through any `character` type actor, the new async method `Actor5e#fullRest` prompts for taking a full rest, restoring all of an actor's resources.
-```js
-/**
- * Render a prompt to recover all expended resources. Added to actor prototype.
- * @returns {Promise<object>}     A promise that resolves to the result of the full rest.
- */
-async fullRestDialog()
-```
-
 ### Resources
 Accessed through `mythacri.resource`.
 ```js
@@ -114,14 +104,4 @@ Accessed through `mythacri.resource`.
  * @param {Actor5e} actor     The actor to populate.
  */
 async populate(actor)
-```
-
-### Soundboard
-Accessed through `mythacri.soundboard`.
-```js
-/**
- * Destroy the current soundboard, otherwise create and show a new one.
- * @returns {void}
- */
-toggle()
 ```

@@ -175,7 +175,7 @@ class MythacriAura {
         type: type,
         debug: false,
         useThreshold: type !== "move",
-        boundaryShapes: [sweep]
+        boundaryShapes: [sweep],
       });
     }
 
@@ -299,13 +299,13 @@ function _onRenderTokenConfig(config, [html]) {
   const enabled = new foundry.data.fields.BooleanField({
     label: "MYTHACRI.AURA.enabled.label",
     hint: "MYTHACRI.AURA.enabled.hint",
-    name: "flags.mythacri-scripts.aura.enabled"
+    name: "flags.mythacri-scripts.aura.enabled",
   });
 
   const color = new foundry.data.fields.ColorField({
     label: "MYTHACRI.AURA.color.label",
     hint: "MYTHACRI.AURA.color.hint",
-    name: "flags.mythacri-scripts.aura.color"
+    name: "flags.mythacri-scripts.aura.color",
   });
 
   const radius = new foundry.data.fields.NumberField({
@@ -316,12 +316,12 @@ function _onRenderTokenConfig(config, [html]) {
     nullable: false,
     label: "MYTHACRI.AURA.radius.label",
     hint: "MYTHACRI.AURA.radius.hint",
-    name: "flags.mythacri-scripts.aura.radius"
+    name: "flags.mythacri-scripts.aura.radius",
   });
 
   const form = [enabled, color, radius].map(field => field.toFormGroup({localize: true}, {
     name: field.options.name,
-    value: foundry.utils.getProperty(config.token, field.options.name)
+    value: foundry.utils.getProperty(config.token, field.options.name),
   }).outerHTML).join("");
 
   const content = `<div class="tab" data-tab="auras">${form}</div>`;

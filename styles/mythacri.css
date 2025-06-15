@@ -412,67 +412,6 @@
 
 /* ------------------------------ */
 /*                                */
-/*           SOUNDBOARD           */
-/*                                */
-/* ------------------------------ */
-.mythacri-scripts.soundboard {
-  border: 1px solid var(--color-border-dark);
-  height: auto !important;
-
-  .window-header {
-    display: none;
-  }
-
-  .window-content {
-    background: unset;
-    color: unset;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px groove var(--color-border-dark-secondary);
-    padding-bottom: 0.5em;
-
-    .toggle:before {
-      content: "\f078";
-    }
-
-    &.collapsed .toggle:before {
-      content: "\f077";
-    }
-  }
-
-  .sound-list {
-    overflow: hidden;
-  }
-
-  .collapsed + .sound-list {
-    height: 0;
-  }
-
-  .sound {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-
-    .sound-name {
-      overflow: hidden;
-      flex: 1;
-    }
-
-    .actions {
-      margin-left: 5px;
-
-      & a {
-        margin: 0 5px;
-      }
-    }
-  }
-}
-
-/* ------------------------------ */
-/*                                */
 /*       ENCOUNTER SUSPENSE       */
 /*                                */
 /* ------------------------------ */

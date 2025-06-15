@@ -1,6 +1,6 @@
 import MODULE from "../constants.mjs";
 
-Hooks.on("renderChatMessage", _renderChatMessage);
+Hooks.on("renderChatMessageHTML", _renderChatMessage);
 
 /* -------------------------------------------------- */
 
@@ -9,7 +9,7 @@ Hooks.on("renderChatMessage", _renderChatMessage);
  * @param {ChatMessage} message     The rendered chat message.
  * @param {HTMLElement} html        The element of the chat message.
  */
-function _renderChatMessage(message, [html]) {
+function _renderChatMessage(message, html) {
   html.querySelectorAll("[data-action='roll-encounter']").forEach(n => {
     n.addEventListener("click", _roll);
   });
@@ -25,7 +25,7 @@ async function _roll(event) {
   event.currentTarget.disabled = true;
   Roll.create("1d12").toMessage({
     flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.ENCOUNTER.EncounterRoll")}`,
-    "flags.mythacri-scripts.encounter": true
+    "flags.mythacri-scripts.encounter": true,
   });
 }
 
@@ -33,7 +33,7 @@ async function _roll(event) {
 
 /** A GM-only application for rolling and prompting for random encounters. */
 export default class Encounter extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -44,8 +44,8 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
     actions: {
       roll: Encounter.#gmRoll,
       prompt: Encounter.#prompt,
-      adjust: Encounter.#adjust
-    }
+      adjust: Encounter.#adjust,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -53,8 +53,8 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
   /** @override */
   static PARTS = {
     form: {
-      template: "modules/mythacri-scripts/templates/encounter-application.hbs"
-    }
+      template: "modules/mythacri-scripts/templates/encounter-application.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -79,7 +79,7 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
       acc.push({
         user: user,
         total: total ?? null,
-        cssClass: Array.from(new Set(cssClass)).filterJoin(" ")
+        cssClass: Array.from(new Set(cssClass)).filterJoin(" "),
       });
 
       return acc;
@@ -129,9 +129,9 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
    */
   static async #prompt(event, target) {
     ChatMessage.implementation.create({
-      content: await renderTemplate("modules/mythacri-scripts/templates/encounter-prompt.hbs", {
-        amount: game.settings.get(MODULE.ID, "encounter-dice")
-      })
+      content: await foundry.applications.handlebars.renderTemplate("modules/mythacri-scripts/templates/encounter-prompt.hbs", {
+        amount: game.settings.get(MODULE.ID, "encounter-dice"),
+      }),
     });
   }
 
@@ -160,7 +160,7 @@ export default class Encounter extends foundry.applications.api.HandlebarsApplic
     const amount = game.settings.get(MODULE.ID, "encounter-dice") ?? 1;
     const roll = await Roll.create(`${amount}d12`).evaluate();
     roll.toMessage({
-      flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.ENCOUNTER.EncounterRoll")}`
+      flavor: `${game.user.name} - ${game.i18n.localize("MYTHACRI.ENCOUNTER.EncounterRoll")}`,
     }, {rollMode: CONST.DICE_ROLL_MODES.PRIVATE});
     this.rolls = roll.dice[0].results.map(r => ({value: r.result}));
     this.render();

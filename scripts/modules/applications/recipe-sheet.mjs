@@ -11,8 +11,8 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
       width: 400,
       dragDrop: [
         {dropSelector: "[data-action='drop-target']"},
-        {dropSelector: "[data-action='drop-component']"}
-      ]
+        {dropSelector: "[data-action='drop-component']"},
+      ],
     });
   }
 
@@ -32,13 +32,13 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
     data.recipeTarget = await this._validTargetItemLink();
     data.invalidTarget = !!this.document.system.crafting.target.uuid && !data.recipeTarget;
     data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";
-    data.descriptionHTML = await TextEditor.enrichHTML(this.document.system.description.value, {async: true});
+    data.descriptionHTML = await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.description.value, {async: true});
     data.components = data.system.crafting.components.map((c, idx) => {
       return {
         idx: idx,
         qty: c.quantity,
         value: c.identifier,
-        valid: !c.identifier || mythacri.crafting.validIdentifier(c.identifier)
+        valid: !c.identifier || mythacri.crafting.validIdentifier(c.identifier),
       };
     });
 
@@ -68,7 +68,7 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    */
   async _validTargetItemLink() {
     const target = await this.document.system.getTarget();
-    return target ? TextEditor.enrichHTML(target.link, {async: true}) : null;
+    return target ? foundry.applications.ux.TextEditor.enrichHTML(target.link, {async: true}) : null;
   }
 
   /* -------------------------------------------------- */
@@ -76,7 +76,7 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
   /** @override */
   async _onDrop(event) {
     const target = event.currentTarget.dataset.action;
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.getDragEventData(event);
     if (data.type !== "Item") return;
     if (target === "drop-target") return this._onDropTarget(data);
     else if (target === "drop-component") return this._onDropComponent(data);

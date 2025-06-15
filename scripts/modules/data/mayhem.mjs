@@ -18,7 +18,7 @@ function _preUseActivity(activity, config, dialog) {
   if (activity.activation.type === "mayhem") {
     foundry.utils.mergeObject(config, {
       "consume.mayhem": true,
-      hasConsumption: true
+      hasConsumption: true,
     });
     dialog.configure = true;
   }
@@ -94,7 +94,7 @@ class Mayhem extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
-      points: new foundry.data.fields.NumberField({integer: true, min: 0, initial: 0})
+      points: new foundry.data.fields.NumberField({integer: true, min: 0, initial: 0}),
     };
   }
 
@@ -187,7 +187,7 @@ async function create() {
 
 /** Utility application for displaying and managing mayhem points manually. */
 class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -195,8 +195,8 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
     position: {width: 400, height: "auto"},
     actions: {
       add: MayhemUI.#add,
-      deduct: MayhemUI.#deduct
-    }
+      deduct: MayhemUI.#deduct,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -204,8 +204,8 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
   /** @override */
   static PARTS = {
     form: {
-      template: "modules/mythacri-scripts/templates/mayhem.hbs"
-    }
+      template: "modules/mythacri-scripts/templates/mayhem.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -223,7 +223,7 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
     return {
       mayhem: mayhem,
       user: game.user,
-      disableDown: !mayhem.points
+      disableDown: !mayhem.points,
     };
   }
 
@@ -259,5 +259,5 @@ class MayhemUI extends foundry.applications.api.HandlebarsApplicationMixin(
 export default {
   add,
   create,
-  deduct
+  deduct,
 };

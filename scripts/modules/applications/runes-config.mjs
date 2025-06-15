@@ -4,7 +4,7 @@ import MODULE from "../constants.mjs";
  * Application for managing runes on an item.
  */
 export default class RunesConfig extends dnd5e.applications.api.ApplicationV2Mixin(
-  foundry.applications.api.DocumentSheetV2
+  foundry.applications.api.DocumentSheetV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -13,8 +13,8 @@ export default class RunesConfig extends dnd5e.applications.api.ApplicationV2Mix
     id: "runes-config-{id}",
     sheetConfig: false,
     actions: {
-      toggle: RunesConfig.#toggle
-    }
+      toggle: RunesConfig.#toggle,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -22,8 +22,8 @@ export default class RunesConfig extends dnd5e.applications.api.ApplicationV2Mix
   /** @override */
   static PARTS = {
     form: {
-      template: "modules/mythacri-scripts/templates/runes-config.hbs"
-    }
+      template: "modules/mythacri-scripts/templates/runes-config.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -47,7 +47,7 @@ export default class RunesConfig extends dnd5e.applications.api.ApplicationV2Mix
     const context = {};
 
     const prepareBonus = async (bonus) => {
-      const text = await TextEditor.enrichHTML(bonus.description);
+      const text = await foundry.applications.ux.TextEditor.enrichHTML(bonus.description);
       return {bonus: bonus, text: text};
     };
 

@@ -23,14 +23,14 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
    */
   static metadata = {
     type: "trap",
-    icon: "fa-solid fa-person-falling-burst"
+    icon: "fa-solid fa-person-falling-burst",
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static events = {
-    [CONST.REGION_EVENTS.TOKEN_ENTER]: foundry.utils.debounce(TrapData.#onTokenMoveIn, 150)
+    [CONST.REGION_EVENTS.TOKEN_ENTER]: foundry.utils.debounce(TrapData.#onTokenMoveIn, 150),
   };
 
   /* -------------------------------------------------- */
@@ -46,21 +46,21 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
       save: new SchemaField({
         targetValue: new NumberField({integer: true, initial: 15}),
         type: new StringField({
-          choices: CONFIG.DND5E.abilities, required: true, initial: "dex"
-        })
+          choices: CONFIG.DND5E.abilities, required: true, initial: "dex",
+        }),
       }),
       damage: new SchemaField({
         formula: new dnd5e.dataModels.fields.FormulaField({
-          required: true, validate: value => Roll.validate(value)
+          required: true, validate: value => Roll.validate(value),
         }),
         type: new StringField({
-          choices: CONFIG.DND5E.damageTypes, required: true, initial: "piercing"
-        })
+          choices: CONFIG.DND5E.damageTypes, required: true, initial: "piercing",
+        }),
       }),
       config: new SchemaField({
         toggle: new BooleanField({initial: true}),
-        message: new HTMLField({required: true})
-      })
+        message: new HTMLField({required: true}),
+      }),
     };
   }
 
@@ -103,13 +103,13 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
         ability: this.save.type,
         label: game.i18n.format("DND5E.SaveDC", {
           dc: this.save.targetValue,
-          ability: CONFIG.DND5E.abilities[this.save.type].label
+          ability: CONFIG.DND5E.abilities[this.save.type].label,
         }),
         labelHidden: CONFIG.DND5E.abilities[this.save.type].label,
         dc: this.save.targetValue,
-        message: this.config.message ? this.config.message : null
+        message: this.config.message ? this.config.message : null,
       };
-      const html = await renderTemplate(template, context);
+      const html = await foundry.applications.handlebars.renderTemplate(template, context);
 
       // Get all targets.
       const targets = [];
@@ -123,10 +123,10 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
       }
 
       await roll.toMessage({
-        flavor: await TextEditor.enrichHTML(html, {rollData: rollData, relativeTo: actor}),
+        flavor: await foundry.applications.ux.TextEditor.enrichHTML(html, {rollData: rollData, relativeTo: actor}),
         speaker: gm ? {alias: gm.name} : undefined,
         "flags.dnd5e.targets": targets,
-        "flags.dnd5e.roll.type": "damage"
+        "flags.dnd5e.roll.type": "damage",
       });
     }
   }
@@ -135,7 +135,7 @@ class TrapData extends foundry.data.regionBehaviors.RegionBehaviorType {
 /* -------------------------------------------------- */
 
 const behaviors = {
-  TrapData
+  TrapData,
 };
 
 /* -------------------------------------------------- */

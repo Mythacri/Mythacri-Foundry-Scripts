@@ -464,7 +464,7 @@ Object.defineProperty(TYPES, "resourceTypes", {
 /* -------------------------------------------------- */
 
 Hooks.on("renderItemSheet5e", _renderItemSheet);
-Hooks.on("renderActorSheet5eCharacter2", _renderCharacterSheet);
+Hooks.on("renderCharacterActorSheet", _renderCharacterSheet);
 Hooks.on("dnd5e.preDisplayCardV2", _preUseItem);
 Hooks.on("dnd5e.preRollAttackV2", _preRollAttack);
 Hooks.once("init", () => {
@@ -475,7 +475,7 @@ Hooks.once("init", () => {
     makeDefault: true,
     label: "MYTHACRI.CRAFTING.SHEET.SheetLabel",
   });
-  dnd5e.applications.actor.ActorSheet5eCharacter2.TABS.push({
+  dnd5e.applications.actor.CharacterActorSheet.TABS.push({
     label: "MYTHACRI.CRAFTING.TAB",
     icon: "fa-solid fa-hammer",
     tab: "mythacri",
@@ -507,7 +507,7 @@ Hooks.once("i18nInit", () => {
  * @param {ItemSheet} sheet
  * @param {HTMLElement} html
  */
-function _renderItemSheet(sheet, [html]) {
+function _renderItemSheet(sheet, html) {
   const type = sheet.document.type;
   if (type === "loot") _renderLootItemDropdowns(sheet, html);
   else if (TYPES.validRuneItemTypes.has(type)) _renderRunesData(sheet, html);
@@ -524,7 +524,7 @@ async function _renderRunesData(sheet, html) {
   const node = html.querySelector(".tab.details fieldset");
   const data = sheet.document.flags[MODULE.ID]?.runes ?? {};
   const div = document.createElement("DIV");
-  div.innerHTML = await renderTemplate("modules/mythacri-scripts/templates/parts/runes-item-property.hbs", data);
+  div.innerHTML = await foundry.applications.handlebars.renderTemplate("modules/mythacri-scripts/templates/parts/runes-item-property.hbs", data);
   div.querySelector("[type=number]")?.addEventListener("focus", event => event.currentTarget.select());
   node.after(div.firstElementChild);
 }
@@ -638,10 +638,10 @@ function _constructResourceFields(data = {}) {
 
 /**
  * Inject module elements into the character sheet.
- * @param {ActorSheet5eCharacter2} sheet
+ * @param {CharacterActorSheet} sheet
  * @param {HTMLElement} html
  */
-async function _renderCharacterSheet(sheet, [html]) {
+async function _renderCharacterSheet(sheet, html) {
   // Render crafting buttons.
   _renderCraftingTab(sheet, html);
 
@@ -656,7 +656,7 @@ async function _renderCharacterSheet(sheet, [html]) {
 
 /**
  * Inject crafting buttons into the character sheet.
- * @param {ActorSheet5eCharacter2} sheet
+ * @param {CharacterActorSheet} sheet
  * @param {HTMLElement} html
  */
 function _renderCraftingTab(sheet, html) {
@@ -677,7 +677,7 @@ function _renderCraftingTab(sheet, html) {
   // Tab wrapper.
   const div = document.createElement("DIV");
   div.classList.add("tab", "mythacri");
-  if (sheet._tabs[0].active === "mythacri") div.classList.add("active");
+  if (sheet.tabGroups.primary === "mythacri") div.classList.add("active");
   div.dataset.group = "primary";
   div.dataset.tab = "mythacri";
 
@@ -708,7 +708,7 @@ async function _renderRunesOnItem(item, html) {
   const template = "modules/mythacri-scripts/templates/parts/runes-config-icon.hbs";
   const div = document.createElement("DIV");
   const {value = 0, max} = item.flags[MODULE.ID].runes;
-  div.innerHTML = await renderTemplate(template, {value, max});
+  div.innerHTML = await foundry.applications.handlebars.renderTemplate(template, {value, max});
   div.querySelector("[data-action]").addEventListener("click", _onClickRunesConfig.bind(item));
   after.after(div.firstElementChild);
 }
@@ -736,7 +736,7 @@ function _onClickRunesConfig() {
 
 /**
  * Handle clicking a crafting button.
- * @this {ActorSheet5eCharacter2}
+ * @this {CharacterActorSheet}
  * @param {PointerEvent} event      The initiating click event.
  */
 function _onClickCraft(event) {
