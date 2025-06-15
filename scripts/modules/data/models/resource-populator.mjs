@@ -12,7 +12,7 @@ export default class ResourcePopulatorModel extends foundry.abstract.DataModel {
       formulas: new SchemaField(Object.keys(types).reduce((acc, key) => {
         acc[key] = new StringField({initial: "1d2", required: true});
         return acc;
-      }, {}))
+      }, {})),
     };
   }
 }

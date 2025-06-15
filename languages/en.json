@@ -1,9 +1,6 @@
 {
   "DND5E": {
-    "ExperiencePointsAbbr": "pip(s)",
-    "LongRestHint": "Take a long rest? You can roll hit dice beforehand to restore health, and receive one round of free healing equal to your largest hit die plus your Constitution modifier. You will recover half your maximum hit dice, your class resources, your limited use item charges, and all your spell slots. Your levels of exhaustion will be reduced by one.",
-    "RestL": "Long",
-    "RestS": "Short"
+    "ExperiencePointsAbbr": "pip(s)"
   },
   "MYTHACRI": {
     "ArmorClassFeral": "Witch's Curse: Feral",

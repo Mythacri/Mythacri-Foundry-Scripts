@@ -88,7 +88,7 @@ async function _promptAmount(type = "pip") {
     label: label,
     integer: true,
     min: 1,
-    nullable: false
+    nullable: false,
   }).toFormGroup({}, {name: "amount", value: 1});
 
   const amount = await foundry.applications.api.DialogV2.prompt({
@@ -97,10 +97,10 @@ async function _promptAmount(type = "pip") {
     window: {title: label},
     ok: {
       label: "Confirm",
-      callback: (event, button) => button.form.elements.amount.valueAsNumber
+      callback: (event, button) => button.form.elements.amount.valueAsNumber,
     },
     position: {width: 400, height: "auto"},
-    modal: true
+    modal: true,
   });
   if (!amount) return null;
   return amount;
@@ -110,5 +110,5 @@ async function _promptAmount(type = "pip") {
 
 export default {
   grantMarbles,
-  grantPip
+  grantPip,
 };

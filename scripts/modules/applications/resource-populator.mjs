@@ -14,10 +14,10 @@ async function populate(actor) {
 
   const options = {
     window: {
-      title: game.i18n.format("MYTHACRI.CRAFTING.POPULATOR.Title", {name: actor.name})
+      title: game.i18n.format("MYTHACRI.CRAFTING.POPULATOR.Title", {name: actor.name}),
     },
     position: {width: 600, height: "auto"},
-    classes: ["resource-populator", "mythacri-scripts"]
+    classes: ["resource-populator", "mythacri-scripts"],
   };
 
   const content = () => {
@@ -30,7 +30,7 @@ async function populate(actor) {
     html += types.toFormGroup({
       classes: ["stacked"],
       label: "MYTHACRI.CRAFTING.POPULATOR.label",
-      hint: "MYTHACRI.CRAFTING.POPULATOR.hint"
+      hint: "MYTHACRI.CRAFTING.POPULATOR.hint",
     }, {
       name: "types",
       type: "checkboxes",
@@ -38,7 +38,7 @@ async function populate(actor) {
       value: model.types,
       options: Object.entries(monsterSubsubtypes).map(([type, {label}]) => {
         return {label: label, value: type};
-      })
+      }),
     }).outerHTML;
 
     html += "</fieldset><fieldset>";
@@ -46,10 +46,10 @@ async function populate(actor) {
     for (const field of formulas) {
       html += field.toFormGroup({
         label: game.i18n.localize(monsterSubsubtypes[field.name].label),
-        classes: model.types.has(field.name) ? [] : ["hidden"]
+        classes: model.types.has(field.name) ? [] : ["hidden"],
       }, {
         value: model.formulas[field.name],
-        name: field.fieldPath
+        name: field.fieldPath,
       }).outerHTML;
     }
 
@@ -88,10 +88,10 @@ async function populate(actor) {
         [MODULE.ID]: {
           resource: {
             type: "monster",
-            subsubtype__in: Array.from(model.types)
-          }
-        }
-      }
+            subsubtype__in: Array.from(model.types),
+          },
+        },
+      },
     });
 
     const list = foundry.utils.deepClone(actor.getFlag("simple-loot-list", "loot-list") ?? []);
@@ -116,5 +116,5 @@ async function populate(actor) {
 /* -------------------------------------------------- */
 
 export default {
-  populate
+  populate,
 };
