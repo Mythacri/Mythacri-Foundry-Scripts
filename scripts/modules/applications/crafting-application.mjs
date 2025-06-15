@@ -27,7 +27,8 @@ Hooks.once("ready", async function() {
     const uuid = idx.system?.crafting?.target?.uuid;
     if (!uuid) continue;
     const target = fromUuidSync(uuid);
-    targets.set(target.uuid, target);
+    if (target) targets.set(target.uuid, target);
+    else console.warn(`No configured target item for recipe [${idx.uuid}].`);
   }
 });
 
