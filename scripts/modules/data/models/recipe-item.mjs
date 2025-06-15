@@ -23,7 +23,7 @@ const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundr
  */
 export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   dnd5e.dataModels.item.ItemDescriptionTemplate,
-  dnd5e.dataModels.item.ItemTypeTemplate
+  dnd5e.dataModels.item.ItemTypeTemplate,
 ) {
   /** @override */
   static defineSchema() {
@@ -32,23 +32,23 @@ export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
       crafting: new SchemaField({
         target: new SchemaField({
           uuid: new StringField({required: true}),
-          quantity: new NumberField({integer: true, min: 1, initial: 1})
+          quantity: new NumberField({integer: true, min: 1, initial: 1}),
         }),
         components: new ArrayField(new SchemaField({
           identifier: new StringField({required: true}),
-          quantity: new NumberField({integer: true, min: 1, initial: 1})
+          quantity: new NumberField({integer: true, min: 1, initial: 1}),
         })),
-        basic: new BooleanField()
+        basic: new BooleanField(),
       }),
       rarity: new StringField({required: true, blank: true, label: "DND5E.Rarity"}),
       price: new SchemaField({
         value: new NumberField({
-          required: true, nullable: false, initial: 0, min: 0, label: "DND5E.Price"
+          required: true, nullable: false, initial: 0, min: 0, label: "DND5E.Price",
         }),
         denomination: new StringField({
-          required: true, blank: false, initial: "gp", label: "DND5E.Currency"
-        })
-      }, {label: "DND5E.Price"})
+          required: true, blank: false, initial: "gp", label: "DND5E.Currency",
+        }),
+      }, {label: "DND5E.Price"}),
     });
   }
 

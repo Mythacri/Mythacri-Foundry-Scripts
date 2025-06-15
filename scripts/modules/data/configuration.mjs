@@ -23,7 +23,7 @@ function _preCreateScene(scene, sceneData, options, userId) {
   const defaults = {
     backgroundColor: "#000000",
     "environment.globalLight.enabled": true,
-    "grid.type": CONST.GRID_TYPES.HEXODDR
+    "grid.type": CONST.GRID_TYPES.HEXODDR,
   };
 
   const update = {};
@@ -45,14 +45,12 @@ function _configure() {
   _activationTypes();
   _armorClasses();
   _armorProficencies();
-  _characterFlags();
   _conditions();
   _consumableTypes();
   _currencies();
   _dieSteps();
   _featureTypes();
   _languages();
-  _restTypes();
   _spellProgression();
   _toolProficiencies();
   _weaponProficiencies();
@@ -67,8 +65,8 @@ function _activationTypes() {
     mayhem: {
       group: "DND5E.ACTIVATION.Category.Monster",
       label: "MYTHACRI.MAYHEM.Action",
-      scalar: true
-    }
+      scalar: true,
+    },
   };
 
   foundry.utils.mergeObject(CONFIG.DND5E.activityActivationTypes, activations);
@@ -84,20 +82,20 @@ function _armorClasses() {
   foundry.utils.mergeObject(CONFIG.DND5E.armorClasses, {
     witchCurseFeral: {
       label: "MYTHACRI.ArmorClassFeral",
-      formula: "13 + @abilities.dex.mod"
+      formula: "13 + @abilities.dex.mod",
     },
     grandHexHybrid: {
       label: "MYTHACRI.ArmorClassHybrid",
-      formula: "10 + @abilities.dex.mod + @abilities.cha.mod"
+      formula: "10 + @abilities.dex.mod + @abilities.cha.mod",
     },
     hexMalevolence: {
       label: "MYTHACRI.ArmorClassMalevolence",
-      formula: "12 + @abilities.dex.mod + @abilities.cha.mod"
+      formula: "12 + @abilities.dex.mod + @abilities.cha.mod",
     },
     ironChin: {
       label: "MYTHACRI.ArmorClassIronChin",
-      formula: "12 + @abilities.con.mod"
-    }
+      formula: "12 + @abilities.con.mod",
+    },
   });
 }
 
@@ -107,30 +105,11 @@ function _armorClasses() {
 function _armorProficencies() {
   const shieldIds = {
     bucklerShield: "NhBHlkBDDLBKkxGL",
-    towerShield: "LzlPn07cT6FPV1fs"
+    towerShield: "LzlPn07cT6FPV1fs",
   };
   for (const [k, id] of Object.entries(shieldIds)) {
     CONFIG.DND5E.shieldIds[k] = `${PREFIX}.${id}`;
   }
-}
-
-/* -------------------------------------------------- */
-
-/** Merge in new character flags. */
-function _characterFlags() {
-  CONFIG.DND5E.characterFlags.peakPhysical = {
-    name: "MYTHACRI.FlagsPeakPhysical",
-    hint: "MYTHACRI.FlagsPeakPhysicalHint",
-    section: "DND5E.Feats",
-    type: Boolean
-  };
-
-  CONFIG.DND5E.characterFlags.feralRegression = {
-    name: "MYTHACRI.FlagsFeralRegression",
-    hint: "MYTHACRI.FlagsFeralRegressionHint",
-    section: "DND5E.RacialTraits",
-    type: Boolean
-  };
 }
 
 /* -------------------------------------------------- */
@@ -152,7 +131,7 @@ function _conditions() {
     levels: 10,
     icon: "modules/mythacri-scripts/assets/statuses/exhaustion.svg",
     reference: `${journal}.JournalEntryPage.adMJ3j1HBbTJKCyY`,
-    reduction: {rolls: 1, speed: 0}
+    reduction: {rolls: 1, speed: 0},
   }, {insertKeys: false});
   foundry.utils.mergeObject(exhaustionEffect, exhaustionData, {insertKeys: false});
 }
@@ -179,7 +158,7 @@ function _currencies() {
     "gp.label": "MYTHACRI.CURRENCY.GP.LABEL",
     "pp.abbreviation": "MYTHACRI.CURRENCY.PP.ABBR",
     "pp.label": "MYTHACRI.CURRENCY.PP.LABEL",
-    "-=ep": null
+    "-=ep": null,
   }, {performDeletions: true});
 
   // Change currency weight (marbles weigh half as much as a coin).
@@ -205,11 +184,11 @@ function _featureTypes() {
       subtypes: {
         logia: "MYTHACRI.FeatureDevilFruitLogia",
         zoan: "MYTHACRI.FeatureDevilFruitZoan",
-        paramecia: "MYTHACRI.FeatureDevilFruitParamecia"
-      }
+        paramecia: "MYTHACRI.FeatureDevilFruitParamecia",
+      },
     },
     companion: {
-      label: "MYTHACRI.FeatureCompanion"
+      label: "MYTHACRI.FeatureCompanion",
     },
     class: {
       subtypes: {
@@ -224,12 +203,12 @@ function _featureTypes() {
         witchGrandHex: "MYTHACRI.FeatureWitchGrandHex",
         witchHex: "MYTHACRI.FeatureWitchHex",
         bewitcherCurse: "MYTHACRI.FeatureBewitcherCurse",
-        bewitcherGrandEnchantment: "MYTHACRI.FeatureBewitcherGrandEnchantment"
-      }
+        bewitcherGrandEnchantment: "MYTHACRI.FeatureBewitcherGrandEnchantment",
+      },
     },
     spiritTech: {
-      label: "MYTHACRI.FeatureSpiritTech"
-    }
+      label: "MYTHACRI.FeatureSpiritTech",
+    },
   });
 
   // Subtypes of entirely new feature types are not automatically prelocalized.
@@ -247,23 +226,8 @@ function _languages() {
     "exotic.children.primordial.-=children": null, // delete 'ignan, terran, auran, aquan'
     "standard.children.-=gnomish": null, // delete 'gnomish'
     "standard.children.-=orc": null, // delete 'orc'
-    "standard.childern.-=dwarvish": null
+    "standard.childern.-=dwarvish": null,
   }, {performDeletions: true});
-}
-
-/* -------------------------------------------------- */
-
-/** Define full rest. */
-function _restTypes() {
-  CONFIG.DND5E.restTypes.full = {
-    duration: {normal: 1440, gritty: 10080, epic: 120},
-    recoverHitDice: true,
-    recoverHitPoints: true,
-    recoverPeriods: ["sr", "lr"],
-    recoverSpellSlotTypes: new Set(["leveled", "pact"])
-  };
-
-  foundry.utils.setProperty(CONFIG.DND5E.restTypes, "long.recoverHitPoints", false);
 }
 
 /* -------------------------------------------------- */
@@ -279,7 +243,7 @@ function _spellProgression() {
 /** Merge in new tool proficiencies. */
 function _toolProficiencies() {
   const toolIds = {
-    piano: "AMehut6zpyXifMqo"
+    piano: "AMehut6zpyXifMqo",
   };
 
   for (const [k, id] of Object.entries(toolIds)) {
@@ -295,7 +259,7 @@ function _weaponProficiencies() {
   foundry.utils.mergeObject(CONFIG.DND5E.weaponProficiencies, {
     firearmRen: "MYTHACRI.WeaponProficiencyFirearmRenPl",
     firearmInd: "MYTHACRI.WeaponProficiencyFirearmIndPl",
-    exotic: "MYTHACRI.WeaponProficiencyExoticPl"
+    exotic: "MYTHACRI.WeaponProficiencyExoticPl",
   });
 
   // Which section each entry belongs under (like 'simple melee' belongs under 'simple').
@@ -309,7 +273,7 @@ function _weaponProficiencies() {
   foundry.utils.mergeObject(CONFIG.DND5E.weaponTypes, {
     firearmRen: "MYTHACRI.WeaponProficiencyFirearmRen",
     firearmInd: "MYTHACRI.WeaponProficiencyFirearmInd",
-    exotic: "MYTHACRI.WeaponProficiencyExotic"
+    exotic: "MYTHACRI.WeaponProficiencyExotic",
   });
 
   // Weapon ids.
@@ -337,7 +301,7 @@ function _weaponProficiencies() {
     revolver: "i8Ysr1zn74h8jxlr",
     shovel: "1D0WRHGVgbjaikkM",
     throwingDagger: "5fAnwS37xiOTwpOS",
-    volleyGun: "HHePiOzWRtjYjcl6"
+    volleyGun: "HHePiOzWRtjYjcl6",
   };
 
   for (const [k, id] of Object.entries(weaponIds)) {
@@ -351,12 +315,12 @@ function _weaponProficiencies() {
 function _weaponProperties() {
   const properties = {
     aerodynamic: {
-      label: "MYTHACRI.WeaponPropertyAerodynamic"
+      label: "MYTHACRI.WeaponPropertyAerodynamic",
     },
     coldIron: {
       icon: "systems/dnd5e/icons/svg/activity/enchant.svg",
       label: "MYTHACRI.WeaponPropertyColdIron",
-      isPhysical: true
+      isPhysical: true,
     },
     concealable: {label: "MYTHACRI.WeaponPropertyConcealable"},
     explosive: {label: "MYTHACRI.WeaponPropertyExplosive", isJourneyman: true},
@@ -369,7 +333,7 @@ function _weaponProperties() {
     sighted: {label: "MYTHACRI.WeaponPropertySighted"},
     superheavy: {label: "MYTHACRI.WeaponPropertySuperheavy"},
     tension: {label: "MYTHACRI.WeaponPropertyTension", isJourneyman: true},
-    twinshot: {label: "MYTHACRI.WeaponPropertyTwinshot", isJourneyman: true}
+    twinshot: {label: "MYTHACRI.WeaponPropertyTwinshot", isJourneyman: true},
   };
   for (const [k, v] of Object.entries(properties)) {
     CONFIG.DND5E.itemProperties[k] = v;

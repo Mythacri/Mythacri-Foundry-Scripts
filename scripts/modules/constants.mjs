@@ -1,3 +1,3 @@
 export default {
-  ID: "mythacri-scripts"
+  ID: "mythacri-scripts",
 };

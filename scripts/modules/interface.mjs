@@ -10,7 +10,6 @@ import resource from "./applications/resource-populator.mjs";
 import resting from "./data/resting.mjs";
 import settings from "./data/settings.mjs";
 import Soundboard from "./applications/soundboard.mjs";
-import storage from "./data/storage.mjs";
 import transfer from "./data/transfer.mjs";
 
 /**
@@ -31,10 +30,9 @@ export default class PublicInterface {
       resting,
       settings,
       soundboard: Soundboard,
-      storage,
       transfer,
 
-      dataModels: models
+      dataModels: models,
     };
   }
 }
