@@ -3,10 +3,6 @@
     "ExperiencePointsAbbr": "pip(s)"
   },
   "MYTHACRI": {
-    "ArmorClassFeral": "Witch's Curse: Feral",
-    "ArmorClassHybrid": "Grand Hex: Hybrid",
-    "ArmorClassIronChin": "Iron Chin",
-    "ArmorClassMalevolence": "Hex: Malevolence",
     "AURA": {
       "Auras": "Auras",
       "color": {
@@ -22,6 +18,7 @@
         "label": "Enabled"
       }
     },
+
     "CRAFTING": {
       "ALCHEMY": {
         "FlagHint": "Enable 'Alchemy' for this actor.",
@@ -122,6 +119,7 @@
         "NoRecipeUuid": "This item did somehow not originate from a recipe."
       }
     },
+
     "CURRENCY": {
       "CP": {
         "ABBR": "pw",
@@ -140,6 +138,7 @@
         "LABEL": "Tronk"
       }
     },
+
     "ENCOUNTER": {
       "Content": "Roll a d12 to help determine a random encounter. The GM will be rolling {amount}d12.",
       "EncounterRoll": "Encounter Roll",
@@ -149,6 +148,7 @@
       "RollDie": "Roll d12",
       "Title": "Random Encounter"
     },
+
     "FeatureBewitcherCurse": "Bewitcher Curse",
     "FeatureBewitcherGrandEnchantment": "Grand Enchantment",
     "FeatureCompanion": "Companion Feature",
@@ -167,10 +167,7 @@
     "FeatureWitchCurse": "Witch's Curse",
     "FeatureWitchGrandHex": "Grand Hex",
     "FeatureWitchHex": "Hex",
-    "FlagsFeralRegression": "Feral Regression",
-    "FlagsFeralRegressionHint": "Whether this actor make use of Feral Regression, implementing a bar underneath hit dice on their sheet to keep track of the value.",
-    "FlagsPeakPhysical": "Peak Physical Condition",
-    "FlagsPeakPhysicalHint": "Remove an additional level of exhaustion on a long rest, and recover all hit dice.",
+
     "MAYHEM": {
       "Action": "Mayhem Action",
       "Consume": "Consume Mayhem Points",
@@ -181,7 +178,9 @@
         "Deduct": "You do not have enough Mayhem Points available!"
       }
     },
+
     "Pips": "Pips",
+
     "REGION": {
       "TRAP": {
         "FIELDS": {
@@ -221,6 +220,7 @@
         }
       }
     },
+
     "RESOURCE": {
       "Configuration": "Resource Configuration",
       "Hint": "{label} ({identifier})",
@@ -354,6 +354,7 @@
       "typeOptionGem": "Gem",
       "typeOptionMonster": "Monster Part"
     },
+
     "SettingsIdentifiers": "Identifiers Menu",
     "SettingsIdentifiersHint": "Change various ids and identifiers.",
     "SettingsIdentifiersLabel": "Identifiers",
@@ -361,15 +362,18 @@
     "SettingsPacksCraftingRecipesHint": "The compendium pack that contains all crafting recipes.",
     "SettingsPacksCraftingResources": "Crafting Resources Pack",
     "SettingsPacksCraftingResourcesHint": "The compendium pack that contains all crafting resources.",
+
     "SPELLCASTING": {
       "Bewitcher": "Bewitcher"
     },
+
     "SPLIT": {
       "ContextOption": "Split Stack",
       "hint": "Decide the size of the second stack as this stack of items is split into two.",
       "label": "Stack Size",
       "title": "Split Item: {name}"
     },
+
     "TRANSFER": {
       "ContextOption": "Transfer Item",
       "Message": {
@@ -390,12 +394,14 @@
         "Unavailable": "No user is available to finalize the transfer."
       }
     },
+
     "WeaponProficiencyExotic": "Exotic",
     "WeaponProficiencyExoticPl": "Exotic",
     "WeaponProficiencyFirearmInd": "Industrial Firearm",
     "WeaponProficiencyFirearmIndPl": "Industrial Firearms",
     "WeaponProficiencyFirearmRen": "Renaissance Firearm",
     "WeaponProficiencyFirearmRenPl": "Renaissance Firearms",
+
     "WeaponPropertyAerodynamic": "Aerodynamic",
     "WeaponPropertyColdIron": "Cold Iron",
     "WeaponPropertyConcealable": "Concealable",
@@ -411,6 +417,7 @@
     "WeaponPropertyTension": "Tension",
     "WeaponPropertyTwinshot": "Twinshot"
   },
+
   "TYPES": {
     "Item": {
       "mythacri-scripts": {

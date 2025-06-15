@@ -43,7 +43,6 @@ function _preCreateScene(scene, sceneData, options, userId) {
  */
 function _configure() {
   _activationTypes();
-  _armorClasses();
   _armorProficencies();
   _conditions();
   _consumableTypes();
@@ -77,30 +76,6 @@ function _activationTypes() {
 
 /* -------------------------------------------------- */
 
-/** Merge in new armor class calculations. */
-function _armorClasses() {
-  foundry.utils.mergeObject(CONFIG.DND5E.armorClasses, {
-    witchCurseFeral: {
-      label: "MYTHACRI.ArmorClassFeral",
-      formula: "13 + @abilities.dex.mod",
-    },
-    grandHexHybrid: {
-      label: "MYTHACRI.ArmorClassHybrid",
-      formula: "10 + @abilities.dex.mod + @abilities.cha.mod",
-    },
-    hexMalevolence: {
-      label: "MYTHACRI.ArmorClassMalevolence",
-      formula: "12 + @abilities.dex.mod + @abilities.cha.mod",
-    },
-    ironChin: {
-      label: "MYTHACRI.ArmorClassIronChin",
-      formula: "12 + @abilities.con.mod",
-    },
-  });
-}
-
-/* -------------------------------------------------- */
-
 /** Merge in new armor and shield proficiencies. */
 function _armorProficencies() {
   const shieldIds = {
@@ -125,15 +100,12 @@ function _conditions() {
   CONFIG.DND5E.conditionEffects.noMovement.delete("exhaustion-5");
 
   const exhaustionData = CONFIG.DND5E.conditionTypes.exhaustion;
-  const exhaustionEffect = CONFIG.statusEffects.find(e => e.id === "exhaustion");
-
   foundry.utils.mergeObject(exhaustionData, {
     levels: 10,
     icon: "modules/mythacri-scripts/assets/statuses/exhaustion.svg",
     reference: `${journal}.JournalEntryPage.adMJ3j1HBbTJKCyY`,
     reduction: {rolls: 1, speed: 0},
   }, {insertKeys: false});
-  foundry.utils.mergeObject(exhaustionEffect, exhaustionData, {insertKeys: false});
 }
 
 /* -------------------------------------------------- */
