@@ -1,7 +1,7 @@
 import MODULE from "../constants.mjs";
 
 Hooks.on("dnd5e.getItemContextOptions", _onGetItemContextOptions);
-Hooks.on("renderChatMessage", _onRenderChatMessage);
+Hooks.on("renderChatMessageHTML", _onRenderChatMessage);
 Hooks.once("init", () => game.socket.on("module.mythacri-scripts", _onSocket));
 
 /* -------------------------------------------------- */
@@ -191,7 +191,7 @@ async function transfer(item, {target}) {
  * @param {ChatMessage5e} message     The rendered chat message.
  * @param {HTMLElement} html          The rendered html element.
  */
-async function _onRenderChatMessage(message, [html]) {
+async function _onRenderChatMessage(message, html) {
   const transfer = message.flags[MODULE.ID]?.transfer;
   if (!transfer || transfer.completed) return;
 

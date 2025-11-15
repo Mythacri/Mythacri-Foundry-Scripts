@@ -170,8 +170,8 @@ class MythacriAura {
 
     let sweep = new PIXI.Polygon(points);
     for (const type of this.restrictions) {
-      sweep = ClockwiseSweepPolygon.create(center, {
-        includeDarkness: type === "sight",
+      sweep = foundry.canvas.geometry.ClockwiseSweepPolygon.create(center, {
+        // TODO: use `edgeTypes`.
         type: type,
         debug: false,
         useThreshold: type !== "move",
@@ -289,7 +289,7 @@ function createAurasOnTokenUpdate(token, data) {
  * @param {TokenConfig5e} config      The token config.
  * @param {HTMLElement} html          The element of the config.
  */
-function _onRenderTokenConfig(config, [html]) {
+function _onRenderTokenConfig(config, html) {
   html.querySelector("nav.sheet-tabs.tabs[data-group=main]").insertAdjacentHTML("beforeend", `
   <a class="item" data-tab="auras">
     <i class="fa-solid fa-dot-circle"></i>
