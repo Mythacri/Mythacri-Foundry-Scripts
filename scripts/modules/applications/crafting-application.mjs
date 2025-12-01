@@ -441,17 +441,6 @@ class CraftingHandler extends HandlebarsApplicationMixin(Application) {
   }
 
   /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _onRender(context, options) {
-    await super._onRender(context, options);
-
-    const columns = Array.from(this.element.querySelectorAll(".column"));
-    const minWidth = columns.reduce((acc, c) => Math.max(acc, c.clientWidth), 142);
-    this.element.querySelector(".components").style.minWidth = `${minWidth * columns.length}px`;
-  }
-
-  /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
