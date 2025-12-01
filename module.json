@@ -42,9 +42,11 @@
   "flags": {
     "hotReload": {
       "extensions": [
+        "hbs",
         "css"
       ],
       "paths": [
+        "templates",
         "styles"
       ]
     }

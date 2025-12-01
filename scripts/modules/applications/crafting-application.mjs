@@ -1,6 +1,6 @@
 import MODULE from "../constants.mjs";
 
-const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+const {HandlebarsApplicationMixin, Application} = foundry.applications.api;
 
 const targets = new Map();
 
@@ -35,7 +35,7 @@ Hooks.once("ready", async function() {
 /**
  * Main crafting application class to handle all types of crafting.
  */
-export default class CraftingApplication extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class CraftingApplication extends HandlebarsApplicationMixin(Application) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: [MODULE.ID, "crafting", "dnd5e2"],
@@ -290,7 +290,13 @@ export default class CraftingApplication extends HandlebarsApplicationMixin(Appl
       ui.notifications.warn("MYTHACRI.CRAFTING.Warning.MissingComponents", {localize: true});
       return null;
     }
-    new CraftingHandler(this.options.actor, this.options.type, recipe).render(true);
+
+    const options = {
+      recipe,
+      actor: this.options.actor,
+      type: this.options.type,
+    };
+    new CraftingHandler(options).render({force: true});
   }
 
   /**
@@ -312,30 +318,49 @@ export default class CraftingApplication extends HandlebarsApplicationMixin(Appl
 /**
  * Subapplication to handle crafting of a single recipe.
  */
-class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
-  /**
-   * @constructor
-   * @param {Actor5e} actor           The actor crafting.
-   * @param {string} type             The type of crafting (monster, spirit, cooking, rune).
-   * @param {Item5e} recipe           The recipe item.
-   * @param {object} [options={}]     Rendering options.
-   */
-  constructor(actor, type, recipe, options = {}) {
-    super(options);
-    this.actor = actor;
-    this.type = type;
-    this.recipe = recipe;
+class CraftingHandler extends HandlebarsApplicationMixin(Application) {
+  /** @override */
+  static DEFAULT_OPTIONS = {
+    classes: [MODULE.ID, "crafting-handler", "dnd5e2"],
+    window: {
+      contentClasses: ["standard-form"],
+    },
+    actions: {
+      selectComponent: CraftingHandler.#selectComponent,
+      craft: CraftingHandler.#craft,
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  static PARTS = {
+    header: {
+      template: "modules/mythacri-scripts/templates/parts/crafting-handler-header.hbs",
+    },
+    components: {
+      template: "modules/mythacri-scripts/templates/parts/crafting-handler-components.hbs",
+    },
+    footer: {
+      template: "modules/mythacri-scripts/templates/parts/crafting-handler-footer.hbs",
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  get actor() {
+    return this.options.actor;
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/mythacri-scripts/templates/crafting-handler.hbs",
-      classes: [MODULE.ID, "crafting-handler", "dnd5e2", "dialog"],
-      width: "auto",
-    });
+  get type() {
+    return this.options.type;
+  }
+
+  /* -------------------------------------------------- */
+
+  get recipe() {
+    return this.options.recipe;
   }
 
   /* -------------------------------------------------- */
@@ -347,9 +372,12 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  get id() {
-    return `crafting-handler-${this.recipe.id}-${this.actor.uuid.replaceAll(".", "-")}`;
+  /** @inheritdoc */
+  _initializeApplicationOptions(options) {
+    const appOptions = super._initializeApplicationOptions(options);
+    appOptions.uniqueId = `crafting-handler-${options.recipe.id}-${options.actor.uuid.replaceAll(".", "-")}`;
+    appOptions.classes.push(options.type);
+    return appOptions;
   }
 
   /* -------------------------------------------------- */
@@ -358,12 +386,12 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
    * The assigned components, a record of component identifiers and items.
    * @type {Record<string, Item5e>}
    */
-  assigned = null;
+  assigned;
 
   /* -------------------------------------------------- */
 
   /** @override */
-  async getData() {
+  async _prepareContext(options) {
     this.assigned ??= {};
     const target = this.target ??= await this.recipe.system.getTarget();
     const components = this.recipe.system.getComponents();
@@ -394,7 +422,7 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
         <i class='fas fa-spinner fa-spin-pulse'></i>
       </section>`,
       targetCss: "dnd5e2 dnd5e-tooltip item-tooltip",
-      context: context,
+      components: context,
       assigned: this.assigned,
       noCreate: !Object.keys(components).every(key => this.assigned[key] instanceof Item),
     };
@@ -402,24 +430,13 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height) pos.height = "auto";
-    return super.setPosition(pos);
-  }
+  /** @inheritdoc */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
 
-  /* -------------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    const columns = Array.from(html[0].querySelectorAll(".column"));
-    const minWidth = columns.reduce((acc, col) => Math.max(acc, col.clientWidth), 142);
-    html[0].querySelector(".components").style.minWidth = `${minWidth * columns.length}px`;
-    html[0].querySelectorAll("[data-item-id]").forEach(n => {
-      n.addEventListener("click", this._onClickComponent.bind(this));
-    });
-    html[0].querySelectorAll(".craft").forEach(n => n.addEventListener("click", this._onClickCraft.bind(this)));
+    const columns = Array.from(this.element.querySelectorAll(".column"));
+    const minWidth = columns.reduce((acc, c) => Math.max(acc, c.clientWidth), 142);
+    this.element.querySelector(".components").style.minWidth = `${minWidth * columns.length}px`;
   }
 
   /* -------------------------------------------------- */
@@ -427,11 +444,10 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
   /* -------------------------------------------------- */
 
   /**
-   * Set an item to be the assigned resource for this component.
-   * @param {PointerEvent} event      The initiating click event.
+   * @this CraftingHandler
    */
-  _onClickComponent(event) {
-    const {identifier, itemId} = event.currentTarget.dataset;
+  static #selectComponent(event, target) {
+    const {identifier, itemId} = target.dataset;
     const item = this.actor.items.get(itemId);
 
     // Unassigning a component.
@@ -455,11 +471,9 @@ class CraftingHandler extends dnd5e.applications.DialogMixin(Application) {
   /* -------------------------------------------------- */
 
   /**
-   * Finalize the crafting process using assigned resources.
-   * @param {PointerEvent} event        The initiating click event.
-   * @returns {Promise<void>}
+   * @this CraftingHandler
    */
-  async _onClickCraft(event) {
+  static async #craft() {
     this.close();
     const resources = this.assigned;
     const target = await this.recipe.system.getTarget();
