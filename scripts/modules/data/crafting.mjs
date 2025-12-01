@@ -470,7 +470,7 @@ Hooks.on("dnd5e.preRollAttackV2", _preRollAttack);
 Hooks.once("init", () => {
   _characterFlags();
   Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
-  DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
     types: ["mythacri-scripts.recipe"],
     makeDefault: true,
     label: "MYTHACRI.CRAFTING.SHEET.SheetLabel",
