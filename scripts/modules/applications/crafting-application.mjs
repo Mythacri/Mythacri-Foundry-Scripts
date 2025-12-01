@@ -333,6 +333,7 @@ class CraftingHandler extends HandlebarsApplicationMixin(Application) {
 
   /* -------------------------------------------------- */
 
+  /** @override */
   static PARTS = {
     header: {
       template: "modules/mythacri-scripts/templates/parts/crafting-handler-header.hbs",
@@ -347,18 +348,29 @@ class CraftingHandler extends HandlebarsApplicationMixin(Application) {
 
   /* -------------------------------------------------- */
 
+  /**
+   * The actor crafting the item.
+   * @type {Actor5e}
+   */
   get actor() {
     return this.options.actor;
   }
 
   /* -------------------------------------------------- */
 
+  /**
+   * The recipe type.
+   */
   get type() {
     return this.options.type;
   }
 
   /* -------------------------------------------------- */
 
+  /**
+   * The recipe item.
+   * @type {Item5e}
+   */
   get recipe() {
     return this.options.recipe;
   }
