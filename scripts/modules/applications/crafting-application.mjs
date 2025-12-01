@@ -133,7 +133,7 @@ export default class CraftingApplication extends HandlebarsApplicationMixin(Appl
 
     if (this._recipe) {
       const uuid = this._recipe.system.crafting.target.uuid;
-      const item = targets.get(uuid);
+      const item = await fromUuid(uuid);
       context.recipe = {
         text: (await item.toEmbed({inline: true})).outerHTML,
         labels: this._getRecipeLabels(this._recipe),
