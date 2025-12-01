@@ -3,22 +3,6 @@
     "ExperiencePointsAbbr": "pip(s)"
   },
   "MYTHACRI": {
-    "AURA": {
-      "Auras": "Auras",
-      "color": {
-        "hint": "The color of the aura's bounds.",
-        "label": "Color"
-      },
-      "radius": {
-        "hint": "The radius of the aura measured in grid units.",
-        "label": "Radius"
-      },
-      "enabled": {
-        "hint": "Enable auras for this token.",
-        "label": "Enabled"
-      }
-    },
-
     "CRAFTING": {
       "ALCHEMY": {
         "FlagHint": "Enable 'Alchemy' for this actor.",
