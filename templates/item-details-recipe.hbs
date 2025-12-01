@@ -1,0 +1,77 @@
+<fieldset>
+  <legend>{{localize "MYTHACRI.ITEM.RECIPE.SHEET.recipeDetails"}}</legend>
+  {{formGroup systemFields.type.fields.value value=document.system.type.value choices=recipeTypes label=(localize "MYTHACRI.ITEM.RECIPE.FIELDS.type.value.label")}}
+  {{formGroup systemFields.crafting.fields.basic value=document.system.crafting.basic}}
+</fieldset>
+
+<fieldset class="recipe-target">
+  <legend>{{localize "MYTHACRI.ITEM.RECIPE.SHEET.createdItem"}}</legend>
+  <div class="form-group">
+    <div class="form-fields">
+      {{formInput systemFields.crafting.fields.target.fields.quantity value=document.system.crafting.target.quantity placeholder="1"}}
+      {{#if recipeTarget}}
+      {{{recipeTarget}}}
+      {{else}}
+      {{formInput systemFields.crafting.fields.target.fields.uuid value=document.system.crafting.target.uuid}}
+      {{/if}}
+      <button type="button" data-action="removeCraftingTarget" class="icon fa-solid fa-minus unbutton control-button"></button>
+    </div>
+  </div>
+  {{#if invalidTarget}}
+  <span class="notification warning">{{localize "MYTHACRI.ITEM.RECIPE.SHEET.warnInvalidTarget"}}</span>
+  {{/if}}
+</fieldset>
+
+<fieldset class="recipe-components">
+  <legend>
+    <span>{{localize "MYTHACRI.ITEM.RECIPE.SHEET.components"}}</span>
+    <button type="button" class="unbutton control-button" data-action="addCraftingComponent">
+      <i class="fa-solid fa-plus" inert></i>
+    </button>
+  </legend>
+
+  {{#each components}}
+  <div class="form-group recipe-component" data-idx="{{idx}}">
+    <div class="form-fields">
+      {{formInput quantityField value=quantity placeholder="1" name=(concat namePrefix "quantity")}}
+      {{formInput identifierField value=identifier name=(concat namePrefix "identifier")}}
+      {{#unless valid}}
+      <span class="warning" data-tooltip="MYTHACRI.ITEM.RECIPE.SHEET.warnInvalidComponent">
+        <i class="fa-solid fa-warning"></i>
+      </span>
+      {{/unless}}
+      <button type="button" data-action="removeCraftingComponent" class="icon fa-solid fa-minus unbutton control-button"></button>
+    </div>
+  </div>
+  {{/each}}
+</fieldset>
+
+{{#unless document.system.crafting.basic}}
+<fieldset>
+  <legend>{{localize "MYTHACRI.ITEM.RECIPE.SHEET.learned"}}</legend>
+  <ol class="actor-list">
+    {{#each learned}}
+    <li data-actor-id="{{id}}">
+      <a data-action="renderCraftingActor">{{name}}</a>
+      <a class="widen" data-action="unlearnCraftingRecipe">
+        <i class="fa-solid fa-arrow-down"></i>
+      </a>
+    </li>
+    {{/each}}
+  </ol>
+</fieldset>
+
+<fieldset>
+  <legend>{{localize "MYTHACRI.ITEM.RECIPE.SHEET.learners"}}</legend>
+  <ol class="actor-list">
+    {{#each learners}}
+    <li data-actor-id="{{id}}">
+      <a data-action="renderCraftingActor">{{name}}</a>
+      <a class="widen" data-action="learnCraftingRecipe">
+        <i class="fa-solid fa-arrow-up"></i>
+      </a>
+    </li>
+    {{/each}}
+  </ol>
+</fieldset>
+{{/unless}}

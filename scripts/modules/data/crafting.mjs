@@ -473,7 +473,7 @@ Hooks.once("init", () => {
   foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
     types: ["mythacri-scripts.recipe"],
     makeDefault: true,
-    label: "MYTHACRI.CRAFTING.SHEET.SheetLabel",
+    label: "MYTHACRI.ITEM.RECIPE.SHEET.label",
   });
   dnd5e.applications.actor.CharacterActorSheet.TABS.push({
     label: "MYTHACRI.CRAFTING.TAB",
@@ -498,6 +498,11 @@ Hooks.once("i18nInit", () => {
   };
 
   localize(TYPES);
+});
+Hooks.once("ready", () => {
+  foundry.applications.handlebars.loadTemplates({
+    "mythacri-recipe": "modules/mythacri-scripts/templates/item-details-recipe.hbs",
+  });
 });
 
 /* -------------------------------------------------- */

@@ -1,27 +1,25 @@
 import MODULE from "../../constants.mjs";
 
-const {SchemaField, StringField, NumberField, ArrayField, BooleanField} = foundry.data.fields;
+const {
+  SchemaField, StringField, NumberField, ArrayField, BooleanField, DocumentUUIDField,
+} = foundry.data.fields;
 
 /* -------------------------------------------------- */
 
 /**
  * Data model for `recipe` items.
  * @property {object} type
- * @property {string} type.value                            The recipe subtype, as defined in `Crafting.recipeTypes`.
+ * @property {string} type.value                          The recipe subtype, as defined in `Crafting.recipeTypes`.
  * @property {object} crafting
- * @property {object} crafting.target                       Reference data for the item that this recipe creates.
- * @property {string} crafting.target.uuid                  The uuid of the item to be created.
- * @property {number} crafting.target.quantity              The amount of items that will be created.
- * @property {object[]} crafting.components                 Reference data for the components needed.
- * @property {string} crafting.components[].identifier      The resource identifier of a loot-type item.
- * @property {number} crafting.components[].quantity        How many of this resource are needed.
- * @property {boolean} crafting.basic                       Whether this is considered a 'basic' recipe learned immediately.
- * @property {string} rarity                                The rarity of this recipe, as defined in `DND5E.itemRarity`.
- * @property {object} price
- * @property {number} price.value                           The value of this recipe.
- * @property {string} price.denomination                    The denomination of the value, as defined in `DND5E.currencies`.
+ * @property {object} crafting.target                     Reference data for the item that this recipe creates.
+ * @property {string} crafting.target.uuid                The uuid of the item to be created.
+ * @property {number} crafting.target.quantity            The amount of items that will be created.
+ * @property {object[]} crafting.components               Reference data for the components needed.
+ * @property {string} crafting.components[].identifier    The resource identifier of a loot-type item.
+ * @property {number} crafting.components[].quantity      How many of this resource are needed.
+ * @property {boolean} crafting.basic                     Whether this is considered a 'basic' recipe learned immediately.
  */
-export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
+export default class RecipeData extends dnd5e.dataModels.abstract.SystemDataModel.mixin(
   dnd5e.dataModels.item.ItemDescriptionTemplate,
   dnd5e.dataModels.item.ItemTypeTemplate,
 ) {
@@ -31,7 +29,7 @@ export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
       type: new dnd5e.dataModels.item.ItemTypeField({subtype: false, baseItem: false}),
       crafting: new SchemaField({
         target: new SchemaField({
-          uuid: new StringField({required: true}),
+          uuid: new DocumentUUIDField({type: "Item", embedded: false}),
           quantity: new NumberField({integer: true, min: 1, initial: 1}),
         }),
         components: new ArrayField(new SchemaField({
@@ -40,17 +38,25 @@ export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
         })),
         basic: new BooleanField(),
       }),
-      rarity: new StringField({required: true, blank: true, label: "DND5E.Rarity"}),
-      price: new SchemaField({
-        value: new NumberField({
-          required: true, nullable: false, initial: 0, min: 0, label: "DND5E.Price",
-        }),
-        denomination: new StringField({
-          required: true, blank: false, initial: "gp", label: "DND5E.Currency",
-        }),
-      }, {label: "DND5E.Price"}),
     });
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    enchantable: false,
+    hasEffects: false,
+  }, {inplace: false}));
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "DND5E.SOURCE",
+    "MYTHACRI.ITEM.RECIPE",
+  ];
 
   /* -------------------------------------------------- */
 
@@ -63,6 +69,25 @@ export default class RecipeData extends dnd5e.dataModels.SystemDataModel.mixin(
   }
   static get allowedTargetTypes() {
     return ["feat", "container", "consumable", "weapon", "equipment", "tool"];
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async getSheetData(context) {
+    context.parts = ["mythacri-recipe"];
+    context.subtitles = [
+      {label: game.i18n.localize(`MYTHACRI.ITEM.RECIPE.SHEET.label${this.crafting.basic ? "Basic" : "Advanced"}`)},
+      {label: mythacri.crafting.TYPES.recipeTypes[this.type.value] ?? ""},
+    ];
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.prepareDescriptionData();
   }
 
   /* -------------------------------------------------- */

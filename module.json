@@ -45,16 +45,13 @@
         "css"
       ],
       "paths": [
-        "styles/mythacri.css"
+        "styles"
       ]
     }
   },
   "documentTypes": {
     "Item": {
       "recipe": {}
-    },
-    "Actor": {
-      "storage": {}
     },
     "RegionBehavior": {
       "trap": {}

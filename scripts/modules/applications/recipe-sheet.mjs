@@ -5,59 +5,51 @@ import MODULE from "../constants.mjs";
  */
 export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dnd5e", "sheet", "item", "recipe"],
-      width: 400,
-      dragDrop: [
-        {dropSelector: "[data-action='drop-target']"},
-        {dropSelector: "[data-action='drop-component']"},
-      ],
+  static DEFAULT_OPTIONS = {
+    classes: ["recipe"],
+    actions: {
+      removeCraftingTarget: RecipeSheet.#removeCraftingTarget,
+      addCraftingComponent: RecipeSheet.#addCraftingComponent,
+      removeCraftingComponent: RecipeSheet.#removeCraftingComponent,
+      renderCraftingActor: RecipeSheet.#renderCraftingActor,
+      unlearnCraftingRecipe: RecipeSheet.#unlearnCraftingRecipe,
+      learnCraftingRecipe: RecipeSheet.#learnCraftingRecipe,
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _prepareContext(options = {}) {
+    const context = await super._prepareContext(options);
+    context.recipeTypes = mythacri.crafting.TYPES.recipeTypes;
+    context.recipeTarget = await this._validTargetItemLink();
+    context.invalidTarget = !!this.document.system.crafting.target.uuid && !context.recipeTarget;
+    context.recipeStatus = context.recipeTypes[this.document.system.type.value] || "";
+    context.descriptionHTML = await CONFIG.ux.TextEditor.enrichHTML(this.document.system.description.value, {
+      rollData: this.document.getRollData(), relativeTo: this.document,
     });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  get template() {
-    return "modules/mythacri-scripts/templates/recipe-sheet.hbs";
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async getData(options = {}) {
-    const data = await super.getData(options);
-    data.recipeTypes = mythacri.crafting.TYPES.recipeTypes;
-    data.recipeTarget = await this._validTargetItemLink();
-    data.invalidTarget = !!this.document.system.crafting.target.uuid && !data.recipeTarget;
-    data.recipeStatus = data.recipeTypes[this.document.system.type.value] || "";
-    data.descriptionHTML = await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.description.value, {async: true});
-    data.components = data.system.crafting.components.map((c, idx) => {
+    context.components = this.document.system.toObject().crafting.components.map((c, idx) => {
       return {
         idx: idx,
-        qty: c.quantity,
-        value: c.identifier,
+        quantity: c.quantity,
+        identifier: c.identifier,
         valid: !c.identifier || mythacri.crafting.validIdentifier(c.identifier),
+        quantityField: this.document.system.schema.getField("crafting.components.element.quantity"),
+        identifierField: this.document.system.schema.getField("crafting.components.element.identifier"),
+        namePrefix: `system.crafting.components.${idx}.`,
       };
     });
 
+    context.systemFields = this.document.system.schema.fields;
     const isBasic = this.document.system.crafting.basic;
     if (!isBasic) {
-      const [learned, learners, unlearned] = this.getLearners();
-      data.learned = learned;
-      data.learners = learners;
-      data.unlearned = unlearned;
+      const {learned = [], learners = [], unavailable = []} = this.getLearners();
+      context.learned = learned;
+      context.learners = learners;
+      context.unlearned = unavailable;
     }
-    return data;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height && (this._tabs[0].active !== "description")) pos.height = "auto";
-    return super.setPosition(pos);
+    return context;
   }
 
   /* -------------------------------------------------- */
@@ -68,170 +60,123 @@ export default class RecipeSheet extends dnd5e.applications.item.ItemSheet5e {
    */
   async _validTargetItemLink() {
     const target = await this.document.system.getTarget();
-    return target ? foundry.applications.ux.TextEditor.enrichHTML(target.link, {async: true}) : null;
+    return target?.toAnchor().outerHTML ?? null;
   }
 
   /* -------------------------------------------------- */
 
   /** @override */
-  async _onDrop(event) {
-    const target = event.currentTarget.dataset.action;
-    const data = foundry.applications.ux.TextEditor.getDragEventData(event);
-    if (data.type !== "Item") return;
-    if (target === "drop-target") return this._onDropTarget(data);
-    else if (target === "drop-component") return this._onDropComponent(data);
+  async _onDropItem(event, data) {
+    const isTarget = !!event.target.closest(".recipe-target");
+    const isComponent = !!event.target.closest(".recipe-components");
+
+    const item = await Item.implementation.fromDropData(data);
+    if (!item) return;
+    switch (true) {
+      case isTarget:
+        if (this.document.system.allowedTargetTypes.includes(item.type)) {
+          this.document.update({"system.crafting.target.uuid": item.uuid});
+        }
+        break;
+      case isComponent: {
+        const id = mythacri.crafting.getIdentifier(item);
+        if (!id) return;
+        const components = this.document.system.toObject().crafting.components;
+        components.push({quantity: null, identifier: id});
+        this.document.update({"system.crafting.components": components});
+        break;
+      }
+    }
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle dropping an item onto the component item area.
-   * @param {object} data
-   * @returns {Promise<Item5e|void>}
+   * @this RecipeSheet
    */
-  async _onDropComponent(data) {
-    const item = await fromUuid(data.uuid);
-    const id = mythacri.crafting.getIdentifier(item);
-    if (!id) return;
-    const components = foundry.utils.deepClone(this.document.system.crafting.components);
-    components.push({quantity: null, identifier: id});
-    return this.document.update({"system.crafting.components": components});
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle dropping an item onto the target item area.
-   * @param {object} data                 The drop data.
-   * @returns {Promise<Item5e|void>}      The updated item.
-   */
-  async _onDropTarget(data) {
-    const item = await fromUuid(data.uuid);
-    if (!this.document.system.allowedTargetTypes.includes(item.type)) return;
-    return this.document.update({"system.crafting.target.uuid": item.uuid});
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html[0].querySelectorAll("[data-action]").forEach(n => {
-      const action = n.dataset.action;
-      if (action === "delete-component") n.addEventListener("click", this._onDeleteComponent.bind(this));
-      else if (action === "add-component") n.addEventListener("click", this._onAddComponent.bind(this));
-      else if (action === "clear-target") n.addEventListener("click", this._onClearTarget.bind(this));
-      else if (action === "learn-recipe") n.addEventListener("click", this._learnRecipe.bind(this));
-      else if (action === "unlearn-recipe") n.addEventListener("click", this._unlearnRecipe.bind(this));
-      else if (action === "render-actor") n.addEventListener("click", this._renderActor.bind(this));
-      else if (action === "refresh") n.addEventListener("click", this.render.bind(this));
-    });
-    html[0].querySelectorAll("[type=text], [type=number]").forEach(n => {
-      n.addEventListener("focus", event => event.currentTarget.select());
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle deleting a component.
-   * @param {PointerEvent} event
-   * @returns {Promise<Item5e>}
-   */
-  async _onDeleteComponent(event) {
-    const idx = event.currentTarget.closest("[data-idx]").dataset.idx;
-    const components = foundry.utils.deepClone(this.document.system.crafting.components);
+  static #removeCraftingComponent(event, target) {
+    const idx = target.closest("[data-idx]").dataset.idx;
+    const components = this.document.system.toObject().crafting.components;
     components.splice(idx, 1);
-    return this.document.update({"system.crafting.components": components});
+    this.document.update({"system.crafting.components": components});
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle adding a component.
-   * @param {PointerEvent} event
-   * @returns {Promise<Item5e>}
+   * @this RecipeSheet
    */
-  async _onAddComponent(event) {
-    const components = foundry.utils.deepClone(this.document.system.crafting.components);
+  static #addCraftingComponent() {
+    const components = this.document.system.toObject().crafting.components;
     components.push({quantity: null, identifier: ""});
-    return this.document.update({"system.crafting.components": components});
+    this.document.update({"system.crafting.components": components});
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle clearing the target.
-   * @param {PointerEvent} event
-   * @returns {Promise<Item5e>}
+   * @this RecipeSheet
    */
-  async _onClearTarget(event) {
-    return this.document.update({"system.crafting.target": {uuid: "", quantity: null}});
+  static #removeCraftingTarget() {
+    this.document.update({"system.crafting.target": {uuid: "", quantity: null}});
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle learning a recipe.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<Actor5e>}
+   * @this RecipeSheet
    */
-  async _learnRecipe(event) {
-    const id = event.currentTarget.closest("[data-actor-id]").dataset.actorId;
+  static async #learnCraftingRecipe(event, target) {
+    const id = target.closest("[data-actor-id]").dataset.actorId;
     const actor = game.actors.get(id);
     const learned = new Set(actor.flags[MODULE.ID]?.recipes?.learned ?? []);
     learned.add(this.document.id);
     await actor.setFlag(MODULE.ID, "recipes.learned", Array.from(learned));
     this.render();
-    return actor;
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle unlearning a recipe.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<Actor5e>}
+   * @this RecipeSheet
    */
-  async _unlearnRecipe(event) {
-    const id = event.currentTarget.closest("[data-actor-id]").dataset.actorId;
+  static async #unlearnCraftingRecipe(event, target) {
+    const id = target.closest("[data-actor-id]").dataset.actorId;
     const actor = game.actors.get(id);
     const learned = new Set(actor.flags[MODULE.ID]?.recipes?.learned ?? []);
     learned.delete(this.document.id);
     await actor.setFlag(MODULE.ID, "recipes.learned", Array.from(learned));
     this.render();
-    return actor;
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Render an actor's sheet when clicked.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {ActorSheet5e}          The rendered actor sheet.
+   * @this RecipeSheet
    */
-  _renderActor(event) {
-    const id = event.currentTarget.closest("[data-actor-id]").dataset.actorId;
-    return game.actors.get(id).sheet.render(true);
+  static #renderCraftingActor(event, target) {
+    const id = target.closest("[data-actor-id]").dataset.actorId;
+    game.actors.get(id).sheet.render({force: true});
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Find what actors know this recipe, can learn this recipe, and cannot learn this recipe.
-   * @returns {Actor5e[][]}     Array of arrays of learned, learners, and unavailable.
+   * @returns {{ learned?: Actor5e[], learners?: Actor5e[], unavailable?: Actor5e[] }}
    */
   getLearners() {
-    const party = game.settings.get("dnd5e", "primaryParty")?.actor;
+    const party = game.actors.party;
     if (!party) throw new Error("No primary party has been configured!");
-    const members = party.system.members.map(m => m.actor) ?? [];
-    const parts = [[], [], []];
-    for (const actor of members) {
-      if (!actor) continue;
-      if (this.document.system.knowsRecipe(actor)) parts[0].push(actor);
-      else if (this.document.system.canLearnRecipe(actor)) parts[1].push(actor);
-      else parts[2].push(actor);
-    }
-    return parts;
+    return Object.groupBy(
+      party.system.members.map(m => m.actor),
+      actor => {
+        return this.document.system.knowsRecipe(actor)
+          ? "learned"
+          : this.document.system.canLearnRecipe(actor)
+            ? "learners"
+            : "unavailable";
+      },
+    );
   }
 }
