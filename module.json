@@ -42,19 +42,18 @@
   "flags": {
     "hotReload": {
       "extensions": [
+        "hbs",
         "css"
       ],
       "paths": [
-        "styles/mythacri.css"
+        "templates",
+        "styles"
       ]
     }
   },
   "documentTypes": {
     "Item": {
       "recipe": {}
-    },
-    "Actor": {
-      "storage": {}
     },
     "RegionBehavior": {
       "trap": {}

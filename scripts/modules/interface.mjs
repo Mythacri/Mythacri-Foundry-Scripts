@@ -1,4 +1,3 @@
-import auras from "./data/auras.mjs";
 import award from "./data/award.mjs";
 import combat from "./data/combat.mjs";
 import configuration from "./data/configuration.mjs";
@@ -18,7 +17,6 @@ export default class PublicInterface {
   /** Initialize module. */
   static init() {
     globalThis.mythacri = {
-      auras,
       award,
       combat,
       configuration,

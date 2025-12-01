@@ -3,22 +3,6 @@
     "ExperiencePointsAbbr": "pip(s)"
   },
   "MYTHACRI": {
-    "AURA": {
-      "Auras": "Auras",
-      "color": {
-        "hint": "The color of the aura's bounds.",
-        "label": "Color"
-      },
-      "radius": {
-        "hint": "The radius of the aura measured in grid units.",
-        "label": "Radius"
-      },
-      "enabled": {
-        "hint": "Enable auras for this token.",
-        "label": "Enabled"
-      }
-    },
-
     "CRAFTING": {
       "ALCHEMY": {
         "FlagHint": "Enable 'Alchemy' for this actor.",
@@ -80,25 +64,6 @@
         }
       },
       "Section": "Crafting",
-      "SHEET": {
-        "Advanced": "Advanced",
-        "Basic": "Basic",
-        "BasicHint": "This is a basic recipe and is automatically learned by anyone able to engage in this type of crafting.",
-        "CanLearn": "Can Learn",
-        "CannotLearn": "Cannot Learn",
-        "Components": "Components",
-        "CreatedItem": "Created Item",
-        "Learned": "Learned",
-        "Learning": "Learning",
-        "RecipeStatus": "Recipe Status",
-        "RecipeType": "Recipe Type",
-        "Refresh": "Refresh",
-        "SheetLabel": "Mythacri Recipe Sheet",
-        "Warning": {
-          "InvalidComponent": "This identifier is invalid and will be ignored.",
-          "InvalidTarget": "The item to be created could not be found."
-        }
-      },
       "ShowAvailable": {
         "hint": "Show Available Only"
       },
@@ -147,6 +112,28 @@
       "RollDice": "Roll {amount}d12",
       "RollDie": "Roll d12",
       "Title": "Random Encounter"
+    },
+
+    "ITEM": {
+      "RECIPE": {
+        "FIELDS": {
+          "type.value.label": "Recipe Type",
+          "crafting.basic.label": "Basic",
+          "crafting.basic.hint": "This is a basic recipe and is automatically learned by anyone able to engage in this type of crafting."
+        },
+        "SHEET": {
+          "components": "Components",
+          "createdItem": "Created Item",
+          "recipeDetails": "Recipe Details",
+          "warnInvalidComponent": "This identifier is invalid and will be ignored.",
+          "warnInvalidTarget": "The item to be created could not be found.",
+          "learned": "Learned Recipe",
+          "learners": "Available to Learn",
+          "labelBasic": "Basic Recipe",
+          "labelAdvanced": "Advanced Recipe",
+          "label": "Mythacri Recipe Sheet"
+        }
+      }
     },
 
     "FeatureBewitcherCurse": "Bewitcher Curse",

@@ -50,7 +50,6 @@ function _configure() {
   _dieSteps();
   _featureTypes();
   _languages();
-  _spellProgression();
   _toolProficiencies();
   _weaponProficiencies();
   _weaponProperties();

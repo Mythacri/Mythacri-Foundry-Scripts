@@ -470,16 +470,18 @@ Hooks.on("dnd5e.preRollAttackV2", _preRollAttack);
 Hooks.once("init", () => {
   _characterFlags();
   Object.assign(CONFIG.Item.dataModels, {"mythacri-scripts.recipe": RecipeData});
-  DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "mythacri-scripts", RecipeSheet, {
     types: ["mythacri-scripts.recipe"],
     makeDefault: true,
-    label: "MYTHACRI.CRAFTING.SHEET.SheetLabel",
+    label: "MYTHACRI.ITEM.RECIPE.SHEET.label",
   });
   dnd5e.applications.actor.CharacterActorSheet.TABS.push({
     label: "MYTHACRI.CRAFTING.TAB",
     icon: "fa-solid fa-hammer",
     tab: "mythacri",
   });
+
+  CONFIG.DND5E.defaultArtwork.Item["mythacri-scripts.recipe"] = "modules/mythacri-scripts/assets/icons/recipe.svg";
 });
 Hooks.once("i18nInit", () => {
   const localize = object => {
@@ -498,6 +500,11 @@ Hooks.once("i18nInit", () => {
   };
 
   localize(TYPES);
+});
+Hooks.once("ready", () => {
+  foundry.applications.handlebars.loadTemplates({
+    "mythacri-recipe": "modules/mythacri-scripts/templates/item-details-recipe.hbs",
+  });
 });
 
 /* -------------------------------------------------- */

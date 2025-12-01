@@ -95,75 +95,44 @@
 /*        RECIPE ITEM SHEET       */
 /*                                */
 /* ------------------------------ */
-.dnd5e.sheet.item.recipe {
-  min-height: 400px;
-
-  & h4.components-header, h4.target-header {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    line-height: 24px;
-    color: #4b4a44;
+.dnd5e2.sheet.item.recipe {
+  .recipe-target .warning {
+    margin-top: .5rem;
   }
 
-  [data-action="add-component"] {
-    width: 18px;
-    flex: 0 0 18px;
-    line-height: 24px;
-    float: right;
-    text-align: right;
-    color: #7a7971;
-  }
-
-  .recipe-status .checkbox {
-    flex: none;
-  }
-
-  .recipe-components, .recipe-targets {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    .recipe-component, .recipe-target {
-      flex: 0 0 100%;
-      padding: 0;
-
-      [type="number"] {
-        flex: 0 0 40px;
-        margin-right: 5px;
-        text-align: center;
-      }
-
-      .content-link {
-        display: flex;
-        align-items: center;
-        border-radius: 5px;
-      }
+  .recipe-target .form-fields {
+    input[type=number] {
+      flex: 0 0 3rem;
     }
   }
 
-  .component-warn, [data-action="delete-component"], [data-action="clear-target"] {
-    width: 18px;
-    flex: 0 0 18px;
-    line-height: 24px;
-    float: right;
-    text-align: right;
-    color: #7a7971;
+  .recipe-component .form-fields {
+    input[type=number] {
+      flex: 0 0 3rem;
+    }
+
+    .warning {
+      flex: 0;
+    }
   }
 
-  .component-warn {
-    color: rgb(160, 0, 0);
-  }
+  ol.actor-list {
+    margin: 0;
+    padding-left: 0.5rem;
 
-  .item-name {
-    position: relative;
-  }
+    &:not(:has(li)) {
+      display: none;
+    }
 
-  [data-action=refresh] {
-    position: absolute;
-    right: 0;
-    margin: 4px;
-    font-size: 14px;
+    li[data-actor-id] {
+      display: grid;
+      grid-template-columns: 1fr 0fr;
+      align-items: center;
+
+      .widen {
+        padding: 0.5rem 1rem;
+      }
+    }
   }
 }
 
@@ -310,12 +279,9 @@
 /*                                */
 /* ------------------------------ */
 .mythacri-scripts.crafting-handler {
-  min-height: 100px;
-  max-height: 90%;
-  min-width: 200px;
-  width: auto;
+  min-width: 400px;
 
-  & img {
+  img {
     border-radius: 5px;
     border: none;
     height: 60px;
@@ -324,25 +290,22 @@
     max-width: 60px;
   }
 
-  .header {
-    display: flex;
-    justify-content: center;
+  [data-application-part=header] {
+    display: grid;
+    grid-template-columns: 60px 1fr 0fr;
     align-items: center;
-    font-size: 20px;
-    gap: 5px;
-    border-bottom: 3px groove;
-    padding-bottom: 10px;
+    padding: 0 .5rem;
+
+    .title {
+      font-size: 20px;
+      text-align: center;
+    }
   }
 
-  .header img {
-    height: 50px;
-    width: 50px;
-  }
-
-  .components {
+  [data-application-part=components] {
     display: flex;
 
-    .component-header, .component {
+    .component-header {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -350,64 +313,49 @@
 
     .component-header {
       border-bottom: 2px solid;
-      flex: none;
-      padding-bottom: 1em;
-      padding-top: 0.5em;
-      margin-bottom: 0.5em;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
 
-      .counter {
-        color: gray;}
-      }
-
-      & img {
-        border-radius: 50%;
-      }
-
-      .label {
-        font-weight: bold;
-        font-family: "Modesto Condensed";
-        font-size: 20px;
-        white-space: nowrap;
-        padding: 0 10px;
-      }
+    .label {
+      white-space: nowrap;
     }
 
     .component {
+      border-width: 3px;
+      border-color: transparent;
+      border-left-style: solid;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 0fr;
+      white-space: nowrap;
+      align-items: center;
+      margin: 2px;
+      transition: border-color 200ms ease;
+
+      &:hover {
+        border-color: var(--dnd5e-color-gold);
+        border-left-style: dashed;
+      }
+
+      &.active {
+        border-color: var(--dnd5e-color-gold);
+        border-left-style: solid;
+      }
+    }
+
+    .column {
+      flex-direction: column;
       flex: 1;
-      margin: 5px;
 
-      & img {
-        filter: grayscale(1);
-
-        &.active {
-        filter: drop-shadow(0 0 10px blue);
+      .resources {
+        display: grid;
+        gap: 1rem;
       }
     }
   }
 
-  .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    flex: 1;
-
-    &:not(:last-child) {
-      border-right: 2px groove;
-    }
-
-    .resources {
-      flex: 1;
-    }
-  }
-
-  .craft {
-    margin-top: 5px;
-
-    &:disabled {
-      background-color: inherit;
-      color: rgb(163, 163, 163);
-    }
-  }
+  [data-application-part=footer] {}
 }
 
 /* ------------------------------ */
@@ -481,58 +429,6 @@
       pointer-events: none;
       opacity: 0.2;
     }
-  }
-}
-
-/* ------------------------------ */
-/*                                */
-/*         STORAGE SHEET          */
-/*                                */
-/* ------------------------------ */
-.sheet.actor.dnd5e.storage {
-  min-width: 600px;
-  min-height: 600px;
-
-  .header-details {
-    height: calc(100% - 10px);
-    padding: 5px;
-    margin: 0;
-  }
-
-  .sheet-header {
-    .charname {
-      position: relative;
-      height: 100%;
-
-      & input {
-        height: 100%;
-        margin: 0;
-        width: calc(100% - 50px);
-      }
-
-      .config-button {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 4px;
-        font-size: 16px;
-        display: none;
-      }
-
-      &:hover .config-button {
-        display: block;
-      }
-    }
-
-    .profile {
-      flex: 0 0 100px;
-      max-width: 100px;
-      height: 100px;
-    }
-  }
-
-  [data-action=create] {
-    display: none;
   }
 }
 
