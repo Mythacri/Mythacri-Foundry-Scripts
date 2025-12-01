@@ -480,6 +480,8 @@ Hooks.once("init", () => {
     icon: "fa-solid fa-hammer",
     tab: "mythacri",
   });
+
+  CONFIG.DND5E.defaultArtwork.Item["mythacri-scripts.recipe"] = "modules/mythacri-scripts/assets/icons/recipe.svg";
 });
 Hooks.once("i18nInit", () => {
   const localize = object => {
